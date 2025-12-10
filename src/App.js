@@ -1,12 +1,64 @@
-import './App.css';
 import { useState, useEffect, useCallback } from 'react';
 import LeftPanel from './components/LeftPanel/LeftPanel';
 import CenterPanel from './components/CenterPanel/CenterPanel';
 import RightPanel from './components/RightPanel/RightPanel';
-
-
+import { supabase } from './supabase';
+import { Provider } from './context';
+import './App.css';
+import ToDoList from './components/ToDoList';
 
 function App() {
+    const USER_ID = "91b4b921-5098-4f79-84f2-2bc3ff90ac0f";
+    const [exp, setExp] = useState(0);
+    useEffect(() => {
+    const load = async () => {
+      const {list} = await supabase
+        .from('goals')
+        .select('*')
+      const { data, error } = await supabase
+        .from('users')
+        .select('exp')
+        .eq('id', USER_ID)
+        .single();
+
+      if (!error) {
+        setExp(data.exp);
+      } else {
+        console.log(error);
+      }
+    };
+
+    load();
+  }, []);
+
+
+
+
+  const addExp = async () => {
+    const newExp = exp + 10;
+
+    const { error } = await supabase
+      .from('users')
+      .update({ exp: newExp })
+      .eq('id', USER_ID);
+
+    if (!error) {
+      setExp(newExp);
+    } else {
+      console.log(error);
+    }
+  };
+
+
+
+
+
+
+
+
+
+
+
   const [littleTasks, setLittleTasks] = useState([
     { id: 1, description: 'Мелкая задача 1' },
     { id: 2, description: 'Мелкая задача 2' },
@@ -45,6 +97,7 @@ function App() {
 
 
   return (
+    <Provider>
     <div className="App">
       <LeftPanel
         className="left-panel"
@@ -55,7 +108,9 @@ function App() {
       />
       <CenterPanel className="center-panel" />
       <RightPanel />
+      <ToDoList/>
     </div>
+    </Provider>
   );
 }
 

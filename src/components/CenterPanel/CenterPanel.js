@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import './CenterPanel.css';
+import styles from './centerPanel.module.css';
 import levi from './levi.png';
-
+import { useUser } from "../../context";
 
  const handleInvent = (setOpenModalWindowInvent) => {
     console.log("Inventory clicked");
@@ -16,8 +17,7 @@ import levi from './levi.png';
     setOpenModalWindowList(true);
  }
 function CenterPanel() {
-    const [xp, setXp] = useState(0);
-    const [money, setMoney] = useState(0);
+    const { exp, money, setExp, setMoney, addExp, addMoney} = useUser();
     const [openModalWindowInvent, setOpenModalWindowInvent] = useState(false);
     const [openModalWindowStore, setOpenModalWindowStore] = useState(false);
     const [openModalWindowList, setOpenModalWindowList] = useState(false)
@@ -27,8 +27,8 @@ function CenterPanel() {
             <h2>Center Panel</h2>
             <img className="img-ang" src={levi} alt="King" />
             <div className="div-xp-and-money">
-                <p> Опыт</p>
-                <p> Денег</p>
+                <button onClick={() => addExp(10)}>{exp} Опыт</button>
+                <button onClick={() => addMoney(10)}>{money} Денег</button>
             </div>
             <div className="div-inventory-shop-records">
                 <div onClick={()=> handleInvent(setOpenModalWindowInvent)}>Инвентарь</div>
