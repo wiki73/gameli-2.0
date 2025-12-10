@@ -1,0 +1,19 @@
+.ToDoList {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: space-between; */
+}
+
+.ToDoList h3 {
+    text-align: center;
+}
+
+.ToDoList button {
+    width: 100%;
+}
+
+
+.div-new-task {
+    display: flex;
+}

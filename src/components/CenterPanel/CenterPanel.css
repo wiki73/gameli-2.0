@@ -1,0 +1,81 @@
+.CenterPanel {
+    border: 2px solid #ff0000;
+}
+.img-ang {
+    width: 500px;
+    height: auto;
+    position: absolute;
+    top: 200px;
+    left: 42%;
+}
+
+.div-xp-and-money {
+    display: flex;
+    position: absolute;
+    top: 140px;
+    left: 510px;
+}
+
+.div-xp-and-money p{
+    margin: 10px;
+    border-radius: 15px;
+    background-color: aliceblue;
+    border: 1px solid black;
+    padding: 8px;
+
+
+}
+
+.div-inventory-shop-records {
+    border-radius: 25px;
+    position: absolute;
+    top:140px;
+    left: 820px;
+}
+.div-inventory-shop-records div{
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 15px;
+    background-color: aliceblue;
+}
+
+.modal-invent {
+    width: 600px;
+    height: 400px;
+    background-color: rgb(207, 207, 207);
+    border: 2px solid black;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+}
+
+.modal-store {
+    width: 600px;
+    height: 400px;
+    background-color: rgb(207, 207, 207);
+    border: 2px solid black;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+}
+
+.modal-list {
+    width: 600px;
+    height: 400px;
+    background-color: rgb(207, 207, 207);
+    border: 2px solid black;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+}
+
+.div-inventory-shop-records div:hover {
+    cursor:pointer;
+}
