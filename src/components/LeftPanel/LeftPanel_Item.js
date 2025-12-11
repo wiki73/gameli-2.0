@@ -3,7 +3,7 @@ import './LeftPanelColumn.css';
 
 
 
-function LeftPanelItem({itemKey, description}) {
+function LeftPanelItem({description}) {
 
     return (
         <div className="LeftPanelItem">

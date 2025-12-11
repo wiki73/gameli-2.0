@@ -1,14 +1,13 @@
 .LeftPanelColumn {
-    border: 1px solid #000000;
+    
 }
 
 
 .LeftPanelItem {
-    margin: 2px;
+    margin: 8px 4px;
     border: 1px solid #000000;
+    border-radius: 20px;
+    background-color: rgba(34, 176, 56, 0.6);
+
 }
 
-
-.LeftPanelColumn h2 {
-    color: red;
-}

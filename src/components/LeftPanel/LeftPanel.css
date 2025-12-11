@@ -1,7 +1,18 @@
-.LeftPanel {
-    border: 5px solid #672f2f;
+
+.list-goals {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 95% 5%;
+
+    background-color: rgba(34, 176, 56, 0.3);
+    border-radius: 12%;
+    height: 90vh;
+    border: 1px solid black;
+
+    padding: 0px 20px;
+
 }
+
+
+
 

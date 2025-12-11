@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import './ModalWindowAddTask.css';
 
-function ModalWindowAddTask({ addTask }) {
+function ModalWindowAddTask({ addGoals }) {
     const [open, setOpen] = useState(false);
     const inputRef = useRef(null);
     const isFocusedRef = useRef(false);
@@ -61,7 +61,10 @@ function ModalWindowAddTask({ addTask }) {
         const description = e.target.description.value.trim();
         const sizeTask = e.target.taskSize.value;
         if (!description) return;
-        if (typeof addTask === 'function') addTask(description, sizeTask);
+        if (typeof addGoals === 'function'){
+            console.log("Зашло 2")
+            addGoals(description, sizeTask);
+        } 
         setOpen(false);
         e.target.reset();
     }

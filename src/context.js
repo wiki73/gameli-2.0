@@ -17,10 +17,7 @@ export function Provider({children}) {
         .eq('id', USER_ID)
         .single();
         
-        const {list} = await supabase
-        .from('goals')
-        .select('*')
-        .eq('id', USER_ID)
+        
 
         if (!error) {
         setExp(data.exp);
@@ -32,6 +29,8 @@ export function Provider({children}) {
 
     loadUser();
     }, []);
+
+    
 
     const addExp = async (amount) => {
         setExp(exp +amount);
@@ -58,11 +57,6 @@ export function Provider({children}) {
         }
     };
 
-    
-
-    useEffect(() => {
-        console.log('Попался')
-    },[exp])
     return (
         <Context.Provider value={{
         exp,

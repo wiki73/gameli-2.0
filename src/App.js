@@ -33,7 +33,6 @@ function App() {
 
 
 
-
   const addExp = async () => {
     const newExp = exp + 10;
 

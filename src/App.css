@@ -1,9 +1,13 @@
+
 .App {
   text-align: center;
   display: grid;
   grid-template-columns: 40% 40% 20%;
   height: 98vh;
-  margin: 1vh;
+  padding: 1vh;
+  /* margin: 1vh; */
+  background-image: url("./1. Черный кот с рыбкой.jpg");
+  background-size: cover;
 }
 
 
