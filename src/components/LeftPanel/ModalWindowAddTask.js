@@ -71,7 +71,7 @@ function ModalWindowAddTask({ addGoals }) {
      
     return (
         <>
-            <button onClick={() => setOpen(true)}>Добавить задачу</button>
+            <button className='add-modal-window-btn' onClick={() => setOpen(true)}>Добавить задачу</button>
 
             {open && (
                 <div className="modal-overlay"  onClick={() => setOpen(false)}>

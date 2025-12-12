@@ -45,19 +45,36 @@ function LeftPanel({ littleTasks, mediumTasks, largeTasks, addTask }) {
     loadGoals();
 }, []);
 
+    const addGoalsOnBd = async (des,size) =>  {
+        console.log("Было")
+        const {data,error} = await supabase
+                .from("goals")
+                .insert([{
+                    id: USER_ID,
+                    large: size,
+                    text: des
+                }])
+            }
+
     const addGoals = (des, size) =>{
         console.log("Зашло 1" + size);
         if (size === "little") {
             console.log('Зашло')
             setlittleGoals(prev =>[...prev, des])
+            addGoalsOnBd(des,"small")
+            
         }
         if (size === "medium") {
             console.log('Зашло')
             setMediumGoals(prev =>[...prev, des])
+            addGoalsOnBd(des,"medium")
+
         }
         if (size === "large") {
             console.log('Зашло')
             setLargeGoals(prev =>[...prev, des])
+            addGoalsOnBd(des,"large")
+
         }
         // !!!!! Добавить добавление и в БД
     }

@@ -1,7 +1,16 @@
 .add-modal-window-btn  {
     padding: 15px 25px;
     border-radius: 15px;
+    background-color: rgba(199, 105, 176, 0.573);
+    border: 1px solid black;
+    margin-top: 6px;
+    /* margin-right: 300px; */
+
     
+} 
+
+.add-modal-window-btn:hover {
+    background-color: pink;
 }
 
 .ModalWindowAddTask{
