@@ -1,6 +1,6 @@
 import {useState, useEffect} from "react";
 import './RightPanel.css';
-import RightPanelItem from "./RightPanelItem";
+import RightPanelLevel from "./RightPanelLevel";
 import { useUser} from "../../context";
 
 
@@ -34,15 +34,14 @@ function RightPanel() {
                 <button className="state-item" onClick={handleList}>Послужной список</button>
             </div>
             <div className="list-item">
-                <RightPanelItem />
-                <RightPanelItem />
-                <RightPanelItem />
-                <RightPanelItem />
-                <RightPanelItem />
-                <RightPanelItem />
-                <RightPanelItem />
-                <RightPanelItem />
-                <RightPanelItem />
+                <RightPanelLevel level={1} subject={"Спорт"}/>
+                <RightPanelLevel level={15} subject={"Экономика"}/>
+                <RightPanelLevel level={4} subject={"Фигма"}/>
+                <RightPanelLevel level={24} subject={"Чтение"}/>
+                <RightPanelLevel level={31} subject={"Прога"}/>
+                <RightPanelLevel level={11} subject={"Пчёлы"}/>
+                <RightPanelLevel level={14} subject={"Скалалазанье"}/>
+                <RightPanelLevel level={28} subject={"Зарядка"}/>
             </div>
             {openModalWindowInvent && <ModalWinsowInvent isOpen={openModalWindowInvent} onClose={() => setOpenModalWindowInvent(false)} />}
             {openModalWindowList && <ModalWinsowList isOpen={openModalWindowList} onClose={() => setOpenModalWindowList(false)} />}

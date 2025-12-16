@@ -6,7 +6,7 @@ export default function ToDoList() {
   const windowRef = useRef(null);
 
   const [position, setPosition] = useState({
-    x: 850,
+    x: 450,
     y: 100,
   });
 
