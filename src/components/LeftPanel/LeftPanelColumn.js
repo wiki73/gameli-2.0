@@ -13,7 +13,7 @@ function LeftPanelColumn({title, tasks}) {
                     />
                 ))
             ) : (
-                <p>No tasks available</p>
+                <p>У Вас нет целей</p>
             )}
         </div>
     );

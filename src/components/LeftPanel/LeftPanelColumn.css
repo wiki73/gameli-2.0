@@ -1,5 +1,20 @@
 .LeftPanelColumn {
+    margin-top: 15px;
+}
+
+
+.LeftPanelColumn h2{
+    padding: 20px;
+    color: aqua;
+    font-size: 1.2em;
+    margin-right: 8px;
+    border-radius: 20px;
+    background-color: rgba(36, 107, 36, 0.508);
     
+}
+
+.LeftPanelColumn p {
+    color: white;
 }
 
 

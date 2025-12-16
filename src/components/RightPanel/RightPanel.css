@@ -1,5 +1,6 @@
 .RightPanel {
     border:2px solid red;
+    color: white;
 }
 
 .list-item {
@@ -30,3 +31,34 @@
     background-color: blue;
     margin: 0px 0 0 0;
 }
+
+
+.state {
+    display: flex;
+    padding: 10px 5px;
+    /* height: 80px; */
+    
+}
+
+
+.state-item {
+    margin: auto;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 4px solid rgb(49, 245, 255);
+    box-shadow: 0 0 20px rgb(106, 248, 255),
+    inset 0 0 20px rgb(106, 248, 255);
+    color: white;
+    font-size: 0.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+}
+
+/* .state button {
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+} */

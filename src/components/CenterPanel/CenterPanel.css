@@ -1,28 +1,26 @@
 .CenterPanel {
-    border: 2px solid #ff0000;
+    /* border: 2px solid #ff0000;ц */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 .img-ang {
-    width: 500px;
-    height: auto;
-    position: absolute;
-    top: 200px;
-    left: 42%;
+    width: 100%;
+    margin-left: 14%;
+    
 }
 
 .div-xp-and-money {
     display: flex;
-    position: absolute;
-    top: 140px;
-    left: 510px;
+    justify-content: center;
+    margin-top: 13%;
+    margin-bottom: 5%;
 }
 
 .div-xp-and-money button{
-    margin: 10px;
-    border-radius: 15px;
-    background-color: aliceblue;
-    border: 1px solid black;
-    padding: 8px;
-
+    margin: 0px 5px;
+    
 
 }
 
@@ -30,7 +28,7 @@
     border-radius: 25px;
     position: absolute;
     top:140px;
-    left: 820px;
+    left: 1020px;
 }
 .div-inventory-shop-records div{
     margin-bottom: 20px;
@@ -78,4 +76,17 @@
 
 .div-inventory-shop-records div:hover {
     cursor:pointer;
+} 
+
+.btn-exp {
+    width: 80px;
+    height: 80px;
+    border: 4px solid rgb(49, 245, 255);
+    box-shadow: 0 0 20px rgb(106, 248, 255),
+    inset 0 0 25px rgb(106, 248, 255);
+    border-radius: 50%;
+    background-color: transparent;
+    color: white;
+    font-size: 0.9em;
+    padding: 4px;
 }
