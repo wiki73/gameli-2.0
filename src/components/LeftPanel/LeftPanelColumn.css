@@ -9,7 +9,9 @@
     font-size: 1.2em;
     margin-right: 8px;
     border-radius: 20px;
-    background-color: rgba(36, 107, 36, 0.508);
+    background-color: rgba(38, 138, 38, 0.508);
+    box-shadow: 0px -5px 20px rgb(34, 225, 5),
+    inset 0 0 20px rgb(30, 140, 50);
     
 }
 
@@ -22,8 +24,9 @@
     margin: 8px 4px;
     border: 1px solid rgba(172, 255, 47, 0.038);
     border-radius: 20px;
-    background-color: rgba(34, 176, 56, 0.6);
-    box-shadow: 2px 3px 10px rgb(14, 227, 43);
+    background-color: rgba(22, 117, 46, 0.8);
+    box-shadow: 1px 2px 5px rgb(14, 227, 43),
+    inset 0 0 10px rgb(14, 65, 23);;
 
 }
 

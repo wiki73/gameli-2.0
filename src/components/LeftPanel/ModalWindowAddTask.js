@@ -70,9 +70,10 @@ function ModalWindowAddTask({ addGoals }) {
     }
      
     return (
-        <>
+        <>  
+        <div className='btn'>
             <button className='add-modal-window-btn' onClick={() => setOpen(true)}>Добавить задачу</button>
-
+        </div>
             {open && (
                 <div className="modal-overlay"  onClick={() => setOpen(false)}>
                     <form className="ModalWindowAddTask" onSubmit={handleSubmit} onClick={(e) => e.stopPropagation()} >

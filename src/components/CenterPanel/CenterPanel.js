@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import './CenterPanel.css';
-import levi from './levi.png';
+import king from './king.png'
 import { useUser } from "../../context";
 
 function CenterPanel() {
@@ -14,7 +14,7 @@ function CenterPanel() {
     return (
         <div className="CenterPanel">
             <div className="level" style={{ border: `5px solid ${color}`, boxShadow: `0 0 20px ${color}, inset 0 0 25px ${color}`}}>{level}</div>
-            <img className="img-ang" src={levi} alt="King" />
+            <img className="img-ang" src={king} alt="King" />
         </div>
     );
 }

@@ -87,8 +87,7 @@ function LeftPanel({ littleTasks, mediumTasks, largeTasks, addTask }) {
                 <LeftPanelColumn title={"Средние"} tasks={MediumGoals} />
                 <LeftPanelColumn title={"Большие"} tasks={LargeGoals} />
             </div>
-            <ModalWindowAddTask  addGoals={addGoals} />
-
+                <ModalWindowAddTask  addGoals={addGoals} />
         </div>
     );
 }
