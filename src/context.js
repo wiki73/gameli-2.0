@@ -7,13 +7,14 @@ export function Provider({children}) {
 
     const [exp, setExp] = useState(0);
     const [money, setMoney] = useState(0);
+    const [level, setLevel] = useState(0);
 
     const USER_ID = "91b4b921-5098-4f79-84f2-2bc3ff90ac0f";
     useEffect(() => {
     const loadUser = async () => {
         const { data, error } = await supabase
         .from('users')
-        .select('exp, money')
+        .select('exp, money, level')
         .eq('id', USER_ID)
         .single();
         
@@ -22,6 +23,7 @@ export function Provider({children}) {
         if (!error) {
         setExp(data.exp);
         setMoney(data.money);
+        getLeverByEx(data.exp);
         } else {
         console.log(error);
         }
@@ -34,7 +36,7 @@ export function Provider({children}) {
 
     const addExp = async (amount) => {
         setExp(exp +amount);
-
+        getLeverByEx(exp+amount)
         const { error } = await supabase
         .from('users')
         .update({ exp: exp+amount })
@@ -57,6 +59,35 @@ export function Provider({children}) {
         }
     };
 
+    const getLeverByEx  = (exp) => {
+    let lev = 1;
+    if (exp < 100) {
+        lev = 1;
+    }
+    else if (exp < 300) {
+        lev= 2
+    }
+    else if (exp < 500) {
+        lev = 3
+    }
+    else if(exp < 600) {
+        lev = 4
+    }
+    else if (exp < 1000) {
+        lev = 5
+    }
+    else if (exp < 1200) {
+        lev= 7
+    }
+    else lev = 1;
+    setLevel(lev);
+    const {error} = supabase
+    .from("users")
+    .update({level: lev})
+    .eq('id', USER_ID);
+
+}
+
     return (
         <Context.Provider value={{
         exp,
@@ -64,12 +95,15 @@ export function Provider({children}) {
         money,
         setMoney,
         addExp,
-        addMoney
+        addMoney,
+        level
         }}>
             {children}
         </Context.Provider>
   );
 }
+
+
 
 export function useUser() {
   return useContext(Context);
