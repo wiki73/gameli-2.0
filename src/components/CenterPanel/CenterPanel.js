@@ -8,10 +8,7 @@ function CenterPanel() {
 
     return (
         <div className="CenterPanel">
-            <div className="div-xp-and-money">
-                {/* <button className="btn-exp" onClick={() => addExp(10)}>{exp} Опыт</button> */}
-                {/* <button className="btn-exp" onClick={() => addMoney(10)}>{money} Денег</button> */}
-            </div>
+            <div className="level">1</div>
             <img className="img-ang" src={levi} alt="King" />
         </div>
     );

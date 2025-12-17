@@ -7,6 +7,7 @@ function RightPanelLevel({ level, subject }) {
     if (level < 10) color = "brown";
     else if (level < 20) color = "yellow";
     else if (level < 30) color = "blue";
+    else color = 'violet';
 
     return (
         <div className="RightPanelItem">
