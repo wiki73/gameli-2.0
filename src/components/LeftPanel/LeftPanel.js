@@ -1,14 +1,15 @@
 import './LeftPanel.css';
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import LeftPanelColumn from './LeftPanelColumn';
 import ModalWindowAddTask from './ModalWindowAddTask';
 import { supabase } from '../../supabase';
 import { userId } from '../../config/env';
+import { TASK_SIZES, DB_TASK_SIZES } from '../../constants/taskSizes';
 
-function LeftPanel({ littleTasks, mediumTasks, largeTasks, addTask }) {
-    const [littleGoals, setlittleGoals] = useState([]);
-    const [MediumGoals, setMediumGoals] = useState([]);
-    const [LargeGoals, setLargeGoals] = useState([]);
+function LeftPanel() {
+    const [littleGoals, setLittleGoals] = useState([]);
+    const [mediumGoals, setMediumGoals] = useState([]);
+    const [largeGoals, setLargeGoals] = useState([]);
     useEffect(() => {
     let loaded = false; // защита от двойного вызова
 
@@ -36,8 +37,7 @@ function LeftPanel({ littleTasks, mediumTasks, largeTasks, addTask }) {
             else if (item.large === 'large') large.push(item.text);
         });
 
-        // Обновляем состояния одним вызовом каждый
-        setlittleGoals(small);
+        setLittleGoals(small);
         setMediumGoals(medium);
         setLargeGoals(large);
     };
@@ -45,49 +45,44 @@ function LeftPanel({ littleTasks, mediumTasks, largeTasks, addTask }) {
     loadGoals();
 }, []);
 
-    const addGoalsOnBd = async (des,size) =>  {
-        console.log("Было")
-        const {data,error} = await supabase
-                .from("goals")
-                .insert([{
-                    id: userId,
-                    large: size,
-                    text: des
-                }])
-            }
+    const addGoalsOnBd = async (des, size) => {
+        const { data, error } = await supabase
+            .from("goals")
+            .insert([{
+                id: userId,
+                large: size,
+                text: des
+            }]);
 
-    const addGoals = (des, size) =>{
-        console.log("Зашло 1" + size);
-        if (size === "little") {
-            console.log('Зашло')
-            setlittleGoals(prev =>[...prev, des])
-            addGoalsOnBd(des,"small")
-            
+        if (error) {
+            console.error(error);
         }
-        if (size === "medium") {
-            console.log('Зашло')
-            setMediumGoals(prev =>[...prev, des])
-            addGoalsOnBd(des,"medium")
+    };
 
-        }
-        if (size === "large") {
-            console.log('Зашло')
-            setLargeGoals(prev =>[...prev, des])
-            addGoalsOnBd(des,"large")
+    const addGoals = (des, size) => {
+        const dbSize = DB_TASK_SIZES[size];
 
+        if (size === TASK_SIZES.LITTLE) {
+            setLittleGoals(prev => [...prev, des]);
+            addGoalsOnBd(des, dbSize);
+        } else if (size === TASK_SIZES.MEDIUM) {
+            setMediumGoals(prev => [...prev, des]);
+            addGoalsOnBd(des, dbSize);
+        } else if (size === TASK_SIZES.LARGE) {
+            setLargeGoals(prev => [...prev, des]);
+            addGoalsOnBd(des, dbSize);
         }
-        // !!!!! Добавить добавление и в БД
-    }
+    };
 
 
     return (
         <div className="LeftPanel">
             <div className='list-goals'>
                 <LeftPanelColumn title={"Короткие"} tasks={littleGoals} />
-                <LeftPanelColumn title={"Средние"} tasks={MediumGoals} />
-                <LeftPanelColumn title={"Большие"} tasks={LargeGoals} />
+                <LeftPanelColumn title={"Средние"} tasks={mediumGoals} />
+                <LeftPanelColumn title={"Большие"} tasks={largeGoals} />
             </div>
-                <ModalWindowAddTask  addGoals={addGoals} />
+            <ModalWindowAddTask addGoals={addGoals} />
         </div>
     );
 }

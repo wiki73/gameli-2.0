@@ -1,15 +1,11 @@
-import React, { useState, useEffect, useContext } from "react";
 import './CenterPanel.css';
-import king from './king.png'
+import king from './king.png';
 import { useUser } from "../../context";
+import { getColorByLevel } from "../../constants/colors";
 
 function CenterPanel() {
-    const { level, addExp} = useUser();
-    let color = 'none';
-    if (level < 3) color = "brown";
-    else if (level < 5) color = "yellow";
-    else if (level < 7) color = "violet";
-    else if (level < 10) color = 'red';
+    const { level, addExp } = useUser();
+    const color = getColorByLevel(level);
 
     return (
         <div className="CenterPanel">

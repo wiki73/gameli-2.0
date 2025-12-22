@@ -1,6 +1,7 @@
-import { Children, createContext, useContext, useState, useEffect} from "react";
+import { Children, createContext, useContext, useState, useEffect } from "react";
 import { supabase } from './supabase';
 import { userId } from './config/env';
+import { getLevelByExp as calculateLevelByExp } from './constants/levelRanges';
 
 const Context = createContext();
 
@@ -20,11 +21,11 @@ export function Provider({children}) {
         
 
         if (!error) {
-        setExp(data.exp);
-        setMoney(data.money);
-        getLeverByEx(data.exp);
+            setExp(data.exp);
+            setMoney(data.money);
+            await updateLevelByExp(data.exp);
         } else {
-        console.log(error);
+            console.error(error);
         }
     };
 
@@ -34,58 +35,47 @@ export function Provider({children}) {
     
 
     const addExp = async (amount) => {
-        setExp(exp +amount);
-        getLeverByEx(exp+amount)
+        const newExp = exp + amount;
+        setExp(newExp);
+        await updateLevelByExp(newExp);
+        
         const { error } = await supabase
-        .from('users')
-        .update({ exp: exp+amount })
-        .eq('id', userId);
+            .from('users')
+            .update({ exp: newExp })
+            .eq('id', userId);
 
         if (error) {
-        console.log(error);
+            console.error(error);
         }
     };
+
     const addMoney = async (amount) => {
-        setMoney(money +amount);
+        const newMoney = money + amount;
+        setMoney(newMoney);
 
         const { error } = await supabase
-        .from('users')
-        .update({ money: money+amount })
-        .eq('id', userId);
+            .from('users')
+            .update({ money: newMoney })
+            .eq('id', userId);
 
         if (error) {
-        console.log(error);
+            console.error(error);
         }
     };
 
-    const getLeverByEx  = (exp) => {
-    let lev = 1;
-    if (exp < 100) {
-        lev = 1;
-    }
-    else if (exp < 300) {
-        lev= 2
-    }
-    else if (exp < 500) {
-        lev = 3
-    }
-    else if(exp < 600) {
-        lev = 4
-    }
-    else if (exp < 1000) {
-        lev = 5
-    }
-    else if (exp < 1200) {
-        lev= 7
-    }
-    else lev = 1;
-    setLevel(lev);
-    const {error} = supabase
-    .from("users")
-    .update({level: lev})
-    .eq('id', userId);
+    const updateLevelByExp = async (expAmount) => {
+        const lev = calculateLevelByExp(expAmount);
+        setLevel(lev);
+        
+        const { error } = await supabase
+            .from("users")
+            .update({ level: lev })
+            .eq('id', userId);
 
-}
+        if (error) {
+            console.error(error);
+        }
+    };
 
     return (
         <Context.Provider value={{

@@ -1,11 +1,12 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './ModalWindowAddTask.css';
+import { TASK_SIZES, TASK_SIZE_LABELS } from '../../constants/taskSizes';
 
 function ModalWindowAddTask({ addGoals }) {
     const [open, setOpen] = useState(false);
     const inputRef = useRef(null);
     const isFocusedRef = useRef(false);
-    const [selectedSize, setSelectedSize] = useState('little');
+    const [selectedSize, setSelectedSize] = useState(TASK_SIZES.LITTLE);
 
 
     useEffect(() => {
@@ -13,16 +14,14 @@ function ModalWindowAddTask({ addGoals }) {
             if (event.key === 'Escape') setOpen(false);
         }
         function handle123(event) {
-            // only when modal is open; map 1/2/3 to little/medium/large
             if (!isFocusedRef.current) {
                 const key = event.key;
                 let size = null;
-                if (key === '1' || key === '!' ) size = 'little';
-                else if (key === '2' || key === '@') size = 'medium';
-                else if (key === '3' || key === '#') size = 'large';
+                if (key === '1' || key === '!') size = TASK_SIZES.LITTLE;
+                else if (key === '2' || key === '@') size = TASK_SIZES.MEDIUM;
+                else if (key === '3' || key === '#') size = TASK_SIZES.LARGE;
                 if (!size) return;
-                console.log("Выбран размер:", size);
-                setSelectedSize(size); 
+                setSelectedSize(size);
             }
         }
         if (open) {
@@ -60,14 +59,16 @@ function ModalWindowAddTask({ addGoals }) {
         e.preventDefault();
         const description = e.target.description.value.trim();
         const sizeTask = e.target.taskSize.value;
+        
         if (!description) return;
-        if (typeof addGoals === 'function'){
-            console.log("Зашло 2")
+        
+        if (typeof addGoals === 'function') {
             addGoals(description, sizeTask);
-        } 
+        }
+        
         setOpen(false);
         e.target.reset();
-    }
+    };
      
     return (
         <>  
@@ -78,25 +79,29 @@ function ModalWindowAddTask({ addGoals }) {
                 <div className="modal-overlay"  onClick={() => setOpen(false)}>
                     <form className="ModalWindowAddTask" onSubmit={handleSubmit} onClick={(e) => e.stopPropagation()} >
                         <input className='text-input' tabIndex={1} ref={inputRef} type="text" name="description" onFocus={() => isFocusedRef.current = true} onBlur={() => isFocusedRef.current =false}/>
-                        <div className='radio-btn'>    
+                        <div className='radio-btn'>
                             <input 
-                            type="radio"
-                            name="taskSize"
-                            value="little"
+                                type="radio"
+                                name="taskSize"
+                                value={TASK_SIZES.LITTLE}
                                 defaultChecked
-                                checked={selectedSize === 'little'}
-                                onChange={(e) => setSelectedSize(e.target.value)} /> Мелкая
-                            <input type="radio"
-                            name="taskSize"
-                            value="medium"
-                            checked={selectedSize === 'medium'}
-                                onChange={(e) => setSelectedSize(e.target.value)} /> Средняя
+                                checked={selectedSize === TASK_SIZES.LITTLE}
+                                onChange={(e) => setSelectedSize(e.target.value)} 
+                            /> {TASK_SIZE_LABELS[TASK_SIZES.LITTLE]}
                             <input 
-                            type="radio" 
-                            name="taskSize"
-                            value="large"
-                            checked={selectedSize === 'large'}
-                                onChange={(e) => setSelectedSize(e.target.value)} /> Большая
+                                type="radio"
+                                name="taskSize"
+                                value={TASK_SIZES.MEDIUM}
+                                checked={selectedSize === TASK_SIZES.MEDIUM}
+                                onChange={(e) => setSelectedSize(e.target.value)} 
+                            /> {TASK_SIZE_LABELS[TASK_SIZES.MEDIUM]}
+                            <input 
+                                type="radio" 
+                                name="taskSize"
+                                value={TASK_SIZES.LARGE}
+                                checked={selectedSize === TASK_SIZES.LARGE}
+                                onChange={(e) => setSelectedSize(e.target.value)} 
+                            /> {TASK_SIZE_LABELS[TASK_SIZES.LARGE]}
                         </div>
                         <button className='button-submit' tabIndex={2} type="submit">Отправить</button>
                         <button className="button-close" onClick={() => setOpen(false)}>x</button>

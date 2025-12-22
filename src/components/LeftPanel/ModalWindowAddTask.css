@@ -1,7 +1,6 @@
-
-.add-modal-window-btn  {
+.add-modal-window-btn {
     margin-top: 15px;
-    padding: 15px 25px;
+    padding: var(--spacing-md) var(--spacing-lg);
     border-radius: 20px;
     background-color: rgba(18, 80, 24, 0.415);
     box-shadow: 1px 1px 10px rgb(68, 255, 47);
@@ -9,49 +8,28 @@
     width: 280px;
     color: white;
     font-size: 1em;
-
-    
-} 
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
 
 .add-modal-window-btn:hover {
     background-color: rgba(30, 208, 48, 0.573);
-
 }
 
 .add-modal-window-btn:focus {
-    outline:2px solid  rgba(3, 255, 3, 0.484);
+    outline: 2px solid rgba(3, 255, 3, 0.484);
 }
 
-.ModalWindowAddTask{
-    width: 400px;
-    height: 140px;
-    background-color: lightgray;
-    border: 1px solid #000000;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1000;
-    padding: 0px;
-
+.btn {
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }
 
-.button-close {
-    color: white;
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    background: transparent;
-    border: none;
-    font-size: 20px;
-    line-height: 1;
-    cursor: pointer;
-}
-
-.modal-overlay{
+.modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.45);
+    background: rgba(0, 0, 0, 0.45);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -62,48 +40,68 @@
     background-color: rgba(14, 100, 14, 0.707);
     border: none;
     border-radius: 30px;
-    box-shadow: 0px 0px  30px green,
-    inset 0 0 10px green;
-
+    box-shadow: 0px 0px 30px green, inset 0 0 10px green;
     display: flex;
     flex-direction: column;
     padding: 50px;
-
-    color:white;
+    color: white;
     font-size: 1.5em;
-
-    
+    gap: var(--spacing-md);
 }
+
 .text-input {
     font-size: 1.2em;
     color: white;
-
     border: 1px solid green;
     border-radius: 10px;
     background-color: rgba(0, 128, 0, 0.274);
-    padding: 5px;
-
+    padding: var(--spacing-sm);
+    transition: outline 0.2s ease;
 }
 
-.text-input:focus{
+.text-input:focus {
     outline: 4px solid rgba(3, 255, 3, 0.692);
 }
+
 .radio-btn {
     display: grid;
     align-items: center;
     grid-template-columns: repeat(6, 1fr);
-    
-    margin: 20px;
+    gap: var(--spacing-md);
+    margin: var(--spacing-lg);
 }
 
+.radio-btn label {
+    color: white;
+    cursor: pointer;
+}
 
-.button-submit{
+.radio-btn input[type="radio"] {
+    outline: none;
+    transform: scale(1.2);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.radio-btn input[type="radio"]:checked {
+    accent-color: rgb(21, 255, 0);
+    box-shadow: 0 0 10px rgb(21, 255, 0);
+    transform: scale(1.7);
+}
+
+.button-submit {
     font-size: 1.2em;
     color: white;
-
     background-color: green;
     border: 2px solid rgb(9, 159, 9);
     border-radius: 10px;
+    padding: var(--spacing-md) var(--spacing-lg);
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+.button-submit:hover {
+    border-color: rgba(3, 255, 3, 0.692);
 }
 
 .button-submit:focus {
@@ -111,19 +109,19 @@
     border: 3px solid rgba(3, 255, 3, 0.692);
 }
 
-.radio-btn input[type="radio"]{
-    outline: none;
-    transform: scale(1.2);
-    
+.button-close {
+    color: white;
+    position: absolute;
+    top: var(--spacing-md);
+    right: var(--spacing-lg);
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
 }
 
-.radio-btn input[type="radio"]:focus{
-    
-}
-.radio-btn input[type="radio"]:checked{
-    accent-color: rgb(21, 255, 0);
-    box-shadow: 0 0 10px rgb(21, 255, 0);
-    transform: scale(1.7);
-
-    
+.button-close:hover {
+    opacity: 0.7;
 }

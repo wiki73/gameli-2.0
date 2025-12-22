@@ -1,13 +1,8 @@
-import React from "react";
 import './RightPanel.css';
+import { getColorBySubjectLevel } from "../../constants/colors";
 
 function RightPanelLevel({ level, subject }) {
-    let color = 'none';
-
-    if (level < 10) color = "brown";
-    else if (level < 20) color = "yellow";
-    else if (level < 30) color = "blue";
-    else color = 'violet';
+    const color = getColorBySubjectLevel(level);
 
     return (
         <div className="RightPanelItem">

@@ -1,46 +1,41 @@
 .ToDoList {
     color: white;
-    /* height: 300px; */
     box-shadow: 1px 1px 20px rgb(68, 255, 47);
     background-color: rgba(18, 80, 24, 0.815);
     border-radius: 20px;
-
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-
-
-
 .ToDoList h3 {
     text-align: center;
-    margin: 0px;
-    margin-top: 10px;
+    margin: 0;
+    margin-top: var(--spacing-md);
 }
 
 .ToDoList button {
     width: 200px;
+    margin: var(--spacing-md) auto;
     margin-top: auto;
-    margin: 10px auto;
+    cursor: pointer;
+    transition: box-shadow 0.2s ease;
 }
-
 
 .task-list {
     margin-bottom: auto;
-    list-style-type:none;
-    font-size: 1.5em;  
-
+    list-style-type: none;
+    font-size: 1.5em;
+    padding: 0;
 }
 
 .task-list li {
-    display:grid;
-    margin: 4px 0px;
+    display: grid;
+    margin: var(--spacing-xs) 0;
     border: 2px solid green;
     border-radius: 15px;
-    padding: 4px;
+    padding: var(--spacing-xs);
     padding-right: 45px;
-
 }
 
 .div-new-task {
@@ -49,7 +44,7 @@
     align-items: center;
     width: 100%;
     color: white;
-
+    gap: var(--spacing-md);
 }
 
 .div-new-task input {
@@ -61,7 +56,8 @@
     color: white;
     font-size: 1em;
     height: 40px;
-
+    padding: var(--spacing-sm);
+    transition: outline 0.2s ease;
 }
 
 .div-new-task input:hover {
@@ -69,50 +65,51 @@
     box-shadow: 1px 1px 20px rgb(68, 255, 47);
 }
 
-
+.div-new-task input:focus {
+    outline: 2px solid rgb(0, 255, 0);
+    box-shadow: 1px 1px 20px rgb(68, 255, 47);
+}
 
 .div-new-task button {
-    margin-left: 10px;
     box-shadow: 1px 1px 20px rgb(68, 255, 47);
     background-color: rgba(18, 80, 24, 0.715);
     border: none;
     border-radius: 5px;
     width: 20%;
     color: white;
-    padding: 10px;
+    padding: var(--spacing-md);
+    cursor: pointer;
+    transition: box-shadow 0.2s ease;
 }
+
 .div-new-task button:hover {
     outline: 2px solid rgb(0, 255, 0);
-
     box-shadow: 1px 1px 20px rgb(68, 255, 47);
 }
+
 .div-new-task button:focus {
     outline: 2px solid rgb(0, 255, 0);
-
     box-shadow: 1px 1px 20px rgb(68, 255, 47);
 }
 
-
-.btn-add-item{
-    margin-left: 10px;
+.btn-add-item {
     box-shadow: 1px 1px 20px rgb(68, 255, 47);
     background-color: rgba(18, 80, 24, 0.715);
     border: none;
     border-radius: 10px;
     width: 20%;
     color: white;
-    padding: 10px;
+    padding: var(--spacing-md);
+    cursor: pointer;
+    transition: box-shadow 0.2s ease;
 }
+
 .btn-add-item:hover {
     box-shadow: 1px 1px 30px rgb(68, 255, 47);
     outline: 2px solid rgb(0, 255, 0);
-
-
 }
 
 .btn-add-item:focus {
     outline: 2px solid rgb(0, 255, 0);
     box-shadow: 1px 1px 20px rgb(68, 255, 47);
-
-
 }
