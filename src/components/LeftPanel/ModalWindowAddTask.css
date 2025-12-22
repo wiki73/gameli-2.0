@@ -2,22 +2,22 @@
     margin-top: 15px;
     padding: var(--spacing-md) var(--spacing-lg);
     border-radius: 20px;
-    background-color: rgba(18, 80, 24, 0.415);
-    box-shadow: 1px 1px 10px rgb(68, 255, 47);
+    background-color: var(--color-green-dark-sm);
+    box-shadow: var(--shadow-green-bright);
     border: none;
     width: 280px;
-    color: white;
+    color: var(--color-white);
     font-size: 1em;
     cursor: pointer;
     transition: background-color 0.2s ease;
 }
 
 .add-modal-window-btn:hover {
-    background-color: rgba(30, 208, 48, 0.573);
+    background-color: var(--color-green-bg-hover);
 }
 
 .add-modal-window-btn:focus {
-    outline: 2px solid rgba(3, 255, 3, 0.484);
+    outline: 2px solid var(--color-green-shadow-text);
 }
 
 .btn {
@@ -29,7 +29,7 @@
 .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.45);
+    background: var(--color-modal-overlay);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -37,30 +37,30 @@
 }
 
 .ModalWindowAddTask {
-    background-color: rgba(14, 100, 14, 0.707);
+    background-color: var(--color-green-base);
     border: none;
     border-radius: 30px;
-    box-shadow: 0px 0px 30px green, inset 0 0 10px green;
+    box-shadow: var(--shadow-green-glow);
     display: flex;
     flex-direction: column;
     padding: 50px;
-    color: white;
+    color: var(--color-white);
     font-size: 1.5em;
     gap: var(--spacing-md);
 }
 
 .text-input {
     font-size: 1.2em;
-    color: white;
-    border: 1px solid green;
+    color: var(--color-white);
+    border: 1px solid var(--color-red);
     border-radius: 10px;
-    background-color: rgba(0, 128, 0, 0.274);
+    background-color: var(--color-green-base-dark);
     padding: var(--spacing-sm);
     transition: outline 0.2s ease;
 }
 
 .text-input:focus {
-    outline: 4px solid rgba(3, 255, 3, 0.692);
+    outline: 4px solid var(--color-green-shadow-text-bright);
 }
 
 .radio-btn {
@@ -72,7 +72,7 @@
 }
 
 .radio-btn label {
-    color: white;
+    color: var(--color-white);
     cursor: pointer;
 }
 
@@ -84,16 +84,16 @@
 }
 
 .radio-btn input[type="radio"]:checked {
-    accent-color: rgb(21, 255, 0);
-    box-shadow: 0 0 10px rgb(21, 255, 0);
+    accent-color: var(--color-green-light);
+    box-shadow: 0 0 10px var(--color-green-light);
     transform: scale(1.7);
 }
 
 .button-submit {
     font-size: 1.2em;
-    color: white;
-    background-color: green;
-    border: 2px solid rgb(9, 159, 9);
+    color: var(--color-white);
+    background-color: var(--color-red);
+    border: 2px solid var(--color-green-border-button);
     border-radius: 10px;
     padding: var(--spacing-md) var(--spacing-lg);
     cursor: pointer;
@@ -101,16 +101,16 @@
 }
 
 .button-submit:hover {
-    border-color: rgba(3, 255, 3, 0.692);
+    border-color: var(--color-green-shadow-text-bright);
 }
 
 .button-submit:focus {
     outline: none;
-    border: 3px solid rgba(3, 255, 3, 0.692);
+    border: 3px solid var(--color-green-shadow-text-bright);
 }
 
 .button-close {
-    color: white;
+    color: var(--color-white);
     position: absolute;
     top: var(--spacing-md);
     right: var(--spacing-lg);

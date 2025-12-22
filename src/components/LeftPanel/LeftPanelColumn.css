@@ -1,26 +1,51 @@
 .LeftPanelColumn {
     margin-top: 15px;
+    padding-right: var(--spacing-sm);
 }
+
+.task-list {
+    max-height: 66vh;
+    overflow-y: auto;
+}
+
+.task-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.task-list::-webkit-scrollbar-track {
+    background: var(--color-green-shadow-inner);
+    border-radius: 3px;
+}
+
+.task-list::-webkit-scrollbar-thumb {
+    background: var(--color-green-border-med);
+    border-radius: 3px;
+}
+
+.task-list::-webkit-scrollbar-thumb:hover {
+    background: var(--color-green-border-strong2);
+}
+
 
 .LeftPanelColumn h2 {
     padding: var(--spacing-lg);
-    color: aqua;
+    color: var(--color-aqua);
     font-size: 1.2em;
     margin-right: var(--spacing-sm);
     border-radius: 20px;
-    background-color: rgba(38, 138, 38, 0.508);
-    box-shadow: 0px 0px 5px rgb(34, 225, 5), inset 0 0 20px rgb(30, 140, 50);
+    background-color: var(--color-green-header);
+    box-shadow: var(--shadow-green-accent);
 }
 
 .LeftPanelColumn p {
-    color: white;
+    color: var(--color-white);
 }
 
 .LeftPanelItem {
     margin: var(--spacing-md) var(--spacing-xs);
-    border: 1px solid rgba(172, 255, 47, 0.038);
+    border: 1px solid var(--color-green-border);
     border-radius: 20px;
-    background-color: rgba(22, 117, 46, 0.8);
-    box-shadow: 1px 2px 5px rgb(14, 227, 43), inset 0 0 10px rgb(14, 65, 23);
+    background-color: var(--color-green-item);
+    box-shadow: var(--shadow-green-item);
 }
 

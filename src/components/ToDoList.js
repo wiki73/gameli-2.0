@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import './ToDoList.css';
 
-
 export default function ToDoList() {
   const windowRef = useRef(null);
+  const inputRef = useRef(null);
 
   const [position, setPosition] = useState({
     x: 150,
@@ -14,6 +14,7 @@ export default function ToDoList() {
   const [offset, setOffset] = useState({ x: 0, y: 0 });
 
   const handleMouseDown = (e) => {
+    if (e.target.closest('input, button')) return;
     setDragging(true);
 
     const rect = windowRef.current.getBoundingClientRect();
@@ -34,20 +35,55 @@ export default function ToDoList() {
 
   const handleMouseUp = () => setDragging(false);
 
-  const [openInput, setopenInput] = useState(false);
-  const [items, setItems] = useState(["Задача","Задача", "Задача"])
-  const [inputText, setInputText] = useState('')
-  const handleClick =() =>  {
-      setopenInput(true);
+  const [openInput, setOpenInput] = useState(false);
+  const [items, setItems] = useState([
+    { id: 1, text: "Задача 1", completed: false },
+    { id: 2, text: "Задача 2", completed: false },
+    { id: 3, text: "Задача 3", completed: false }
+  ]);
+  const [inputText, setInputText] = useState('');
 
-  }
-  const handleOk = (text) => {
-    console.log("click")
-    setItems([...items, text]);
+  useEffect(() => {
+    if (openInput && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [openInput]);
+
+  const handleAddClick = () => {
+    setOpenInput(true);
+  };
+
+  const handleAddTask = (text) => {
+    const trimmed = text.trim();
+    if (!trimmed) return;
+
+    setItems([...items, {
+      id: Date.now(),
+      text: trimmed,
+      completed: false
+    }]);
     setInputText('');
+    setOpenInput(false);
+  };
 
-  }
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleAddTask(inputText);
+    } else if (e.key === 'Escape') {
+      setOpenInput(false);
+      setInputText('');
+    }
+  };
 
+  const toggleComplete = (id) => {
+    setItems(items.map(item =>
+      item.id === id ? { ...item, completed: !item.completed } : item
+    ));
+  };
+
+  const deleteTask = (id) => {
+    setItems(items.filter(item => item.id !== id));
+  };
 
   return (
     <div
@@ -61,39 +97,74 @@ export default function ToDoList() {
         position: "fixed",
         left: position.x,
         top: position.y,
-        width: "250px",
+        width: "280px",
         padding: "0px",
-        cursor: "grab",
+        cursor: dragging ? "grabbing" : "grab",
         userSelect: "none",
         zIndex: 9999,
       }}
     >
-      <div>
-        <h3>План на день</h3>
-        {openInput && ( 
-            <div className="div-new-task">
-              <input value={inputText} onChange={(e)=> {setInputText(e.target.value)}} type="text" placeholder="Название задачи"></input>
-              <button onClick={()=> {handleOk(inputText)}}>OK</button>
-            </div>
-        )}
+      <div className="header">
+        <h3 onClick={() => {console.log(items)}}>План на день</h3>
       </div>
+
+      {openInput && (
+        <div className="div-new-task">
+          <input
+            ref={inputRef}
+            value={inputText}
+            onChange={(e) => setInputText(e.target.value)}
+            onKeyPress={handleKeyPress}
+            type="text"
+            placeholder="Новая задача..."
+          />
+          <button 
+            className="btn-ok"
+            onClick={() => handleAddTask(inputText)}
+          >
+            OK
+          </button>
+        </div>
+      )}
+
       <div className="task-list">
-        <TaskList  items={items}/>
+        <TaskList items={items} onToggle={toggleComplete} onDelete={deleteTask} />
       </div>
-    
-        <button className="btn-add-item" onClick={handleClick}>Добавить</button>
+
+      <button className="btn-add-item" onClick={handleAddClick}>
+        + Добавить
+      </button>
     </div>
   );
 }
 
-function TaskList({items}) {
-
+function TaskList({ items, onToggle, onDelete }) {
   return (
-    <ul style={{listStyle:'none', listStylePosition:'none', padding:'0px'}}>
-      {items.map((item, i) => (
-        <li key={i}>{i+1} {item}</li>    
-      ))}
-      
+    <ul className="tasks-ul">
+      {items.length === 0 ? (
+        <li className="empty-state">Нет задач</li>
+      ) : (
+        items.map((item) => (
+          <li key={item.id} className={`task-item ${item.completed ? 'completed' : ''}`}>
+            <label className="task-label">
+              <input
+                type="checkbox"
+                checked={item.completed}
+                onChange={() => onToggle(item.id)}
+                className="task-checkbox"
+              />
+              <span className="task-text">{item.text}</span>
+            </label>
+            <button
+              className="btn-delete"
+              onClick={() => onDelete(item.id)}
+              title="Удалить"
+            >
+              ✕
+            </button>
+          </li>
+        ))
+      )}
     </ul>
   );
 }

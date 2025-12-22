@@ -2,7 +2,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 95% 5%;
-    background-color: rgba(34, 176, 56, 0.2);
+    background-color: var(--color-green-bg);
     box-shadow: var(--shadow-green-modal);
     border-radius: 6%;
     height: 87vh;
