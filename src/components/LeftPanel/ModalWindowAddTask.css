@@ -3,7 +3,7 @@
     margin-top: 15px;
     padding: 15px 25px;
     border-radius: 20px;
-    background-color: rgba(27, 146, 39, 0.342);
+    background-color: rgba(18, 80, 24, 0.415);
     box-shadow: 1px 1px 10px rgb(68, 255, 47);
     border: none;
     width: 280px;
@@ -23,8 +23,8 @@
 }
 
 .ModalWindowAddTask{
-    width: 500px;
-    height: 200px;
+    width: 400px;
+    height: 140px;
     background-color: lightgray;
     border: 1px solid #000000;
     position: fixed;
@@ -37,9 +37,10 @@
 }
 
 .button-close {
+    color: white;
     position: absolute;
-    top: 0px;
-    right: 2px;
+    top: 10px;
+    right: 20px;
     background: transparent;
     border: none;
     font-size: 20px;
@@ -47,7 +48,6 @@
     cursor: pointer;
 }
 
-/* DOM-based overlay (minimal) */
 .modal-overlay{
     position: fixed;
     inset: 0;
@@ -55,9 +55,75 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 999; /* under modal (1000) */
+    z-index: 999;
 }
-.ModalWindowAddTask input[type="radio"]:focus {
+
+.ModalWindowAddTask {
+    background-color: rgba(14, 100, 14, 0.707);
+    border: none;
+    border-radius: 30px;
+    box-shadow: 0px 0px  30px green,
+    inset 0 0 10px green;
+
+    display: flex;
+    flex-direction: column;
+    padding: 50px;
+
+    color:white;
+    font-size: 1.5em;
+
+    
+}
+.text-input {
+    font-size: 1.2em;
+    color: white;
+
+    border: 1px solid green;
+    border-radius: 10px;
+    background-color: rgba(0, 128, 0, 0.274);
+    padding: 5px;
+
+}
+
+.text-input:focus{
+    outline: 4px solid rgba(3, 255, 3, 0.692);
+}
+.radio-btn {
+    display: grid;
+    align-items: center;
+    grid-template-columns: repeat(6, 1fr);
+    
+    margin: 20px;
+}
+
+
+.button-submit{
+    font-size: 1.2em;
+    color: white;
+
+    background-color: green;
+    border: 2px solid rgb(9, 159, 9);
+    border-radius: 10px;
+}
+
+.button-submit:focus {
     outline: none;
+    border: 3px solid rgba(3, 255, 3, 0.692);
+}
+
+.radio-btn input[type="radio"]{
+    outline: none;
+    transform: scale(1.2);
+    
+}
+
+.radio-btn input[type="radio"]:focus{
+    
+}
+.radio-btn input[type="radio"]:checked{
+    accent-color: rgb(21, 255, 0);
+    box-shadow: 0 0 10px rgb(21, 255, 0);
+    transform: scale(1.7);
+
     
 }

@@ -6,9 +6,9 @@ import { supabase } from './supabase';
 import { Provider } from './context';
 import './App.css';
 import ToDoList from './components/ToDoList';
+import { userId } from './config/env';
 
 function App() {
-    const USER_ID = "91b4b921-5098-4f79-84f2-2bc3ff90ac0f";
     const [exp, setExp] = useState(0);
     useEffect(() => {
     const load = async () => {
@@ -18,7 +18,7 @@ function App() {
       const { data, error } = await supabase
         .from('users')
         .select('exp')
-        .eq('id', USER_ID)
+        .eq('id', userId)
         .single();
 
       if (!error) {
@@ -39,7 +39,7 @@ function App() {
     const { error } = await supabase
       .from('users')
       .update({ exp: newExp })
-      .eq('id', USER_ID);
+      .eq('id', userId);
 
     if (!error) {
       setExp(newExp);

@@ -34,7 +34,7 @@ function RightPanel() {
                 <button className="state-item" onClick={handleList}>Послужной список</button>
             </div>
             <div className="list-item">
-                <RightPanelLevel level={1} subject={"Спорт"}/>
+                <RightPanelLevel level={1000} subject={"Спорт"}/>
                 <RightPanelLevel level={15} subject={"Экономика"}/>
                 <RightPanelLevel level={4} subject={"Фигма"}/>
                 <RightPanelLevel level={24} subject={"Чтение"}/>
@@ -62,16 +62,16 @@ function ModalWinsowInvent({ isOpen, onClose }) {
         };
     }, [isOpen]);
 
-    useEffect(() => {
-            const timer = setTimeout(() => {
-                onClose();
-            }, 1000);
-            return () => clearTimeout(timer);
-        }, [onClose])
+    // useEffect(() => {
+    //         const timer = setTimeout(() => {
+    //             onClose();
+    //         }, 1000);
+    //         return () => clearTimeout(timer);
+    //     }, [onClose])
     return (
         <>
         <div className="modal-invent">
-            Inventory Content
+            <h2>Инвентарь</h2>
         </div>
         </>
     );

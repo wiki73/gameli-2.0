@@ -3,9 +3,9 @@ import {useEffect, useState} from 'react';
 import LeftPanelColumn from './LeftPanelColumn';
 import ModalWindowAddTask from './ModalWindowAddTask';
 import { supabase } from '../../supabase';
+import { userId } from '../../config/env';
 
 function LeftPanel({ littleTasks, mediumTasks, largeTasks, addTask }) {
-    const USER_ID = "91b4b921-5098-4f79-84f2-2bc3ff90ac0f";
     const [littleGoals, setlittleGoals] = useState([]);
     const [MediumGoals, setMediumGoals] = useState([]);
     const [LargeGoals, setLargeGoals] = useState([]);
@@ -16,7 +16,7 @@ function LeftPanel({ littleTasks, mediumTasks, largeTasks, addTask }) {
         const { data, error } = await supabase
             .from('goals')
             .select('large, text')
-            .eq('id', USER_ID);
+            .eq('id', userId);
 
         if (error) {
             console.error(error);
@@ -50,7 +50,7 @@ function LeftPanel({ littleTasks, mediumTasks, largeTasks, addTask }) {
         const {data,error} = await supabase
                 .from("goals")
                 .insert([{
-                    id: USER_ID,
+                    id: userId,
                     large: size,
                     text: des
                 }])

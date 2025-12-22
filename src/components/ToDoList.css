@@ -1,19 +1,118 @@
 .ToDoList {
+    color: white;
+    /* height: 300px; */
+    box-shadow: 1px 1px 20px rgb(68, 255, 47);
+    background-color: rgba(18, 80, 24, 0.815);
+    border-radius: 20px;
+
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* justify-content: space-between; */
 }
+
+
+
 
 .ToDoList h3 {
     text-align: center;
+    margin: 0px;
+    margin-top: 10px;
 }
 
 .ToDoList button {
-    width: 100%;
+    width: 200px;
+    margin-top: auto;
+    margin: 10px auto;
 }
 
 
+.task-list {
+    margin-bottom: auto;
+    list-style-type:none;
+    font-size: 1.5em;  
+
+}
+
+.task-list li {
+    display:grid;
+    margin: 4px 0px;
+    border: 2px solid green;
+    border-radius: 15px;
+    padding: 4px;
+    padding-right: 45px;
+
+}
+
 .div-new-task {
     display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    color: white;
+
+}
+
+.div-new-task input {
+    box-shadow: 1px 1px 20px rgb(68, 255, 47);
+    background-color: rgba(18, 80, 24, 0.715);
+    border: none;
+    border-radius: 10px;
+    width: 75%;
+    color: white;
+    font-size: 1em;
+    height: 40px;
+
+}
+
+.div-new-task input:hover {
+    outline: 2px solid rgb(0, 255, 0);
+    box-shadow: 1px 1px 20px rgb(68, 255, 47);
+}
+
+
+
+.div-new-task button {
+    margin-left: 10px;
+    box-shadow: 1px 1px 20px rgb(68, 255, 47);
+    background-color: rgba(18, 80, 24, 0.715);
+    border: none;
+    border-radius: 5px;
+    width: 20%;
+    color: white;
+    padding: 10px;
+}
+.div-new-task button:hover {
+    outline: 2px solid rgb(0, 255, 0);
+
+    box-shadow: 1px 1px 20px rgb(68, 255, 47);
+}
+.div-new-task button:focus {
+    outline: 2px solid rgb(0, 255, 0);
+
+    box-shadow: 1px 1px 20px rgb(68, 255, 47);
+}
+
+
+.btn-add-item{
+    margin-left: 10px;
+    box-shadow: 1px 1px 20px rgb(68, 255, 47);
+    background-color: rgba(18, 80, 24, 0.715);
+    border: none;
+    border-radius: 10px;
+    width: 20%;
+    color: white;
+    padding: 10px;
+}
+.btn-add-item:hover {
+    box-shadow: 1px 1px 30px rgb(68, 255, 47);
+    outline: 2px solid rgb(0, 255, 0);
+
+
+}
+
+.btn-add-item:focus {
+    outline: 2px solid rgb(0, 255, 0);
+    box-shadow: 1px 1px 20px rgb(68, 255, 47);
+
+
 }

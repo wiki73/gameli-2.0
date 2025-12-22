@@ -6,7 +6,7 @@ export default function ToDoList() {
   const windowRef = useRef(null);
 
   const [position, setPosition] = useState({
-    x: 450,
+    x: 150,
     y: 100,
   });
 
@@ -62,10 +62,7 @@ export default function ToDoList() {
         left: position.x,
         top: position.y,
         width: "250px",
-        padding: "10px",
-        background: "#fff",
-        border: "2px solid #444",
-        borderRadius: "8px",
+        padding: "0px",
         cursor: "grab",
         userSelect: "none",
         zIndex: 9999,
@@ -80,8 +77,11 @@ export default function ToDoList() {
             </div>
         )}
       </div>
-        <TaskList items={items}/>
-        <button onClick={handleClick}>Добавить</button>
+      <div className="task-list">
+        <TaskList  items={items}/>
+      </div>
+    
+        <button className="btn-add-item" onClick={handleClick}>Добавить</button>
     </div>
   );
 }
@@ -89,7 +89,7 @@ export default function ToDoList() {
 function TaskList({items}) {
 
   return (
-    <ul>
+    <ul style={{listStyle:'none', listStylePosition:'none', padding:'0px'}}>
       {items.map((item, i) => (
         <li key={i}>{i+1} {item}</li>    
       ))}

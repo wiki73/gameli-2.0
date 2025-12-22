@@ -14,6 +14,7 @@ function CenterPanel() {
     return (
         <div className="CenterPanel">
             <div className="level" style={{ border: `5px solid ${color}`, boxShadow: `0 0 20px ${color}, inset 0 0 25px ${color}`}}>{level}</div>
+            <button onClick={() => addExp(100)}>+++</button>
             <img className="img-ang" src={king} alt="King" />
         </div>
     );

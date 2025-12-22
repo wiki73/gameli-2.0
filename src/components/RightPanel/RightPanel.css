@@ -70,3 +70,23 @@
     margin: 0;
     padding: 0;
 } */
+.modal-invent {
+    position: absolute;
+    z-index: 10000;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 600px;
+    height: 400px;
+    background-color: rgba(34, 176, 56, 0.3);
+    box-shadow: 5px 5px 20px rgb(106, 255, 47);
+    border-radius: 6%;
+}
+.modal-invent h2 {
+    margin: 0;
+    margin-top: 10px;
+    font-size: 2em;
+}
+.modal-list {
+    border: 2px solid red;
+}

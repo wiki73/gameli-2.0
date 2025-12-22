@@ -77,26 +77,28 @@ function ModalWindowAddTask({ addGoals }) {
             {open && (
                 <div className="modal-overlay"  onClick={() => setOpen(false)}>
                     <form className="ModalWindowAddTask" onSubmit={handleSubmit} onClick={(e) => e.stopPropagation()} >
-                        <input tabIndex={1} ref={inputRef} type="text" name="description" onFocus={() => isFocusedRef.current = true} onBlur={() => isFocusedRef.current =false}/>
-                        <input 
-                         type="radio"
-                          name="taskSize"
-                           value="little"
-                            defaultChecked
-                             checked={selectedSize === 'little'}
-                              onChange={(e) => setSelectedSize(e.target.value)} /> Мелкая
-                        <input type="radio"
-                         name="taskSize"
-                          value="medium"
-                           checked={selectedSize === 'medium'}
-                            onChange={(e) => setSelectedSize(e.target.value)} /> Средняя
-                        <input 
-                         type="radio" 
-                          name="taskSize"
-                           value="large"
-                           checked={selectedSize === 'large'}
-                            onChange={(e) => setSelectedSize(e.target.value)} /> Большая
-                        <button tabIndex={2} type="submit">Отправить</button>
+                        <input className='text-input' tabIndex={1} ref={inputRef} type="text" name="description" onFocus={() => isFocusedRef.current = true} onBlur={() => isFocusedRef.current =false}/>
+                        <div className='radio-btn'>    
+                            <input 
+                            type="radio"
+                            name="taskSize"
+                            value="little"
+                                defaultChecked
+                                checked={selectedSize === 'little'}
+                                onChange={(e) => setSelectedSize(e.target.value)} /> Мелкая
+                            <input type="radio"
+                            name="taskSize"
+                            value="medium"
+                            checked={selectedSize === 'medium'}
+                                onChange={(e) => setSelectedSize(e.target.value)} /> Средняя
+                            <input 
+                            type="radio" 
+                            name="taskSize"
+                            value="large"
+                            checked={selectedSize === 'large'}
+                                onChange={(e) => setSelectedSize(e.target.value)} /> Большая
+                        </div>
+                        <button className='button-submit' tabIndex={2} type="submit">Отправить</button>
                         <button className="button-close" onClick={() => setOpen(false)}>x</button>
                     </form>
                 </div>
