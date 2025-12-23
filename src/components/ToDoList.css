@@ -13,6 +13,21 @@
     background: linear-gradient(135deg, var(--color-green-bg-hover), var(--color-green-dark));
     padding: var(--spacing-md) var(--spacing-lg);
     border-bottom: 1px solid var(--color-green-border-light);
+
+    display: flex;
+}
+
+.header select {
+    background-color: var(--color-green-dark-md);
+    border: 1px solid var(--color-green-border-med);
+    border-radius: 8px;
+    color: var(--color-white);
+    padding: 4px 8px;
+    font-size: 0.5em !important;
+    /* width: 100px; */
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-left: auto;
 }
 
 .header h3 {

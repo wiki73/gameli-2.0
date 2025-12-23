@@ -1,9 +1,20 @@
 import { useState, useRef, useEffect } from "react";
+import { supabase } from '../supabase';
 import './ToDoList.css';
 
 export default function ToDoList() {
   const windowRef = useRef(null);
   const inputRef = useRef(null);
+
+  const getDateString = (offset) => {
+    const d = new Date();
+    d.setDate(d.getDate() + offset);
+    return d.toLocaleDateString();
+  };
+
+  const today = getDateString(0);
+  const tomorrow = getDateString(1);
+  const yesterday = getDateString(-1);
 
   const [position, setPosition] = useState({
     x: 150,
@@ -12,7 +23,29 @@ export default function ToDoList() {
 
   const [dragging, setDragging] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [selectedDate, setSelectedDate] = useState(today);
 
+  const loadingToDoList = async (date) => {
+    const { data, error } = await supabase
+      .from("tasks")
+      .select('id, title, is_done, time, data')
+      .eq("data", date);
+    if (error) {
+      console.error(error);
+      return;
+    }
+    const mappedData = data.map(item => ({
+      id: item.id,
+      text: item.title,
+      completed: item.is_done,
+      time: item.time,
+      data: item.data
+    }));
+    setItems(mappedData);
+  };
+  useEffect(() => {
+    loadingToDoList(selectedDate);
+  }, [selectedDate])
   const handleMouseDown = (e) => {
     if (e.target.closest('input, button')) return;
     setDragging(true);
@@ -53,15 +86,33 @@ export default function ToDoList() {
     setOpenInput(true);
   };
 
+  const addTaskToDB = async (task) => {
+    const { data, error } = await supabase
+      .from("tasks")
+      .insert([{
+        data: task.data,
+        title: task.text,
+        is_done: task.completed,
+        time: task.time
+      }]);
+    if (error) {
+      console.error(error);
+    }
+  };
+
   const handleAddTask = (text) => {
     const trimmed = text.trim();
     if (!trimmed) return;
-
-    setItems([...items, {
+    const date = new Date();
+    const newItem = {
       id: Date.now(),
+      data: date.toLocaleDateString(),
       text: trimmed,
-      completed: false
-    }]);
+      completed: false,
+      time: 10
+    };
+    setItems([newItem, ...items]);
+    addTaskToDB(newItem);
     setInputText('');
     setOpenInput(false);
   };
@@ -74,6 +125,8 @@ export default function ToDoList() {
       setInputText('');
     }
   };
+
+
 
   const toggleComplete = (id) => {
     setItems(items.map(item =>
@@ -105,7 +158,12 @@ export default function ToDoList() {
       }}
     >
       <div className="header">
-        <h3 onClick={() => {console.log(items)}}>План на день</h3>
+        <h3>План на день</h3>
+        <select value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)} style={{ fontSize: '12px', padding: '4px' }}>
+          <option value={yesterday}>Вчера ({yesterday})</option>
+          <option value={today}>Сегодня ({today})</option>
+          <option value={tomorrow}>Завтра ({tomorrow})</option>
+        </select>
       </div>
 
       {openInput && (
