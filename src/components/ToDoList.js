@@ -5,6 +5,7 @@ import './ToDoList.css';
 export default function ToDoList() {
   const windowRef = useRef(null);
   const inputRef = useRef(null);
+  const topicRef = useRef(null);
 
   const getDateString = (offset) => {
     const d = new Date();
@@ -75,6 +76,7 @@ export default function ToDoList() {
     { id: 3, text: "Задача 3", completed: false }
   ]);
   const [inputText, setInputText] = useState('');
+  const [inputTopic, setInputTopic] = useState('');
 
   useEffect(() => {
     if (openInput && inputRef.current) {
@@ -100,19 +102,21 @@ export default function ToDoList() {
     }
   };
 
-  const handleAddTask = (text) => {
+  const handleAddTask = (text, topic) => {
     const trimmed = text.trim();
     if (!trimmed) return;
     const newItem = {
       id: Date.now(),
       data: selectedDate,
       text: trimmed,
+      topic: topic.trim(), // добавить в бд столбеуц для этого
       completed: false,
       time: 10
     };
     setItems([newItem, ...items]);
     addTaskToDB(newItem);
     setInputText('');
+    setInputTopic('')
     setOpenInput(false);
   };
 
@@ -167,17 +171,27 @@ export default function ToDoList() {
 
       {openInput && (
         <div className="div-new-task">
-          <input
-            ref={inputRef}
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
-            onKeyPress={handleKeyPress}
-            type="text"
-            placeholder="Новая задача..."
-          />
+          <div>
+            <input
+              tabIndex={1}
+              ref={inputRef}
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
+              onKeyPress={handleKeyPress}
+              type="text"
+              placeholder="Новая задача..."
+            />
+           <input className='topic-input' tabIndex={2}
+              ref={topicRef}
+              value={inputTopic}
+              onChange={(e) => setInputTopic(e.target.value)}
+              // onKeyPress={handleKeyPress}
+              type="text"
+              placeholder="Сфера..."></input>
+          </div>
           <button 
             className="btn-ok"
-            onClick={() => handleAddTask(inputText)}
+            onClick={() => handleAddTask(inputText, inputTopic)}
           >
             OK
           </button>

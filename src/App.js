@@ -10,7 +10,7 @@ import { supabase } from './supabase';
 import Login from './components/Login';
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(true);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {

@@ -103,7 +103,7 @@ function ModalWindowAddTask({ addGoals }) {
                                 onChange={(e) => setSelectedSize(e.target.value)} 
                             /> {TASK_SIZE_LABELS[TASK_SIZES.LARGE]}
                         </div>
-                        <button className='button-submit' tabIndex={2} type="submit">Отправить</button>
+                        <button className='button-submit' tabIndex={3} type="submit">Отправить</button>
                         <button className="button-close" onClick={() => setOpen(false)}>x</button>
                     </form>
                 </div>
