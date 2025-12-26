@@ -1,11 +1,15 @@
 .LeftPanelColumn {
     margin-top: 15px;
     padding-right: var(--spacing-sm);
+    margin-bottom: 0px;
+    display: flex;
+    flex-direction: column;
 }
 
 .task-list {
-    max-height: 66vh;
     overflow-y: auto;
+    flex: 1;
+
 }
 
 .task-list::-webkit-scrollbar {

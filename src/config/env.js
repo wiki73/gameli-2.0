@@ -1,3 +1,5 @@
+import { supabase } from '../supabase';
+
 export const supabaseConfig = {
   url: process.env.REACT_APP_SUPABASE_URL,
   key: process.env.REACT_APP_SUPABASE_KEY,

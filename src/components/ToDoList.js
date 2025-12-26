@@ -103,10 +103,9 @@ export default function ToDoList() {
   const handleAddTask = (text) => {
     const trimmed = text.trim();
     if (!trimmed) return;
-    const date = new Date();
     const newItem = {
       id: Date.now(),
-      data: date.toLocaleDateString(),
+      data: selectedDate,
       text: trimmed,
       completed: false,
       time: 10
