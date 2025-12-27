@@ -30,6 +30,7 @@ export default function ToDoList() {
   const [dragging, setDragging] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [selectedDate, setSelectedDate] = useState(today);
+  const [timeXp, setTimeXp] = useState(0);
 
   const loadingToDoList = async (date) => {
     const { data, error } = await supabase
@@ -85,6 +86,8 @@ export default function ToDoList() {
   const [inputTopic, setInputTopic] = useState('');
   const [activeTaskId, setActiveTaskId] = useState(null);
   const [timer, setTimer] = useState(0);
+  const [showFinishModal, setShowFinishModal] = useState(false);
+  const [finalTime, setFinalTime] = useState(0);
 
   useEffect(() => {
     if (openInput && inputRef.current) {
@@ -110,11 +113,38 @@ export default function ToDoList() {
   };
 
   const handleFinishTask = () => {
+    setFinalTime(timer);
+    setShowFinishModal(true);
+  };
+
+  const handleConfirmFinish = async () => {
     if (activeTaskId !== null) {
-      toggleComplete(activeTaskId);
+      const xpGain = getFinishXp(1, finalTime);
+      const task = items.find(i => i.id === activeTaskId);
+      
+      if (task) {
+        addExp(xpGain);
+        
+        const updatedItem = { ...task, completed: true, experience: xpGain };
+        setItems(items.map(item => item.id === activeTaskId ? updatedItem : item));
+        
+        const { error } = await supabase
+          .from("tasks")
+          .update({ is_done: true, experience: xpGain })
+          .eq("id", activeTaskId);
+        
+        if (error) {
+          console.error(error);
+        }
+      }
     }
     setActiveTaskId(null);
     setTimer(0);
+    setShowFinishModal(false);
+  };
+
+  const handleCancelFinish = () => {
+    setShowFinishModal(false);
   };
 
   const formatTime = (seconds) => {
@@ -128,21 +158,7 @@ export default function ToDoList() {
     setOpenInput(true);
   };
 
-  const addTaskToDB = async (task) => {
-    const { data, error } = await supabase
-      .from("tasks")
-      .insert([{
-        data: task.data,
-        title: task.text,
-        topic: task.topic,
-        is_done: task.completed,
-        time: task.time,
-        experience: task.experience || 0
-      }]);
-    if (error) {
-      console.error(error);
-    }
-  };
+
 
   const [previousItems, setPreviousItems] = useState(items);
 
@@ -195,6 +211,21 @@ export default function ToDoList() {
     setOpenInput(false);
   };
 
+  const addTaskToDB = async (task) => {
+    const { data, error } = await supabase
+      .from("tasks")
+      .insert([{
+        data: task.data,
+        title: task.text,
+        topic: task.topic,
+        is_done: task.completed,
+        time: task.time,
+        experience: task.experience || 0
+      }]);
+    if (error) {
+      console.error(error);
+    }
+  };
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       handleAddTask(inputText);
@@ -224,6 +255,14 @@ export default function ToDoList() {
       console.error(error);
     }
   };
+
+  // логика
+  const getFinishXp = (k, time) => {
+      const res = (k * 0.02777) * time;
+      return res;
+    }
+  
+
 
   return (
     <div
@@ -293,6 +332,25 @@ export default function ToDoList() {
               <h2>{items.find(i => i.id === activeTaskId)?.text}</h2>
               <div className="timer">{formatTime(timer)}</div>
               <button className="btn-finish" onClick={handleFinishTask}>
+                Закончить
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showFinishModal && (
+        <div className="active-task-overlay">
+          <div className="active-task-window">
+            <div className="active-task-content">
+              <h2>Время задачи</h2>
+              <div className="timer">{formatTime(finalTime)}</div>
+              <div className="block-topic">
+                <div>Сфера {"Прога"}</div>
+                <div>Коефицент</div>
+                <div>Итоговый опыт {getFinishXp(1, finalTime)}</div>
+              </div>
+              <button className="btn-finish" onClick={handleConfirmFinish}>
                 Закончить
               </button>
             </div>
