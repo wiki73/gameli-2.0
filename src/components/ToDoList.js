@@ -212,8 +212,17 @@ export default function ToDoList() {
     ));
   };
 
-  const deleteTask = (id) => {
+  const deleteTask = async (id) => {
     setItems(items.filter(item => item.id !== id));
+    
+    const { error } = await supabase
+      .from("tasks")
+      .delete()
+      .eq("id", id);
+    
+    if (error) {
+      console.error(error);
+    }
   };
 
   return (
