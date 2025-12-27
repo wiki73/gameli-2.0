@@ -221,3 +221,94 @@
 .btn-add-item:active {
     transform: scale(0.98);
 }
+
+.task-buttons {
+    display: flex;
+    gap: var(--spacing-sm);
+    flex-shrink: 0;
+}
+
+.btn-go {
+    background-color: var(--color-green-bg-strong);
+    border: 1px solid var(--color-green-border-strong2);
+    border-radius: 6px;
+    color: var(--color-white);
+    width: 40px;
+    height: 28px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    font-size: 0.85em;
+}
+
+.btn-go:hover {
+    background-color: var(--color-green-bg-strongest);
+    border-color: var(--color-green-shadow-bright);
+    box-shadow: 0 0 10px var(--color-green-shadow-subtle);
+}
+
+.active-task-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+.active-task-window {
+    position: absolute;
+    background-color: var(--color-green-dark);
+    border: 1px solid var(--color-green-border-bright);
+    border-radius: 16px;
+    box-shadow: var(--shadow-green-modal);
+    min-width: 300px;
+    padding: var(--spacing-lg);
+}
+
+.active-task-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-lg);
+    color: var(--color-white);
+}
+
+.active-task-content h2 {
+    margin: 0;
+    text-align: center;
+    font-size: 1.3em;
+    font-weight: 600;
+    color: var(--color-white-text);
+}
+
+.timer {
+    font-size: 2.5em;
+    font-weight: 700;
+    font-family: 'Courier New', monospace;
+    color: var(--color-green-bright);
+    letter-spacing: 2px;
+}
+
+.btn-finish {
+    background-color: var(--color-green-bg-strong);
+    border: 1px solid var(--color-green-border-strong2);
+    border-radius: 8px;
+    color: var(--color-white);
+    padding: var(--spacing-md) var(--spacing-lg);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1em;
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.btn-finish:hover {
+    background-color: var(--color-green-bg-strongest);
+    border-color: var(--color-green-shadow-bright);
+    box-shadow: 0 0 12px var(--color-green-shadow-subtle);
+}

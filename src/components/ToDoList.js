@@ -1,8 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import { supabase } from '../supabase';
 import './ToDoList.css';
+import { useUser } from "../context";
+
 
 export default function ToDoList() {
+    const { addExp } = useUser();
+
+
   const windowRef = useRef(null);
   const inputRef = useRef(null);
   const topicRef = useRef(null);
@@ -29,7 +34,7 @@ export default function ToDoList() {
   const loadingToDoList = async (date) => {
     const { data, error } = await supabase
       .from("tasks")
-      .select('id, title, is_done, time, data')
+      .select('id, title, is_done, time, data, experience')
       .eq("data", date);
     if (error) {
       console.error(error);
@@ -40,7 +45,8 @@ export default function ToDoList() {
       text: item.title,
       completed: item.is_done,
       time: item.time,
-      data: item.data
+      data: item.data,
+      experience: item.experience || 0
     }));
     setItems(mappedData);
   };
@@ -71,18 +77,52 @@ export default function ToDoList() {
 
   const [openInput, setOpenInput] = useState(false);
   const [items, setItems] = useState([
-    { id: 1, text: "Задача 1", completed: false },
-    { id: 2, text: "Задача 2", completed: false },
-    { id: 3, text: "Задача 3", completed: false }
+    { id: 1, text: "Задача 1", completed: false, experience: 10 },
+    { id: 2, text: "Задача 2", completed: false, experience: 10 },
+    { id: 3, text: "Задача 3", completed: false, experience: 10 }
   ]);
   const [inputText, setInputText] = useState('');
   const [inputTopic, setInputTopic] = useState('');
+  const [activeTaskId, setActiveTaskId] = useState(null);
+  const [timer, setTimer] = useState(0);
 
   useEffect(() => {
     if (openInput && inputRef.current) {
       inputRef.current.focus();
     }
   }, [openInput]);
+
+  useEffect(() => {
+    if (activeTaskId === null) {
+      setTimer(0);
+      return;
+    }
+
+    const interval = setInterval(() => {
+      setTimer(prev => prev + 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [activeTaskId]);
+
+  const handleGoTask = (taskId) => {
+    setActiveTaskId(taskId);
+  };
+
+  const handleFinishTask = () => {
+    if (activeTaskId !== null) {
+      toggleComplete(activeTaskId);
+    }
+    setActiveTaskId(null);
+    setTimer(0);
+  };
+
+  const formatTime = (seconds) => {
+    const hrs = Math.floor(seconds / 3600);
+    const mins = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+    return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
 
   const handleAddClick = () => {
     setOpenInput(true);
@@ -94,13 +134,47 @@ export default function ToDoList() {
       .insert([{
         data: task.data,
         title: task.text,
+        topic: task.topic,
         is_done: task.completed,
-        time: task.time
+        time: task.time,
+        experience: task.experience || 0
       }]);
     if (error) {
       console.error(error);
     }
   };
+
+  const [previousItems, setPreviousItems] = useState(items);
+
+  useEffect(() => {
+    const changedItem = items.find(item => {
+      const prevItem = previousItems.find(p => p.id === item.id);
+      return prevItem && prevItem.completed !== item.completed;
+    });
+
+    if (changedItem) {
+      const prevItem = previousItems.find(p => p.id === changedItem.id);
+      const experienceGain = changedItem.completed ? changedItem.experience : -changedItem.experience;
+      
+      console.log("Чекбокс изменился:", changedItem.id, changedItem.completed, "опыт:", experienceGain);
+      addExp(experienceGain);
+      updateTaskInDB(changedItem.id, changedItem.completed, changedItem.experience);
+    }
+
+    setPreviousItems(items);
+  }, [items]);
+
+  const updateTaskInDB = async (id, completed, experience) => {
+    const { error } = await supabase
+      .from("tasks")
+      .update({ is_done: completed, experience: experience })
+      .eq("id", id);
+    
+    if (error) {
+      console.error(error);
+    }
+  };
+
 
   const handleAddTask = (text, topic) => {
     const trimmed = text.trim();
@@ -109,9 +183,10 @@ export default function ToDoList() {
       id: Date.now(),
       data: selectedDate,
       text: trimmed,
-      topic: topic.trim(), // добавить в бд столбеуц для этого
+      topic: topic.trim(),
       completed: false,
-      time: 10
+      time: 10,
+      experience: 10
     };
     setItems([newItem, ...items]);
     addTaskToDB(newItem);
@@ -199,8 +274,22 @@ export default function ToDoList() {
       )}
 
       <div className="task-list">
-        <TaskList items={items} onToggle={toggleComplete} onDelete={deleteTask} />
+        <TaskList items={items} onToggle={toggleComplete} onDelete={deleteTask} onGo={handleGoTask} />
       </div>
+
+      {activeTaskId !== null && (
+        <div className="active-task-overlay">
+          <div className="active-task-window">
+            <div className="active-task-content">
+              <h2>{items.find(i => i.id === activeTaskId)?.text}</h2>
+              <div className="timer">{formatTime(timer)}</div>
+              <button className="btn-finish" onClick={handleFinishTask}>
+                Закончить
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <button className="btn-add-item" onClick={handleAddClick}>
         + Добавить
@@ -209,7 +298,7 @@ export default function ToDoList() {
   );
 }
 
-function TaskList({ items, onToggle, onDelete }) {
+function TaskList({ items, onToggle, onDelete, onGo }) {
   return (
     <ul className="tasks-ul">
       {items.length === 0 ? (
@@ -226,13 +315,22 @@ function TaskList({ items, onToggle, onDelete }) {
               />
               <span className="task-text">{item.text}</span>
             </label>
-            <button
-              className="btn-delete"
-              onClick={() => onDelete(item.id)}
-              title="Удалить"
-            >
-              ✕
-            </button>
+            <div className="task-buttons">
+              <button
+                className="btn-go"
+                onClick={() => onGo(item.id)}
+                title="Начать"
+              >
+                GO
+              </button>
+              <button
+                className="btn-delete"
+                onClick={() => onDelete(item.id)}
+                title="Удалить"
+              >
+                ✕
+              </button>
+            </div>
           </li>
         ))
       )}
