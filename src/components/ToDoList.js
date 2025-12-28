@@ -259,7 +259,7 @@ export default function ToDoList() {
   // логика
   const getFinishXp = (k, time) => {
       const res = (k * 0.02777) * time;
-      return res;
+      return Math.round(res * 1000) / 1000;
     }
   
 

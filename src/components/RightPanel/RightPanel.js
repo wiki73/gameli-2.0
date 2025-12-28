@@ -21,7 +21,7 @@ function RightPanel() {
     return (
         <div className="RightPanel">
             <div className="state">
-                <button className="state-item">Опыт: {exp}</button>
+                <button className="state-item">Опыт: {Number(exp).toFixed(3)}</button>
                 <button className="state-item">Деньги: {money}</button>
                 <button className="btn state-item" onClick={handleInvent}>Инвентарь</button>
                 <button className="state-item" onClick={handleList}>Послужной список</button>
