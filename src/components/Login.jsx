@@ -1,12 +1,13 @@
 import { useState } from 'react';
 
 import { supabase } from '../supabase';
-
+import { Link, useNavigate } from 'react-router';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const signIn = async () => {
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -18,21 +19,23 @@ export default function Login() {
       setError(error.message);
     } else {
       console.log('Вошёл:', data.user);
+      navigate('/');
     }
   };
 
   return (
     <div>
+      <Link to={'/register'}>Зарегаться</Link>
       <input
         onChange={e => setEmail(e.target.value)}
-        placeholder="email"
+        placeholder='email'
         value={email}
       />
 
       <input
         onChange={e => setPassword(e.target.value)}
-        placeholder="password"
-        type="password"
+        placeholder='password'
+        type='password'
         value={password}
       />
 

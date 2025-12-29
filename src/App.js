@@ -1,12 +1,11 @@
 import React from 'react';
+import { Navigate } from 'react-router';
 
 import CenterPanel from './components/CenterPanel/CenterPanel';
 import LeftPanel from './components/LeftPanel/LeftPanel';
-import Login from './components/Login';
-import Register from './components/Register';
 import RightPanel from './components/RightPanel/RightPanel';
 import ToDoList from './components/ToDoList';
-import { Provider, useUser } from './context';
+import { useUser } from './context';
 
 import './App.css';
 
@@ -14,15 +13,11 @@ const App = () => {
   const { userId } = useUser();
 
   if (!userId) {
-    return (
-      <>
-        <Register />
-        <Login />
-      </>
-    );
+    return <Navigate to='/login' />;
   }
+
   return (
-    <div className="App">
+    <div className='App'>
       <LeftPanel />
       <CenterPanel />
       <RightPanel />
