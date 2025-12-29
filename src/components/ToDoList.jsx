@@ -1,8 +1,10 @@
-import { useState, useRef, useEffect } from "react";
 import { supabase } from '../supabase';
+
+import { useEffect, useRef, useState } from 'react';
+
 import './ToDoList.css';
-import { useUser } from "../context";
-import { api } from "../api";
+import { api } from '../api';
+import { useUser } from '../context';
 
 
 export default function ToDoList() {
@@ -39,18 +41,18 @@ export default function ToDoList() {
 
   useEffect(() => {
     (async () => setDays(await api.getDayListsByUser(userId))
-    )()
-  }, [userId])
+    )();
+  }, [userId]);
 
   useEffect(() => {
 
     setItems([
-      { id: 1, text: "Задача 1", completed: false, experience: 10 },
-      { id: 2, text: "Задача 2", completed: false, experience: 10 },
-      { id: 3, text: "Зада   ча 3", completed: false, experience: 10 }
-    ])
+      { id: 1, text: 'Задача 1', completed: false, experience: 10 },
+      { id: 2, text: 'Задача 2', completed: false, experience: 10 },
+      { id: 3, text: 'Зада   ча 3', completed: false, experience: 10 }
+    ]);
 
-  }, [days])
+  }, [days]);
 
 
 
@@ -72,13 +74,13 @@ export default function ToDoList() {
 
 
 
-const loadingToDoList = async (date) => {
+  const loadingToDoList = async (date) => {
     console.log(date);
     const { data, error } = await supabase
-      .from("tasks")
+      .from('tasks')
       .select('id, title, is_done, time, date, experience')
-      .eq("date", date)
-      .eq("user_id", userId);
+      .eq('date', date)
+      .eq('user_id', userId);
     if (error) {
       console.error(error);
       return;
@@ -95,7 +97,7 @@ const loadingToDoList = async (date) => {
 
   useEffect(() => {
     loadingToDoList(selectedDate);
-  }, [selectedDate])
+  }, [selectedDate]);
   const handleMouseDown = (e) => {
     if (e.target.closest('input, button')) return;
     setDragging(true);
@@ -159,9 +161,9 @@ const loadingToDoList = async (date) => {
         setItems(items.map(item => item.id === activeTaskId ? updatedItem : item));
 
         const { error } = await supabase
-          .from("tasks")
+          .from('tasks')
           .update({ is_done: true, experience: xpGain })
-          .eq("id", activeTaskId);
+          .eq('id', activeTaskId);
 
         if (error) {
           console.error(error);
@@ -202,7 +204,7 @@ const loadingToDoList = async (date) => {
       const prevItem = previousItems.find(p => p.id === changedItem.id);
       const experienceGain = changedItem.completed ? changedItem.experience : -changedItem.experience;
 
-      console.log("Чекбокс изменился:", changedItem.id, changedItem.completed, "опыт:", experienceGain);
+      console.log('Чекбокс изменился:', changedItem.id, changedItem.completed, 'опыт:', experienceGain);
       addExp(experienceGain);
       updateTaskInDB(changedItem.id, changedItem.completed, changedItem.experience);
     }
@@ -212,9 +214,9 @@ const loadingToDoList = async (date) => {
 
   const updateTaskInDB = async (id, completed, experience) => {
     const { error } = await supabase
-      .from("tasks")
+      .from('tasks')
       .update({ is_done: completed, experience: experience })
-      .eq("id", id);
+      .eq('id', id);
 
     if (error) {
       console.error(error);
@@ -237,24 +239,24 @@ const loadingToDoList = async (date) => {
     setItems([newItem, ...items]);
     addTaskToDB(newItem);
     setInputText('');
-    setInputTopic('')
+    setInputTopic('');
     setOpenInput(false);
   };
 
   const getDayListsByUser = async (userId, date) => {
 
     const { data } = await supabase
-      .from("day_lists")
+      .from('day_lists')
       .select('id, date')
       .eq('user_id', userId)
-      .eq('date', new Date(date).toISOString())
+      .eq('date', new Date(date).toISOString());
     console.log({ data, userId });
     return data?.[0];
-  }
+  };
   const addTaskToDB = async (task) => {
     const dayListId = await getDayListsByUser(userId, task.data);
     const { data, error } = await supabase
-      .from("tasks")
+      .from('tasks')
       .insert([{
         date: task.data,
         title: task.text,
@@ -290,9 +292,9 @@ const loadingToDoList = async (date) => {
     setItems(items.filter(item => item.id !== id));
 
     const { error } = await supabase
-      .from("tasks")
+      .from('tasks')
       .delete()
-      .eq("id", id);
+      .eq('id', id);
 
     if (error) {
       console.error(error);
@@ -303,32 +305,32 @@ const loadingToDoList = async (date) => {
   const getFinishXp = (k, time) => {
     const res = (k * 0.02777) * time;
     return Math.round(res * 1000) / 1000;
-  }
+  };
 
 
 
   return (
     <div
       className="ToDoList"
-      ref={windowRef}
       onMouseDown={handleMouseDown}
+      onMouseLeave={handleMouseUp}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseUp}
+      ref={windowRef}
       style={{
-        position: "fixed",
+        position: 'fixed',
         left: position.x,
         top: position.y,
-        width: "280px",
-        padding: "0px",
-        cursor: dragging ? "grabbing" : "grab",
-        userSelect: "none",
+        width: '280px',
+        padding: '0px',
+        cursor: dragging ? 'grabbing' : 'grab',
+        userSelect: 'none',
         zIndex: 9999,
       }}
     >
       <div className="header">
         <h3>План на день</h3>
-        <select value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)} style={{ fontSize: '12px', padding: '4px' }}>
+        <select onChange={(e) => setSelectedDate(e.target.value)} style={{ fontSize: '12px', padding: '4px' }} value={selectedDate}>
           {days?.map(item => (
             <option key={item.id} value={item.date}>{item.date}</option>
           ))}
@@ -338,37 +340,37 @@ const loadingToDoList = async (date) => {
         </select>
       </div>
 
-      {openInput && (
-        <div className="div-new-task">
-          <div>
-            <input
-              tabIndex={1}
-              ref={inputRef}
-              value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
-              onKeyPress={handleKeyPress}
-              type="text"
-              placeholder="Новая задача..."
-            />
-            <input className='topic-input' tabIndex={2}
-              ref={topicRef}
-              value={inputTopic}
-              onChange={(e) => setInputTopic(e.target.value)}
-              // onKeyPress={handleKeyPress}
-              type="text"
-              placeholder="Сфера..."></input>
-          </div>
-          <button
-            className="btn-ok"
-            onClick={() => handleAddTask(inputText, inputTopic)}
-          >
-            OK
-          </button>
+      {openInput ? <div className="div-new-task">
+        <div>
+          <input
+            onChange={(e) => setInputText(e.target.value)}
+            onKeyPress={handleKeyPress}
+            placeholder="Новая задача..."
+            ref={inputRef}
+            tabIndex={1}
+            type="text"
+            value={inputText}
+          />
+          <input
+            className='topic-input' placeholder="Сфера..."
+            ref={topicRef}
+            tabIndex={2}
+            value={inputTopic}
+            onChange={(e) => setInputTopic(e.target.value)}
+            // onKeyPress={handleKeyPress}
+            type="text"
+          />
         </div>
-      )}
+        <button
+          className="btn-ok"
+          onClick={() => handleAddTask(inputText, inputTopic)}
+        >
+          OK
+        </button>
+      </div> : null}
 
       <div className="task-list">
-        <TaskList items={items} onToggle={toggleComplete} onDelete={deleteTask} onGo={handleGoTask} />
+        <TaskList items={items} onDelete={deleteTask} onGo={handleGoTask} onToggle={toggleComplete} />
       </div>
 
       {activeTaskId !== null && (
@@ -385,24 +387,22 @@ const loadingToDoList = async (date) => {
         </div>
       )}
 
-      {showFinishModal && (
-        <div className="active-task-overlay">
-          <div className="active-task-window">
-            <div className="active-task-content">
-              <h2>Время задачи</h2>
-              <div className="timer">{formatTime(finalTime)}</div>
-              <div className="block-topic">
-                <div>Сфера {"Прога"}</div>
-                <div>Коефицент</div>
-                <div>Итоговый опыт {getFinishXp(1, finalTime)}</div>
-              </div>
-              <button className="btn-finish" onClick={handleConfirmFinish}>
-                Закончить
-              </button>
+      {showFinishModal ? <div className="active-task-overlay">
+        <div className="active-task-window">
+          <div className="active-task-content">
+            <h2>Время задачи</h2>
+            <div className="timer">{formatTime(finalTime)}</div>
+            <div className="block-topic">
+              <div>Сфера Прога</div>
+              <div>Коефицент</div>
+              <div>Итоговый опыт {getFinishXp(1, finalTime)}</div>
             </div>
+            <button className="btn-finish" onClick={handleConfirmFinish}>
+              Закончить
+            </button>
           </div>
         </div>
-      )}
+      </div> : null}
 
       <button className="btn-add-item" onClick={handleAddClick}>
         + Добавить
@@ -418,13 +418,13 @@ function TaskList({ items, onToggle, onDelete, onGo }) {
         <li className="empty-state">Нет задач</li>
       ) : (
         items.map((item) => (
-          <li key={item.id} className={`task-item ${item.completed ? 'completed' : ''}`}>
+          <li className={`task-item ${item.completed ? 'completed' : ''}`} key={item.id}>
             <label className="task-label">
               <input
-                type="checkbox"
                 checked={item.completed}
-                onChange={() => onToggle(item.id)}
                 className="task-checkbox"
+                onChange={() => onToggle(item.id)}
+                type="checkbox"
               />
               <span className="task-text">{item.text}</span>
             </label>

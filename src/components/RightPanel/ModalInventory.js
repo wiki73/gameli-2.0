@@ -1,13 +1,13 @@
-import { useEscapeKey } from "../../hooks/useEscapeKey";
+import { useEscapeKey } from '../../hooks/useEscapeKey';
 
-function ModalInventory({ isOpen, onClose }) {
-    useEscapeKey(isOpen, onClose);
+const ModalInventory = ({ isOpen, onClose }) => {
+  useEscapeKey(isOpen, onClose);
 
-    return (
-        <div className="modal-invent">
-            <h2>Инвентарь</h2>
-        </div>
-    );
-}
+  return (
+    <div className="modal-invent">
+      <h2>Инвентарь</h2>
+    </div>
+  );
+};
 
 export default ModalInventory;

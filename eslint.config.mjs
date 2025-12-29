@@ -38,7 +38,6 @@ const config = [
         ecmaFeatures: {
           jsx: true,
         },
-        project: ['tsconfig.json'],
       },
     },
   },
@@ -105,7 +104,7 @@ const config = [
       ],
       'react/jsx-filename-extension': [
         'error',
-        { allow: 'as-needed', extensions: ['.tsx'] },
+        { allow: 'as-needed', extensions: ['.jsx'] },
       ],
       'react/jsx-handler-names': [
         'error',
@@ -135,20 +134,23 @@ const config = [
       'sort-imports': [
         'error',
         {
-          ignoreCase: true,
-          ignoreDeclarationSort: true,
+          ignoreCase: false,
+          ignoreDeclarationSort: false,
+          ignoreMemberSort: false,
+          memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
+          allowSeparatedGroups: false,
         },
       ],
       'import/order': [
         1,
         {
           groups: [
-            'index',
-            'sibling',
-            'parent',
-            'internal',
-            'external',
             'builtin',
+            'external',
+            'internal',
+            'parent',
+            'sibling',
+            'index',
             'object',
             'type',
           ],
@@ -174,7 +176,7 @@ const config = [
     },
   },
   {
-    files: ['app/**/*.tsx'],
+    files: ['src/**/*.jsx'],
     rules: {
       'react/function-component-definition': [
         'error',
@@ -184,7 +186,7 @@ const config = [
     },
   },
   {
-    files: ['**/*.{ts,tsx}'],
+    files: ['**/*.{js,jsx}'],
     rules: {
       'unicorn/filename-case': [
         'error',
@@ -195,7 +197,7 @@ const config = [
     },
   },
   {
-    files: ['hooks/*.ts'],
+    files: ['src/hooks/*.js'],
     rules: {
       'unicorn/filename-case': [
         'error',

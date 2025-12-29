@@ -1,15 +1,17 @@
 import React from 'react';
-import LeftPanel from './components/LeftPanel/LeftPanel';
+
 import CenterPanel from './components/CenterPanel/CenterPanel';
-import RightPanel from './components/RightPanel/RightPanel';
-import { Provider, useUser } from './context';
-import ToDoList from './components/ToDoList';
-import Register from './components/Register';
+import LeftPanel from './components/LeftPanel/LeftPanel';
 import Login from './components/Login';
+import Register from './components/Register';
+import RightPanel from './components/RightPanel/RightPanel';
+import ToDoList from './components/ToDoList';
+import { Provider, useUser } from './context';
+
 import './App.css';
 
-function App() {
-  const { userId } = useUser()
+const App = () => {
+  const { userId } = useUser();
 
   if (!userId) {
     return (
@@ -27,6 +29,6 @@ function App() {
       <ToDoList />
     </div>
   );
-}
+};
 
 export default App;

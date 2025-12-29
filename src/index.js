@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+
 import './index.css';
 import App from './App';
-import { Provider } from "./context";
+import { Provider } from './context';
 
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("/sw.js");
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js');
 }
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

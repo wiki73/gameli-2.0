@@ -1,13 +1,13 @@
-import { useEscapeKey } from "../../hooks/useEscapeKey";
+import { useEscapeKey } from '../../hooks/useEscapeKey';
 
-function ModalList({ isOpen, onClose }) {
-    useEscapeKey(isOpen, onClose);
+const ModalList = ({ isOpen, onClose }) => {
+  useEscapeKey(isOpen, onClose);
 
-    return (
-        <div className="modal-list">
-            List Content
-        </div>
-    );
-}
+  return (
+    <div className="modal-list">
+      List Content
+    </div>
+  );
+};
 
 export default ModalList;
