@@ -9,7 +9,7 @@ export default function ToDoList() {
   const { addExp, userId } = useUser();
   const [dragging, setDragging] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
-  const [selectedDate, setSelectedDate] = useState(Date.now());
+  const [selectedDate, setSelectedDate] = useState(new Date(Date.now()).toISOString());
   const [timeXp, setTimeXp] = useState(0);
   const [days, setDays] = useState([]);
 
@@ -21,7 +21,7 @@ export default function ToDoList() {
   const [timer, setTimer] = useState(0);
   const [showFinishModal, setShowFinishModal] = useState(false);
 
-  
+
   const [finalTime, setFinalTime] = useState(0);
 
 
@@ -45,10 +45,10 @@ export default function ToDoList() {
   useEffect(() => {
 
     setItems([
-    { id: 1, text: "Задача 1", completed: false, experience: 10 },
-    { id: 2, text: "Задача 2", completed: false, experience: 10 },
-    { id: 3, text: "Зада   ча 3", completed: false, experience: 10 }
-  ])
+      { id: 1, text: "Задача 1", completed: false, experience: 10 },
+      { id: 2, text: "Задача 2", completed: false, experience: 10 },
+      { id: 3, text: "Зада   ча 3", completed: false, experience: 10 }
+    ])
 
   }, [days])
 
@@ -72,13 +72,13 @@ export default function ToDoList() {
 
 
 
-  const loadingToDoList = async (date) => {
+const loadingToDoList = async (date) => {
     console.log(date);
     const { data, error } = await supabase
       .from("tasks")
       .select('id, title, is_done, time, date, experience')
-      .eq("date", date);
-      // .eq("user_id", userId);
+      .eq("date", date)
+      .eq("user_id", userId);
     if (error) {
       console.error(error);
       return;
@@ -118,7 +118,7 @@ export default function ToDoList() {
 
   const handleMouseUp = () => setDragging(false);
 
-  
+
   useEffect(() => {
     if (openInput && inputRef.current) {
       inputRef.current.focus();
@@ -208,7 +208,7 @@ export default function ToDoList() {
     }
 
     setPreviousItems(items);
-  }, [items]);
+  }, [addExp, items, previousItems]);
 
   const updateTaskInDB = async (id, completed, experience) => {
     const { error } = await supabase
@@ -228,11 +228,11 @@ export default function ToDoList() {
     const newItem = {
       // id: Date.now(),
       data: selectedDate,
-      title: trimmed,
+      text: trimmed,
       topic: topic.trim(),
       completed: false,
       time: 10,
-      experience: 10  
+      experience: 10
     };
     setItems([newItem, ...items]);
     addTaskToDB(newItem);
@@ -247,7 +247,7 @@ export default function ToDoList() {
       .from("day_lists")
       .select('id, date')
       .eq('user_id', userId)
-      .eq('date', new Date(date))
+      .eq('date', new Date(date).toISOString())
     console.log({ data, userId });
     return data?.[0];
   }
@@ -262,7 +262,8 @@ export default function ToDoList() {
         is_done: task.completed,
         time: task.time,
         experience: task.experience || 0,
-        day_list_id: dayListId
+        user_id: userId
+        // day_list_id: dayListId
       }]);
     if (error) {
       console.error(error);
