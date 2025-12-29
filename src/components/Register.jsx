@@ -31,6 +31,7 @@ export default function Register() {
       ]);
 
       setMessage("Пользователь зарегистрирован успешно!");
+      window.location.reload();
     } catch (err) {
       setMessage("Ошибка при добавлении в users: " + err.message);
     }

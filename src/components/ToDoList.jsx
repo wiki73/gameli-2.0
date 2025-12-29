@@ -2,15 +2,61 @@ import { useState, useRef, useEffect } from "react";
 import { supabase } from '../supabase';
 import './ToDoList.css';
 import { useUser } from "../context";
+import { api } from "../api";
 
 
 export default function ToDoList() {
-    const { addExp } = useUser();
+  const { addExp, userId } = useUser();
+  const [dragging, setDragging] = useState(false);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [selectedDate, setSelectedDate] = useState(Date.now());
+  const [timeXp, setTimeXp] = useState(0);
+  const [days, setDays] = useState([]);
+
+  const [openInput, setOpenInput] = useState(false);
+  const [items, setItems] = useState([]);
+  const [inputText, setInputText] = useState('');
+  const [inputTopic, setInputTopic] = useState('');
+  const [activeTaskId, setActiveTaskId] = useState(null);
+  const [timer, setTimer] = useState(0);
+  const [showFinishModal, setShowFinishModal] = useState(false);
+
+  
+  const [finalTime, setFinalTime] = useState(0);
 
 
   const windowRef = useRef(null);
   const inputRef = useRef(null);
   const topicRef = useRef(null);
+
+
+
+  const [position, setPosition] = useState({
+    x: 150,
+    y: 100,
+  });
+
+
+  useEffect(() => {
+    (async () => setDays(await api.getDayListsByUser(userId))
+    )()
+  }, [userId])
+
+  useEffect(() => {
+
+    setItems([
+    { id: 1, text: "Задача 1", completed: false, experience: 10 },
+    { id: 2, text: "Задача 2", completed: false, experience: 10 },
+    { id: 3, text: "Зада   ча 3", completed: false, experience: 10 }
+  ])
+
+  }, [days])
+
+
+
+
+
+
 
   const getDateString = (offset) => {
     const d = new Date();
@@ -22,35 +68,31 @@ export default function ToDoList() {
   const tomorrow = getDateString(1);
   const yesterday = getDateString(-1);
 
-  const [position, setPosition] = useState({
-    x: 150,
-    y: 100,
-  });
 
-  const [dragging, setDragging] = useState(false);
-  const [offset, setOffset] = useState({ x: 0, y: 0 });
-  const [selectedDate, setSelectedDate] = useState(today);
-  const [timeXp, setTimeXp] = useState(0);
+
+
 
   const loadingToDoList = async (date) => {
+    console.log(date);
     const { data, error } = await supabase
       .from("tasks")
-      .select('id, title, is_done, time, data, experience')
-      .eq("data", date);
+      .select('id, title, is_done, time, date, experience')
+      .eq("date", date);
+      // .eq("user_id", userId);
     if (error) {
       console.error(error);
       return;
     }
     const mappedData = data.map(item => ({
-      id: item.id,
+      ...item,
       text: item.title,
       completed: item.is_done,
-      time: item.time,
-      data: item.data,
       experience: item.experience || 0
     }));
     setItems(mappedData);
   };
+
+
   useEffect(() => {
     loadingToDoList(selectedDate);
   }, [selectedDate])
@@ -76,19 +118,7 @@ export default function ToDoList() {
 
   const handleMouseUp = () => setDragging(false);
 
-  const [openInput, setOpenInput] = useState(false);
-  const [items, setItems] = useState([
-    { id: 1, text: "Задача 1", completed: false, experience: 10 },
-    { id: 2, text: "Задача 2", completed: false, experience: 10 },
-    { id: 3, text: "Задача 3", completed: false, experience: 10 }
-  ]);
-  const [inputText, setInputText] = useState('');
-  const [inputTopic, setInputTopic] = useState('');
-  const [activeTaskId, setActiveTaskId] = useState(null);
-  const [timer, setTimer] = useState(0);
-  const [showFinishModal, setShowFinishModal] = useState(false);
-  const [finalTime, setFinalTime] = useState(0);
-
+  
   useEffect(() => {
     if (openInput && inputRef.current) {
       inputRef.current.focus();
@@ -121,18 +151,18 @@ export default function ToDoList() {
     if (activeTaskId !== null) {
       const xpGain = getFinishXp(1, finalTime);
       const task = items.find(i => i.id === activeTaskId);
-      
+
       if (task) {
         addExp(xpGain);
-        
+
         const updatedItem = { ...task, completed: true, experience: xpGain };
         setItems(items.map(item => item.id === activeTaskId ? updatedItem : item));
-        
+
         const { error } = await supabase
           .from("tasks")
           .update({ is_done: true, experience: xpGain })
           .eq("id", activeTaskId);
-        
+
         if (error) {
           console.error(error);
         }
@@ -171,7 +201,7 @@ export default function ToDoList() {
     if (changedItem) {
       const prevItem = previousItems.find(p => p.id === changedItem.id);
       const experienceGain = changedItem.completed ? changedItem.experience : -changedItem.experience;
-      
+
       console.log("Чекбокс изменился:", changedItem.id, changedItem.completed, "опыт:", experienceGain);
       addExp(experienceGain);
       updateTaskInDB(changedItem.id, changedItem.completed, changedItem.experience);
@@ -185,7 +215,7 @@ export default function ToDoList() {
       .from("tasks")
       .update({ is_done: completed, experience: experience })
       .eq("id", id);
-    
+
     if (error) {
       console.error(error);
     }
@@ -196,13 +226,13 @@ export default function ToDoList() {
     const trimmed = text.trim();
     if (!trimmed) return;
     const newItem = {
-      id: Date.now(),
+      // id: Date.now(),
       data: selectedDate,
-      text: trimmed,
+      title: trimmed,
       topic: topic.trim(),
       completed: false,
       time: 10,
-      experience: 10
+      experience: 10  
     };
     setItems([newItem, ...items]);
     addTaskToDB(newItem);
@@ -211,16 +241,28 @@ export default function ToDoList() {
     setOpenInput(false);
   };
 
+  const getDayListsByUser = async (userId, date) => {
+
+    const { data } = await supabase
+      .from("day_lists")
+      .select('id, date')
+      .eq('user_id', userId)
+      .eq('date', new Date(date))
+    console.log({ data, userId });
+    return data?.[0];
+  }
   const addTaskToDB = async (task) => {
+    const dayListId = await getDayListsByUser(userId, task.data);
     const { data, error } = await supabase
       .from("tasks")
       .insert([{
-        data: task.data,
+        date: task.data,
         title: task.text,
         topic: task.topic,
         is_done: task.completed,
         time: task.time,
-        experience: task.experience || 0
+        experience: task.experience || 0,
+        day_list_id: dayListId
       }]);
     if (error) {
       console.error(error);
@@ -245,12 +287,12 @@ export default function ToDoList() {
 
   const deleteTask = async (id) => {
     setItems(items.filter(item => item.id !== id));
-    
+
     const { error } = await supabase
       .from("tasks")
       .delete()
       .eq("id", id);
-    
+
     if (error) {
       console.error(error);
     }
@@ -258,10 +300,10 @@ export default function ToDoList() {
 
   // логика
   const getFinishXp = (k, time) => {
-      const res = (k * 0.02777) * time;
-      return Math.round(res * 1000) / 1000;
-    }
-  
+    const res = (k * 0.02777) * time;
+    return Math.round(res * 1000) / 1000;
+  }
+
 
 
   return (
@@ -286,9 +328,12 @@ export default function ToDoList() {
       <div className="header">
         <h3>План на день</h3>
         <select value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)} style={{ fontSize: '12px', padding: '4px' }}>
-          <option value={yesterday}>Вчера ({yesterday})</option>
+          {days?.map(item => (
+            <option key={item.id} value={item.date}>{item.date}</option>
+          ))}
+          {/* <option value={yesterday}>Вчера ({yesterday})</option>
           <option value={today}>Сегодня ({today})</option>
-          <option value={tomorrow}>Завтра ({tomorrow})</option>
+          <option value={tomorrow}>Завтра ({tomorrow})</option> */}
         </select>
       </div>
 
@@ -304,7 +349,7 @@ export default function ToDoList() {
               type="text"
               placeholder="Новая задача..."
             />
-           <input className='topic-input' tabIndex={2}
+            <input className='topic-input' tabIndex={2}
               ref={topicRef}
               value={inputTopic}
               onChange={(e) => setInputTopic(e.target.value)}
@@ -312,7 +357,7 @@ export default function ToDoList() {
               type="text"
               placeholder="Сфера..."></input>
           </div>
-          <button 
+          <button
             className="btn-ok"
             onClick={() => handleAddTask(inputText, inputTopic)}
           >
