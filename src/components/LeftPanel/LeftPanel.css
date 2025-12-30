@@ -1,14 +1,12 @@
 .list-goals {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr auto;
-    background-color: var(--color-green-bg);
-    box-shadow: var(--shadow-green-modal);
-    border-radius: 6%;
-    height: 87vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr auto;
+  background-color: var(--color-green-bg);
+  box-shadow: var(--shadow-green-modal);
+  border-radius: 6%;
+  height: 87vh;
 
-    width: 100%;
-    padding: 0 var(--spacing-lg);
+  width: 100%;
+  padding: 0 var(--spacing-lg);
 }
-
-

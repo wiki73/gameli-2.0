@@ -8,7 +8,6 @@ import LeftPanelColumn from './LeftPanelColumn';
 import ModalWindowAddTask from './ModalWindowAddTask';
 import './LeftPanel.css';
 
-
 const LeftPanel = () => {
   const { userId } = useUser();
   const [littleGoals, setLittleGoals] = useState([]);
@@ -25,7 +24,6 @@ const LeftPanel = () => {
         .eq('id', userId);
 
       if (error) {
-        console.error(error);
         return;
       }
 
@@ -51,17 +49,13 @@ const LeftPanel = () => {
   }, [userId]);
 
   const addGoalsOnBd = async (des, size) => {
-    const { data, error } = await supabase
-      .from('goals')
-      .insert([{
+    await supabase.from('goals').insert([
+      {
         id: userId,
         large: size,
-        text: des
-      }]);
-
-    if (error) {
-      console.error(error);
-    }
+        text: des,
+      },
+    ]);
   };
 
   const addGoals = (des, size) => {
@@ -79,13 +73,21 @@ const LeftPanel = () => {
     }
   };
 
-
   return (
-    <div className="LeftPanel">
+    <div className='LeftPanel'>
       <div className='list-goals'>
-        <LeftPanelColumn tasks={littleGoals} title="Короткие" />
-        <LeftPanelColumn tasks={mediumGoals} title="Средние" />
-        <LeftPanelColumn tasks={largeGoals} title="Большие" />
+        <LeftPanelColumn
+          tasks={littleGoals}
+          title='Короткие'
+        />
+        <LeftPanelColumn
+          tasks={mediumGoals}
+          title='Средние'
+        />
+        <LeftPanelColumn
+          tasks={largeGoals}
+          title='Большие'
+        />
       </div>
       <ModalWindowAddTask addGoals={addGoals} />
     </div>

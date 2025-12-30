@@ -8,7 +8,7 @@ export const LEVEL_RANGES = [
   { maxExp: Infinity, level: 10 },
 ];
 
-export const getLevelByExp = (exp) => {
+export const getLevelByExp = exp => {
   for (const range of LEVEL_RANGES) {
     if (exp < range.maxExp) {
       return range.level;

@@ -2,22 +2,19 @@ import { useState } from 'react';
 
 import { supabase } from '../supabase';
 
-
-export default function Login() {
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
 
   const signIn = async () => {
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
     if (error) {
       setError(error.message);
-    } else {
-      console.log('Вошёл:', data.user);
     }
   };
 
@@ -25,20 +22,27 @@ export default function Login() {
     <div>
       <input
         onChange={e => setEmail(e.target.value)}
-        placeholder="email"
+        placeholder='email'
         value={email}
       />
 
       <input
         onChange={e => setPassword(e.target.value)}
-        placeholder="password"
-        type="password"
+        placeholder='password'
+        type='password'
         value={password}
       />
 
-      <button onClick={signIn}>Войти</button>
+      <button
+        onClick={signIn}
+        type='button'
+      >
+        Войти
+      </button>
 
       {error ? <p>{error}</p> : null}
     </div>
   );
-}
+};
+
+export default Login;

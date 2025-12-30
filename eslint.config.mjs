@@ -42,7 +42,6 @@ const config = [
     },
   },
   {
-    ignores: ['components/ui/**/*'],
     rules: {
       'react/react-in-jsx-scope': 'off',
       'react/boolean-prop-naming': 'error',
@@ -100,16 +99,19 @@ const config = [
 
       'react/function-component-definition': [
         'error',
-        { namedComponents: 'arrow-function' },
+        {
+          namedComponents: 'arrow-function',
+          unnamedComponents: 'arrow-function',
+        },
       ],
       'react/jsx-filename-extension': [
         'error',
         { allow: 'as-needed', extensions: ['.jsx'] },
       ],
       'react/jsx-handler-names': [
-        'error',
+        'off',
         {
-          eventHandlerPrefix: 'handle',
+          eventHandlerPrefix: 'on',
           eventHandlerPropPrefix: 'on',
           checkLocalVariables: true,
         },
@@ -134,10 +136,10 @@ const config = [
       'sort-imports': [
         'error',
         {
-          ignoreCase: false,
-          ignoreDeclarationSort: false,
+          ignoreCase: true,
+          ignoreDeclarationSort: true,
           ignoreMemberSort: false,
-          memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
+          memberSyntaxSortOrder: ['all', 'multiple', 'single', 'none'],
           allowSeparatedGroups: false,
         },
       ],
@@ -155,18 +157,6 @@ const config = [
             'type',
           ],
           'newlines-between': 'always-and-inside-groups',
-          alphabetize: {
-            order: 'asc',
-            caseInsensitive: true,
-          },
-        },
-      ],
-      'unicorn/filename-case': [
-        'error',
-        {
-          cases: {
-            kebabCase: true,
-          },
         },
       ],
       indent: ['error', 2],
@@ -180,20 +170,9 @@ const config = [
     rules: {
       'react/function-component-definition': [
         'error',
-        { namedComponents: 'function-declaration' },
+        { namedComponents: 'arrow-function' },
       ],
       'react-refresh/only-export-components': 'off',
-    },
-  },
-  {
-    files: ['**/*.{js,jsx}'],
-    rules: {
-      'unicorn/filename-case': [
-        'error',
-        {
-          case: 'kebabCase',
-        },
-      ],
     },
   },
   {

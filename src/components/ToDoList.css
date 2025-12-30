@@ -1,326 +1,327 @@
 .ToDoList {
-    color: var(--color-white);
-    background-color: var(--color-green-dark);
-    border-radius: 16px;
-    display: flex;
-    flex-direction: column;
-    box-shadow: var(--shadow-green-modal);
-    border: 1px solid var(--color-green-border-bright);
-    overflow: hidden;
+  color: var(--color-white);
+  background-color: var(--color-green-dark);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-green-modal);
+  border: 1px solid var(--color-green-border-bright);
+  overflow: hidden;
 }
 
 .header {
-    background: linear-gradient(135deg, var(--color-green-bg-hover), var(--color-green-dark));
-    padding: var(--spacing-md) var(--spacing-lg);
-    border-bottom: 1px solid var(--color-green-border-light);
+  background: linear-gradient(
+    135deg,
+    var(--color-green-bg-hover),
+    var(--color-green-dark)
+  );
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid var(--color-green-border-light);
 
-    display: flex;
+  display: flex;
 }
 
 .header select {
-    background-color: var(--color-green-dark-md);
-    border: 1px solid var(--color-green-border-med);
-    border-radius: 8px;
-    color: var(--color-white);
-    padding: 4px 8px;
-    font-size: 0.5em !important;
-    /* width: 100px; */
-    cursor: pointer;
-    transition: all 0.2s ease;
-    margin-left: auto;
+  background-color: var(--color-green-dark-md);
+  border: 1px solid var(--color-green-border-med);
+  border-radius: 8px;
+  color: var(--color-white);
+  padding: 4px 8px;
+  font-size: 0.5em !important;
+  /* width: 100px; */
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: auto;
 }
 
 .header h3 {
-    margin: 0;
-    font-size: 1.2em;
-    font-weight: 600;
-    letter-spacing: 0.5px;
+  margin: 0;
+  font-size: 1.2em;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 .task-list {
-    flex: 1;
-    min-height: 100px;
-    max-height: 350px;
-    overflow-y: auto;
-    padding: var(--spacing-md);
+  flex: 1;
+  min-height: 100px;
+  max-height: 350px;
+  overflow-y: auto;
+  padding: var(--spacing-md);
 }
 
 .task-list::-webkit-scrollbar {
-    width: 6px;
+  width: 6px;
 }
 
 .task-list::-webkit-scrollbar-track {
-    background: var(--color-green-shadow-inner);
-    border-radius: 3px;
+  background: var(--color-green-shadow-inner);
+  border-radius: 3px;
 }
 
 .task-list::-webkit-scrollbar-thumb {
-    background: var(--color-green-border-med);
-    border-radius: 3px;
+  background: var(--color-green-border-med);
+  border-radius: 3px;
 }
 
 .task-list::-webkit-scrollbar-thumb:hover {
-    background: var(--color-green-border-strong2);
+  background: var(--color-green-border-strong2);
 }
 
 .tasks-ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-sm);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
 }
 
 .task-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: var(--color-green-input);
-    border: 1px solid var(--color-green-border-bright);
-    border-radius: 10px;
-    padding: var(--spacing-md);
-    transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--color-green-input);
+  border: 1px solid var(--color-green-border-bright);
+  border-radius: 10px;
+  padding: var(--spacing-md);
+  transition: all 0.2s ease;
 }
 
 .task-item:hover {
-    background-color: var(--color-green-input-hover);
-    border-color: var(--color-green-border-strong);
-    box-shadow: inset 0 0 10px var(--color-green-shadow-inner);
+  background-color: var(--color-green-input-hover);
+  border-color: var(--color-green-border-strong);
+  box-shadow: inset 0 0 10px var(--color-green-shadow-inner);
 }
 
 .task-item.completed {
-    opacity: 0.6;
+  opacity: 0.6;
 }
 
 .task-item.completed .task-text {
-    text-decoration: line-through;
-    color: var(--color-white-text-muted);
+  text-decoration: line-through;
+  color: var(--color-white-text-muted);
 }
 
 .task-label {
-    display: flex;
-    align-items: center;
-    flex: 1;
-    cursor: pointer;
-    gap: var(--spacing-md);
+  display: flex;
+  align-items: center;
+  flex: 1;
+  cursor: pointer;
+  gap: var(--spacing-md);
 }
 
 .task-checkbox {
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-    accent-color: var(--color-green-bright);
-    flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--color-green-bright);
+  flex-shrink: 0;
 }
 
 .task-text {
-    font-size: 0.95em;
-    color: var(--color-white-text);
-    word-break: break-word;
-    flex: 1;
+  font-size: 0.95em;
+  color: var(--color-white-text);
+  word-break: break-word;
+  flex: 1;
 }
 
 .empty-state {
-    text-align: center;
-    color: var(--color-white-text-faint);
-    padding: var(--spacing-lg) var(--spacing-md);
-    font-size: 0.9em;
+  text-align: center;
+  color: var(--color-white-text-faint);
+  padding: var(--spacing-lg) var(--spacing-md);
+  font-size: 0.9em;
 }
 
 .btn-delete {
-    background-color: var(--color-red-button);
-    border: 1px solid var(--color-red-border);
-    border-radius: 6px;
-    color: var(--color-red-text);
-    width: 28px;
-    height: 28px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.9em;
+  background-color: var(--color-red-button);
+  border: 1px solid var(--color-red-border);
+  border-radius: 6px;
+  color: var(--color-red-text);
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9em;
 }
 
 .btn-delete:hover {
-    background-color: var(--color-red-button-hover);
-    border-color: var(--color-red-border-hover);
-    color: var(--color-red-text-hover);
-    box-shadow: 0 0 10px var(--color-red-shadow);
+  background-color: var(--color-red-button-hover);
+  border-color: var(--color-red-border-hover);
+  color: var(--color-red-text-hover);
+  box-shadow: 0 0 10px var(--color-red-shadow);
 }
 
 .div-new-task {
-    display: flex;
-    gap: var(--spacing-md);
-    padding: var(--spacing-md);
-    background-color: var(--color-green-input);
-    border-bottom: 1px solid var(--color-green-border-light);
+  display: flex;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  background-color: var(--color-green-input);
+  border-bottom: 1px solid var(--color-green-border-light);
 }
 
 .div-new-task input {
-    flex: 1;
-    background-color: var(--color-green-dark-md);
-    border: 1px solid var(--color-green-border-med);
-    border-radius: 8px;
-    color: var(--color-white);
-    padding: var(--spacing-md);
-    font-size: 0.95em;
-    transition: all 0.2s ease;
+  flex: 1;
+  background-color: var(--color-green-dark-md);
+  border: 1px solid var(--color-green-border-med);
+  border-radius: 8px;
+  color: var(--color-white);
+  padding: var(--spacing-md);
+  font-size: 0.95em;
+  transition: all 0.2s ease;
 }
 
 .div-new-task input::placeholder {
-    color: var(--color-white-text-subtle);
+  color: var(--color-white-text-subtle);
 }
 
 .div-new-task input:focus {
-    outline: none;
-    border-color: var(--color-green-border-strong3);
-    background-color: var(--color-green-dark-lg);
-    box-shadow: inset 0 0 8px var(--color-green-shadow-subtle);
+  outline: none;
+  border-color: var(--color-green-border-strong3);
+  background-color: var(--color-green-dark-lg);
+  box-shadow: inset 0 0 8px var(--color-green-shadow-subtle);
 }
 
 .btn-ok {
-    background-color: var(--color-green-bg-strong);
-    border: 1px solid var(--color-green-border-strong2);
-    border-radius: 8px;
-    color: var(--color-white);
-    padding: var(--spacing-md) var(--spacing-lg);
-    cursor: pointer;
-    font-weight: 500;
-    transition: all 0.2s ease;
-    flex-shrink: 0;
+  background-color: var(--color-green-bg-strong);
+  border: 1px solid var(--color-green-border-strong2);
+  border-radius: 8px;
+  color: var(--color-white);
+  padding: var(--spacing-md) var(--spacing-lg);
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
 }
 
 .btn-ok:hover {
-    background-color: var(--color-green-bg-strongest);
-    border-color: var(--color-green-shadow-bright);
-    box-shadow: 0 0 12px var(--color-green-shadow-subtle);
+  background-color: var(--color-green-bg-strongest);
+  border-color: var(--color-green-shadow-bright);
+  box-shadow: 0 0 12px var(--color-green-shadow-subtle);
 }
 
 .btn-add-item {
-    background-color: var(--color-green-bg);
-    border: 1px solid var(--color-green-border-strong);
-    border-radius: 10px;
-    color: var(--color-white);
-    padding: var(--spacing-md) var(--spacing-lg);
-    margin: var(--spacing-md);
-    cursor: pointer;
-    font-weight: 500;
-    font-size: 0.95em;
-    transition: all 0.2s ease;
+  background-color: var(--color-green-bg);
+  border: 1px solid var(--color-green-border-strong);
+  border-radius: 10px;
+  color: var(--color-white);
+  padding: var(--spacing-md) var(--spacing-lg);
+  margin: var(--spacing-md);
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.95em;
+  transition: all 0.2s ease;
 }
 
 .btn-add-item:hover {
-    background-color: var(--color-green-bg-stronger);
-    border-color: var(--color-green-shadow-bright);
-    box-shadow: var(--shadow-green-modal);
+  background-color: var(--color-green-bg-stronger);
+  border-color: var(--color-green-shadow-bright);
+  box-shadow: var(--shadow-green-modal);
 }
 
 .btn-add-item:active {
-    transform: scale(0.98);
+  transform: scale(0.98);
 }
 
 .task-buttons {
-    display: flex;
-    gap: var(--spacing-sm);
-    flex-shrink: 0;
+  display: flex;
+  gap: var(--spacing-sm);
+  flex-shrink: 0;
 }
 
 .btn-go {
-    background-color: var(--color-green-bg-strong);
-    border: 1px solid var(--color-green-border-strong2);
-    border-radius: 6px;
-    color: var(--color-white);
-    width: 40px;
-    height: 28px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-weight: 500;
-    font-size: 0.85em;
+  background-color: var(--color-green-bg-strong);
+  border: 1px solid var(--color-green-border-strong2);
+  border-radius: 6px;
+  color: var(--color-white);
+  width: 40px;
+  height: 28px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  font-size: 0.85em;
 }
 
 .btn-go:hover {
-    background-color: var(--color-green-bg-strongest);
-    border-color: var(--color-green-shadow-bright);
-    box-shadow: 0 0 10px var(--color-green-shadow-subtle);
+  background-color: var(--color-green-bg-strongest);
+  border-color: var(--color-green-shadow-bright);
+  box-shadow: 0 0 10px var(--color-green-shadow-subtle);
 }
 
 .active-task-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
 }
 
 .active-task-window {
-    position: absolute;
-    background-color: var(--color-green-dark);
-    border: 1px solid var(--color-green-border-bright);
-    border-radius: 16px;
-    box-shadow: var(--shadow-green-modal);
-    min-width: 300px;
-    padding: var(--spacing-lg);
+  position: absolute;
+  background-color: var(--color-green-dark);
+  border: 1px solid var(--color-green-border-bright);
+  border-radius: 16px;
+  box-shadow: var(--shadow-green-modal);
+  min-width: 300px;
+  padding: var(--spacing-lg);
 }
 
 .active-task-content {
-    width: +350px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--spacing-lg);
-    color: var(--color-white);
+  width: +350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-lg);
+  color: var(--color-white);
 }
 
 .active-task-content h2 {
-    margin: 0;
-    text-align: center;
-    font-size: 1.3em;
-    font-weight: 600;
-    color: var(--color-white-text);
+  margin: 0;
+  text-align: center;
+  font-size: 1.3em;
+  font-weight: 600;
+  color: var(--color-white-text);
 }
 
 .timer {
-    font-size: 2.5em;
-    font-weight: 700;
-    font-family: 'Courier New', monospace;
-    color: var(--color-green-bright);
-    letter-spacing: 2px;
+  font-size: 2.5em;
+  font-weight: 700;
+  font-family: 'Courier New', monospace;
+  color: var(--color-green-bright);
+  letter-spacing: 2px;
 }
 
 .btn-finish {
-    background-color: var(--color-green-bg-strong);
-    border: 1px solid var(--color-green-border-strong2);
-    border-radius: 8px;
-    color: var(--color-white);
-    padding: var(--spacing-md) var(--spacing-lg);
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 1em;
-    transition: all 0.2s ease;
-    width: 100%;
+  background-color: var(--color-green-bg-strong);
+  border: 1px solid var(--color-green-border-strong2);
+  border-radius: 8px;
+  color: var(--color-white);
+  padding: var(--spacing-md) var(--spacing-lg);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1em;
+  transition: all 0.2s ease;
+  width: 100%;
 }
 
 .btn-finish:hover {
-    background-color: var(--color-green-bg-strongest);
-    border-color: var(--color-green-shadow-bright);
-    box-shadow: 0 0 12px var(--color-green-shadow-subtle);
+  background-color: var(--color-green-bg-strongest);
+  border-color: var(--color-green-shadow-bright);
+  box-shadow: 0 0 12px var(--color-green-shadow-subtle);
 }
 
-
 .block-topic {
-    display: flex;
+  display: flex;
 }
 
 .block-topic div {
-    margin: 0px 10px;
+  margin: 0px 10px;
 }
-
-

@@ -1,131 +1,128 @@
 .add-modal-window-btn {
-    margin-top: 15px;
-    padding: var(--spacing-md) var(--spacing-lg);
-    border-radius: 20px;
-    background-color: var(--color-green-dark-sm);
-    box-shadow: var(--shadow-green-bright);
-    border: none;
-    width: 280px;
-    color: var(--color-white);
-    font-size: 1em;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
+  margin-top: 15px;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: 20px;
+  background-color: var(--color-green-dark-sm);
+  box-shadow: var(--shadow-green-bright);
+  border: none;
+  width: 280px;
+  color: var(--color-white);
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .add-modal-window-btn:hover {
-    background-color: var(--color-green-bg-hover);
+  background-color: var(--color-green-bg-hover);
 }
 
 .add-modal-window-btn:focus {
-    outline: 2px solid var(--color-green-shadow-text);
+  outline: 2px solid var(--color-green-shadow-text);
 }
 
 .btn {
-    display: flex;
-    justify-content: center;
-    width: 100%;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
 .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: var(--color-modal-overlay);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 999;
+  position: fixed;
+  inset: 0;
+  background: var(--color-modal-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
 }
 
 .ModalWindowAddTask {
-    background-color: var(--color-green-base);
-    border: none;
-    border-radius: 30px;
-    box-shadow: var(--shadow-green-glow);
-    display: flex;
-    flex-direction: column;
-    padding: 50px;
-    color: var(--color-white);
-    font-size: 1.5em;
-    gap: var(--spacing-md);
+  background-color: var(--color-green-base);
+  border: none;
+  border-radius: 30px;
+  box-shadow: var(--shadow-green-glow);
+  display: flex;
+  flex-direction: column;
+  padding: 50px;
+  color: var(--color-white);
+  font-size: 1.5em;
+  gap: var(--spacing-md);
 }
 
 .text-input {
-    font-size: 1.2em;
-    color: var(--color-white);
-    border: 1px solid var(--color-green-bg-hover);
-    border-radius: 10px;
-    background-color: var(--color-green-base-dark);
-    padding: var(--spacing-sm);
-    transition: outline 0.2s ease;
-
+  font-size: 1.2em;
+  color: var(--color-white);
+  border: 1px solid var(--color-green-bg-hover);
+  border-radius: 10px;
+  background-color: var(--color-green-base-dark);
+  padding: var(--spacing-sm);
+  transition: outline 0.2s ease;
 }
 
 .text-input:focus {
-    outline: 4px solid var(--color-green-shadow-text-bright);
+  outline: 4px solid var(--color-green-shadow-text-bright);
 }
 
-
 .radio-btn {
-    display: grid;
-    align-items: center;
-    grid-template-columns: repeat(6, 1fr);
-    gap: var(--spacing-md);
-    margin: var(--spacing-lg);
+  display: grid;
+  align-items: center;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--spacing-md);
+  margin: var(--spacing-lg);
 }
 
 .radio-btn label {
-    color: var(--color-white);
-    cursor: pointer;
+  color: var(--color-white);
+  cursor: pointer;
 }
 
-.radio-btn input[type="radio"] {
-    outline: none;
-    transform: scale(1.2);
-    cursor: pointer;
-    transition: transform 0.2s ease;
+.radio-btn input[type='radio'] {
+  outline: none;
+  transform: scale(1.2);
+  cursor: pointer;
+  transition: transform 0.2s ease;
 }
 
-.radio-btn input[type="radio"]:checked {
-    accent-color: var(--color-green-light);
-    box-shadow: 0 0 10px var(--color-green-light);
-    transform: scale(1.7);
+.radio-btn input[type='radio']:checked {
+  accent-color: var(--color-green-light);
+  box-shadow: 0 0 10px var(--color-green-light);
+  transform: scale(1.7);
 }
 
 .button-submit {
-    font-size: 1.2em;
-    color: var(--color-white);
-    background-color: var(--color-green-base);
-    border: 2px solid var(--color-green-border-button);
-    border-radius: 10px;
-    padding: var(--spacing-md) var(--spacing-lg);
-    cursor: pointer;
-    transition: border-color 0.2s ease;
+  font-size: 1.2em;
+  color: var(--color-white);
+  background-color: var(--color-green-base);
+  border: 2px solid var(--color-green-border-button);
+  border-radius: 10px;
+  padding: var(--spacing-md) var(--spacing-lg);
+  cursor: pointer;
+  transition: border-color 0.2s ease;
 }
 
 .button-submit:hover {
-    border-color: var(--color-green-shadow-text-bright);
-    background-color: var(--color-green-bg-hover);
-
+  border-color: var(--color-green-shadow-text-bright);
+  background-color: var(--color-green-bg-hover);
 }
 
 .button-submit:focus {
-    outline: none;
-    border: 3px solid var(--color-green-shadow-text-bright);
+  outline: none;
+  border: 3px solid var(--color-green-shadow-text-bright);
 }
 
 .button-close {
-    color: var(--color-white);
-    position: absolute;
-    top: var(--spacing-md);
-    right: var(--spacing-lg);
-    background: transparent;
-    border: none;
-    font-size: 20px;
-    line-height: 1;
-    cursor: pointer;
-    transition: opacity 0.2s ease;
+  color: var(--color-white);
+  position: absolute;
+  top: var(--spacing-md);
+  right: var(--spacing-lg);
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
 }
 
 .button-close:hover {
-    opacity: 0.7;
+  opacity: 0.7;
 }

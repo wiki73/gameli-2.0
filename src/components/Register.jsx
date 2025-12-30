@@ -2,8 +2,7 @@ import { useState } from 'react';
 
 import { supabase } from '../supabase';
 
-
-export default function Register() {
+const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
@@ -43,24 +42,31 @@ export default function Register() {
     <div>
       <h2>Регистрация</h2>
       <input
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Имя"
+        onChange={e => setName(e.target.value)}
+        placeholder='Имя'
         value={name}
       />
       <input
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Email"
+        onChange={e => setEmail(e.target.value)}
+        placeholder='Email'
         value={email}
       />
       <input
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Пароль"
-        type="password"
+        onChange={e => setPassword(e.target.value)}
+        placeholder='Пароль'
+        type='password'
         value={password}
       />
-      <button onClick={signUp}>Зарегистрироваться</button>
+      <button
+        onClick={signUp}
+        type='button'
+      >
+        Зарегистрироваться
+      </button>
 
       {message ? <p>{message}</p> : null}
     </div>
   );
-}
+};
+
+export default Register;

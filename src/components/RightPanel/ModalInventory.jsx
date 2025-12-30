@@ -4,7 +4,7 @@ const ModalInventory = ({ isOpen, onClose }) => {
   useEscapeKey(isOpen, onClose);
 
   return (
-    <div className="modal-invent">
+    <div className='modal-invent'>
       <h2>Инвентарь</h2>
     </div>
   );

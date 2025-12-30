@@ -6,8 +6,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import RightPanel from './components/RightPanel/RightPanel';
 import ToDoList from './components/ToDoList';
-import { Provider, useUser } from './context';
-
+import { useUser } from './context';
 import './App.css';
 
 const App = () => {
@@ -22,7 +21,7 @@ const App = () => {
     );
   }
   return (
-    <div className="App">
+    <div className='App'>
       <LeftPanel />
       <CenterPanel />
       <RightPanel />
