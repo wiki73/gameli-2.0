@@ -1,6 +1,5 @@
 import React from 'react';
 import { Navigate } from 'react-router';
-
 import CenterPanel from './components/CenterPanel/CenterPanel';
 import LeftPanel from './components/LeftPanel/LeftPanel';
 import RightPanel from './components/RightPanel/RightPanel';

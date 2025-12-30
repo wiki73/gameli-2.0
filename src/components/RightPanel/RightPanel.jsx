@@ -1,11 +1,9 @@
 import { useState } from 'react';
-
-import './RightPanel.css';
 import { useUser } from '../../context';
-
 import ModalInventory from './ModalInventory';
 import ModalList from './ModalList';
 import RightPanelLevel from './RightPanelLevel';
+import './RightPanel.css';
 
 const RightPanel = () => {
   const { exp, money } = useUser();

@@ -22,7 +22,7 @@ const config = [
     },
   },
   {
-    ignores: ['.next', 'node_modules', '**/*.d.ts', '**/*.config.*'],
+    ignores: ['node_modules', '**/*.config.*'],
   },
   pluginJs.configs.recommended,
   {
@@ -43,7 +43,6 @@ const config = [
   },
   {
     rules: {
-      'react/react-in-jsx-scope': 'off',
       'react/boolean-prop-naming': 'error',
       'react/button-has-type': 'error',
       'react/checked-requires-onchange-or-readonly': 'error',
@@ -88,7 +87,6 @@ const config = [
       'react/sort-prop-types': 'error',
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'error',
-
       'import/export': 'error',
       'import/no-empty-named-blocks': 'error',
       'import/no-extraneous-dependencies': 'error',
@@ -96,7 +94,6 @@ const config = [
       'import/no-amd': 'error',
       'import/no-commonjs': 'error',
       'import/no-cycle': 'error',
-
       'react/function-component-definition': [
         'error',
         {
@@ -127,12 +124,6 @@ const config = [
         'warn',
         { allowConstantExport: true },
       ],
-      'no-restricted-imports': [
-        'error',
-        {
-          patterns: ['!@/*'],
-        },
-      ],
       'sort-imports': [
         'error',
         {
@@ -156,23 +147,13 @@ const config = [
             'object',
             'type',
           ],
-          'newlines-between': 'always-and-inside-groups',
+          'newlines-between': 'never',
         },
       ],
       indent: ['error', 2],
       quotes: ['error', 'single'],
       semi: ['error', 'always'],
       'no-console': 'warn',
-    },
-  },
-  {
-    files: ['src/**/*.jsx'],
-    rules: {
-      'react/function-component-definition': [
-        'error',
-        { namedComponents: 'arrow-function' },
-      ],
-      'react-refresh/only-export-components': 'off',
     },
   },
   {

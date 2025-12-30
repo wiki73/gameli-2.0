@@ -1,9 +1,6 @@
 import { useState } from 'react';
-
 import { Link, useNavigate } from 'react-router';
-
 import { supabase } from '../supabase';
-
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -26,7 +23,7 @@ const Login = () => {
 
   return (
     <div>
-      <Link to="/register">Зарегаться</Link>
+      <Link to='/register'>Зарегаться</Link>
       <input
         onChange={e => setEmail(e.target.value)}
         placeholder='email'

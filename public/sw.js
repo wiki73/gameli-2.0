@@ -1,5 +1,3 @@
-/* eslint-env serviceworker */
-
 const CACHE_NAME = 'v1';
 const URLS = ['/', '/index.html'];
 

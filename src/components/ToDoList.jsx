@@ -1,7 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-
 import { api } from '../api';
-
 import { useUser } from '../context';
 import { supabase } from '../supabase';
 import './ToDoList.css';

@@ -2,7 +2,6 @@ import './CenterPanel.css';
 
 import { getColorByLevel } from '../../constants/colors';
 import { useUser } from '../../context';
-
 import king from './king.png';
 
 const CenterPanel = () => {

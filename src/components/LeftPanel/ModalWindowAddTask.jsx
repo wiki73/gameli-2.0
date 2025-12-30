@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-
 import './ModalWindowAddTask.css';
 import { TASK_SIZE_LABELS, TASK_SIZES } from '../../constants/taskSizes';
 

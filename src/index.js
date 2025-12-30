@@ -1,15 +1,11 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
-
 import ReactDOM from 'react-dom/client';
-
-import App from './App';
-
-import { Provider } from './context';
 import { BrowserRouter, Route, Routes } from 'react-router';
+import App from './App';
+import { Provider } from './context';
 import Login from './components/Login';
 import Register from './components/Register';
-import './index.css';
 
 import './index.css';
 
@@ -23,16 +19,16 @@ root.render(
       <BrowserRouter>
         <Routes>
           <Route
-            path='/'
             element={<App />}
+            path='/'
           />
           <Route
-            path='/register'
             element={<Register />}
+            path='/register'
           />
           <Route
-            path='/login'
             element={<Login />}
+            path='/login'
           />
         </Routes>
       </BrowserRouter>

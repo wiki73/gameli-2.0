@@ -19,7 +19,11 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "code:fix": "eslint --fix && prettier --write ."
+    "lint": "eslint . --ext .js,.mjs,.jsx,.ts,.tsx --cache --cache-strategy content --cache-location .eslintcache",
+    "lint:fix": "eslint . --ext .js,.mjs,.jsx,.ts,.tsx --fix --cache --cache-strategy content --cache-location .eslintcache",
+    "prettier": "prettier . \"**/*.{js,mjs,json,yml,css}\" --check --cache --cache-strategy=content --cache-location=.prettiercache",
+    "prettier:fix": "prettier . \"**/*.{js,mjs,json,yml,css}\" --write --cache --cache-strategy=content --cache-location=.prettiercache",
+    "format": "npm run lint:fix && npm run prettier:fix"
   },
   "browserslist": {
     "production": [
