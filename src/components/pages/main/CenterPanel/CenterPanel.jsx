@@ -1,8 +1,7 @@
-import './CenterPanel.css';
-
-import { getColorByLevel } from '../../constants/colors';
-import { useUser } from '../../context';
+import { getColorByLevel } from '../../../../constants/colors';
+import { useUser } from '../../../../contexts/context';
 import king from './king.png';
+import './CenterPanel.css';
 
 const CenterPanel = () => {
   const { level, addExp } = useUser();

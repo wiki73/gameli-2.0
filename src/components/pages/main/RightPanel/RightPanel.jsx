@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useUser } from '../../context';
+import { useUser } from '../../../../contexts/context';
 import ModalInventory from './ModalInventory';
 import ModalList from './ModalList';
 import RightPanelLevel from './RightPanelLevel';

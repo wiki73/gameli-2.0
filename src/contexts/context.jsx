@@ -6,8 +6,8 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { getLevelByExp as calculateLevelByExp } from './constants/levelRanges';
-import { supabase } from './supabase';
+import { getLevelByExp as calculateLevelByExp } from '../constants/levelRanges';
+import { supabase } from '../supabase';
 
 const Context = createContext();
 

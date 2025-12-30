@@ -1,11 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { api } from '../api';
-import { useUser } from '../context';
-import { supabase } from '../supabase';
+import { api } from '../../../api';
+import { useUser } from '../../../contexts/context';
+import { supabase } from '../../../supabase';
+import { useAuth } from '../../../contexts/auth-context';
 import './ToDoList.css';
 
 const ToDoList = () => {
-  const { addExp, userId } = useUser();
+  const { addExp } = useUser();
+  const {
+    user: { id: userId },
+  } = useAuth();
   const [dragging, setDragging] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [selectedDate, setSelectedDate] = useState(

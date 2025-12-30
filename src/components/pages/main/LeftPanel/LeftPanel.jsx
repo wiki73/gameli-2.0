@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { DB_TASK_SIZES, TASK_SIZES } from '../../constants/taskSizes';
-import { useUser } from '../../context';
-import { supabase } from '../../supabase';
+import { DB_TASK_SIZES, TASK_SIZES } from '../../../../constants/taskSizes';
+import { useUser } from '../../../../contexts/context';
+import { supabase } from '../../../../supabase';
 import LeftPanelColumn from './LeftPanelColumn';
 import ModalWindowAddTask from './ModalWindowAddTask';
 import './LeftPanel.css';
