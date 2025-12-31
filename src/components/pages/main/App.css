@@ -1,9 +1,16 @@
 .App {
   text-align: center;
   display: grid;
-  grid-template-columns: 35% 40% 25%;
-  height: 98vh;
-  padding: 1vh;
-  background-image: url('/public/images/background.jpg');
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto auto;
   background-size: contain;
+  height: 100%;
+  width: 100%;
+  padding: 12px;
+
+  @media (min-width: 768px) {
+    padding: 24px;
+    grid-template-columns: 35% 40% 25%;
+    grid-template-rows: 1fr;
+  }
 }
