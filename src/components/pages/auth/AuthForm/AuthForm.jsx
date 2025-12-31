@@ -48,46 +48,59 @@ export const AuthForm = () => {
   };
 
   const handleRegister = async () => {
-    const { data, error } = await supabase.auth.signUp({
+    const { data, error: errorSignUp } = await supabase.auth.signUp({
       email: formData.email,
       password: formData.password,
     });
 
-    if (error) {
-      setError(error.message);
+    if (errorSignUp) {
+      setError(errorSignUp.message);
       return;
     }
-    await supabase.from('users').insert([
-      {
-        id: data?.user?.id,
-        name: formData.name.trim() || 'Без имени',
-        exp: 0,
-        money: 0,
-        level: 0,
-      },
-    ]);
+
+    const { data: userData, error: errorInsert } = await supabase
+      .from('users')
+      .insert([
+        {
+          id: data?.user?.id,
+          name: formData.name.trim() || 'Без имени',
+          exp: 0,
+          money: 0,
+          level: 0,
+        },
+      ]);
+
+    if (errorInsert) {
+      setError(errorInsert.message);
+      return;
+    }
+
     handleUpdateUser({
-      id: data?.user?.id,
-      name: formData.name.trim() || 'Без имени',
-      exp: 0,
-      money: 0,
-      level: 0,
+      id: userData?.id,
+      name: userData?.name || formData.name.trim() || 'Без имени',
+      exp: userData?.exp || 0,
+      money: userData?.money || 0,
+      level: userData?.level || 0,
     });
   };
 
   const handleLogin = async () => {
     const {
       data: { user },
-      error,
+      error: errorLogin,
     } = await supabase.auth.signInWithPassword({
       email: formData.email,
       password: formData.password,
     });
 
-    const { data } = await api.getUserById(user?.id);
-
-    if (error) {
+    if (errorLogin) {
       setError(error.message);
+      return;
+    }
+    const { data, error: errorGetUser } = await api.getUserById(user?.id);
+
+    if (errorGetUser) {
+      setError(errorGetUser.message);
       return;
     }
 
