@@ -1,11 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { api } from '../api';
-import { useUser } from '../context';
-import { supabase } from '../supabase';
+import { api } from '../../../api';
+import { useAuth } from '../../../contexts/auth-context';
+import { supabase } from '../../../supabase';
 import './ToDoList.css';
 
 const ToDoList = () => {
-  const { addExp, userId } = useUser();
+  const {
+    handleUpdateUser,
+    user: { id: userId, exp },
+  } = useAuth();
   const [dragging, setDragging] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [selectedDate, setSelectedDate] = useState(
@@ -36,15 +39,6 @@ const ToDoList = () => {
     (async () => setDays(await api.getDayListsByUser(userId)))();
   }, [userId]);
 
-  useEffect(() => {
-    setItems([
-      { id: 1, text: 'Задача 1', completed: false, experience: 10 },
-      { id: 2, text: 'Задача 2', completed: false, experience: 10 },
-      { id: 3, text: 'Зада   ча 3', completed: false, experience: 10 },
-    ]);
-  }, [days]);
-
-  // useCollback
   const loadingToDoList = useCallback(
     async date => {
       const { data, error } = await supabase
@@ -52,16 +46,19 @@ const ToDoList = () => {
         .select('id, title, is_done, time, date, experience')
         .eq('date', date)
         .eq('user_id', userId);
+
       if (error) {
         return;
       }
-      const mappedData = data.map(item => ({
-        ...item,
-        text: item.title,
-        completed: item.is_done,
-        experience: item.experience || 0,
-      }));
-      setItems(mappedData);
+
+      setItems(
+        data.map(item => ({
+          ...item,
+          text: item.title,
+          completed: item.is_done,
+          experience: item.experience || 0,
+        })),
+      );
     },
     [userId],
   );
@@ -125,7 +122,7 @@ const ToDoList = () => {
       const task = items.find(i => i.id === activeTaskId);
 
       if (task) {
-        addExp(xpGain);
+        handleUpdateUser({ exp: exp + xpGain });
 
         const updatedItem = { ...task, completed: true, experience: xpGain };
         setItems(
@@ -142,10 +139,6 @@ const ToDoList = () => {
     setTimer(0);
     setShowFinishModal(false);
   };
-
-  // const handleCancelFinish = () => {
-  //   setShowFinishModal(false);
-  // };
 
   const formatTime = seconds => {
     const hrs = Math.floor(seconds / 3600);
@@ -167,12 +160,11 @@ const ToDoList = () => {
     });
 
     if (changedItem) {
-      // const prevItem = previousItems.find(p => p.id === changedItem.id);
       const experienceGain = changedItem.completed
         ? changedItem.experience
         : -changedItem.experience;
 
-      addExp(experienceGain);
+      handleUpdateUser({ exp: exp + experienceGain });
       updateTaskInDB(
         changedItem.id,
         changedItem.completed,
@@ -181,7 +173,7 @@ const ToDoList = () => {
     }
 
     setPreviousItems(items);
-  }, [addExp, items, previousItems]);
+  }, [handleUpdateUser, items, previousItems, exp]);
 
   const updateTaskInDB = async (id, completed, experience) => {
     await supabase
@@ -194,7 +186,6 @@ const ToDoList = () => {
     const trimmed = text.trim();
     if (!trimmed) return;
     const newItem = {
-      // id: Date.now(),
       data: selectedDate,
       text: trimmed,
       topic: topic.trim(),
@@ -209,17 +200,7 @@ const ToDoList = () => {
     setOpenInput(false);
   };
 
-  // const getDayListsByUser = async (userId, date) => {
-  //   const { data } = await supabase
-  //     .from('day_lists')
-  //     .select('id, date')
-  //     .eq('user_id', userId)
-  //     .eq('date', new Date(date).toISOString());
-  //   console.log({ data, userId });
-  //   return data?.[0];
-  // };
   const addTaskToDB = async task => {
-    // const dayListId = await getDayListsByUser(userId, task.data);
     await supabase.from('tasks').insert([
       {
         date: task.data,
@@ -229,7 +210,6 @@ const ToDoList = () => {
         time: task.time,
         experience: task.experience || 0,
         user_id: userId,
-        // day_list_id: dayListId
       },
     ]);
   };
@@ -256,7 +236,6 @@ const ToDoList = () => {
     await supabase.from('tasks').delete().eq('id', id);
   };
 
-  // логика
   const getFinishXp = (k, time) => {
     const res = k * 0.02777 * time;
     return Math.round(res * 1000) / 1000;
@@ -269,6 +248,10 @@ const ToDoList = () => {
       onMouseLeave={handleMouseUp}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
+      onPointerDown={handleMouseDown}
+      onPointerLeave={handleMouseUp}
+      onPointerMove={handleMouseMove}
+      onPointerUp={handleMouseUp}
       ref={windowRef}
       style={{
         position: 'fixed',
@@ -296,9 +279,6 @@ const ToDoList = () => {
               {item.date}
             </option>
           ))}
-          {/* <option value={yesterday}>Вчера ({yesterday})</option>
-          <option value={today}>Сегодня ({today})</option>
-          <option value={tomorrow}>Завтра ({tomorrow})</option> */}
         </select>
       </div>
 
@@ -322,7 +302,6 @@ const ToDoList = () => {
               tabIndex={2}
               type='text'
               value={inputTopic}
-              // onKeyPress={handleKeyPress}
             />
           </div>
           <button

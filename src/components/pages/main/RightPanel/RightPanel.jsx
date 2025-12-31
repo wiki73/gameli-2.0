@@ -1,12 +1,14 @@
 import { useState } from 'react';
-import { useUser } from '../../context';
+import { useAuth } from '../../../../contexts/auth-context';
 import ModalInventory from './ModalInventory';
 import ModalList from './ModalList';
 import RightPanelLevel from './RightPanelLevel';
 import './RightPanel.css';
 
 const RightPanel = () => {
-  const { exp, money } = useUser();
+  const {
+    user: { exp, money },
+  } = useAuth();
   const [openModalWindowInvent, setOpenModalWindowInvent] = useState(false);
   const [openModalWindowList, setOpenModalWindowList] = useState(false);
 

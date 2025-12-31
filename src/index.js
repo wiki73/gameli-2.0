@@ -2,11 +2,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router';
-import App from './App';
-import { Provider } from './context';
-import Login from './components/Login';
-import Register from './components/Register';
-
+import App from './components/pages/main/App';
+import { AuthPage } from './components/pages/auth/AuthPage';
+import { AuthProvider } from './contexts/auth-context/provider';
+import { ROUTES } from './constants/routes';
 import './index.css';
 
 if ('serviceWorker' in navigator) {
@@ -15,23 +14,21 @@ if ('serviceWorker' in navigator) {
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Provider>
+    <AuthProvider>
       <BrowserRouter>
-        <Routes>
-          <Route
-            element={<App />}
-            path='/'
-          />
-          <Route
-            element={<Register />}
-            path='/register'
-          />
-          <Route
-            element={<Login />}
-            path='/login'
-          />
-        </Routes>
+        <main>
+          <Routes>
+            <Route
+              element={<App />}
+              path={ROUTES.MAIN}
+            />
+            <Route
+              element={<AuthPage />}
+              path={ROUTES.AUTH}
+            />
+          </Routes>
+        </main>
       </BrowserRouter>
-    </Provider>
+    </AuthProvider>
   </React.StrictMode>,
 );

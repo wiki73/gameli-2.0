@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import { TASK_SIZE_LABELS, TASK_SIZES } from '../../../../constants/taskSizes';
 import './ModalWindowAddTask.css';
-import { TASK_SIZE_LABELS, TASK_SIZES } from '../../constants/taskSizes';
 
 const ModalWindowAddTask = ({ addGoals }) => {
   const [open, setOpen] = useState(false);

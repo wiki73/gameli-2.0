@@ -1,11 +1,13 @@
+import { getColorByLevel } from '../../../../constants/colors';
+import { useAuth } from '../../../../contexts/auth-context';
+import king from './king.png';
 import './CenterPanel.css';
 
-import { getColorByLevel } from '../../constants/colors';
-import { useUser } from '../../context';
-import king from './king.png';
-
 const CenterPanel = () => {
-  const { level, addExp } = useUser();
+  const {
+    user: { level, exp },
+    handleUpdateUser,
+  } = useAuth();
   const color = getColorByLevel(level);
 
   return (
@@ -20,7 +22,7 @@ const CenterPanel = () => {
         {level}
       </div>
       <button
-        onClick={() => addExp(100)}
+        onClick={() => handleUpdateUser({ exp: exp + 100 })}
         type='button'
       >
         +++

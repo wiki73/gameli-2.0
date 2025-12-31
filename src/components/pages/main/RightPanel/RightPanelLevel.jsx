@@ -1,5 +1,5 @@
 import './RightPanel.css';
-import { getColorBySubjectLevel } from '../../constants/colors';
+import { getColorBySubjectLevel } from '../../../../constants/colors';
 
 const RightPanelLevel = ({ level, subject }) => {
   const color = getColorBySubjectLevel(level);

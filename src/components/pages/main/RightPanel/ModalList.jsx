@@ -1,4 +1,4 @@
-import { useEscapeKey } from '../../hooks/useEscapeKey';
+import { useEscapeKey } from '../../../../hooks/useEscapeKey';
 
 const ModalList = ({ isOpen, onClose }) => {
   useEscapeKey(isOpen, onClose);

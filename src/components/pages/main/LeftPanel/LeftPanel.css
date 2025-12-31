@@ -4,9 +4,9 @@
   grid-template-rows: 1fr auto;
   background-color: var(--color-green-bg);
   box-shadow: var(--shadow-green-modal);
-  border-radius: 6%;
+  border-radius: 24px;
   height: 87vh;
 
   width: 100%;
-  padding: 0 var(--spacing-lg);
+  padding: 12px;
 }

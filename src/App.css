@@ -1,9 +1,0 @@
-.App {
-  text-align: center;
-  display: grid;
-  grid-template-columns: 35% 40% 25%;
-  height: 98vh;
-  padding: 1vh;
-  background-image: url('./photo_2025-12-14_23-16-40.jpg');
-  background-size: contain;
-}
