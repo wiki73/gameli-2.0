@@ -40,4 +40,12 @@ const getDayListsByUser = async userId => {
 const getUserById = async userId =>
   await supabase.from('users').select('*').eq('id', userId).single();
 
-export const api = { getTasksByListId, getDayListsByUser, getUserById };
+const updateUser = async (userId, data) =>
+  await supabase.from('users').update(data).eq('id', userId);
+
+export const api = {
+  getTasksByListId,
+  getDayListsByUser,
+  getUserById,
+  updateUser,
+};

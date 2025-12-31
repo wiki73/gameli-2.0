@@ -248,6 +248,10 @@ const ToDoList = () => {
       onMouseLeave={handleMouseUp}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
+      onPointerDown={handleMouseDown}
+      onPointerLeave={handleMouseUp}
+      onPointerMove={handleMouseMove}
+      onPointerUp={handleMouseUp}
       ref={windowRef}
       style={{
         position: 'fixed',

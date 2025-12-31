@@ -27,9 +27,14 @@ export const AuthProvider = ({ children }) => {
     getUser();
   }, []);
 
-  const handleUpdateUser = useCallback(newUserData => {
-    setUser(prev => ({ ...prev, ...newUserData }));
-  }, []);
+  const handleUpdateUser = useCallback(
+    async newUserData => {
+      setUser(prev => ({ ...prev, ...newUserData }));
+      if (!user?.id) return;
+      await api.updateUser(user?.id, newUserData);
+    },
+    [user?.id],
+  );
 
   const value = useMemo(
     () => ({ user, handleUpdateUser }),

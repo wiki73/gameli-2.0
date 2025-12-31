@@ -53,8 +53,8 @@ export const AuthForm = () => {
       password: formData.password,
     });
 
-    if (errorSignUp) {
-      setError(errorSignUp.message);
+    if (errorSignUp || !data?.user?.id) {
+      setError(errorSignUp?.message || 'Ошибка регистрации');
       return;
     }
 
@@ -68,7 +68,8 @@ export const AuthForm = () => {
           money: 0,
           level: 0,
         },
-      ]);
+      ])
+      .select('*');
 
     if (errorInsert) {
       setError(errorInsert.message);
