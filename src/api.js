@@ -8,7 +8,7 @@ const getTasksByListId = async listId => {
   return data;
 };
 
-const getUsersListByUser = async userId => {
+const getDayListsByUser = async userId => {
   let list = [];
   if (!userId) return list;
   list = (await supabase.from('day_lists').select('*').eq('user_id', userId))
@@ -37,4 +37,7 @@ const getUsersListByUser = async userId => {
 
 // }
 
-export const api = { getTasksByListId, getDayListsByUser: getUsersListByUser };
+const getUserById = async userId =>
+  await supabase.from('users').select('*').eq('id', userId).single();
+
+export const api = { getTasksByListId, getDayListsByUser, getUserById };

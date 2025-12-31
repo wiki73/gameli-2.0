@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router';
-import { ROUTES } from '../../../../constants/routes';
 import { supabase } from '../../../../supabase';
+import { useAuth } from '../../../../contexts/auth-context';
+import { api } from '../../../../api';
 import styles from './AuthForm.module.css';
 
 const TEXTS = {
@@ -21,7 +21,7 @@ const TEXTS = {
 };
 
 export const AuthForm = () => {
-  const navigate = useNavigate();
+  const { handleUpdateUser } = useAuth();
   const [mode, setMode] = useState('LOGIN');
   const [formData, setFormData] = useState({
     name: '',
@@ -66,20 +66,38 @@ export const AuthForm = () => {
         level: 0,
       },
     ]);
-    navigate(ROUTES.MAIN);
+    handleUpdateUser({
+      id: data?.user?.id,
+      name: formData.name.trim() || 'Без имени',
+      exp: 0,
+      money: 0,
+      level: 0,
+    });
   };
 
   const handleLogin = async () => {
-    const { error } = await supabase.auth.signInWithPassword({
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.signInWithPassword({
       email: formData.email,
       password: formData.password,
     });
+
+    const { data } = await api.getUserById(user?.id);
 
     if (error) {
       setError(error.message);
       return;
     }
-    navigate(ROUTES.MAIN);
+
+    handleUpdateUser({
+      id: user?.id,
+      name: data?.name,
+      exp: data?.exp,
+      money: data?.money,
+      level: data?.level,
+    });
   };
 
   const handleSubmit = async e => {
@@ -124,7 +142,7 @@ export const AuthForm = () => {
               className={styles.input}
               id='name'
               onChange={handleNameChange}
-              placeholder='Jhonson'
+              placeholder='Johnson'
               type='text'
               value={formData.name}
             />
@@ -141,7 +159,7 @@ export const AuthForm = () => {
           className={styles.input}
           id='email'
           onChange={handleEmailChange}
-          placeholder='jhonson@email.com'
+          placeholder='johnson@email.com'
           type='email'
           value={formData.email}
         />

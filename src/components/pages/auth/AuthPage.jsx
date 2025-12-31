@@ -3,10 +3,10 @@ import { useEffect } from 'react';
 import { useAuth } from '../../../contexts/auth-context';
 import { ROUTES } from '../../../constants/routes';
 import { AuthForm } from './AuthForm/AuthForm';
-import styles from './auth.module.css';
+import styles from './AuthPage.module.css';
 
 export const AuthPage = () => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const { user } = useAuth();
 
   useEffect(() => {

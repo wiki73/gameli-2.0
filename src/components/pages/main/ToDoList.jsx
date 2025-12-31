@@ -1,14 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { api } from '../../../api';
-import { useUser } from '../../../contexts/context';
-import { supabase } from '../../../supabase';
 import { useAuth } from '../../../contexts/auth-context';
+import { supabase } from '../../../supabase';
 import './ToDoList.css';
 
 const ToDoList = () => {
-  const { addExp } = useUser();
   const {
-    user: { id: userId },
+    handleUpdateUser,
+    user: { id: userId, exp },
   } = useAuth();
   const [dragging, setDragging] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
@@ -129,7 +128,7 @@ const ToDoList = () => {
       const task = items.find(i => i.id === activeTaskId);
 
       if (task) {
-        addExp(xpGain);
+        handleUpdateUser({ exp: exp + xpGain });
 
         const updatedItem = { ...task, completed: true, experience: xpGain };
         setItems(
@@ -176,7 +175,7 @@ const ToDoList = () => {
         ? changedItem.experience
         : -changedItem.experience;
 
-      addExp(experienceGain);
+      handleUpdateUser({ exp: exp + experienceGain });
       updateTaskInDB(
         changedItem.id,
         changedItem.completed,
@@ -185,7 +184,7 @@ const ToDoList = () => {
     }
 
     setPreviousItems(items);
-  }, [addExp, items, previousItems]);
+  }, [handleUpdateUser, items, previousItems, exp]);
 
   const updateTaskInDB = async (id, completed, experience) => {
     await supabase

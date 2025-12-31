@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 import { DB_TASK_SIZES, TASK_SIZES } from '../../../../constants/taskSizes';
-import { useUser } from '../../../../contexts/context';
 import { supabase } from '../../../../supabase';
+import { useAuth } from '../../../../contexts/auth-context';
 import LeftPanelColumn from './LeftPanelColumn';
 import ModalWindowAddTask from './ModalWindowAddTask';
 import './LeftPanel.css';
 
 const LeftPanel = () => {
-  const { userId } = useUser();
+  const {
+    user: { id: userId },
+  } = useAuth();
   const [littleGoals, setLittleGoals] = useState([]);
   const [mediumGoals, setMediumGoals] = useState([]);
   const [largeGoals, setLargeGoals] = useState([]);
