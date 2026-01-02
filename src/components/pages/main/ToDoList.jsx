@@ -12,9 +12,7 @@ const ToDoList = () => {
   } = useAuth();
   const [dragging, setDragging] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
-  const [selectedDate, setSelectedDate] = useState(
-    new Date(Date.now()).toISOString(),
-  );
+  const [selectedDate, setSelectedDate] = useState(new Date().toISOString());
   const [days, setDays] = useState([]);
 
   const [openInput, setOpenInput] = useState(false);
@@ -37,18 +35,13 @@ const ToDoList = () => {
   });
 
   useEffect(() => {
-    (async () => setDays(await api.getDayListsByUser(userId)))();
+    api.getDay(userId).then(data => {
+      setDays(data.dayLists);
+      setSelectedDate(data.dayLists[0]?.date);
+      setItems(data.tasks);
+    });
   }, [userId]);
 
-  useEffect(() => {
-    setItems([
-      { id: 1, text: 'Задача 1', completed: false, experience: 10 },
-      { id: 2, text: 'Задача 2', completed: false, experience: 10 },
-      { id: 3, text: 'Зада   ча 3', completed: false, experience: 10 },
-    ]);
-  }, [days]);
-
-  // useCollback
   const loadingToDoList = useCallback(
     async date => {
       const { data, error } = await supabase
@@ -70,9 +63,25 @@ const ToDoList = () => {
     [userId],
   );
 
+  const newDayListToday = async () => {
+    const today = new Date();
+    const { data, error } = await supabase
+      .from('day_lists')
+      .upsert({ date: today, user_id: userId }, { onConflict: 'user_id, date' })
+      .select('*')
+      .single();
+    setDays(prev => [...prev, data]);
+  };
+
   useEffect(() => {
-    loadingToDoList(selectedDate);
+    if (!selectedDate) return;
+    if (selectedDate.includes('onToday')) {
+      newDayListToday();
+    } else {
+      loadingToDoList(selectedDate);
+    }
   }, [loadingToDoList, selectedDate]);
+
   const handleMouseDown = e => {
     if (e.target.closest('input, button')) return;
     setDragging(true);
@@ -196,9 +205,8 @@ const ToDoList = () => {
 
   const handleAddTask = (text, topic) => {
     const trimmed = text.trim();
-    if (!trimmed) return;
+    if (!trimmed || !selectedDate) return;
     const newItem = {
-      // id: Date.now(),
       data: selectedDate,
       text: trimmed,
       topic: topic.trim(),
@@ -266,6 +274,10 @@ const ToDoList = () => {
     return Math.round(res * 1000) / 1000;
   };
 
+  if (!selectedDate) {
+    return null;
+  }
+
   return (
     <div
       className='ToDoList'
@@ -300,9 +312,7 @@ const ToDoList = () => {
               {item.date}
             </option>
           ))}
-          {/* <option value={yesterday}>Вчера ({yesterday})</option>
-          <option value={today}>Сегодня ({today})</option>
-          <option value={tomorrow}>Завтра ({tomorrow})</option> */}
+          <option value={'onToday'}>Создать на сегодня</option>
         </select>
       </div>
 

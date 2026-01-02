@@ -23,11 +23,15 @@ export const AuthProvider = ({ children }) => {
 
       if (!user) return;
 
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from('users')
         .select('exp, money, level, name')
         .eq('id', user.id)
         .single();
+
+      if (error || !data) {
+        return;
+      }
 
       setUser({
         id: user.id,
