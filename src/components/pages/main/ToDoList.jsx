@@ -11,9 +11,7 @@ const ToDoList = () => {
   } = useAuth();
   const [dragging, setDragging] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
-  const [selectedDate, setSelectedDate] = useState(
-    new Date(Date.now()).toISOString(),
-  );
+  const [selectedDate, setSelectedDate] = useState(new Date().toISOString());
   const [days, setDays] = useState([]);
 
   const [openInput, setOpenInput] = useState(false);
@@ -36,7 +34,11 @@ const ToDoList = () => {
   });
 
   useEffect(() => {
-    (async () => setDays(await api.getDayListsByUser(userId)))();
+    api.getDay(userId).then(data => {
+      setDays(data.dayLists);
+      setSelectedDate(data.dayLists[0]?.date);
+      setItems(data.tasks);
+    });
   }, [userId]);
 
   const loadingToDoList = useCallback(
@@ -63,9 +65,25 @@ const ToDoList = () => {
     [userId],
   );
 
+  const newDayListToday = async () => {
+    const today = new Date();
+    const { data, error } = await supabase
+      .from('day_lists')
+      .upsert({ date: today, user_id: userId }, { onConflict: 'user_id, date' })
+      .select('*')
+      .single();
+    setDays(prev => [...prev, data]);
+  };
+
   useEffect(() => {
-    loadingToDoList(selectedDate);
+    if (!selectedDate) return;
+    if (selectedDate.includes('onToday')) {
+      newDayListToday();
+    } else {
+      loadingToDoList(selectedDate);
+    }
   }, [loadingToDoList, selectedDate]);
+
   const handleMouseDown = e => {
     if (e.target.closest('input, button')) return;
     setDragging(true);
@@ -184,7 +202,7 @@ const ToDoList = () => {
 
   const handleAddTask = (text, topic) => {
     const trimmed = text.trim();
-    if (!trimmed) return;
+    if (!trimmed || !selectedDate) return;
     const newItem = {
       data: selectedDate,
       text: trimmed,
@@ -241,6 +259,10 @@ const ToDoList = () => {
     return Math.round(res * 1000) / 1000;
   };
 
+  if (!selectedDate) {
+    return null;
+  }
+
   return (
     <div
       className='ToDoList'
@@ -279,6 +301,7 @@ const ToDoList = () => {
               {item.date}
             </option>
           ))}
+          <option value={'onToday'}>Создать на сегодня</option>
         </select>
       </div>
 
