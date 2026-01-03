@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '../../../../api';
+import { Spinner } from '../../../common/spinner/Spinner';
 import styles from './AuthForm.module.css';
 
 const TEXTS = {
@@ -31,17 +32,6 @@ export const AuthForm = () => {
 
   const isLogin = mode === 'LOGIN';
 
-  const isButtonDisabled = useMemo(() => {
-    if (isLogin) {
-      return !formData.email || formData.password.length < 6;
-    }
-    return (
-      formData.name.length < 3 ||
-      !formData.email ||
-      formData.password.length < 6
-    );
-  }, [formData, isLogin]);
-
   /* ---------- MUTATIONS ---------- */
 
   const loginMutation = useMutation({
@@ -61,6 +51,17 @@ export const AuthForm = () => {
     },
     onError: err => setError(err.message),
   });
+
+  const isLoading = loginMutation.isPending || registerMutation.isPending;
+  const isButtonDisabled = useMemo(() => {
+    const formInvalid = isLogin
+      ? !formData.email || formData.password.length < 6
+      : formData.name.length < 3 ||
+        !formData.email ||
+        formData.password.length < 6;
+
+    return formInvalid || isLoading;
+  }, [formData, isLogin, isLoading]);
 
   /* ---------- HANDLERS ---------- */
 
@@ -83,7 +84,13 @@ export const AuthForm = () => {
   };
 
   const handleSwitchMode = () => {
-    setMode(mode === 'LOGIN' ? 'REGISTER' : 'LOGIN');
+    setError(null);
+    setFormData({
+      name: '',
+      email: '',
+      password: '',
+    });
+    setMode(isLogin ? 'REGISTER' : 'LOGIN');
   };
 
   const handleChange = field => e => {
@@ -153,6 +160,7 @@ export const AuthForm = () => {
           disabled={isButtonDisabled}
           type='submit'
         >
+          {isLoading ? <Spinner /> : null}
           {TEXTS[mode].BTN_PRIMARY}
         </button>
       </form>

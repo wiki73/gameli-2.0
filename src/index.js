@@ -4,10 +4,10 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router';
 import App from './components/pages/main/App';
 import { AuthPage } from './components/pages/auth/AuthPage';
+import { QueryProvider } from './contexts/query-context/provider';
 import { AuthProvider } from './contexts/auth-context/provider';
 import { ROUTES } from './constants/routes';
 import './index.css';
-import { QueryProvider } from './contexts/query-context/provider';
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/sw.js');

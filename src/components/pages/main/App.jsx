@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { useAuth } from '../../../contexts/auth-context';
 import { ROUTES } from '../../../constants/routes';
-import { Spinner } from '../../common/spinner/Spinner';
+import { FullScreenSpinner } from '../../common/spinner/FullScreenSpinner';
 import LeftPanel from './LeftPanel/LeftPanel';
 import CenterPanel from './CenterPanel/CenterPanel';
 import RightPanel from './RightPanel/RightPanel';
@@ -20,7 +20,7 @@ const App = () => {
   }, [navigate, isLoading, user]);
 
   if (isLoading) {
-    return <Spinner />;
+    return <FullScreenSpinner />;
   }
 
   if (!user) {

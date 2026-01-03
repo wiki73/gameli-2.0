@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
     error: userError,
   } = useQuery({
     queryKey: ['user', session?.user?.id],
-    queryFn: () => api.getUserById(session.user.id),
+    queryFn: () => api.getUserById(session?.user?.id),
     enabled: !!session?.user?.id,
   });
 
@@ -33,6 +33,7 @@ export const AuthProvider = ({ children }) => {
   const updateUserMutation = useMutation({
     mutationFn: api.updateUser,
     onSuccess: data => {
+      if (!session?.user?.id) return;
       queryClient.setQueryData(['user', session.user.id], prev => ({
         ...prev,
         ...data,
@@ -49,7 +50,7 @@ export const AuthProvider = ({ children }) => {
         data: newUserData,
       });
     },
-    [updateUserMutation, session.user.id],
+    [updateUserMutation, session?.user?.id],
   );
 
   /* ---------- AUTH STATE LISTENER ---------- */
@@ -66,9 +67,9 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (userError) {
       console.error('User fetch error:', userError);
-      api.signOut();
+      queryClient.invalidateQueries(['session']);
     }
-  }, [userError]);
+  }, [userError, queryClient]);
 
   const value = useMemo(
     () => ({

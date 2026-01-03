@@ -22,10 +22,19 @@ const getUserById = async userId => {
 };
 
 const updateUser = async ({ userId, data }) => {
-  const { error } = await supabase.from('users').update(data).eq('id', userId);
+  if (!userId) {
+    throw new Error('updateUser: userId is required');
+  }
+
+  const { error, data: updatedData } = await supabase
+    .from('users')
+    .update(data)
+    .eq('id', userId)
+    .select('*')
+    .single();
 
   if (error) throw error;
-  return data;
+  return updatedData;
 };
 
 const login = async ({ email, password }) => {
