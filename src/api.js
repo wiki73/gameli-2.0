@@ -1,36 +1,104 @@
 import { supabase } from './supabase';
 
+/* ---------------- AUTH ---------------- */
+
+const getSession = async () => {
+  const { data, error } = await supabase.auth.getSession();
+  if (error) throw error;
+  return data.session;
+};
+
+const getUserById = async userId => {
+  if (!userId) return null;
+
+  const { data, error } = await supabase
+    .from('users')
+    .select('*')
+    .eq('id', userId)
+    .single();
+
+  if (error) throw error;
+  return data;
+};
+
+const updateUser = async ({ userId, data }) => {
+  if (!userId) {
+    throw new Error('updateUser: userId is required');
+  }
+
+  const { error, data: updatedData } = await supabase
+    .from('users')
+    .update(data)
+    .eq('id', userId)
+    .select('*')
+    .single();
+
+  if (error) throw error;
+  return updatedData;
+};
+
+const login = async ({ email, password }) => {
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (error) throw error;
+  return data.user;
+};
+
+const register = async ({ email, password, name }) => {
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+  });
+
+  if (error) throw error;
+  if (!data?.user?.id) throw new Error('User not created');
+
+  const { error: insertError } = await supabase.from('users').insert({
+    id: data.user.id,
+    name: name?.trim() || 'Без имени',
+    exp: 0,
+    money: 0,
+    level: 0,
+  });
+
+  if (insertError) throw insertError;
+
+  return data.user;
+};
+
+const signOut = async () => {
+  const { error } = await supabase.auth.signOut();
+  if (error) throw error;
+};
+
+/* ---------------- YOUR EXISTING API ---------------- */
+
 const getTasksByListId = async listId => {
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from('tasks')
     .select('*')
     .eq('day_list_id', listId);
+
+  if (error) throw error;
   return data;
 };
 
 const getDayListsByUser = async userId => {
-  let list = [];
-  if (!userId) return list;
-  list = (
-    await supabase.from('day_lists').select('*').eq('user_id', userId)
-  ).data.sort(
-    (a, b) => new Date(a.date).getTime() - new Date(b.date).getDate(),
+  if (!userId) return [];
+
+  const { data, error } = await supabase
+    .from('day_lists')
+    .select('*')
+    .eq('user_id', userId);
+
+  if (error) throw error;
+
+  return data.sort(
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
   );
-
-  if (!list?.length) {
-    await supabase.from('day_lists').insert([
-      {
-        user_id: userId,
-
-        date: new Date(Date.now()),
-      },
-    ]);
-
-    list = (
-      await supabase.from('day_lists').select('*').eq('user_id', userId)
-    ).data.sort((a, b) => b.date - a.date);
-  }
-  return list;
 };
 
 const getDay = async userId => {
@@ -60,16 +128,14 @@ const getDay = async userId => {
   return { dayLists, tasks, dayListsError, tasksError };
 };
 
-const getUserById = async userId =>
-  await supabase.from('users').select('*').eq('id', userId).single();
-
-const updateUser = async (userId, data) =>
-  await supabase.from('users').update(data).eq('id', userId);
-
 export const api = {
+  getSession,
+  getUserById,
+  updateUser,
+  login,
+  register,
+  signOut,
   getTasksByListId,
   getDayListsByUser,
   getDay,
-  getUserById,
-  updateUser,
 };

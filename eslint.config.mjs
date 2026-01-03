@@ -1,5 +1,4 @@
 import globals from 'globals';
-import pluginJs from '@eslint/js';
 import eslintReact from 'eslint-plugin-react';
 import eslintReactHooks from 'eslint-plugin-react-hooks';
 import eslintReactRefresh from 'eslint-plugin-react-refresh';
@@ -8,8 +7,11 @@ import eslintImport from 'eslint-plugin-import';
 import eslintUnusedImports from 'eslint-plugin-unused-imports';
 import eslintUnicorn from 'eslint-plugin-unicorn';
 import { fixupPluginRules } from '@eslint/compat';
+import { defineConfig } from 'eslint/config';
+import js from '@eslint/js';
 
-const config = [
+export default defineConfig([
+  { files: ['**/*.js'], plugins: { js }, extends: ['js/recommended'] },
   {
     plugins: {
       react: fixupPluginRules(eslintReact),
@@ -24,7 +26,6 @@ const config = [
   {
     ignores: ['node_modules', '**/*.config.*'],
   },
-  pluginJs.configs.recommended,
   {
     languageOptions: {
       ...eslintReact.configs.recommended.languageOptions,
@@ -174,6 +175,4 @@ const config = [
       },
     },
   },
-];
-
-export default config;
+]);

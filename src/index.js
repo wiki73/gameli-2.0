@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router';
 import App from './components/pages/main/App';
 import { AuthPage } from './components/pages/auth/AuthPage';
+import { QueryProvider } from './contexts/query-context/provider';
 import { AuthProvider } from './contexts/auth-context/provider';
 import { ROUTES } from './constants/routes';
 import './index.css';
@@ -14,21 +15,23 @@ if ('serviceWorker' in navigator) {
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <AuthProvider>
-      <BrowserRouter>
-        <main>
-          <Routes>
-            <Route
-              element={<App />}
-              path={ROUTES.MAIN}
-            />
-            <Route
-              element={<AuthPage />}
-              path={ROUTES.AUTH}
-            />
-          </Routes>
-        </main>
-      </BrowserRouter>
-    </AuthProvider>
+    <QueryProvider>
+      <AuthProvider>
+        <BrowserRouter>
+          <main>
+            <Routes>
+              <Route
+                element={<App />}
+                path={ROUTES.MAIN}
+              />
+              <Route
+                element={<AuthPage />}
+                path={ROUTES.AUTH}
+              />
+            </Routes>
+          </main>
+        </BrowserRouter>
+      </AuthProvider>
+    </QueryProvider>
   </React.StrictMode>,
 );
