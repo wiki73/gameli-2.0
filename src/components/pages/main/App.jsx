@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { useAuth } from '../../../contexts/auth-context';
 import { ROUTES } from '../../../constants/routes';
+import { Spinner } from '../../common/spinner/Spinner';
 import LeftPanel from './LeftPanel/LeftPanel';
 import CenterPanel from './CenterPanel/CenterPanel';
 import RightPanel from './RightPanel/RightPanel';
@@ -9,17 +10,21 @@ import ToDoList from './ToDoList';
 import './App.css';
 
 const App = () => {
-  const { user } = useAuth();
+  const { user, isLoading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user?.id) {
-      navigate(ROUTES.AUTH);
+    if (!isLoading && !user) {
+      navigate(ROUTES.AUTH, { replace: true });
     }
-  }, [navigate, user?.id]);
+  }, [navigate, isLoading, user]);
 
-  if (!user?.id) {
-    return <div>Loading...</div>;
+  if (isLoading) {
+    return <Spinner />;
+  }
+
+  if (!user) {
+    return null;
   }
 
   return (

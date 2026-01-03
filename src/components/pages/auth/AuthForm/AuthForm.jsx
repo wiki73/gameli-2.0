@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react';
-import { supabase } from '../../../../supabase';
-import { useAuth } from '../../../../contexts/auth-context';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '../../../../api';
 import styles from './AuthForm.module.css';
 
@@ -21,7 +20,7 @@ const TEXTS = {
 };
 
 export const AuthForm = () => {
-  const { handleUpdateUser } = useAuth();
+  const queryClient = useQueryClient();
   const [mode, setMode] = useState('LOGIN');
   const [formData, setFormData] = useState({
     name: '',
@@ -33,7 +32,7 @@ export const AuthForm = () => {
   const isLogin = mode === 'LOGIN';
 
   const isButtonDisabled = useMemo(() => {
-    if (mode === 'LOGIN') {
+    if (isLogin) {
       return !formData.email || formData.password.length < 6;
     }
     return (
@@ -41,99 +40,55 @@ export const AuthForm = () => {
       !formData.email ||
       formData.password.length < 6
     );
-  }, [formData.name, formData.email, formData.password, mode]);
+  }, [formData, isLogin]);
+
+  /* ---------- MUTATIONS ---------- */
+
+  const loginMutation = useMutation({
+    mutationFn: api.login,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['session'] });
+      queryClient.invalidateQueries({ queryKey: ['user'] });
+    },
+    onError: err => setError(err.message),
+  });
+
+  const registerMutation = useMutation({
+    mutationFn: api.register,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['session'] });
+      queryClient.invalidateQueries({ queryKey: ['user'] });
+    },
+    onError: err => setError(err.message),
+  });
+
+  /* ---------- HANDLERS ---------- */
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    setError(null);
+
+    if (isLogin) {
+      loginMutation.mutate({
+        email: formData.email,
+        password: formData.password,
+      });
+    } else {
+      registerMutation.mutate({
+        email: formData.email,
+        password: formData.password,
+        name: formData.name,
+      });
+    }
+  };
 
   const handleSwitchMode = () => {
     setMode(mode === 'LOGIN' ? 'REGISTER' : 'LOGIN');
   };
 
-  const handleRegister = async () => {
-    const { data, error: errorSignUp } = await supabase.auth.signUp({
-      email: formData.email,
-      password: formData.password,
-    });
-
-    if (errorSignUp || !data?.user?.id) {
-      setError(errorSignUp?.message || 'Ошибка регистрации');
-      return;
-    }
-
-    const { data: userData, error: errorInsert } = await supabase
-      .from('users')
-      .insert([
-        {
-          id: data?.user?.id,
-          name: formData.name.trim() || 'Без имени',
-          exp: 0,
-          money: 0,
-          level: 0,
-        },
-      ])
-      .select('*');
-
-    if (errorInsert) {
-      setError(errorInsert.message);
-      return;
-    }
-
-    handleUpdateUser({
-      id: userData?.id,
-      name: userData?.name || formData.name.trim() || 'Без имени',
-      exp: userData?.exp || 0,
-      money: userData?.money || 0,
-      level: userData?.level || 0,
-    });
-  };
-
-  const handleLogin = async () => {
-    const {
-      data: { user },
-      error: errorLogin,
-    } = await supabase.auth.signInWithPassword({
-      email: formData.email,
-      password: formData.password,
-    });
-
-    if (errorLogin) {
-      setError(error.message);
-      return;
-    }
-    const { data, error: errorGetUser } = await api.getUserById(user?.id);
-
-    if (errorGetUser) {
-      setError(errorGetUser.message);
-      return;
-    }
-
-    handleUpdateUser({
-      id: user?.id,
-      name: data?.name,
-      exp: data?.exp,
-      money: data?.money,
-      level: data?.level,
-    });
-  };
-
-  const handleSubmit = async e => {
-    e.preventDefault();
-    if (isLogin) {
-      await handleLogin();
-    } else {
-      await handleRegister();
-    }
-  };
-
-  const handleNameChange = e => {
+  const handleChange = field => e => {
     setError(null);
-    setFormData(prev => ({ ...prev, name: e.target.value }));
-  };
-  const handleEmailChange = e => {
-    setError(null);
-    setFormData(prev => ({ ...prev, email: e.target.value }));
-  };
-  const handlePasswordChange = e => {
-    setError(null);
-    setFormData(prev => ({ ...prev, password: e.target.value }));
+    setFormData(prev => ({ ...prev, [field]: e.target.value }));
   };
 
   return (
@@ -155,7 +110,7 @@ export const AuthForm = () => {
               autoComplete='name'
               className={styles.input}
               id='name'
-              onChange={handleNameChange}
+              onChange={handleChange('name')}
               placeholder='Johnson'
               type='text'
               value={formData.name}
@@ -172,7 +127,7 @@ export const AuthForm = () => {
           autoComplete='email'
           className={styles.input}
           id='email'
-          onChange={handleEmailChange}
+          onChange={handleChange('email')}
           placeholder='johnson@email.com'
           type='email'
           value={formData.email}
@@ -187,7 +142,7 @@ export const AuthForm = () => {
           autoComplete='current-password'
           className={styles.input}
           id='password'
-          onChange={handlePasswordChange}
+          onChange={handleChange('password')}
           placeholder='******'
           type='password'
           value={formData.password}

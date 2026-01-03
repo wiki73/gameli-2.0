@@ -7,13 +7,13 @@ import styles from './AuthPage.module.css';
 
 export const AuthPage = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, isLoading } = useAuth();
 
   useEffect(() => {
-    if (user?.id) {
-      navigate(ROUTES.MAIN);
+    if (!isLoading && user) {
+      navigate(ROUTES.MAIN, { replace: true });
     }
-  }, [navigate, user?.id]);
+  }, [user, isLoading, navigate]);
 
   return (
     <div className={styles.page}>

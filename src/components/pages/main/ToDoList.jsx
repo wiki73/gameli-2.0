@@ -65,15 +65,15 @@ const ToDoList = () => {
     [userId],
   );
 
-  const newDayListToday = async () => {
+  const newDayListToday = useCallback(async () => {
     const today = new Date();
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('day_lists')
       .upsert({ date: today, user_id: userId }, { onConflict: 'user_id, date' })
       .select('*')
       .single();
     setDays(prev => [...prev, data]);
-  };
+  }, [userId]);
 
   useEffect(() => {
     if (!selectedDate) return;
@@ -82,7 +82,7 @@ const ToDoList = () => {
     } else {
       loadingToDoList(selectedDate);
     }
-  }, [loadingToDoList, selectedDate]);
+  }, [loadingToDoList, selectedDate, newDayListToday]);
 
   const handleMouseDown = e => {
     if (e.target.closest('input, button')) return;
@@ -301,7 +301,7 @@ const ToDoList = () => {
               {item.date}
             </option>
           ))}
-          <option value={'onToday'}>Создать на сегодня</option>
+          <option value='onToday'>Создать на сегодня</option>
         </select>
       </div>
 

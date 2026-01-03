@@ -7,6 +7,7 @@ import { AuthPage } from './components/pages/auth/AuthPage';
 import { AuthProvider } from './contexts/auth-context/provider';
 import { ROUTES } from './constants/routes';
 import './index.css';
+import { QueryProvider } from './contexts/query-context/provider';
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/sw.js');
@@ -14,21 +15,23 @@ if ('serviceWorker' in navigator) {
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <AuthProvider>
-      <BrowserRouter>
-        <main>
-          <Routes>
-            <Route
-              element={<App />}
-              path={ROUTES.MAIN}
-            />
-            <Route
-              element={<AuthPage />}
-              path={ROUTES.AUTH}
-            />
-          </Routes>
-        </main>
-      </BrowserRouter>
-    </AuthProvider>
+    <QueryProvider>
+      <AuthProvider>
+        <BrowserRouter>
+          <main>
+            <Routes>
+              <Route
+                element={<App />}
+                path={ROUTES.MAIN}
+              />
+              <Route
+                element={<AuthPage />}
+                path={ROUTES.AUTH}
+              />
+            </Routes>
+          </main>
+        </BrowserRouter>
+      </AuthProvider>
+    </QueryProvider>
   </React.StrictMode>,
 );

@@ -1,44 +1,90 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../../supabase';
 import { api } from '../../api';
 import { AuthContext } from './index';
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState({});
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    const getUser = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
+  /* ---------- SESSION QUERY ---------- */
+  const {
+    data: session,
+    isLoading: sessionLoading,
+    error: sessionError,
+  } = useQuery({
+    queryKey: ['session'],
+    queryFn: api.getSession,
+    staleTime: Infinity,
+  });
 
-      if (!session?.user?.id) return;
+  /* ---------- USER QUERY ---------- */
+  const {
+    data: user,
+    isLoading: userLoading,
+    error: userError,
+  } = useQuery({
+    queryKey: ['user', session?.user?.id],
+    queryFn: () => api.getUserById(session.user.id),
+    enabled: !!session?.user?.id,
+  });
 
-      const { data, error } = await api.getUserById(session.user.id);
-
-      if (error) {
-        await supabase.auth.signOut();
-        return;
-      }
-
-      setUser(data);
-    };
-
-    getUser();
-  }, []);
+  /* ---------- UPDATE USER ---------- */
+  const updateUserMutation = useMutation({
+    mutationFn: api.updateUser,
+    onSuccess: data => {
+      queryClient.setQueryData(['user', session.user.id], prev => ({
+        ...prev,
+        ...data,
+      }));
+    },
+  });
 
   const handleUpdateUser = useCallback(
-    async newUserData => {
-      setUser(prev => ({ ...prev, ...newUserData }));
-      if (!user?.id) return;
-      await api.updateUser(user?.id, newUserData);
+    newUserData => {
+      if (!session?.user?.id) return;
+
+      updateUserMutation.mutate({
+        userId: session.user.id,
+        data: newUserData,
+      });
     },
-    [user?.id],
+    [updateUserMutation, session.user.id],
   );
 
+  /* ---------- AUTH STATE LISTENER ---------- */
+  useEffect(() => {
+    const { data: listener } = supabase.auth.onAuthStateChange(() => {
+      queryClient.invalidateQueries({ queryKey: ['session'] });
+      queryClient.invalidateQueries({ queryKey: ['user'] });
+    });
+
+    return () => listener.subscription.unsubscribe();
+  }, [queryClient]);
+
+  /* ---------- ERROR HANDLING ---------- */
+  useEffect(() => {
+    if (userError) {
+      console.error('User fetch error:', userError);
+      api.signOut();
+    }
+  }, [userError]);
+
   const value = useMemo(
-    () => ({ user, handleUpdateUser }),
-    [user, handleUpdateUser],
+    () => ({
+      user: user ?? null,
+      isLoading: sessionLoading || userLoading,
+      error: sessionError || userError,
+      updateUser: handleUpdateUser,
+    }),
+    [
+      user,
+      sessionLoading,
+      userLoading,
+      sessionError,
+      userError,
+      handleUpdateUser,
+    ],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
