@@ -20,13 +20,9 @@ export const UserLayout = ({ children }) => {
     return <FullScreenSpinner />;
   }
 
-  if (!user) {
-    return null;
-  }
-
   return (
     <main className={styles.page}>
-      <Header />
+      {!!user && <Header />}
       {children}
     </main>
   );
