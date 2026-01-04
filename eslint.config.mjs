@@ -24,6 +24,21 @@ export default defineConfig([
     },
   },
   {
+    files: ['**/*.{js,jsx}'],
+    plugins: {
+      react: fixupPluginRules(eslintReact),
+      'react-hooks': eslintReactHooks,
+      'react-refresh': eslintReactRefresh,
+    },
+    languageOptions: {
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+    },
+  },
+  {
     ignores: ['node_modules', '**/*.config.*'],
   },
   {

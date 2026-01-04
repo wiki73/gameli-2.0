@@ -1,4 +1,6 @@
 :root {
+  --color-base: #fff;
+
   /* Colors - Level Based */
   --color-level-brown: brown;
   --color-level-yellow: yellow;

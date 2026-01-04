@@ -58,6 +58,7 @@ export const AuthProvider = ({ children }) => {
     const { data: listener } = supabase.auth.onAuthStateChange(() => {
       queryClient.invalidateQueries({ queryKey: ['session'] });
       queryClient.invalidateQueries({ queryKey: ['user'] });
+      queryClient.invalidateQueries({ queryKey: ['categories'] });
     });
 
     return () => listener.subscription.unsubscribe();

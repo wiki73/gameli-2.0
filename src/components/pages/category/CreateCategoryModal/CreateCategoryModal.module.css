@@ -1,0 +1,39 @@
+.title {
+  font-weight: bold;
+  color: #fff;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.error {
+  color: var(--color-red);
+  font-size: 0.9em;
+  margin: 0;
+}
+
+.primaryButton {
+  background-color: var(--color-green-bg-strong);
+  border: 1px solid var(--color-green-border-strong2);
+  border-radius: 8px;
+  color: var(--color-white);
+  padding: var(--spacing-md) var(--spacing-lg);
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.primaryButton:disabled {
+  background-color: var(--color-gray-bg-subtle);
+  border: 1px solid var(--color-gray-border-subtle);
+  cursor: not-allowed;
+  color: var(--color-white-text-subtle);
+}

@@ -6,7 +6,6 @@
   flex-direction: column;
   box-shadow: var(--shadow-green-modal);
   border: 1px solid var(--color-green-border-bright);
-  overflow: hidden;
 }
 
 .header {

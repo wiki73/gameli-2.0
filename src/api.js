@@ -128,6 +128,33 @@ const getDay = async userId => {
   return { dayLists, tasks, dayListsError, tasksError };
 };
 
+const getCategories = async userId => {
+  if (!userId) return null;
+
+  const { data, error } = await supabase
+    .from('categories')
+    .select('*')
+    .eq('user_id', userId);
+
+  if (error) throw error;
+  return data;
+};
+
+const createCategory = async ({ userId, name, description, ratio }) => {
+  if (!userId || !name || ratio === undefined) {
+    throw new Error('createCategory: field is required');
+  }
+  const { data, error } = await supabase.from('categories').insert({
+    user_id: userId,
+    name,
+    description,
+    ratio,
+  });
+
+  if (error) throw error;
+  return data;
+};
+
 export const api = {
   getSession,
   getUserById,
@@ -138,4 +165,6 @@ export const api = {
   getTasksByListId,
   getDayListsByUser,
   getDay,
+  getCategories,
+  createCategory,
 };

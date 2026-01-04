@@ -10,14 +10,14 @@
 }
 
 body {
-  background-color: var(--color-bg);
   color: var(--color-text);
-  height: 100dvh;
+  min-height: 100dvh;
+  min-width: 100%;
   background-image: url('/public/images/background.jpg');
 }
-#root,
-main {
+#root {
   height: 100%;
+  width: 100%;
 }
 
 code {

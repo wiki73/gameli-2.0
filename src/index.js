@@ -1,12 +1,11 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Route, Routes } from 'react-router';
-import App from './components/pages/main/App';
-import { AuthPage } from './components/pages/auth/AuthPage';
+import { BrowserRouter } from 'react-router';
 import { QueryProvider } from './contexts/query-context/provider';
 import { AuthProvider } from './contexts/auth-context/provider';
-import { ROUTES } from './constants/routes';
+import { UserLayout } from './components/layout/UserLayout';
+import { Router } from './components/app/Router';
 import './index.css';
 
 if ('serviceWorker' in navigator) {
@@ -15,23 +14,14 @@ if ('serviceWorker' in navigator) {
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <QueryProvider>
-      <AuthProvider>
-        <BrowserRouter>
-          <main>
-            <Routes>
-              <Route
-                element={<App />}
-                path={ROUTES.MAIN}
-              />
-              <Route
-                element={<AuthPage />}
-                path={ROUTES.AUTH}
-              />
-            </Routes>
-          </main>
-        </BrowserRouter>
-      </AuthProvider>
-    </QueryProvider>
+    <BrowserRouter>
+      <QueryProvider>
+        <AuthProvider>
+          <UserLayout>
+            <Router />
+          </UserLayout>
+        </AuthProvider>
+      </QueryProvider>
+    </BrowserRouter>
   </React.StrictMode>,
 );
