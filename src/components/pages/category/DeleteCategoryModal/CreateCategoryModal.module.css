@@ -16,8 +16,7 @@
 }
 
 .primaryButton {
-  background: var(--color-green-bg-strong);
-  border: 1px solid var(--color-green-border-strong2);
+  background: var(--color-red-button);
   border-radius: 8px;
   padding: var(--spacing-md) var(--spacing-lg);
   cursor: pointer;
@@ -28,6 +27,11 @@
   align-items: center;
   justify-content: center;
   gap: 4px;
+}
+
+.primaryButton:hover {
+  background: var(--color-red-button-hover);
+  color: var(--color-white-text);
 }
 
 .primaryButton:disabled {

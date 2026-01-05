@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@radix-ui/react-icons": "^1.3.2",
     "@supabase/supabase-js": "^2.87.1",
     "@tanstack/react-query": "^5.90.16",
     "@testing-library/dom": "^10.4.1",

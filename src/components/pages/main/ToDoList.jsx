@@ -30,7 +30,7 @@ const ToDoList = () => {
 
   const [position, setPosition] = useState({
     x: 150,
-    y: 100,
+    y: 200,
   });
 
   useEffect(() => {

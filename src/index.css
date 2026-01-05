@@ -23,3 +23,8 @@ body {
 code {
   font-family: var(--font-family-code);
 }
+
+button {
+  border: none;
+  background: var(--color-base);
+}

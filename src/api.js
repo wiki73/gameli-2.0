@@ -155,6 +155,16 @@ const createCategory = async ({ userId, name, description, ratio }) => {
   return data;
 };
 
+const deleteCategory = async ({ userId, id }) => {
+  const { error, data } = await supabase.from('categories').delete().match({
+    id,
+    user_id: userId,
+  });
+
+  if (error) throw error;
+  return data;
+};
+
 export const api = {
   getSession,
   getUserById,
@@ -167,4 +177,5 @@ export const api = {
   getDay,
   getCategories,
   createCategory,
+  deleteCategory,
 };

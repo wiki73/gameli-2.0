@@ -1,0 +1,118 @@
+.category {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+
+  width: 100%;
+  padding: 8px 16px;
+  border-radius: 8px;
+
+  background: #fff;
+  color: #000;
+
+  backdrop-filter: blur(2px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+
+  border: 1px solid rgba(255, 255, 255, 0.35);
+
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.12),
+    inset 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+.categoryHeader {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.categoryFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.categoryEditButton {
+  border: none;
+  padding: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  border-radius: 50%;
+  cursor: pointer;
+  background: #eee;
+
+  transition: all 0.3s ease;
+}
+
+.categoryEditButton:hover {
+  background: var(--color-green-bg-strong);
+  color: white;
+}
+
+.categoryDeleteButton {
+  border: none;
+  padding: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  border-radius: 50%;
+  background: #eee;
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+}
+
+.categoryDeleteButton:hover {
+  background: red;
+  color: white;
+}
+
+.categoryName {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.categoryDescription {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+}
+
+.categoryLevel {
+  aspect-ratio: 1 / 1;
+  min-width: 28px;
+
+  background: #eee;
+
+  backdrop-filter: blur(22px) saturate(200%);
+  border-color: rgba(255, 255, 255, 0.5);
+
+  box-shadow:
+    0 10px 32px rgba(0, 0, 0, 0.18),
+    inset 0 1px 1px rgba(255, 255, 255, 0.65);
+
+  border-radius: 50%;
+  padding: 4px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: bold;
+}
+
+.categoryButtons {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}

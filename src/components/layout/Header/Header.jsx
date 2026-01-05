@@ -1,10 +1,12 @@
 import { NavLink } from 'react-router';
 import { ROUTES } from '../../../constants/routes';
+import { Card } from '../../common/Card/Card';
 import styles from './Header.module.css';
 
 const LINKS = [
   { name: 'Главная', href: ROUTES.MAIN },
   { name: 'Категории', href: ROUTES.CATEGORIES },
+  { name: 'Профиль', href: ROUTES.PROFILE },
 ];
 
 export const Header = () => {
@@ -24,7 +26,9 @@ export const Header = () => {
 
   return (
     <header className={styles.header}>
-      <nav className={styles.nav}>{LINKS.map(renderLink)}</nav>
+      <Card>
+        <nav className={styles.nav}>{LINKS.map(renderLink)}</nav>
+      </Card>
     </header>
   );
 };

@@ -4,9 +4,9 @@
   align-items: center;
   justify-content: center;
   gap: 16px;
-  background: #fff;
   padding: 24px;
   width: 100%;
+  border-radius: 8px;
 
   background: linear-gradient(
     135deg,

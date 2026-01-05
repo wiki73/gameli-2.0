@@ -62,6 +62,13 @@ export default defineConfig([
       'react/boolean-prop-naming': 'error',
       'react/button-has-type': 'error',
       'react/checked-requires-onchange-or-readonly': 'error',
+      'react/jsx-curly-newline': [
+        'error',
+        {
+          multiline: 'consistent',
+          singleline: 'consistent',
+        },
+      ],
       'react/default-props-match-prop-types': 'error',
       'react/destructuring-assignment': ['error', 'always'],
       'react/display-name': 'off',
@@ -69,7 +76,6 @@ export default defineConfig([
       'react/jsx-closing-bracket-location': ['error', 'tag-aligned'],
       'react/jsx-closing-tag-location': 'error',
       'react/jsx-curly-brace-presence': ['error', 'never'],
-      'react/jsx-curly-newline': 'error',
       'react/jsx-first-prop-new-line': 'error',
       'react/jsx-fragments': ['error', 'syntax'],
       'react/jsx-indent': ['error', 2],

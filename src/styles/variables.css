@@ -1,5 +1,6 @@
 :root {
   --color-base: #fff;
+  --color-background: #ababab;
 
   /* Colors - Level Based */
   --color-level-brown: brown;
@@ -48,8 +49,8 @@
 
   /* Colors - Red Palette */
   --color-red: red;
-  --color-red-button: rgba(255, 70, 70, 0.2);
-  --color-red-button-hover: rgba(255, 70, 70, 0.4);
+  --color-red-button: rgb(255, 110, 110);
+  --color-red-button-hover: rgb(223, 41, 41);
   --color-red-border: rgba(255, 70, 70, 0.5);
   --color-red-border-hover: rgba(255, 70, 70, 0.8);
   --color-red-text: rgba(255, 100, 100, 0.8);
