@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
+import { Cross1Icon } from '@radix-ui/react-icons';
 import styles from './Modal.module.css';
 
 export const Modal = ({ isOpen, onClose, children }) => {
@@ -26,7 +27,7 @@ export const Modal = ({ isOpen, onClose, children }) => {
           onClick={closeModal}
           type='button'
         >
-          &times;
+          <Cross1Icon />
         </button>
         {children}
       </div>

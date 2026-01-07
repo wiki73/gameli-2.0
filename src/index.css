@@ -12,7 +12,7 @@
 body {
   color: var(--color-text);
   min-height: 100dvh;
-  min-width: 100%;
+  width: 100dvw;
   background-image: url('/public/images/background.jpg');
 }
 #root {
@@ -27,4 +27,5 @@ code {
 button {
   border: none;
   background: var(--color-base);
+  cursor: pointer;
 }

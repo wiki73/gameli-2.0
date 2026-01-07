@@ -1,11 +1,23 @@
 import styles from './Button.module.css';
 
-export const Button = ({ onClick, children }) => {
+/**
+ * variant: primary, secondary, danger
+ */
+
+export const Button = ({
+  onClick,
+  children,
+  type = 'button',
+  disabled,
+  variant,
+}) => {
   return (
     <button
-      className={styles.button}
+      className={styles.button + ' ' + styles[variant]}
+      disabled={disabled}
       onClick={onClick}
-      type='button'
+      // eslint-disable-next-line react/button-has-type
+      type={type}
     >
       {children}
     </button>

@@ -6,7 +6,7 @@ import './ToDoList.css';
 
 const ToDoList = () => {
   const {
-    handleUpdateUser,
+    updateUser: handleUpdateUser,
     user: { id: userId, exp },
   } = useAuth();
   const [dragging, setDragging] = useState(false);

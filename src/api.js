@@ -101,14 +101,27 @@ const getDayListsByUser = async userId => {
   );
 };
 
+const getDayListsByUserId = async userId => {
+  if (!userId) return [];
+
+  const { data, error } = await supabase
+    .from('day_lists')
+    .select('*')
+    .eq('user_id', userId);
+
+  if (error) throw error;
+
+  return data;
+};
+
 const getDay = async userId => {
   const { data: unsortedDayLists, error: dayListsError } = await supabase
     .from('day_lists')
     .select('*')
     .eq('user_id', userId);
 
-  if (dayListsError || !unsortedDayLists?.length) {
-    return { tasks: [], dayLists: [], dayListsError };
+  if (dayListsError) {
+    throw dayListsError;
   }
 
   const dayLists = unsortedDayLists.sort(
@@ -118,14 +131,28 @@ const getDay = async userId => {
   const { data: tasks, error: tasksError } = await supabase
     .from('tasks')
     .select('*')
-    .eq('date', dayLists[0].date)
+    .eq('date', dayLists[0]?.date)
     .eq('user_id', userId);
 
   if (tasksError) {
-    return { tasks: [], tasksError, dayLists: [], dayListsError };
+    throw tasksError;
   }
 
-  return { dayLists, tasks, dayListsError, tasksError };
+  return { dayLists, tasks };
+};
+
+const getTasks = async (userId, date) => {
+  const { data: tasks, error: tasksError } = await supabase
+    .from('tasks')
+    .select('*')
+    .eq('date', date)
+    .eq('user_id', userId);
+
+  if (tasksError) {
+    throw tasksError;
+  }
+
+  return tasks;
 };
 
 const getCategories = async userId => {
@@ -165,6 +192,28 @@ const deleteCategory = async ({ userId, id }) => {
   return data;
 };
 
+const createTask = async ({ userId, title, categoryId, date }) => {
+  if (!userId || !title || !categoryId || !date) {
+    throw new Error('createTask: field is required');
+  }
+
+  const { error } = await supabase.from('tasks').insert({
+    user_id: userId,
+    title,
+    category_id: categoryId,
+    date,
+  });
+
+  if (error) throw error;
+};
+
+const deleteTask = async ({ id }) => {
+  const { error } = await supabase.from('tasks').delete().match({
+    id,
+  });
+  if (error) throw error;
+};
+
 export const api = {
   getSession,
   getUserById,
@@ -175,7 +224,11 @@ export const api = {
   getTasksByListId,
   getDayListsByUser,
   getDay,
+  getTasks,
+  getDayListsByUserId,
   getCategories,
   createCategory,
   deleteCategory,
+  createTask,
+  deleteTask,
 };

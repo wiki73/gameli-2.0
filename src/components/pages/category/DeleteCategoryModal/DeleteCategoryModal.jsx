@@ -3,7 +3,6 @@ import { useMemo, useState } from 'react';
 import { Modal } from '../../../common/Modal/Modal';
 import { api } from '../../../../api';
 import { useAuth } from '../../../../contexts/auth-context';
-import { Input } from '../../../common/Input/Input';
 import { Spinner } from '../../../common/spinner/Spinner';
 import styles from './CreateCategoryModal.module.css';
 

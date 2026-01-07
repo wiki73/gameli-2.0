@@ -1,5 +1,7 @@
 .button {
-  background: #fff;
+  background: #333;
+  color: #fff;
+  border: 1px solid #333;
   backdrop-filter: blur(18px) saturate(180%);
   border-radius: 8px;
   padding: 8px 16px;
@@ -15,6 +17,41 @@
 }
 
 .button:hover {
-  background: #eee;
+  background: #222;
+  border: 1px solid #000;
   scale: 102%;
+}
+
+.button:disabled {
+  background: #ccc;
+  cursor: default;
+  scale: 100%;
+}
+
+.secondary {
+  background: #eee;
+  border: 1px solid #eee;
+  color: #333;
+}
+.secondary:hover {
+  background: #fff;
+  border: 1px solid #ccc;
+}
+.secondary:disabled {
+  background: #ccc;
+  cursor: default;
+}
+
+.danger {
+  background: #ff0000;
+  border: 1px solid #ff0000;
+  color: #fff;
+}
+.danger:hover {
+  background: #cc0000;
+  border: 1px solid #990000;
+}
+.danger:disabled {
+  background: #ccc;
+  cursor: default;
 }

@@ -1,16 +1,23 @@
 import { NavLink } from 'react-router';
+import {
+  DashboardIcon,
+  HomeIcon,
+  PersonIcon,
+  SunIcon,
+} from '@radix-ui/react-icons';
 import { ROUTES } from '../../../constants/routes';
 import { Card } from '../../common/Card/Card';
 import styles from './Header.module.css';
 
 const LINKS = [
-  { name: 'Главная', href: ROUTES.MAIN },
-  { name: 'Категории', href: ROUTES.CATEGORIES },
-  { name: 'Профиль', href: ROUTES.PROFILE },
+  { name: 'Главная', href: ROUTES.MAIN, icon: <HomeIcon /> },
+  { name: 'Категории', href: ROUTES.CATEGORIES, icon: <DashboardIcon /> },
+  { name: 'Профиль', href: ROUTES.PROFILE, icon: <PersonIcon /> },
+  { name: 'День', href: ROUTES.DAY, icon: <SunIcon /> },
 ];
 
 export const Header = () => {
-  const renderLink = ({ name, href }) => (
+  const renderLink = ({ name, href, icon }) => (
     <NavLink
       className={({ isActive }) =>
         isActive
@@ -20,7 +27,8 @@ export const Header = () => {
       key={href}
       to={href}
     >
-      {name}
+      {icon}
+      <span className={styles.navButtonText}>{name}</span>
     </NavLink>
   );
 

@@ -67,6 +67,7 @@ export const AuthProvider = ({ children }) => {
   /* ---------- ERROR HANDLING ---------- */
   useEffect(() => {
     if (userError) {
+      // eslint-disable-next-line no-console
       console.error('User fetch error:', userError);
       queryClient.invalidateQueries(['session']);
     }

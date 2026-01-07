@@ -17,17 +17,19 @@ export const CategoryList = ({ categories, isPending }) => {
               key={category.id}
             />
           ))}
-        <button
-          className={styles.createButton}
-          onClick={() => setIsCreateModalOpen(true)}
-          type='button'
-        >
-          <PlusIcon
-            height={32}
-            width={32}
-          />
-        </button>
-        {isPending ? <Spinner /> : null}
+        {!isPending && (
+          <button
+            className={styles.createButton}
+            onClick={() => setIsCreateModalOpen(true)}
+            type='button'
+          >
+            <PlusIcon
+              height={32}
+              width={32}
+            />
+          </button>
+        )}
+        {isPending && <Spinner />}
       </div>
       {isCreateModalOpen ? (
         <CreateCategoryModal

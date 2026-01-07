@@ -4,6 +4,7 @@ import { MainPage } from '../pages/main/MainPage';
 import { AuthPage } from '../pages/auth/AuthPage';
 import { CategoryPage } from '../pages/category/CategoryPage';
 import { ProfilePage } from '../pages/profile/ProfilePage';
+import { DayPage } from '../pages/day/DayPage';
 
 export const Router = () => (
   <Routes>
@@ -22,6 +23,10 @@ export const Router = () => (
     <Route
       element={<ProfilePage />}
       path={ROUTES.PROFILE}
+    />
+    <Route
+      element={<DayPage />}
+      path={ROUTES.DAY}
     />
   </Routes>
 );
