@@ -32,6 +32,15 @@
   justify-content: space-between;
 }
 
+.taskCompleted {
+  background: #e0e0e0;
+}
+
+.taskTitleCompleted {
+  text-decoration: line-through;
+  color: gray;
+}
+
 .createButton {
   justify-content: center;
 }

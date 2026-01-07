@@ -82,17 +82,34 @@ export const DayPage = () => {
         <div className={styles.tasks}>
           {tasks?.map(task => (
             <div
-              className={styles.task}
+              className={
+                styles.task + ' ' + (task.is_done ? styles.taskCompleted : '')
+              }
               key={task.id}
             >
-              <h4>{task.title}</h4>
+              <h4
+                className={
+                  styles.taskTitle +
+                  ' ' +
+                  (task.is_done ? styles.taskTitleCompleted : '')
+                }
+              >
+                {task.title}
+              </h4>
               <div className={styles.taskButtons}>
-                <Button>
-                  <PlayIcon />
-                </Button>
-                <Button variant='secondary'>
-                  <Pencil1Icon />
-                </Button>
+                {!task.is_done && (
+                  <>
+                    <Button
+                      onClick={() => handleGoTask(task.id)}
+                      variant='secondary'
+                    >
+                      <PlayIcon />
+                    </Button>
+                    <Button variant='secondary'>
+                      <Pencil1Icon />
+                    </Button>
+                  </>
+                )}
                 <Button
                   onClick={() => setIsDeleteTaskModalOpen(true)}
                   variant='danger'
