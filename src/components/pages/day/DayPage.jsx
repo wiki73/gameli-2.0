@@ -99,10 +99,7 @@ export const DayPage = () => {
               <div className={styles.taskButtons}>
                 {!task.is_done && (
                   <>
-                    <Button
-                      onClick={() => handleGoTask(task.id)}
-                      variant='secondary'
-                    >
+                    <Button onClick={() => handleGoTask(task.id)}>
                       <PlayIcon />
                     </Button>
                     <Button variant='secondary'>
