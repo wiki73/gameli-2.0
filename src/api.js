@@ -107,7 +107,8 @@ const getDayListsByUserId = async userId => {
   const { data, error } = await supabase
     .from('day_lists')
     .select('*')
-    .eq('user_id', userId);
+    .eq('user_id', userId)
+    .order('date', { ascending: false });
 
   if (error) throw error;
 
