@@ -145,7 +145,8 @@ const getTasksByUserId = async userId => {
   const { data: tasks, error: tasksError } = await supabase
     .from('tasks')
     .select('*')
-    .eq('user_id', userId);
+    .eq('user_id', userId)
+    .order('date', { ascending: true });
 
   if (tasksError) {
     throw tasksError;
