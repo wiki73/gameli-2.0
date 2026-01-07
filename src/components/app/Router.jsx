@@ -5,6 +5,7 @@ import { AuthPage } from '../pages/auth/AuthPage';
 import { CategoryPage } from '../pages/category/CategoryPage';
 import { ProfilePage } from '../pages/profile/ProfilePage';
 import { DayPage } from '../pages/day/DayPage';
+import { DashboardPage } from '../pages/dashboard/DashboardPage';
 
 export const Router = () => (
   <Routes>
@@ -27,6 +28,10 @@ export const Router = () => (
     <Route
       element={<DayPage />}
       path={ROUTES.DAY}
+    />
+    <Route
+      element={<DashboardPage />}
+      path={ROUTES.DASHBOARD}
     />
   </Routes>
 );

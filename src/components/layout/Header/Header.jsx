@@ -11,6 +11,7 @@ import styles from './Header.module.css';
 
 const LINKS = [
   { name: 'Главная', href: ROUTES.MAIN, icon: <HomeIcon /> },
+  { name: 'Статистика', href: ROUTES.DASHBOARD, icon: <DashboardIcon /> },
   { name: 'Категории', href: ROUTES.CATEGORIES, icon: <DashboardIcon /> },
   { name: 'Профиль', href: ROUTES.PROFILE, icon: <PersonIcon /> },
   { name: 'День', href: ROUTES.DAY, icon: <SunIcon /> },
