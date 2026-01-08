@@ -28,7 +28,6 @@ export const CreateTaskModal = ({ isOpen, onClose, selectedDay }) => {
     onSuccess: () => {
       (queryClient.invalidateQueries({
         queryKey: ['tasks', user?.id, selectedDay],
-        exact: false,
       }),
         onClose());
     },
@@ -50,8 +49,7 @@ export const CreateTaskModal = ({ isOpen, onClose, selectedDay }) => {
       formData.title.length < 3 ||
       formData.title.length > 50
     );
-  }, [
-    Mutation.isLoading, formData.categoryId, formData.title]);
+  }, [createTaskMutation.isLoading, formData.categoryId, formData.title]);
 
   const handleChange = field => e => {
     setError(null);

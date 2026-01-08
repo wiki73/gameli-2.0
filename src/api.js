@@ -229,9 +229,7 @@ const deleteTask = async ({ id }) => {
   if (error) throw error;
 };
 
-
 const createDateForDayList = async ({ userId, date }) => {
-  console.log('мы тут')
   if (!userId || !date) {
     throw new Error('createDayList: userId and date are required');
   }
@@ -264,8 +262,7 @@ const createDateForDayList = async ({ userId, date }) => {
 
   if (error) throw error;
   return data;
-
-  };
+};
 
 export const api = {
   getSession,
@@ -285,5 +282,5 @@ export const api = {
   deleteCategory,
   createTask,
   deleteTask,
-  createDateForDayList
+  createDateForDayList,
 };

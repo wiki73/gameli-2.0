@@ -28,7 +28,6 @@ export const DayPage = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-
   const { data: dayLists } = useQuery({
     queryKey: ['day', user?.id],
     queryFn: () => api.getDayListsByUserId(user?.id),
@@ -52,11 +51,10 @@ export const DayPage = () => {
   }, [dayLists, refetch]);
 
   const handleDayChange = async e => {
-    if (e.target.value === "newDay") {
+    if (e.target.value === 'newDay') {
       openModal();
-      console.log('zashlo')
 
-      return
+      return;
     }
     setSelectedDay(e.target.value);
   };
@@ -77,17 +75,13 @@ export const DayPage = () => {
     return <FullScreenSpinner />;
   }
 
-
-
   const openModal = () => {
-    console.log('da')
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
   };
-
 
   return (
     <Card>
@@ -96,10 +90,13 @@ export const DayPage = () => {
         <Select
           defaultValue={selectedDay.date}
           onClick={handleDayChange}
-          options={[...dayLists.map(({ date }) => ({
-            value: date,
-            label: getFormattedDay(date),
-          })), {value: "newDay", label:"новый день"}]}
+          options={[
+            ...dayLists.map(({ date }) => ({
+              value: date,
+              label: getFormattedDay(date),
+            })),
+            { value: 'newDay', label: 'новый день' },
+          ]}
         />
         <div className={styles.tasks}>
           {tasks?.map(task => (
