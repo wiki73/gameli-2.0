@@ -23,7 +23,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint . --ext .js,.mjs,.jsx,.ts,.tsx --cache --cache-strategy content --cache-location .eslintcache",
+    "lint": "eslint . --ext .js,.mjs,.jsx --cache --cache-strategy content --cache-location .eslintcache --max-warnings=0",
     "lint:fix": "eslint . --ext .js,.mjs,.jsx,.ts,.tsx --fix --cache --cache-strategy content --cache-location .eslintcache",
     "prettier": "prettier . \"**/*.{js,mjs,json,yml,css}\" --check --cache --cache-strategy=content --cache-location=.prettiercache",
     "prettier:fix": "prettier . \"**/*.{js,mjs,json,yml,css}\" --write --cache --cache-strategy=content --cache-location=.prettiercache",
