@@ -26,10 +26,10 @@ export const CreateTaskModal = ({ isOpen, onClose, selectedDay }) => {
   const createTaskMutation = useMutation({
     mutationFn: api.createTask,
     onSuccess: () => {
-      (queryClient.invalidateQueries({
+      queryClient.invalidateQueries({
         queryKey: ['tasks', user?.id, selectedDay],
-      }),
-        onClose());
+      });
+      onClose();
     },
   });
 

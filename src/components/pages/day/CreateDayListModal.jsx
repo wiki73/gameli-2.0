@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Modal } from '../../common/Modal/Modal';
 import './CreateDayListModal.css';
 import { api } from '../../../api';
@@ -9,6 +9,7 @@ export const CreateDayListModal = ({ isOpen, onClose }) => {
   const [date, setDate] = useState('');
   const [error, setError] = useState('');
   const { user } = useAuth();
+  const queryClient = useQueryClient();
 
   const createDayListMutation = useMutation({
     mutationFn: api.createDateForDayList,
@@ -16,18 +17,9 @@ export const CreateDayListModal = ({ isOpen, onClose }) => {
       queryClient.invalidateQueries({
         queryKey: ['day', user?.id],
       });
-      пшеqueryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      onClose?.();
     },
-
-    //     // Закрываем модалку и очищаем поля
-    //     onClose();
-    //     setDate('');
-    //     setError('');
-    // },
-    // onError: (error) => {
-    //     console.error('Ошибка при создании списка:', error);
-    //     setError(error.message);
-    // },
   });
 
   const handleDateChange = e => {
@@ -49,7 +41,6 @@ export const CreateDayListModal = ({ isOpen, onClose }) => {
       date: date,
       userId: user?.id,
     });
-    onClose?.();
     setDate('');
     setError('');
   };
