@@ -214,6 +214,44 @@ const deleteTask = async ({ id }) => {
   if (error) throw error;
 };
 
+
+const createDateForDayList = async ({ userId, date }) => {
+  console.log('мы тут')
+  if (!userId || !date) {
+    throw new Error('createDayList: userId and date are required');
+  }
+
+  // Проверяем, нет ли уже списка на эту дату
+  const { data: existingList, error: checkError } = await supabase
+    .from('day_lists')
+    .select('id')
+    .eq('user_id', userId)
+    .eq('date', date)
+    .maybeSingle();
+
+  if (checkError && checkError.code !== 'PGRST116') {
+    throw checkError;
+  }
+
+  if (existingList) {
+    throw new Error('Список на эту дату уже существует');
+  }
+
+  // Создаем новый список
+  const { data, error } = await supabase
+    .from('day_lists')
+    .insert({
+      user_id: userId,
+      date,
+    })
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data;
+
+  };
+
 export const api = {
   getSession,
   getUserById,
@@ -231,4 +269,5 @@ export const api = {
   deleteCategory,
   createTask,
   deleteTask,
+  createDateForDayList
 };

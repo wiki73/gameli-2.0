@@ -49,7 +49,8 @@ export const CreateTaskModal = ({ isOpen, onClose, selectedDay }) => {
       formData.title.length < 3 ||
       formData.title.length > 50
     );
-  }, [createTaskMutation.isLoading, formData.categoryId, formData.title]);
+  }, [
+    Mutation.isLoading, formData.categoryId, formData.title]);
 
   const handleChange = field => e => {
     setError(null);

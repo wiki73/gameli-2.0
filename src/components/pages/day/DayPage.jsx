@@ -16,6 +16,7 @@ import { Spinner } from '../../common/spinner/Spinner';
 import { Button } from '../../common/Button/Button';
 import { CreateTaskModal } from './CreateTaskModal/CreateTaskModal';
 import { DeleteTaskModal } from './DeleteTaskModal/DeleteTaskModal';
+import { CreateDayListModal } from './CreateDayListModal';
 import styles from './DayPage.module.css';
 
 export const DayPage = () => {
@@ -24,6 +25,9 @@ export const DayPage = () => {
   const [selectedDay, setSelectedDay] = useState(null);
   const [isCreateTaskModalOpen, setIsCreateTaskModalOpen] = useState(false);
   const [isDeleteTaskModalOpen, setIsDeleteTaskModalOpen] = useState(false);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
 
   const { data: dayLists } = useQuery({
     queryKey: ['day', user?.id],
@@ -48,6 +52,12 @@ export const DayPage = () => {
   }, [dayLists, refetch]);
 
   const handleDayChange = async e => {
+    if (e.target.value === "newDay") {
+      openModal();
+      console.log('zashlo')
+
+      return
+    }
     setSelectedDay(e.target.value);
   };
 
@@ -67,6 +77,18 @@ export const DayPage = () => {
     return <FullScreenSpinner />;
   }
 
+
+
+  const openModal = () => {
+    console.log('da')
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+
   return (
     <Card>
       <h1>Планирование дня</h1>
@@ -74,10 +96,10 @@ export const DayPage = () => {
         <Select
           defaultValue={selectedDay.date}
           onClick={handleDayChange}
-          options={dayLists.map(({ date }) => ({
+          options={[...dayLists.map(({ date }) => ({
             value: date,
             label: getFormattedDay(date),
-          }))}
+          })), {value: "newDay", label:"новый день"}]}
         />
         <div className={styles.tasks}>
           {tasks?.map(task => (
@@ -148,6 +170,12 @@ export const DayPage = () => {
           isOpen={isCreateTaskModalOpen}
           onClose={handleCloseCreateTaskModal}
           selectedDay={selectedDay}
+        />
+      )}
+      {isModalOpen && (
+        <CreateDayListModal
+          isOpen={isModalOpen}
+          onClose={closeModal}
         />
       )}
     </Card>
