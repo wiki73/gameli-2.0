@@ -40,7 +40,7 @@ export default defineConfig([
     },
   },
   {
-    ignores: ['node_modules', '**/*.config.*'],
+    ignores: ['node_modules'],
   },
   {
     languageOptions: {
