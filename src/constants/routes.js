@@ -4,4 +4,5 @@ export const ROUTES = {
   CATEGORIES: '/categories',
   PROFILE: '/profile',
   DAY: '/day',
+  DASHBOARD: '/dashboard',
 };

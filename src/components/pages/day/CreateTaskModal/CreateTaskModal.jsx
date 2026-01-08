@@ -28,6 +28,7 @@ export const CreateTaskModal = ({ isOpen, onClose, selectedDay }) => {
     onSuccess: () => {
       (queryClient.invalidateQueries({
         queryKey: ['tasks', user?.id, selectedDay],
+        exact: false,
       }),
         onClose());
     },

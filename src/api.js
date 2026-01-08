@@ -107,7 +107,8 @@ const getDayListsByUserId = async userId => {
   const { data, error } = await supabase
     .from('day_lists')
     .select('*')
-    .eq('user_id', userId);
+    .eq('user_id', userId)
+    .order('date', { ascending: false });
 
   if (error) throw error;
 
@@ -141,12 +142,26 @@ const getDay = async userId => {
   return { dayLists, tasks };
 };
 
-const getTasks = async (userId, date) => {
+const getTasksByUserId = async userId => {
   const { data: tasks, error: tasksError } = await supabase
     .from('tasks')
     .select('*')
-    .eq('date', date)
-    .eq('user_id', userId);
+    .eq('user_id', userId)
+    .order('date', { ascending: true });
+
+  if (tasksError) {
+    throw tasksError;
+  }
+
+  return tasks;
+};
+
+const getTasksByUserIdAndDate = async (userId, date) => {
+  const { data: tasks, error: tasksError } = await supabase
+    .from('tasks')
+    .select('*')
+    .eq('user_id', userId)
+    .eq('date', date);
 
   if (tasksError) {
     throw tasksError;
@@ -262,7 +277,8 @@ export const api = {
   getTasksByListId,
   getDayListsByUser,
   getDay,
-  getTasks,
+  getTasks: getTasksByUserIdAndDate,
+  getTasksByUserId,
   getDayListsByUserId,
   getCategories,
   createCategory,
