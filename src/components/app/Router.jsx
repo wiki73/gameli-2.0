@@ -1,11 +1,11 @@
 import { Route, Routes } from 'react-router';
-import { ROUTES } from '../../constants/routes';
-import { MainPage } from '../pages/main/MainPage';
-import { AuthPage } from '../pages/auth/AuthPage';
-import { CategoryPage } from '../pages/category/CategoryPage';
-import { ProfilePage } from '../pages/profile/ProfilePage';
-import { DayPage } from '../pages/day/DayPage';
-import { DashboardPage } from '../pages/dashboard/DashboardPage';
+import { DashboardPage } from '@components/pages/dashboard/DashboardPage';
+import { MainPage } from '@components/pages/main/MainPage';
+import { AuthPage } from '@components/pages/auth/AuthPage';
+import { CategoryPage } from '@components/pages/category/CategoryPage';
+import { ProfilePage } from '@components/pages/profile/ProfilePage';
+import { DayPage } from '@components/pages/day/DayPage';
+import { ROUTES } from '@constants/routes';
 
 export const Router = () => (
   <Routes>
