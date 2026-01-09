@@ -88,7 +88,6 @@ export const DayPage = () => {
       <h1>Планирование дня</h1>
       <div>
         <Select
-          defaultValue={selectedDay.date}
           onClick={handleDayChange}
           options={[
             ...dayLists.map(({ date }) => ({
@@ -97,6 +96,7 @@ export const DayPage = () => {
             })),
             { value: 'newDay', label: 'новый день' },
           ]}
+          value={selectedDay}
         />
         <div className={styles.tasks}>
           {tasks?.map(task => (
@@ -170,6 +170,7 @@ export const DayPage = () => {
         <CreateDayListModal
           isOpen={isModalOpen}
           onClose={closeModal}
+          onSuccess={date => setSelectedDay(date)}
         />
       )}
     </Card>

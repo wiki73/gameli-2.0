@@ -5,7 +5,7 @@ import './CreateDayListModal.css';
 import { api } from '../../../api';
 import { useAuth } from '../../../contexts/auth-context';
 
-export const CreateDayListModal = ({ isOpen, onClose }) => {
+export const CreateDayListModal = ({ isOpen, onClose, onSuccess }) => {
   const [date, setDate] = useState('');
   const [error, setError] = useState('');
   const { user } = useAuth();
@@ -17,7 +17,8 @@ export const CreateDayListModal = ({ isOpen, onClose }) => {
       queryClient.invalidateQueries({
         queryKey: ['day', user?.id],
       });
-      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ queryKey: ['task'] });
+      onSuccess?.(date);
       onClose?.();
     },
   });

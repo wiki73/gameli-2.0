@@ -1,11 +1,12 @@
 import styles from './Select.module.css';
 
-export const Select = ({ options, defaultValue, onClick }) => {
+export const Select = ({ options, defaultValue, onClick, value }) => {
   return (
     <select
       className={styles.select}
       defaultValue={defaultValue}
       onChange={onClick}
+      value={value}
     >
       {options.map(option => (
         <option
