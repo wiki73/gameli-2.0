@@ -6,12 +6,13 @@ import {
   PersonIcon,
   SunIcon,
 } from '@radix-ui/react-icons';
+import { useEffect, useState } from 'react';
 import { ROUTES } from '../../../constants/routes';
 import { Card } from '../../common/Card/Card';
+import { appConfig } from '../../../config/env';
 import styles from './Header.module.css';
 
 const LINKS = [
-  { name: 'Главная', href: ROUTES.MAIN, icon: <HomeIcon /> },
   { name: 'Статистика', href: ROUTES.DASHBOARD, icon: <DashboardIcon /> },
   { name: 'Категории', href: ROUTES.CATEGORIES, icon: <LayersIcon /> },
   { name: 'Профиль', href: ROUTES.PROFILE, icon: <PersonIcon /> },
@@ -19,6 +20,17 @@ const LINKS = [
 ];
 
 export const Header = () => {
+  const [links, setLinks] = useState(LINKS);
+
+  useEffect(() => {
+    if (appConfig.showMainPage) {
+      setLinks([
+        { name: 'Главная', href: ROUTES.MAIN, icon: <HomeIcon /> },
+        ...LINKS,
+      ]);
+    }
+  }, []);
+
   const renderLink = ({ name, href, icon }) => (
     <NavLink
       className={({ isActive }) =>
@@ -37,7 +49,7 @@ export const Header = () => {
   return (
     <header className={styles.header}>
       <Card>
-        <nav className={styles.nav}>{LINKS.map(renderLink)}</nav>
+        <nav className={styles.nav}>{links.map(renderLink)}</nav>
       </Card>
     </header>
   );

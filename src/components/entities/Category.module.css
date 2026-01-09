@@ -50,8 +50,8 @@
 }
 
 .categoryEditButton:hover {
-  background: var(--color-green-bg-strong);
-  color: white;
+  background: var(--warning);
+  color: var(--primary-foreground);
 }
 
 .categoryDeleteButton {
@@ -69,8 +69,8 @@
 }
 
 .categoryDeleteButton:hover {
-  background: red;
-  color: white;
+  background: var(--danger);
+  color: var(--primary-foreground);
 }
 
 .categoryName {

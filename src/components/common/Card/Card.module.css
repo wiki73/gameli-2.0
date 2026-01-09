@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: center;
   gap: 16px;
-  color: var(--color-base);
+  color: var(--text);
 
   background: linear-gradient(
     135deg,

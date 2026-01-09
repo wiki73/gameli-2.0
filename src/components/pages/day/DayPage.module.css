@@ -1,11 +1,13 @@
 .profile {
   display: flex;
-  gap: var(--spacing-lg);
+  gap: 24px;
 }
 
 .tasks {
   display: grid;
   grid-template-columns: 1fr;
+  gap: 12px;
+  margin-top: 24px;
 
   @media (min-width: 640px) {
     grid-template-columns: repeat(2, 1fr);
@@ -14,31 +16,28 @@
   @media (min-width: 1024px) {
     grid-template-columns: repeat(4, 1fr);
   }
-
-  gap: var(--spacing-md);
-  margin-top: var(--spacing-lg);
 }
 
 .task {
   padding: 12px;
   border-radius: 12px;
   width: 100%;
-  background: #fff;
-  color: #333;
+  background: var(--bg);
+  color: var(--text);
 
   display: flex;
-  gap: 24px;
+  gap: 4px;
   align-items: center;
   justify-content: space-between;
 }
 
 .taskCompleted {
-  background: #e0e0e0;
+  background: var(--bg-muted);
 }
 
 .taskTitleCompleted {
   text-decoration: line-through;
-  color: gray;
+  color: var(--text-muted);
 }
 
 .createButton {
@@ -47,5 +46,5 @@
 
 .taskButtons {
   display: flex;
-  gap: var(--spacing-sm);
+  gap: 4px;
 }

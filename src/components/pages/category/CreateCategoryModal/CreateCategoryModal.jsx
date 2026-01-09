@@ -5,6 +5,7 @@ import { api } from '../../../../api';
 import { useAuth } from '../../../../contexts/auth-context';
 import { Input } from '../../../common/Input/Input';
 import { Spinner } from '../../../common/spinner/Spinner';
+import { Button } from '../../../common/Button/Button';
 import styles from './CreateCategoryModal.module.css';
 
 export const CreateCategoryModal = props => {
@@ -87,14 +88,13 @@ export const CreateCategoryModal = props => {
 
         {error ? <p className={styles.error}>{error}</p> : null}
 
-        <button
-          className={styles.primaryButton}
+        <Button
           disabled={isButtonDisabled}
           type='submit'
         >
           {createMutation.isLoading ? <Spinner /> : null}
           Создать категорию
-        </button>
+        </Button>
       </form>
     </Modal>
   );

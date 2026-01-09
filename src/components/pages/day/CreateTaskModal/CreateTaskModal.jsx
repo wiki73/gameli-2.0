@@ -73,7 +73,7 @@ export const CreateTaskModal = ({ isOpen, onClose, selectedDay }) => {
       isOpen={isOpen}
       onClose={onClose}
     >
-      Создание задачи
+      <h1>Создание задачи</h1>
       <form
         className={styles.form}
         onSubmit={handleSubmit}
