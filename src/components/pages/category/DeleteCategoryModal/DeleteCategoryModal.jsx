@@ -4,6 +4,7 @@ import { Modal } from '../../../common/Modal/Modal';
 import { api } from '../../../../api';
 import { useAuth } from '../../../../contexts/auth-context';
 import { Spinner } from '../../../common/spinner/Spinner';
+import { Button } from '../../../common/Button/Button';
 import styles from './CreateCategoryModal.module.css';
 
 export const DeleteCategoryModal = ({ id, onClose, isOpen }) => {
@@ -43,14 +44,13 @@ export const DeleteCategoryModal = ({ id, onClose, isOpen }) => {
         className={styles.form}
         onSubmit={handleSubmit}
       >
-        <button
-          className={styles.primaryButton}
+        <Button
           disabled={isButtonDisabled}
           type='submit'
         >
           {deleteMutation.isLoading ? <Spinner /> : null}
           Удалить категорию
-        </button>
+        </Button>
       </form>
     </Modal>
   );

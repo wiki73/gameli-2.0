@@ -2,5 +2,5 @@
   display: flex;
   width: 100%;
   flex-direction: column;
-  margin-top: var(--spacing-md);
+  margin-top: 12px;
 }
