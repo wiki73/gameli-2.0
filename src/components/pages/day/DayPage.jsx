@@ -16,7 +16,7 @@ import { Spinner } from '../../common/spinner/Spinner';
 import { Button } from '../../common/Button/Button';
 import { CreateTaskModal } from './CreateTaskModal/CreateTaskModal';
 import { DeleteTaskModal } from './DeleteTaskModal/DeleteTaskModal';
-import { CreateDayListModal } from './CreateDayListModal';
+import { CreateDayListModal } from './CreateDayListModal/CreateDayListModal';
 import styles from './DayPage.module.css';
 
 export const DayPage = () => {
@@ -28,7 +28,7 @@ export const DayPage = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { data: dayLists } = useQuery({
+  const { data: dayLists, isPending: isDayListsPending } = useQuery({
     queryKey: ['day', user?.id],
     queryFn: () => api.getDayListsByUserId(user?.id),
     enabled: !!user?.id,
@@ -37,7 +37,7 @@ export const DayPage = () => {
   const {
     data: tasks,
     refetch,
-    isPending,
+    isLoading,
   } = useQuery({
     queryKey: ['tasks', user?.id, selectedDay],
     queryFn: () => api.getTasks(user?.id, selectedDay ?? dayLists[0].date),
@@ -51,12 +51,11 @@ export const DayPage = () => {
   }, [dayLists, refetch]);
 
   const handleDayChange = async e => {
-    if (e.target.value === 'newDay') {
-      openModal();
-
-      return;
-    }
     setSelectedDay(e.target.value);
+  };
+
+  const handleCreateNewDay = () => {
+    openModal();
   };
 
   const handleCreateTask = () => {
@@ -71,7 +70,7 @@ export const DayPage = () => {
     setIsDeleteTaskModalOpen(false);
   };
 
-  if (!selectedDay) {
+  if (isDayListsPending) {
     return <FullScreenSpinner />;
   }
 
@@ -87,17 +86,19 @@ export const DayPage = () => {
     <Card>
       <h1>Планирование дня</h1>
       <div>
-        <Select
-          onClick={handleDayChange}
-          options={[
-            ...dayLists.map(({ date }) => ({
-              value: date,
-              label: getFormattedDay(date),
-            })),
-            { value: 'newDay', label: 'новый день' },
-          ]}
-          value={selectedDay}
-        />
+        <div className={styles.dayList}>
+          <Select
+            onClick={handleDayChange}
+            options={[
+              ...dayLists.map(({ date }) => ({
+                value: date,
+                label: getFormattedDay(date),
+              })),
+            ]}
+            value={selectedDay}
+          />
+          <Button onClick={handleCreateNewDay}>Создать новый день</Button>
+        </div>
         <div className={styles.tasks}>
           {tasks?.map(task => (
             <div
@@ -143,7 +144,7 @@ export const DayPage = () => {
               )}
             </div>
           ))}
-          {!isPending && (
+          {!isLoading && (
             <Button
               className={styles.task + ' ' + styles.createButton}
               onClick={handleCreateTask}
@@ -156,7 +157,7 @@ export const DayPage = () => {
               />
             </Button>
           )}
-          {isPending && <Spinner />}
+          {isLoading && <Spinner />}
         </div>
       </div>
       {isCreateTaskModalOpen && (

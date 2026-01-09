@@ -34,6 +34,7 @@
   border: 1px solid var(--secondary);
   color: var(--secondary-foreground);
 }
+
 .secondary:hover {
   background: var(--secondary-hover);
   border: 1px solid var(--secondary-hover);

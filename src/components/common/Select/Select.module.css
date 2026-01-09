@@ -1,7 +1,7 @@
 .select {
-  background: #fff;
-  color: #333;
+  background: var(--bg);
+  color: var(--text);
   padding: 8px 12px;
   border-radius: 8px;
-  font-weight: bold;
+  font-weight: 700;
 }

@@ -4,6 +4,6 @@
 }
 
 .pageTitle {
-  font-weight: bold;
-  color: #fff;
+  font-weight: 700;
+  color: var(--text);
 }

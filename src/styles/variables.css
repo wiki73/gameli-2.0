@@ -2,8 +2,7 @@
   /* ---------- Base ---------- */
   --bg: #f6f8f6;
   --bg-muted: #eef2ee;
-  --bg-elevated: #ffffff;
-
+  --bg-elevated: #fff;
   --text: #181818;
   --text-muted: #a3b3a9;
   --text-subtle: #7a8f82;
@@ -12,7 +11,7 @@
   --primary: #22b038;
   --primary-hover: #1c972f;
   --primary-active: #168028;
-  --primary-foreground: #ffffff;
+  --primary-foreground: #fff;
 
   /* ---------- Secondary ---------- */
   --secondary: #e4f3e7;
@@ -32,29 +31,26 @@
   --danger: #e54848;
   --danger-hover: #cf3c3c;
   --danger-active: #b83232;
-
-  --danger-foreground: #ffffff;
+  --danger-foreground: #fff;
   --danger-text: #c92a2a;
   --danger-text-hover: #a61e1e;
-
-  --danger-bg-subtle: rgba(229, 72, 72, 0.12);
-  --danger-bg-hover: rgba(229, 72, 72, 0.18);
-
-  --danger-border: rgba(229, 72, 72, 0.4);
-  --danger-focus-ring: rgba(229, 72, 72, 0.5);
+  --danger-bg-subtle: rgb(229 72 72 / 0.12);
+  --danger-bg-hover: rgb(229 72 72 / 0.18);
+  --danger-border: rgb(229 72 72 / 0.4);
+  --danger-focus-ring: rgb(229 72 72 / 0.5);
 
   /* ---------- Borders ---------- */
-  --border: rgba(15, 31, 20, 0.15);
-  --border-muted: rgba(15, 31, 20, 0.08);
-  --focus-ring: rgba(34, 176, 56, 0.5);
+  --border: rgb(15 31 20 / 0.15);
+  --border-muted: rgb(15 31 20 / 0.08);
+  --focus-ring: rgb(34 176 56 / 0.5);
 
   /* ---------- Shadows ---------- */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.08);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.08);
+  --shadow-md: 0 4px 12px rgb(0 0 0 / 0.12);
 
   /* ---------- Inputs ---------- */
-  --input-bg: #ffffff;
-  --input-border: rgba(15, 31, 20, 0.2);
+  --input-bg: #fff;
+  --input-border: rgb(15 31 20 / 0.2);
   --input-focus: var(--primary);
 }
 
@@ -63,7 +59,6 @@
   --bg: #0b1410;
   --bg-muted: #101d17;
   --bg-elevated: #14241c;
-
   --text: #e7f3ec;
   --text-muted: #a9c2b3;
   --text-subtle: #7f9b8c;
@@ -92,28 +87,25 @@
   --danger: #ff6b6b;
   --danger-hover: #ff5252;
   --danger-active: #e64545;
-
   --danger-foreground: #0b1410;
   --danger-text: #ff9a9a;
   --danger-text-hover: #ff7a7a;
-
-  --danger-bg-subtle: rgba(255, 107, 107, 0.15);
-  --danger-bg-hover: rgba(255, 107, 107, 0.22);
-
-  --danger-border: rgba(255, 107, 107, 0.45);
-  --danger-focus-ring: rgba(255, 107, 107, 0.6);
+  --danger-bg-subtle: rgb(255 107 107 / 0.15);
+  --danger-bg-hover: rgb(255 107 107 / 0.22);
+  --danger-border: rgb(255 107 107 / 0.45);
+  --danger-focus-ring: rgb(255 107 107 / 0.6);
 
   /* ---------- Borders ---------- */
-  --border: rgba(231, 243, 236, 0.15);
-  --border-muted: rgba(231, 243, 236, 0.08);
-  --focus-ring: rgba(60, 255, 87, 0.6);
+  --border: rgb(231 243 236 / 0.15);
+  --border-muted: rgb(231 243 236 / 0.08);
+  --focus-ring: rgb(60 255 87 / 0.6);
 
   /* ---------- Shadows ---------- */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.6);
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-md: 0 8px 24px rgb(0 0 0 / 0.6);
 
   /* ---------- Inputs ---------- */
   --input-bg: #14241c;
-  --input-border: rgba(231, 243, 236, 0.2);
+  --input-border: rgb(231 243 236 / 0.2);
   --input-focus: var(--primary);
 }

@@ -32,5 +32,8 @@ jobs:
       - name: Prettier
         run: npm run prettier
 
+      - name: Lint CSS
+        run: npm run lint:css:ci
+
       - name: Build
         run: npm run build

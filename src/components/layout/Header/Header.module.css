@@ -5,12 +5,12 @@
   left: 0;
   right: 0;
 
-  @media (max-width: 768px) {
+  @media (width <= 768px) {
     padding: 0 12px;
     bottom: 12px;
   }
 
-  @media (min-width: 768px) {
+  @media (width >= 768px) {
     top: 12px;
     position: sticky;
   }
@@ -34,25 +34,25 @@
   padding: 10px 14px;
   border-radius: 10px;
 
-  background: #ccc;
+  background: var(--bg);
 
-  color: #000;
+  color: var(--text);
   font-weight: 500;
   cursor: pointer;
 
   transition: all 0.2s ease-in-out;
 
-  @media (max-width: 768px) {
+  @media (width <= 768px) {
     width: 100%;
   }
 
-  @media (min-width: 768px) {
+  @media (width >= 768px) {
     padding: 14px 18px;
   }
 }
 
 .navButton:hover {
-  background: #fff;
+  background: var(--bg);
   transform: translateY(-1px);
   scale: 102%;
 }
@@ -62,12 +62,12 @@
 }
 
 .navButtonActive {
-  background: #fff;
+  background: var(--bg);
   scale: 104%;
 }
 
 .navButtonText {
-  @media (max-width: 768px) {
+  @media (width <= 768px) {
     display: none;
   }
 }

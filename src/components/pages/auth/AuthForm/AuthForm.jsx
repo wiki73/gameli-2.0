@@ -3,17 +3,19 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '../../../../api';
 import { Spinner } from '../../../common/spinner/Spinner';
 import styles from './AuthForm.module.css';
+import { Button } from '@/components/common/Button/Button';
+import { Input } from '@/components/common/Input/Input';
 
 const TEXTS = {
   LOGIN: {
     TITLE: 'Войти',
     BTN_PRIMARY: 'Войти',
-    BTN_SECONDARY: 'Зарегистрироваться',
+    BTN_SECONDARY: 'К регистрации',
   },
   REGISTER: {
     TITLE: 'Регистрация',
     BTN_PRIMARY: 'Зарегистрироваться',
-    BTN_SECONDARY: 'Войти',
+    BTN_SECONDARY: 'К входу',
   },
   LABEL_NAME: 'Имя',
   LABEL_EMAIL: 'Почта',
@@ -106,71 +108,46 @@ export const AuthForm = () => {
         onSubmit={handleSubmit}
       >
         {!isLogin && (
-          <>
-            <label
-              className={styles.label}
-              htmlFor='name'
-            >
-              {TEXTS.LABEL_NAME}
-            </label>
-            <input
-              autoComplete='name'
-              className={styles.input}
-              id='name'
-              onChange={handleChange('name')}
-              placeholder='Johnson'
-              type='text'
-              value={formData.name}
-            />
-          </>
+          <Input
+            autoComplete='name'
+            id='name'
+            onChange={handleChange('name')}
+            placeholder={TEXTS.LABEL_NAME}
+            type='text'
+            value={formData.name}
+          />
         )}
-        <label
-          className={styles.label}
-          htmlFor='email'
-        >
-          {TEXTS.LABEL_EMAIL}
-        </label>
-        <input
+        <Input
           autoComplete='email'
-          className={styles.input}
           id='email'
           onChange={handleChange('email')}
-          placeholder='johnson@email.com'
+          placeholder={TEXTS.LABEL_EMAIL}
           type='email'
           value={formData.email}
         />
-        <label
-          className={styles.label}
-          htmlFor='password'
-        >
-          {TEXTS.LABEL_PASSWORD}
-        </label>
-        <input
-          autoComplete='current-password'
-          className={styles.input}
+        <Input
+          autoComplete='password'
           id='password'
           onChange={handleChange('password')}
-          placeholder='******'
+          placeholder={TEXTS.LABEL_PASSWORD}
           type='password'
           value={formData.password}
         />
         {error ? <p className={styles.error}>{error}</p> : null}
-        <button
-          className={styles.primaryButton}
+        <Button
           disabled={isButtonDisabled}
           type='submit'
         >
           {isLoading ? <Spinner /> : null}
           {TEXTS[mode].BTN_PRIMARY}
-        </button>
+        </Button>
       </form>
-      <button
-        className={styles.secondaryButton}
+      <Button
         onClick={handleSwitchMode}
-        type='button'
+        variant='secondary'
       >
         {TEXTS[mode].BTN_SECONDARY}
-      </button>
+      </Button>
     </div>
   );
 };
