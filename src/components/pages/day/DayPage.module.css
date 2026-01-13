@@ -18,35 +18,8 @@
   }
 }
 
-.task {
-  padding: 12px;
-  border-radius: 12px;
-  width: 100%;
-  background: var(--bg);
-  color: var(--text);
-
-  display: flex;
-  gap: 4px;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.taskCompleted {
-  background: var(--bg-muted);
-}
-
-.taskTitleCompleted {
-  text-decoration: line-through;
-  color: var(--text-muted);
-}
-
 .createButton {
   justify-content: center;
-}
-
-.taskButtons {
-  display: flex;
-  gap: 4px;
 }
 
 .dayList {

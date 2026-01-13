@@ -86,6 +86,17 @@ const getTasksByListId = async listId => {
   return data;
 };
 
+const getTaskByListIdAndId = async (listId, id) => {
+  const { data, error } = await supabase
+    .from('tasks')
+    .select('*')
+    .eq('day_list_id', listId)
+    .eq('id', id);
+
+  if (error) throw error;
+  return data;
+};
+
 const getDayListsByUser = async userId => {
   if (!userId) return [];
 
@@ -222,6 +233,30 @@ const createTask = async ({ userId, title, categoryId, date }) => {
   if (error) throw error;
 };
 
+export const updateTask = async ({ id, userId, title, categoryId, date }) => {
+  if (!id || !userId) {
+    throw new Error('updateTask: id and userId are required');
+  }
+
+  const updates = {};
+
+  if (title !== undefined) updates.title = title;
+  if (categoryId !== undefined) updates.category_id = categoryId;
+  if (date !== undefined) updates.date = date;
+
+  if (Object.keys(updates).length === 0) {
+    throw new Error('updateTask: no fields to update');
+  }
+
+  const { error } = await supabase
+    .from('tasks')
+    .update(updates)
+    .eq('id', id)
+    .eq('user_id', userId);
+
+  if (error) throw error;
+};
+
 const deleteTask = async ({ id }) => {
   const { error } = await supabase.from('tasks').delete().match({
     id,
@@ -281,6 +316,8 @@ export const api = {
   createCategory,
   deleteCategory,
   createTask,
+  updateTask,
   deleteTask,
   createDateForDayList,
+  getTaskByListIdAndId,
 };

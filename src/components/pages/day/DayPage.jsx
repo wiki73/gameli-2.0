@@ -18,14 +18,13 @@ import { CreateTaskModal } from './CreateTaskModal/CreateTaskModal';
 import { DeleteTaskModal } from './DeleteTaskModal/DeleteTaskModal';
 import { CreateDayListModal } from './CreateDayListModal/CreateDayListModal';
 import styles from './DayPage.module.css';
+import { Task } from '@/components/entities/Task/Task';
 
 export const DayPage = () => {
   const { user } = useAuth();
 
   const [selectedDay, setSelectedDay] = useState(null);
   const [isCreateTaskModalOpen, setIsCreateTaskModalOpen] = useState(false);
-  const [isDeleteTaskModalOpen, setIsDeleteTaskModalOpen] = useState(false);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { data: dayLists, isPending: isDayListsPending } = useQuery({
@@ -64,6 +63,7 @@ export const DayPage = () => {
 
   const handleCloseCreateTaskModal = () => {
     setIsCreateTaskModalOpen(false);
+    setIsEditTaskModalOpen(false);
   };
 
   const handleCloseDeleteTaskModal = () => {
@@ -73,6 +73,10 @@ export const DayPage = () => {
   if (isDayListsPending) {
     return <FullScreenSpinner />;
   }
+
+  const handleEditTask = () => {
+    setIsEditTaskModalOpen(true);
+  };
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -101,48 +105,11 @@ export const DayPage = () => {
         </div>
         <div className={styles.tasks}>
           {tasks?.map(task => (
-            <div
-              className={
-                styles.task + ' ' + (task.is_done ? styles.taskCompleted : '')
-              }
+            <Task
               key={task.id}
-            >
-              <h4
-                className={
-                  styles.taskTitle +
-                  ' ' +
-                  (task.is_done ? styles.taskTitleCompleted : '')
-                }
-              >
-                {task.title}
-              </h4>
-              <div className={styles.taskButtons}>
-                {!task.is_done && (
-                  <>
-                    <Button onClick={() => handleGoTask(task.id)}>
-                      <PlayIcon />
-                    </Button>
-                    <Button variant='secondary'>
-                      <Pencil1Icon />
-                    </Button>
-                  </>
-                )}
-                <Button
-                  onClick={() => setIsDeleteTaskModalOpen(true)}
-                  variant='danger'
-                >
-                  <TrashIcon />
-                </Button>
-              </div>
-              {isDeleteTaskModalOpen && (
-                <DeleteTaskModal
-                  id={task.id}
-                  isOpen={isDeleteTaskModalOpen}
-                  onClose={handleCloseDeleteTaskModal}
-                  selectedDay={selectedDay}
-                />
-              )}
-            </div>
+              selectedDay={selectedDay}
+              task={task}
+            />
           ))}
           {!isLoading && (
             <Button
@@ -163,6 +130,7 @@ export const DayPage = () => {
       {isCreateTaskModalOpen && (
         <CreateTaskModal
           isOpen={isCreateTaskModalOpen}
+          modeForm='create'
           onClose={handleCloseCreateTaskModal}
           selectedDay={selectedDay}
         />

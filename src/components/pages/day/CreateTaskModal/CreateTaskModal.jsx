@@ -8,12 +8,18 @@ import { Select } from '../../../common/Select/Select';
 import { Button } from '../../../common/Button/Button';
 import styles from './CreateTaskModal.module.css';
 
-export const CreateTaskModal = ({ isOpen, onClose, selectedDay }) => {
+export const CreateTaskModal = ({
+  isOpen,
+  onClose,
+  selectedDay,
+  modeForm = 'CREATE',
+  task,
+}) => {
   const { user } = useAuth();
   const [error, setError] = useState(null);
   const queryClient = useQueryClient();
   const [formData, setFormData] = useState({
-    title: '',
+    title: task?.title ?? '',
     categoryId: null,
   });
 
@@ -33,13 +39,28 @@ export const CreateTaskModal = ({ isOpen, onClose, selectedDay }) => {
     },
   });
 
+  const updateTaskMutation = useMutation({
+    mutationFn: api.updateTask,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['tasks', user?.id, selectedDay],
+      });
+      onClose();
+    },
+  });
+
   useEffect(() => {
     if (categories?.length) {
-      setFormData({
-        categoryId: categories[0].id,
-      });
+      if (modeForm === 'EDIT') {
+        setFormData(prev => ({
+          ...prev,
+          categoryId: categories.find(cat => cat.id === task.category_id)?.id,
+        }));
+      } else {
+        setFormData(prev => ({ ...prev, categoryId: categories[0].id }));
+      }
     }
-  }, [categories]);
+  }, [categories, modeForm, task]);
 
   const isButtonDisabled = useMemo(() => {
     return (
@@ -49,7 +70,7 @@ export const CreateTaskModal = ({ isOpen, onClose, selectedDay }) => {
       formData.title.length < 3 ||
       formData.title.length > 50
     );
-  }, [createTaskMutation.isLoading, formData.categoryId, formData.title]);
+  }, [createTaskMutation.isLoading, formData]);
 
   const handleChange = field => e => {
     setError(null);
@@ -58,12 +79,22 @@ export const CreateTaskModal = ({ isOpen, onClose, selectedDay }) => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    createTaskMutation.mutate({
+
+    const data = {
       userId: user?.id,
       title: formData.title,
       categoryId: formData.categoryId,
       date: selectedDay,
-    });
+    };
+
+    if (modeForm === 'CREATE') {
+      createTaskMutation.mutate(data);
+    } else if (modeForm === 'EDIT') {
+      updateTaskMutation.mutate({
+        ...data,
+        id: task.id,
+      });
+    }
   };
 
   if (!categories) return null;
@@ -80,18 +111,19 @@ export const CreateTaskModal = ({ isOpen, onClose, selectedDay }) => {
       >
         <Input
           autoComplete='name'
+          // defaultValue={task.title}
           onChange={handleChange('title')}
           placeholder='Название задачи'
           type='text'
           value={formData.title}
         />
         <Select
-          defaultValue={categories[0]?.id ?? ''}
           onClick={handleChange('categoryId')}
           options={categories.map(({ name, id }) => ({
             label: name,
             value: id,
           }))}
+          value={formData.categoryId}
         />
         {error ? <p className={styles.error}>{error}</p> : null}
         <Button
