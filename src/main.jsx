@@ -7,7 +7,7 @@ import { AuthProvider } from './contexts/auth-context/provider';
 import { UserLayout } from './components/layout/UserLayout';
 import { Router } from './components/app/Router';
 
-import './index.css';
+import './styles/globals.css';
 
 registerSW({});
 

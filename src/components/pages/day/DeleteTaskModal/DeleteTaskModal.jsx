@@ -12,10 +12,10 @@ export const DeleteTaskModal = ({ isOpen, onClose, selectedDay, id }) => {
   const deleteTaskMutation = useMutation({
     mutationFn: api.deleteTask,
     onSuccess: () => {
-      (queryClient.invalidateQueries({
+      queryClient.invalidateQueries({
         queryKey: ['tasks', user?.id, selectedDay],
-      }),
-        onClose());
+      });
+      onClose();
     },
   });
 

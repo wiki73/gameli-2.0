@@ -13,10 +13,6 @@ export const Task = ({ task, selectedDay }) => {
     setIsEditTaskModalOpen(true);
   };
 
-  const handleDeleteTask = () => {
-    setIsDeleteTaskModalOpen(true);
-  };
-
   const handleCloseDeleteTaskModal = () => setIsDeleteTaskModalOpen(false);
   const handleCloseEditTaskModal = () => setIsEditTaskModalOpen(false);
 

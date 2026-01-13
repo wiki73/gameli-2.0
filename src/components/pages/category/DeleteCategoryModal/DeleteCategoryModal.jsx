@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { Modal } from '../../../common/Modal/Modal';
 import { api } from '../../../../api';
 import { useAuth } from '../../../../contexts/auth-context';
@@ -47,6 +47,7 @@ export const DeleteCategoryModal = ({ id, onClose, isOpen }) => {
         <Button
           disabled={isButtonDisabled}
           type='submit'
+          variant='danger'
         >
           {deleteMutation.isLoading ? <Spinner /> : null}
           Удалить категорию
