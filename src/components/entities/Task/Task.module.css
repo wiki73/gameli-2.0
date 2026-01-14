@@ -1,14 +1,31 @@
 .task {
-  padding: 12px;
+  /* padding: 12px 18px; */
+
+  /* padding-right: 8px; */
+  padding: 12px 8px;
   border-radius: 12px;
   width: 100%;
   background: var(--bg);
   color: var(--text);
+  box-shadow: 1px 1px 7px 4px rgb(27 255 2 / 0.747);
+  border: 2px solid rgb(27 255 2 / 0.5);
 
   display: flex;
-  gap: 4px;
+  gap: 8px;
   align-items: center;
   justify-content: space-between;
+}
+
+.taskContent {
+  padding-right: 8px;
+}
+
+.taskTitle {
+  font-size: 0.6em;
+}
+
+.taskDescription {
+  font-size: 0.6em;
 }
 
 .taskCompleted {

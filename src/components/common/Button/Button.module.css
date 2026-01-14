@@ -3,7 +3,7 @@
   color: var(--primary-foreground);
   border: 1px solid var(--primary);
   border-radius: 8px;
-  padding: 8px 16px;
+  padding: 4px 8px;
   cursor: pointer;
   font-weight: 500;
 
