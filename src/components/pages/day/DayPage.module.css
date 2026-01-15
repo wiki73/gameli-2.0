@@ -1,0 +1,28 @@
+.profile {
+  display: flex;
+  gap: 24px;
+}
+
+.tasks {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-top: 24px;
+
+  @media (width >= 640px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (width >= 1024px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.createButton {
+  justify-content: center;
+}
+
+.dayList {
+  display: flex;
+  gap: 4px;
+}

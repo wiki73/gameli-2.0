@@ -1,0 +1,9 @@
+{
+  "stylelint.validate": ["css", "postcss"],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.stylelint": "always",
+    "source.fixAll.eslint": "always"
+  },
+  "editor.formatOnSave": true,
+  "notebook.formatOnSave.enabled": true
+}

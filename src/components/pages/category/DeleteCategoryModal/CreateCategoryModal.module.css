@@ -1,0 +1,16 @@
+.title {
+  font-weight: 700;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.error {
+  color: var(--danger-text);
+  font-size: 0.9em;
+  margin: 0;
+}

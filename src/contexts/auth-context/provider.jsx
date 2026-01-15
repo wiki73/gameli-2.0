@@ -58,6 +58,7 @@ export const AuthProvider = ({ children }) => {
     const { data: listener } = supabase.auth.onAuthStateChange(() => {
       queryClient.invalidateQueries({ queryKey: ['session'] });
       queryClient.invalidateQueries({ queryKey: ['user'] });
+      queryClient.invalidateQueries({ queryKey: ['categories'] });
     });
 
     return () => listener.subscription.unsubscribe();
@@ -66,6 +67,7 @@ export const AuthProvider = ({ children }) => {
   /* ---------- ERROR HANDLING ---------- */
   useEffect(() => {
     if (userError) {
+      // eslint-disable-next-line no-console
       console.error('User fetch error:', userError);
       queryClient.invalidateQueries(['session']);
     }

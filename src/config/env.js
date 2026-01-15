@@ -1,6 +1,8 @@
 export const supabaseConfig = {
-  url: process.env.REACT_APP_SUPABASE_URL,
-  key: process.env.REACT_APP_SUPABASE_KEY,
+  url: import.meta.env.VITE_SUPABASE_URL,
+  key: import.meta.env.VITE_SUPABASE_KEY,
 };
 
-export const userId = process.env.REACT_APP_USER_ID;
+export const appConfig = {
+  showMainPage: import.meta.env?.VITE_SHOW_MAIN_PAGE === 'true',
+};

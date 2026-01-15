@@ -1,0 +1,81 @@
+.root {
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.root:disabled {
+  background: var(--disabled-background);
+  color: var(--disabled-foreground);
+  cursor: not-allowed;
+}
+
+.default {
+  background: var(--primary-default);
+  color: var(--primary-foreground);
+}
+
+.default:hover {
+  background: var(--primary-hover);
+}
+
+.default:active {
+  background: var(--primary-active);
+}
+
+.secondary {
+  background: var(--secondary);
+  color: var(--secondary-foreground);
+  border: 1px solid var(--border);
+}
+
+.secondary:hover {
+  background: var(--secondary-hover);
+}
+
+.secondary:active {
+  background: var(--secondary-active);
+}
+
+.danger {
+  background: var(--danger-default);
+  color: var(--danger-foreground);
+}
+
+.danger:hover {
+  background: var(--danger-hover);
+}
+
+.danger:active {
+  background: var(--danger-active);
+}
+
+.icon {
+  padding: 6px;
+  border-radius: 50%;
+}
+
+.xs {
+  padding: 4px 8px;
+  border-radius: 10px;
+}
+
+.sm {
+  padding: 8px 16px;
+  border-radius: 10px;
+}
+
+.md {
+  padding: 12px 24px;
+  border-radius: 10px;
+}
+
+.lg {
+  pad: 16px 32px;
+  border-radius: 10px;
+}

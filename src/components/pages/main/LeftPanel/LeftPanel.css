@@ -1,3 +1,7 @@
+.LeftPanel {
+  width: 100%;
+}
+
 .list-goals {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;

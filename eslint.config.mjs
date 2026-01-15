@@ -9,6 +9,8 @@ import eslintUnicorn from 'eslint-plugin-unicorn';
 import { fixupPluginRules } from '@eslint/compat';
 import { defineConfig } from 'eslint/config';
 import js from '@eslint/js';
+import eslintConfigPrettier from 'eslint-config-prettier/flat';
+import tseslint from 'typescript-eslint';
 
 export default defineConfig([
   { files: ['**/*.js'], plugins: { js }, extends: ['js/recommended'] },
@@ -23,8 +25,9 @@ export default defineConfig([
       unicorn: eslintUnicorn,
     },
   },
+
   {
-    ignores: ['node_modules', '**/*.config.*'],
+    ignores: ['node_modules', '**/*.css'],
   },
   {
     languageOptions: {
@@ -45,8 +48,15 @@ export default defineConfig([
   {
     rules: {
       'react/boolean-prop-naming': 'error',
-      'react/button-has-type': 'error',
+      'react/button-has-type': 'off',
       'react/checked-requires-onchange-or-readonly': 'error',
+      'react/jsx-curly-newline': [
+        'error',
+        {
+          multiline: 'consistent',
+          singleline: 'consistent',
+        },
+      ],
       'react/default-props-match-prop-types': 'error',
       'react/destructuring-assignment': ['error', 'always'],
       'react/display-name': 'off',
@@ -54,7 +64,6 @@ export default defineConfig([
       'react/jsx-closing-bracket-location': ['error', 'tag-aligned'],
       'react/jsx-closing-tag-location': 'error',
       'react/jsx-curly-brace-presence': ['error', 'never'],
-      'react/jsx-curly-newline': 'error',
       'react/jsx-first-prop-new-line': 'error',
       'react/jsx-fragments': ['error', 'syntax'],
       'react/jsx-indent': ['error', 2],
@@ -63,7 +72,7 @@ export default defineConfig([
       'react/jsx-no-comment-textnodes': 'error',
       'react/jsx-no-constructed-context-values': 'error',
       'react/jsx-no-duplicate-props': 'error',
-      'react/jsx-no-leaked-render': 'error',
+      'react/jsx-no-leaked-render': 'off',
       'react/jsx-no-script-url': 'error',
       'react/jsx-no-target-blank': 'error',
       'react/jsx-no-undef': 'error',
@@ -104,7 +113,7 @@ export default defineConfig([
       ],
       'react/jsx-filename-extension': [
         'error',
-        { allow: 'as-needed', extensions: ['.jsx'] },
+        { allow: 'as-needed', extensions: ['.jsx', '.tsx'] },
       ],
       'react/jsx-handler-names': [
         'off',
@@ -154,7 +163,7 @@ export default defineConfig([
       indent: ['error', 2],
       quotes: ['error', 'single'],
       semi: ['error', 'always'],
-      'no-console': 'warn',
+      'no-console': 'error',
     },
   },
   {
@@ -175,4 +184,68 @@ export default defineConfig([
       },
     },
   },
+  {
+    files: ['**/*.{js,jsx}'],
+    plugins: {
+      react: fixupPluginRules(eslintReact),
+      'react-hooks': eslintReactHooks,
+      'react-refresh': eslintReactRefresh,
+    },
+    languageOptions: {
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+    },
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['**/!(*.module).css'],
+              message: 'Components must use CSS Modules (.module.css)',
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    files: ['src/components/**/*.module.css'],
+    rules: {
+      'no-restricted-imports': 'off',
+    },
+  },
+  {
+    files: ['src/styles/**/*.css', 'src/main.{js,jsx,ts,tsx}'],
+    rules: {
+      'no-restricted-imports': 'off',
+    },
+  },
+  // TypeScript (ключевая часть)
+  ...tseslint.configs.recommended,
+
+  // React
+  {
+    files: ['**/*.{ts,tsx}'],
+    plugins: {
+      eslintReact,
+    },
+    languageOptions: {
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+    },
+    rules: {
+      'react/react-in-jsx-scope': 'off', // React 17+
+      'react/jsx-uses-react': 'off',
+    },
+  },
+  eslintConfigPrettier,
 ]);

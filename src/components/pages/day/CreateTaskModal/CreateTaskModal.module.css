@@ -1,0 +1,11 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.error {
+  padding-top: 8px;
+  color: var(--danger-text);
+}

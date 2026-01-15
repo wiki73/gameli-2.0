@@ -86,6 +86,17 @@ const getTasksByListId = async listId => {
   return data;
 };
 
+const getTaskByListIdAndId = async (listId, id) => {
+  const { data, error } = await supabase
+    .from('tasks')
+    .select('*')
+    .eq('day_list_id', listId)
+    .eq('id', id);
+
+  if (error) throw error;
+  return data;
+};
+
 const getDayListsByUser = async userId => {
   if (!userId) return [];
 
@@ -101,14 +112,28 @@ const getDayListsByUser = async userId => {
   );
 };
 
+const getDayListsByUserId = async userId => {
+  if (!userId) return [];
+
+  const { data, error } = await supabase
+    .from('day_lists')
+    .select('*')
+    .eq('user_id', userId)
+    .order('date', { ascending: false });
+
+  if (error) throw error;
+
+  return data;
+};
+
 const getDay = async userId => {
   const { data: unsortedDayLists, error: dayListsError } = await supabase
     .from('day_lists')
     .select('*')
     .eq('user_id', userId);
 
-  if (dayListsError || !unsortedDayLists?.length) {
-    return { tasks: [], dayLists: [], dayListsError };
+  if (dayListsError) {
+    throw dayListsError;
   }
 
   const dayLists = unsortedDayLists.sort(
@@ -118,14 +143,160 @@ const getDay = async userId => {
   const { data: tasks, error: tasksError } = await supabase
     .from('tasks')
     .select('*')
-    .eq('date', dayLists[0].date)
+    .eq('date', dayLists[0]?.date)
     .eq('user_id', userId);
 
   if (tasksError) {
-    return { tasks: [], tasksError, dayLists: [], dayListsError };
+    throw tasksError;
   }
 
-  return { dayLists, tasks, dayListsError, tasksError };
+  return { dayLists, tasks };
+};
+
+const getTasksByUserId = async userId => {
+  const { data: tasks, error: tasksError } = await supabase
+    .from('tasks')
+    .select('*')
+    .eq('user_id', userId)
+    .order('date', { ascending: true });
+
+  if (tasksError) {
+    throw tasksError;
+  }
+
+  return tasks;
+};
+
+const getTasksByUserIdAndDate = async (userId, date) => {
+  const { data: tasks, error: tasksError } = await supabase
+    .from('tasks')
+    .select('*')
+    .eq('user_id', userId)
+    .eq('date', date);
+
+  if (tasksError) {
+    throw tasksError;
+  }
+
+  return tasks;
+};
+
+const getCategories = async userId => {
+  if (!userId) return null;
+
+  const { data, error } = await supabase
+    .from('categories')
+    .select('*')
+    .eq('user_id', userId);
+
+  if (error) throw error;
+  return data;
+};
+
+const createCategory = async ({ userId, name, description, ratio }) => {
+  if (!userId || !name || ratio === undefined) {
+    throw new Error('createCategory: field is required');
+  }
+  const { data, error } = await supabase.from('categories').insert({
+    user_id: userId,
+    name,
+    description,
+    ratio,
+  });
+
+  if (error) throw error;
+  return data;
+};
+
+const deleteCategory = async ({ userId, id }) => {
+  const { error, data } = await supabase.from('categories').delete().match({
+    id,
+    user_id: userId,
+  });
+
+  if (error) throw error;
+  return data;
+};
+
+const createTask = async ({ userId, title, categoryId, date }) => {
+  if (!userId || !title || !categoryId || !date) {
+    throw new Error('createTask: field is required');
+  }
+
+  const { error } = await supabase.from('tasks').insert({
+    user_id: userId,
+    title,
+    category_id: categoryId,
+    date,
+  });
+
+  if (error) throw error;
+};
+
+export const updateTask = async ({ id, userId, title, categoryId, date }) => {
+  if (!id || !userId) {
+    throw new Error('updateTask: id and userId are required');
+  }
+
+  const updates = {};
+
+  if (title !== undefined) updates.title = title;
+  if (categoryId !== undefined) updates.category_id = categoryId;
+  if (date !== undefined) updates.date = date;
+
+  if (Object.keys(updates).length === 0) {
+    throw new Error('updateTask: no fields to update');
+  }
+
+  const { error } = await supabase
+    .from('tasks')
+    .update(updates)
+    .eq('id', id)
+    .eq('user_id', userId);
+
+  if (error) throw error;
+};
+
+const deleteTask = async ({ id }) => {
+  const { error } = await supabase.from('tasks').delete().match({
+    id,
+  });
+  if (error) throw error;
+};
+
+const createDateForDayList = async ({ userId, date }) => {
+  if (!userId || !date) {
+    throw new Error('createDayList: userId and date are required');
+  }
+
+  // Проверяем, нет ли уже списка на эту дату
+  const { data: existingList, error: checkError } = await supabase
+    .from('day_lists')
+    .select('id')
+    .eq('user_id', userId)
+    .eq('date', date)
+    .maybeSingle();
+
+  if (checkError && checkError.code !== 'PGRST116') {
+    throw checkError;
+  }
+
+  if (existingList) {
+    throw new Error('Список на эту дату уже существует');
+  }
+
+  // Создаем новый список
+  const { data, error } = await supabase
+    .from('day_lists')
+    .insert({
+      user_id: userId,
+      date,
+    })
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data;
 };
 
 export const api = {
@@ -138,4 +309,15 @@ export const api = {
   getTasksByListId,
   getDayListsByUser,
   getDay,
+  getTasks: getTasksByUserIdAndDate,
+  getTasksByUserId,
+  getDayListsByUserId,
+  getCategories,
+  createCategory,
+  deleteCategory,
+  createTask,
+  updateTask,
+  deleteTask,
+  createDateForDayList,
+  getTaskByListIdAndId,
 };

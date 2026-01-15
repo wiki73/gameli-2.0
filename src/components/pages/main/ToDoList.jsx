@@ -6,7 +6,7 @@ import './ToDoList.css';
 
 const ToDoList = () => {
   const {
-    handleUpdateUser,
+    updateUser: handleUpdateUser,
     user: { id: userId, exp },
   } = useAuth();
   const [dragging, setDragging] = useState(false);
@@ -30,7 +30,7 @@ const ToDoList = () => {
 
   const [position, setPosition] = useState({
     x: 150,
-    y: 100,
+    y: 200,
   });
 
   useEffect(() => {
