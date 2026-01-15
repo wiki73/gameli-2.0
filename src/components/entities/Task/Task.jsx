@@ -21,15 +21,19 @@ export const Task = ({ task, selectedDay }) => {
       className={styles.task + ' ' + (task.is_done ? styles.taskCompleted : '')}
       key={task.id}
     >
-      <h4
-        className={
-          styles.taskTitle +
-          ' ' +
-          (task.is_done ? styles.taskTitleCompleted : '')
-        }
-      >
-        {task.title}
-      </h4>
+      <div className={styles.taskContent}>
+        <h4
+          className={
+            styles.taskTitle +
+            ' ' +
+            (task.is_done ? styles.taskTitleCompleted : '')
+          }
+        >
+          {task.title}
+        </h4>
+        <p className={styles.taskDescription}>{task.description}description</p>
+      </div>
+
       <div className={styles.taskButtons}>
         {!task.is_done && (
           <>
