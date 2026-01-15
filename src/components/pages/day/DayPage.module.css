@@ -26,3 +26,17 @@
   display: flex;
   gap: 4px;
 }
+
+.page {
+  width: 100%;
+  height: 100%;
+}
+
+.pageTitle {
+  font-weight: 700;
+  color: var(--text);
+}
+
+.taskliskContainer {
+  padding: 24px;
+}

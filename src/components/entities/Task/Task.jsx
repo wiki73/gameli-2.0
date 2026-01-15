@@ -31,17 +31,20 @@ export const Task = ({ task, selectedDay }) => {
         >
           {task.title}
         </h4>
-        <p className={styles.taskDescription}>{task.description}description</p>
       </div>
 
       <div className={styles.taskButtons}>
         {!task.is_done && (
           <>
-            <Button onClick={() => handleGoTask(task.id)}>
+            <Button
+              onClick={() => handleGoTask(task.id)}
+              size='icon'
+            >
               <PlayIcon />
             </Button>
             <Button
               onClick={() => handleEditTask(task.id)}
+              size='icon'
               variant='secondary'
             >
               <Pencil1Icon />
@@ -50,6 +53,7 @@ export const Task = ({ task, selectedDay }) => {
         )}
         <Button
           onClick={() => setIsDeleteTaskModalOpen(true)}
+          size='icon'
           variant='danger'
         >
           <TrashIcon />

@@ -9,6 +9,7 @@ import { api } from '../../../api';
 import { Select } from '../../common/Select/Select';
 import { Spinner } from '../../common/spinner/Spinner';
 import { Button } from '../../common/Button/Button';
+import { CategoryPage } from '../category/CategoryPage';
 import { CreateTaskModal } from './CreateTaskModal/CreateTaskModal';
 import { CreateDayListModal } from './CreateDayListModal/CreateDayListModal';
 import styles from './DayPage.module.css';
@@ -74,60 +75,63 @@ export const DayPage = () => {
 
   return (
     <Card>
-      <h1>Планирование дня</h1>
-      <div>
-        <div className={styles.dayList}>
-          <Select
-            onClick={handleDayChange}
-            options={[
-              ...dayLists.map(({ date }) => ({
-                value: date,
-                label: getFormattedDay(date),
-              })),
-            ]}
-            value={selectedDay}
-          />
-          <Button onClick={handleCreateNewDay}>Создать новый день</Button>
-        </div>
-        <div className={styles.tasks}>
-          {tasks?.map(task => (
-            <Task
-              key={task.id}
-              selectedDay={selectedDay}
-              task={task}
+      <div className={styles.taskliskContainer}>
+        <h1>Планирование дня</h1>
+        <div>
+          <div className={styles.dayList}>
+            <Select
+              onClick={handleDayChange}
+              options={[
+                ...dayLists.map(({ date }) => ({
+                  value: date,
+                  label: getFormattedDay(date),
+                })),
+              ]}
+              value={selectedDay}
             />
-          ))}
-          {!isLoading && (
-            <Button
-              className={styles.task + ' ' + styles.createButton}
-              onClick={handleCreateTask}
-              type='button'
-              variant='secondary'
-            >
-              <PlusIcon
-                height={32}
-                width={32}
+            <Button onClick={handleCreateNewDay}>Создать новый день</Button>
+          </div>
+          <div className={styles.tasks}>
+            {tasks?.map(task => (
+              <Task
+                key={task.id}
+                selectedDay={selectedDay}
+                task={task}
               />
-            </Button>
-          )}
-          {isLoading && <Spinner />}
+            ))}
+            {!isLoading && (
+              <Button
+                className={styles.task + ' ' + styles.createButton}
+                onClick={handleCreateTask}
+                type='button'
+                variant='secondary'
+              >
+                <PlusIcon
+                  height={32}
+                  width={32}
+                />
+              </Button>
+            )}
+            {isLoading && <Spinner />}
+          </div>
         </div>
+        {isCreateTaskModalOpen && (
+          <CreateTaskModal
+            isOpen={isCreateTaskModalOpen}
+            modeForm='create'
+            onClose={handleCloseCreateTaskModal}
+            selectedDay={selectedDay}
+          />
+        )}
+        {isModalOpen && (
+          <CreateDayListModal
+            isOpen={isModalOpen}
+            onClose={closeModal}
+            onSuccess={date => setSelectedDay(date)}
+          />
+        )}
       </div>
-      {isCreateTaskModalOpen && (
-        <CreateTaskModal
-          isOpen={isCreateTaskModalOpen}
-          modeForm='create'
-          onClose={handleCloseCreateTaskModal}
-          selectedDay={selectedDay}
-        />
-      )}
-      {isModalOpen && (
-        <CreateDayListModal
-          isOpen={isModalOpen}
-          onClose={closeModal}
-          onSuccess={date => setSelectedDay(date)}
-        />
-      )}
+      <CategoryPage />
     </Card>
   );
 };

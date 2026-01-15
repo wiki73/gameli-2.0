@@ -6,18 +6,15 @@
 
   width: 100%;
   padding: 8px 16px;
-  border-radius: 8px;
+  border-radius: 18px;
 
   background: var(--bg-elevated);
   color: var(--text);
 
   backdrop-filter: blur(2px) saturate(180%);
 
-  border: 1px solid rgb(255 255 255 / 0.35);
-
-  box-shadow:
-    0 6px 20px rgb(0 0 0 / 0.12),
-    inset 0 1px 1px rgb(255 255 255 / 0.5);
+  border: 3px solid rgb(255 255 255 / 0.7);
+  font-size: 0.7rem;
 }
 
 .categoryHeader {
@@ -88,20 +85,9 @@
 }
 
 .categoryLevel {
-  aspect-ratio: 1 / 1;
   min-width: 28px;
-
+  border: none;
   background: var(--secondary);
-
-  backdrop-filter: blur(22px) saturate(200%);
-  border-color: rgb(255 255 255 / 0.5);
-
-  box-shadow:
-    0 10px 32px rgb(0 0 0 / 0.18),
-    inset 0 1px 1px rgb(255 255 255 / 0.65);
-
-  border-radius: 50%;
-  padding: 4px;
 
   display: flex;
   align-items: center;

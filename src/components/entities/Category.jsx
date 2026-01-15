@@ -19,20 +19,14 @@ export const Category = ({ name, description, level, id }) => {
     <div
       className={styles.category}
       key={id}
+      style={{ boxShadow: `0px 0px 12px var(${color})` }}
     >
       <div className={styles.categoryHeader}>
         <h3 className={styles.categoryName}>{name}</h3>
         <p className={styles.categoryDescription}>{description}</p>
       </div>
       <div className={styles.categoryFooter}>
-        <div
-          className={styles.categoryLevel}
-          style={{
-            boxShadow: `0 0 10px ${color}, inset 0 0 2px ${color}`,
-          }}
-        >
-          {level}
-        </div>
+        <div className={styles.categoryLevel}>Lvl. {level}</div>
         <div className={styles.categoryButtons}>
           <Button
             onClick={handleEditButtonClick}

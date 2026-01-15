@@ -4,7 +4,8 @@
   width: 100%;
   background: var(--bg);
   color: var(--text);
-  box-shadow: 1px 1px 7px 4px rgb(27 255 2 / 0.747);
+
+  /* box-shadow: 1px 1px 7px 4px rgb(27 255 2 / 0.747); */
   border: 2px solid rgb(27 255 2 / 0.5);
 
   display: flex;
