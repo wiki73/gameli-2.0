@@ -27,7 +27,7 @@ export const Router = () => (
     />
     <Route
       element={<DayPage />}
-      path={ROUTES.DAY}
+      path={ROUTES.PLANNING}
     />
     <Route
       element={<DashboardPage />}
