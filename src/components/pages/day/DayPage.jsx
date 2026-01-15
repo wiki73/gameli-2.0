@@ -1,11 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import {
-  Pencil1Icon,
-  PlayIcon,
-  PlusIcon,
-  TrashIcon,
-} from '@radix-ui/react-icons';
+import { PlusIcon } from '@radix-ui/react-icons';
 import { Card } from '../../common/Card/Card';
 import { useAuth } from '../../../contexts/auth-context';
 import { getFormattedDay } from '../../../utils/date';
@@ -15,7 +10,6 @@ import { Select } from '../../common/Select/Select';
 import { Spinner } from '../../common/spinner/Spinner';
 import { Button } from '../../common/Button/Button';
 import { CreateTaskModal } from './CreateTaskModal/CreateTaskModal';
-import { DeleteTaskModal } from './DeleteTaskModal/DeleteTaskModal';
 import { CreateDayListModal } from './CreateDayListModal/CreateDayListModal';
 import styles from './DayPage.module.css';
 import { Task } from '@/components/entities/Task/Task';
@@ -66,17 +60,9 @@ export const DayPage = () => {
     setIsEditTaskModalOpen(false);
   };
 
-  const handleCloseDeleteTaskModal = () => {
-    setIsDeleteTaskModalOpen(false);
-  };
-
   if (isDayListsPending) {
     return <FullScreenSpinner />;
   }
-
-  const handleEditTask = () => {
-    setIsEditTaskModalOpen(true);
-  };
 
   const openModal = () => {
     setIsModalOpen(true);
