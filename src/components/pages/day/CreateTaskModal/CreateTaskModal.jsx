@@ -77,6 +77,10 @@ export const CreateTaskModal = ({
     setFormData(prev => ({ ...prev, [field]: e.target.value }));
   };
 
+  const handleSelectCategory = async value => {
+    setFormData(prev => ({ ...prev, categoryId: value }));
+  };
+
   const handleSubmit = async e => {
     e.preventDefault();
 
@@ -111,14 +115,13 @@ export const CreateTaskModal = ({
       >
         <Input
           autoComplete='name'
-          // defaultValue={task.title}
           onChange={handleChange('title')}
           placeholder='Название задачи'
           type='text'
           value={formData.title}
         />
         <Select
-          onClick={handleChange('categoryId')}
+          onChange={handleSelectCategory}
           options={categories.map(({ name, id }) => ({
             label: name,
             value: id,
