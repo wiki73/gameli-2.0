@@ -1,4 +1,4 @@
-.wrapper {
+.root {
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -6,14 +6,14 @@
 
 .label {
   font-size: 0.9em;
-  color: var(--text);
+  color: var(--foreground);
 }
 
 .input {
-  background: var(--input-bg);
+  background: var(--card-default);
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 12px;
-  border: none;
   font-size: 0.95em;
   transition: all 0.2s ease;
 }
@@ -24,4 +24,9 @@
 
 .input:focus {
   outline: 1px solid var(--input-focus);
+}
+
+.input:disabled {
+  background: var(--input-disabled-bg);
+  cursor: not-allowed;
 }
