@@ -1,0 +1,33 @@
+.header {
+  @media (width <= 768px) {
+    width: 100%;
+    position: sticky;
+    padding: 0 12px;
+    bottom: 12px;
+    z-index: 100;
+    left: 0;
+    right: 0;
+  }
+
+  @media (width >= 768px) {
+    max-width: 720px;
+    top: 12px;
+    width: 100%;
+    margin: 0 auto;
+  }
+}
+
+.headerInner {
+  padding: 12px 24px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}

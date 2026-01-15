@@ -5,4 +5,5 @@ export const ROUTES = {
   PROFILE: '/profile',
   DAY: '/day',
   DASHBOARD: '/dashboard',
+  PLANNING: '/planning',
 };

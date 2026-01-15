@@ -1,0 +1,38 @@
+.navButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 12px;
+  gap: 12px;
+
+  background: var(--background);
+  color: var(--foreground);
+  text-decoration: none;
+  border-radius: 12px;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease-in-out;
+}
+
+.navButton:hover {
+  transform: translateY(-1px);
+  scale: 102%;
+}
+
+.navButton:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.navButtonActive {
+  background: var(--primary-default);
+  color: var(--primary-foreground);
+  scale: 104%;
+}
+
+.navButtonText {
+  @media (width <= 768px) {
+    display: none;
+  }
+}
