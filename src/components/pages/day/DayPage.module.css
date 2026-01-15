@@ -18,11 +18,8 @@
   }
 }
 
-.createButton {
-  justify-content: center;
-}
-
 .dayList {
   display: flex;
-  gap: 4px;
+  flex-wrap: wrap;
+  gap: 8px;
 }

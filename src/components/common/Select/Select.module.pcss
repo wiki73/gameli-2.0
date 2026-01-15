@@ -1,0 +1,85 @@
+.root {
+  position: relative;
+}
+
+.trigger {
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+
+  background: var(--secondary-default);
+  color: var(--secondary-foreground);
+
+  border-radius: 10px;
+
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background: var(--secondary-hover);
+  }
+
+  &:active {
+    background: var(--secondary-active);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--primary-default);
+    outline-offset: 2px;
+  }
+}
+
+.content {
+  position: absolute;
+  inset-inline: 0;
+  top: calc(100% + 4px);
+  z-index: 50;
+
+  background: var(--secondary-default);
+  color: var(--secondary-foreground);
+  border-radius: 10px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  overflow: hidden;
+}
+
+.item {
+  padding: 12px 24px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 8px;
+  background: var(--secondary-default);
+
+  &:hover {
+    background: var(--secondary-hover);
+  }
+}
+
+.selected {
+  background: var(--secondary-hover);
+  font-weight: 700;
+}
+
+.disabled {
+  background: var(--disabled-background);
+  color: var(--disabled-foreground);
+  pointer-events: none;
+}
+
+.chevron {
+  color: var(--foreground);
+  transition: transform 0.2s ease;
+}
+
+.open .chevron {
+  transform: rotate(180deg);
+}

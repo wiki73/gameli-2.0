@@ -7,46 +7,48 @@
 
   transition: all 0.2s ease-in-out;
   cursor: pointer;
+
+  font-weight: 500;
 }
 
 .default {
   background: var(--primary-default);
   color: var(--primary-foreground);
-}
 
-.default:hover {
-  background: var(--primary-hover);
-}
+  &:hover {
+    background: var(--primary-hover);
+  }
 
-.default:active {
-  background: var(--primary-active);
+  &:active {
+    background: var(--primary-active);
+  }
 }
 
 .secondary {
   background: var(--secondary);
   color: var(--secondary-foreground);
   border: 1px solid var(--border);
-}
 
-.secondary:hover {
-  background: var(--secondary-hover);
-}
+  &:hover {
+    background: var(--secondary-hover);
+  }
 
-.secondary:active {
-  background: var(--secondary-active);
+  &:active {
+    background: var(--secondary-active);
+  }
 }
 
 .danger {
   background: var(--danger-default);
   color: var(--danger-foreground);
-}
 
-.danger:hover {
-  background: var(--danger-hover);
-}
+  &:hover {
+    background: var(--danger-hover);
+  }
 
-.danger:active {
-  background: var(--danger-active);
+  &:active {
+    background: var(--danger-active);
+  }
 }
 
 .root:disabled {
@@ -58,24 +60,29 @@
 .icon {
   padding: 6px;
   border-radius: 50%;
+  font-size: 12px;
 }
 
 .xs {
   padding: 4px 8px;
   border-radius: 10px;
+  font-size: 12px;
 }
 
 .sm {
   padding: 8px 16px;
   border-radius: 10px;
+  font-size: 14px;
 }
 
 .md {
   padding: 12px 24px;
   border-radius: 10px;
+  font-size: 16px;
 }
 
 .lg {
   pad: 16px 32px;
   border-radius: 10px;
+  font-size: 18px;
 }

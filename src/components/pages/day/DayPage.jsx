@@ -43,8 +43,8 @@ export const DayPage = () => {
     }
   }, [dayLists, refetch]);
 
-  const handleDayChange = async e => {
-    setSelectedDay(e.target.value);
+  const handleDayChange = async value => {
+    setSelectedDay(value);
   };
 
   const handleCreateNewDay = () => {
@@ -78,7 +78,7 @@ export const DayPage = () => {
       <div>
         <div className={styles.dayList}>
           <Select
-            onClick={handleDayChange}
+            onChange={handleDayChange}
             options={[
               ...dayLists.map(({ date }) => ({
                 value: date,
@@ -87,7 +87,12 @@ export const DayPage = () => {
             ]}
             value={selectedDay}
           />
-          <Button onClick={handleCreateNewDay}>Создать новый день</Button>
+          <Button
+            onClick={handleCreateNewDay}
+            size='md'
+          >
+            Новый день
+          </Button>
         </div>
         <div className={styles.tasks}>
           {tasks?.map(task => (

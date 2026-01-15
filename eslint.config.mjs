@@ -224,10 +224,7 @@ export default defineConfig([
       'no-restricted-imports': 'off',
     },
   },
-  // TypeScript (ключевая часть)
   ...tseslint.configs.recommended,
-
-  // React
   {
     files: ['**/*.{ts,tsx}'],
     plugins: {
@@ -243,7 +240,7 @@ export default defineConfig([
       },
     },
     rules: {
-      'react/react-in-jsx-scope': 'off', // React 17+
+      'react/react-in-jsx-scope': 'off',
       'react/jsx-uses-react': 'off',
     },
   },
