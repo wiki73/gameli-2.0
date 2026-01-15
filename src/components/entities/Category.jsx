@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Pencil1Icon, TrashIcon } from '@radix-ui/react-icons';
 import { DeleteCategoryModal } from '../pages/category/DeleteCategoryModal/DeleteCategoryModal';
 import { getColorBySubjectLevel } from '../../constants/colors';
+import { Button } from '../common/Button/Button';
 import styles from './Category.module.css';
 
 export const Category = ({ name, description, level, id }) => {
@@ -33,20 +34,20 @@ export const Category = ({ name, description, level, id }) => {
           {level}
         </div>
         <div className={styles.categoryButtons}>
-          <button
-            className={styles.categoryEditButton}
+          <Button
             onClick={handleEditButtonClick}
-            type='button'
+            size='icon'
+            variant='secondary'
           >
             <Pencil1Icon />
-          </button>
-          <button
-            className={styles.categoryDeleteButton}
+          </Button>
+          <Button
             onClick={handleDeleteButtonClick}
-            type='button'
+            size='icon'
+            variant='danger'
           >
             <TrashIcon />
-          </button>
+          </Button>
           {isDeleteModalOpen ? (
             <DeleteCategoryModal
               id={id}

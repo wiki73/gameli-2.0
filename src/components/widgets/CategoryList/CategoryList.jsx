@@ -4,6 +4,7 @@ import { Spinner } from '../../common/spinner/Spinner';
 import { Category } from '../../entities/Category';
 import { CreateCategoryModal } from '../../pages/category/CreateCategoryModal/CreateCategoryModal';
 import styles from './CategoryList.module.css';
+import { Button } from '@/components/common/Button/Button';
 
 export const CategoryList = ({ categories, isPending }) => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -18,16 +19,15 @@ export const CategoryList = ({ categories, isPending }) => {
             />
           ))}
         {!isPending && (
-          <button
-            className={styles.createButton}
+          <Button
             onClick={() => setIsCreateModalOpen(true)}
-            type='button'
+            variant='secondary'
           >
             <PlusIcon
               height={32}
               width={32}
             />
-          </button>
+          </Button>
         )}
         {isPending && <Spinner />}
       </div>

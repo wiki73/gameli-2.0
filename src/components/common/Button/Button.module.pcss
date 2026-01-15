@@ -9,12 +9,6 @@
   cursor: pointer;
 }
 
-.root:disabled {
-  background: var(--disabled-background);
-  color: var(--disabled-foreground);
-  cursor: not-allowed;
-}
-
 .default {
   background: var(--primary-default);
   color: var(--primary-foreground);
@@ -53,6 +47,12 @@
 
 .danger:active {
   background: var(--danger-active);
+}
+
+.root:disabled {
+  background: var(--disabled-background);
+  color: var(--disabled-foreground);
+  cursor: not-allowed;
 }
 
 .icon {

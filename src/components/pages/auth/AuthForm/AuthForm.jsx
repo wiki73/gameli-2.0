@@ -5,6 +5,7 @@ import { Spinner } from '../../../common/spinner/Spinner';
 import styles from './AuthForm.module.css';
 import { Button } from '@/components/common/Button/Button';
 import { Input } from '@/components/common/Input/Input';
+import { Card } from '@/components/common/Card/Card';
 
 const TEXTS = {
   LOGIN: {
@@ -101,7 +102,7 @@ export const AuthForm = () => {
   };
 
   return (
-    <div className={styles.auth}>
+    <Card className={styles.auth}>
       <h1>{TEXTS[mode].TITLE}</h1>
       <form
         className={styles.form}
@@ -148,6 +149,6 @@ export const AuthForm = () => {
       >
         {TEXTS[mode].BTN_SECONDARY}
       </Button>
-    </div>
+    </Card>
   );
 };
