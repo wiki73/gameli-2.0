@@ -73,8 +73,8 @@ export const DashboardPage = () => {
 
   return (
     <Card className={styles.page}>
-      <Card>
-        <h2>Задачи</h2>
+      <Card className={styles.block}>
+        <h4>Задачи</h4>
         <LineChart
           data={taskChartData}
           style={{ width: '100%', aspectRatio: 1.618, maxWidth: 600 }}
@@ -102,8 +102,8 @@ export const DashboardPage = () => {
           <RechartsDevtools />
         </LineChart>
       </Card>
-      <Card>
-        <h2>Уровень по категориям</h2>
+      <Card className={styles.block}>
+        <h4>Уровень по категориям</h4>
 
         <BarChart
           data={categoriesChartData}
@@ -123,8 +123,8 @@ export const DashboardPage = () => {
           <Legend />
         </BarChart>
       </Card>
-      <Card>
-        <h2>Опыт по категориям</h2>
+      <Card className={styles.block}>
+        <h4>Опыт по категориям</h4>
 
         <BarChart
           data={categoriesChartData}
