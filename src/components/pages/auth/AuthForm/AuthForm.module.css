@@ -8,12 +8,6 @@
   width: 100%;
   border-radius: 8px;
 
-  background: var(--bg-muted);
-
-  backdrop-filter: blur(12px) saturate(180%);
-
-  border: 1px solid var(--border);
-
   @media (width >= 768px) {
     border-radius: 16px;
     width: 400px;
