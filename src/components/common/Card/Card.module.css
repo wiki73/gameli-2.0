@@ -10,9 +10,6 @@
   backdrop-filter: blur(12px) saturate(180%);
 
   border-radius: 16px;
-  padding: 8px;
 
-  @media (width >= 768px) {
-    padding: 24px;
-  }
+  padding: 24px;
 }

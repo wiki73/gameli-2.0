@@ -18,11 +18,7 @@
 }
 
 .taskTitle {
-  font-size: 0.6em;
-}
-
-.taskDescription {
-  font-size: 0.6em;
+  font-size: 14px;
 }
 
 .taskCompleted {
@@ -36,5 +32,7 @@
 
 .taskButtons {
   display: flex;
+  align-items: flex-end;
+  height: 100%;
   gap: 4px;
 }

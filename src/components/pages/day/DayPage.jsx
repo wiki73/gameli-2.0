@@ -75,68 +75,64 @@ export const DayPage = () => {
 
   return (
     <>
-      <Card>
-        <div className={styles.taskliskContainer}>
-          <h1>Планирование дня</h1>
-          <div>
-            <div className={styles.dayList}>
-              <Select
-                onChange={handleDayChange}
-                options={[
-                  ...dayLists.map(({ date }) => ({
-                    value: date,
-                    label: getFormattedDay(date),
-                  })),
-                ]}
-                value={selectedDay}
-              />
-              <Button
-                onClick={handleCreateNewDay}
-                size='md'
-              >
-                Новый день
-              </Button>
-            </div>
-            <div className={styles.tasks}>
-              {tasks?.map(task => (
-                <Task
-                  key={task.id}
-                  selectedDay={selectedDay}
-                  task={task}
-                />
-              ))}
-              {!isLoading && (
-                <Button
-                  className={styles.task + ' ' + styles.createButton}
-                  onClick={handleCreateTask}
-                  type='button'
-                  variant='secondary'
-                >
-                  <PlusIcon
-                    height={32}
-                    width={32}
-                  />
-                </Button>
-              )}
-              {isLoading && <Spinner />}
-            </div>
-          </div>
-          {isCreateTaskModalOpen && (
-            <CreateTaskModal
-              isOpen={isCreateTaskModalOpen}
-              modeForm='create'
-              onClose={handleCloseCreateTaskModal}
-              selectedDay={selectedDay}
-            />
-          )}
-          {isModalOpen && (
-            <CreateDayListModal
-              isOpen={isModalOpen}
-              onClose={closeModal}
-              onSuccess={date => setSelectedDay(date)}
-            />
-          )}
+      <Card className={styles.tasksBlock}>
+        <h1>Задачи</h1>
+        <div className={styles.dayList}>
+          <Select
+            onChange={handleDayChange}
+            options={[
+              ...dayLists.map(({ date }) => ({
+                value: date,
+                label: getFormattedDay(date),
+              })),
+            ]}
+            value={selectedDay}
+          />
+          <Button
+            onClick={handleCreateNewDay}
+            size='md'
+          >
+            Новый день
+          </Button>
         </div>
+        <div className={styles.tasks}>
+          {tasks?.map(task => (
+            <Task
+              key={task.id}
+              selectedDay={selectedDay}
+              task={task}
+            />
+          ))}
+          {!isLoading && (
+            <Button
+              className={styles.task + ' ' + styles.createButton}
+              onClick={handleCreateTask}
+              type='button'
+              variant='secondary'
+            >
+              <PlusIcon
+                height={32}
+                width={32}
+              />
+            </Button>
+          )}
+          {isLoading && <Spinner />}
+        </div>
+        {isCreateTaskModalOpen && (
+          <CreateTaskModal
+            isOpen={isCreateTaskModalOpen}
+            modeForm='create'
+            onClose={handleCloseCreateTaskModal}
+            selectedDay={selectedDay}
+          />
+        )}
+        {isModalOpen && (
+          <CreateDayListModal
+            isOpen={isModalOpen}
+            onClose={closeModal}
+            onSuccess={date => setSelectedDay(date)}
+          />
+        )}
       </Card>
       <CategoryPage />
     </>
