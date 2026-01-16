@@ -3,7 +3,7 @@ import { PlusIcon } from '@radix-ui/react-icons';
 import { Spinner } from '../../common/spinner/Spinner';
 import { Category } from '../../entities/Category';
 import { CreateCategoryModal } from '../../pages/category/CreateCategoryModal/CreateCategoryModal';
-import styles from './CategoryList.module.css';
+import styles from './CategoryList.module.pcss';
 import { Button } from '@/components/common/Button/Button';
 
 export const CategoryList = ({ categories, isPending }) => {

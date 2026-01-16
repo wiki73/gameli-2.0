@@ -1,0 +1,12 @@
+@import url('@styles/mixins.pcss');
+
+.categories {
+  display: grid;
+  width: 100%;
+  gap: 16px;
+  grid-template-columns: repeat(2, 1fr);
+
+  @mixin mobile {
+    grid-template-columns: 1fr;
+  }
+}

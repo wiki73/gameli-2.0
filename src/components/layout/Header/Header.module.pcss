@@ -1,15 +1,16 @@
+@import url('@styles/mixins.pcss');
+
 .header {
-  @media (width <= 768px) {
+  @mixin mobile {
     width: 100%;
-    position: sticky;
-    padding: 0 12px;
-    bottom: 12px;
+    position: fixed;
+    bottom: 0;
     z-index: 100;
     left: 0;
     right: 0;
   }
 
-  @media (width >= 768px) {
+  @mixin tablet {
     max-width: 720px;
     top: 12px;
     width: 100%;
@@ -23,6 +24,10 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+
+  @mixin mobile {
+    border-top: 1px solid var(--border);
+  }
 }
 
 .nav {

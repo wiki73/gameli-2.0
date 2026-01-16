@@ -9,6 +9,7 @@ import { api } from '../../../api';
 import { Select } from '../../common/Select/Select';
 import { Spinner } from '../../common/spinner/Spinner';
 import { Button } from '../../common/Button/Button';
+import { CategoryPage } from '../category/CategoryPage';
 import { CreateTaskModal } from './CreateTaskModal/CreateTaskModal';
 import { CreateDayListModal } from './CreateDayListModal/CreateDayListModal';
 import styles from './DayPage.module.css';
@@ -73,9 +74,9 @@ export const DayPage = () => {
   };
 
   return (
-    <Card>
-      <h1>Планирование дня</h1>
-      <div>
+    <>
+      <Card className={styles.tasksBlock}>
+        <h1>Задачи</h1>
         <div className={styles.dayList}>
           <Select
             onChange={handleDayChange}
@@ -117,22 +118,23 @@ export const DayPage = () => {
           )}
           {isLoading && <Spinner />}
         </div>
-      </div>
-      {isCreateTaskModalOpen && (
-        <CreateTaskModal
-          isOpen={isCreateTaskModalOpen}
-          modeForm='create'
-          onClose={handleCloseCreateTaskModal}
-          selectedDay={selectedDay}
-        />
-      )}
-      {isModalOpen && (
-        <CreateDayListModal
-          isOpen={isModalOpen}
-          onClose={closeModal}
-          onSuccess={date => setSelectedDay(date)}
-        />
-      )}
-    </Card>
+        {isCreateTaskModalOpen && (
+          <CreateTaskModal
+            isOpen={isCreateTaskModalOpen}
+            modeForm='create'
+            onClose={handleCloseCreateTaskModal}
+            selectedDay={selectedDay}
+          />
+        )}
+        {isModalOpen && (
+          <CreateDayListModal
+            isOpen={isModalOpen}
+            onClose={closeModal}
+            onSuccess={date => setSelectedDay(date)}
+          />
+        )}
+      </Card>
+      <CategoryPage />
+    </>
   );
 };
