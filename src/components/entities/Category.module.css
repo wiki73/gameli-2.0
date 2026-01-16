@@ -5,23 +5,30 @@
   gap: 8px;
 
   width: 100%;
-  padding: 8px 16px;
+  padding: 12px;
   border-radius: 18px;
 
-  background: var(--bg-elevated);
-  color: var(--text);
+  background: var(--card);
+  color: var(--card-foreground);
 
   backdrop-filter: blur(2px) saturate(180%);
 
-  border: 3px solid rgb(255 255 255 / 0.7);
   font-size: 0.7rem;
 }
 
 .categoryHeader {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 8px;
+  gap: 4px;
+}
+
+.categoryName {
+  color: var(--foreground);
+  font-size: 16px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .categoryFooter {
@@ -69,12 +76,6 @@
   color: var(--primary-foreground);
 }
 
-.categoryName {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
 .categoryDescription {
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -85,15 +86,8 @@
 }
 
 .categoryLevel {
-  min-width: 28px;
-  border: none;
-  background: var(--secondary);
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
   font-weight: 700;
+  font-size: 12px;
 }
 
 .categoryButtons {

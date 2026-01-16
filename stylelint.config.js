@@ -9,6 +9,12 @@ export default {
   ],
 
   rules: {
+    'at-rule-no-unknown': [
+      true,
+      {
+        ignoreAtRules: ['define-mixin', 'mixin', 'mixin-content'],
+      },
+    ],
     /* ==============================
        🎨 COLORS — CSS VARIABLES ONLY
        ============================== */
