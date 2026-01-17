@@ -13,5 +13,6 @@ export type CategoryApiType = {
     ratio: number;
   }) => Promise<void>;
   getMany: (_: { userId: string }) => Promise<Category[]>;
+  getOne: (_: { id: string }) => Promise<Category>;
   delete: (_: { id: string }) => Promise<void>;
 };

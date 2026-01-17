@@ -4,6 +4,9 @@
 
 .time {
   margin-bottom: 0;
+  font-weight: 900;
+  font-size: 48px;
+  line-height: 58px;
 }
 
 .message {

@@ -19,11 +19,10 @@ export const taskApi: TasksApiType = {
 
     return data;
   },
-  getOne: async ({ listId, id }) => {
+  getOne: async ({ id }) => {
     const { data, error } = await supabase
       .from('tasks')
       .select('*')
-      .eq('day_list_id', listId)
       .eq('id', id)
       .single();
 

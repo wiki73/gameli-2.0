@@ -13,7 +13,7 @@ export type TasksApiType = {
     date: string;
   }) => Promise<void>;
   getMany: (_: { userId: string; date?: string }) => Promise<Task[]>;
-  getOne: (_: { listId: string; id: string }) => Promise<Task>;
+  getOne: (_: { id: string }) => Promise<Task>;
   update: (_: {
     id: string;
     userId: string;

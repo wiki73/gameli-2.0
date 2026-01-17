@@ -4,6 +4,7 @@ import { AuthPage } from '@/components/pages/auth/AuthPage';
 import { ProfilePage } from '@/components/pages/profile/ProfilePage';
 import { DayPage } from '@/components/pages/day/DayPage';
 import { ROUTES } from '@/constants/routes';
+import { TaskPage } from '@/components/pages/task/TaskPage';
 
 export const Router = () => (
   <Routes>
@@ -22,6 +23,10 @@ export const Router = () => (
     <Route
       element={<DashboardPage />}
       path={ROUTES.DASHBOARD}
+    />
+    <Route
+      element={<TaskPage />}
+      path={ROUTES.TASK}
     />
   </Routes>
 );
