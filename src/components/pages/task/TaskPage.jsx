@@ -1,5 +1,4 @@
 import { useParams } from 'react-router';
-// import { useEffect, useState } from 'react';
 import { CheckIcon } from '@radix-ui/react-icons';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
@@ -31,7 +30,7 @@ export const TaskPage = () => {
   }
 
   const handelSubmit = () => {
-    setModeForTimer('COMPLEET');
+    setModeForTimer('COMPLETE');
   };
   const handelPause = () => {
     if (modeForTimer === 'TIMER') {
@@ -47,34 +46,36 @@ export const TaskPage = () => {
       <h3 className={classes.category}>{category.name}</h3>
       <Card className={classes.containerTime}>
         <Timer mode={modeForTimer} />
-        {modeForTimer === 'COMPLEET' && (
-          <div className={classes.containerForCompleet}>
+        {modeForTimer === 'COMPLETE' && (
+          <div className={classes.containerForComplete}>
             <h4>Заработанно</h4>
-            <div className={classes.textForCompleet}>
+            <div className={classes.textForComplete}>
               <p>Опыт</p>
               <p>{274}</p>
             </div>
-            <div className={classes.textForCompleet}>
+            <div className={classes.textForComplete}>
               <div>Опыт</div>
               <div>{23}</div>
             </div>
           </div>
         )}
       </Card>
-      <Button
-        className={classes.btnSubmit}
-        onClick={handelSubmit}
-      >
-        <CheckIcon />
-        Завершить
-      </Button>
-      <Button onClick={handelPause}>
-        {modeForTimer === 'TIMER' || modeForTimer === 'COMPLEET' ? (
-          <p>Пауза</p>
-        ) : (
-          <p>Снять паузы</p>
-        )}
-      </Button>
+      <div className={classes.buttons}>
+        <Button onClick={handelSubmit}>
+          <CheckIcon />
+          Завершить
+        </Button>
+        <Button
+          onClick={handelPause}
+          variant='secondary'
+        >
+          {modeForTimer === 'TIMER' || modeForTimer === 'COMPLETE' ? (
+            <p>Пауза</p>
+          ) : (
+            <p>Снять паузы</p>
+          )}
+        </Button>
+      </div>
     </div>
   );
 };

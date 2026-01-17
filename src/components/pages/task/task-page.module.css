@@ -27,11 +27,7 @@
   margin-bottom: 20px;
 }
 
-.btnSubmit {
-  margin-top: 10px;
-}
-
-.containerForCompleet {
+.containerForComplete {
   width: 246px;
   height: 110px;
   border: 1px solid #ccc;
@@ -39,9 +35,16 @@
   padding: 12px;
 }
 
-.textForCompleet {
+.textForComplete {
   margin-top: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.buttons {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
 }
