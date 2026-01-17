@@ -5,7 +5,7 @@ import { Card } from '../../common/Card/Card';
 import { useAuth } from '../../../contexts/auth-context';
 import { getFormattedDay } from '../../../utils/date';
 import { FullScreenSpinner } from '../../common/spinner/FullScreenSpinner';
-import { api } from '../../../api';
+import { api } from '../../../api/api';
 import { Select } from '../../common/Select/Select';
 import { Spinner } from '../../common/spinner/Spinner';
 import { Button } from '../../common/Button/Button';
@@ -22,9 +22,9 @@ export const DayPage = () => {
   const [isCreateTaskModalOpen, setIsCreateTaskModalOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { data: dayLists, isPending: isDayListsPending } = useQuery({
-    queryKey: ['day', user?.id],
-    queryFn: () => api.getDayListsByUserId(user?.id),
+  const { data: days, isPending: isDaysPending } = useQuery({
+    queryKey: ['days', user?.id],
+    queryFn: () => api.days.getMany({ userId: user?.id }),
     enabled: !!user?.id,
   });
 
@@ -34,15 +34,19 @@ export const DayPage = () => {
     isLoading,
   } = useQuery({
     queryKey: ['tasks', user?.id, selectedDay],
-    queryFn: () => api.getTasks(user?.id, selectedDay ?? dayLists[0].date),
+    queryFn: () =>
+      api.tasks.getMany({
+        userId: user?.id,
+        date: selectedDay ?? days[0].date,
+      }),
     enabled: !!user?.id && !!selectedDay,
   });
 
   useEffect(() => {
-    if (dayLists?.length) {
-      setSelectedDay(dayLists[0].date);
+    if (days?.length) {
+      setSelectedDay(days[0].date);
     }
-  }, [dayLists, refetch]);
+  }, [days, refetch]);
 
   const handleDayChange = async value => {
     setSelectedDay(value);
@@ -61,7 +65,7 @@ export const DayPage = () => {
     setIsEditTaskModalOpen(false);
   };
 
-  if (isDayListsPending) {
+  if (isDaysPending) {
     return <FullScreenSpinner />;
   }
 
@@ -81,7 +85,7 @@ export const DayPage = () => {
           <Select
             onChange={handleDayChange}
             options={[
-              ...dayLists.map(({ date }) => ({
+              ...days.map(({ date }) => ({
                 value: date,
                 label: getFormattedDay(date),
               })),
@@ -105,7 +109,6 @@ export const DayPage = () => {
           ))}
           {!isLoading && (
             <Button
-              className={styles.task + ' ' + styles.createButton}
               onClick={handleCreateTask}
               type='button'
               variant='secondary'
@@ -121,7 +124,7 @@ export const DayPage = () => {
         {isCreateTaskModalOpen && (
           <CreateTaskModal
             isOpen={isCreateTaskModalOpen}
-            modeForm='create'
+            modeForm='CREATE'
             onClose={handleCloseCreateTaskModal}
             selectedDay={selectedDay}
           />

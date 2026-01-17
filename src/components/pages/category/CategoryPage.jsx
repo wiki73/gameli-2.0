@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { api } from '../../../api';
+import { api } from '../../../api/api';
 import { useAuth } from '../../../contexts/auth-context';
 import { CategoryList } from '../../widgets/CategoryList/CategoryList';
 import { Card } from '../../common/Card/Card';
@@ -10,7 +10,7 @@ export const CategoryPage = () => {
 
   const { data: categories, isPending } = useQuery({
     queryKey: ['categories', user?.id],
-    queryFn: () => api.getCategories(user.id),
+    queryFn: () => api.categories.getMany({ userId: user?.id }),
     enabled: !!user?.id,
   });
 

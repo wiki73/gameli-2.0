@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { PropsWithChildren } from 'react';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -13,11 +14,17 @@ const queryClient = new QueryClient({
   },
 });
 
+declare global {
+  interface Window {
+    __TANSTACK_QUERY_CLIENT__: import('@tanstack/query-core').QueryClient;
+  }
+}
+
 if (process.env.NODE_ENV === 'development') {
   window.__TANSTACK_QUERY_CLIENT__ = queryClient;
 }
 
-export const QueryProvider = ({ children }) => {
+export const QueryProvider = ({ children }: PropsWithChildren) => {
   return (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );

@@ -13,7 +13,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { Card } from '../../common/Card/Card';
 import { useAuth } from '../../../contexts/auth-context';
-import { api } from '../../../api';
+import { api } from '../../../api/api';
 import { FullScreenSpinner } from '../../common/spinner/FullScreenSpinner';
 import { getFormattedDay } from '../../../utils/date';
 import styles from './DashboardPage.module.css';
@@ -23,13 +23,13 @@ export const DashboardPage = () => {
 
   const { data: tasks, isPending: isPendingTasks } = useQuery({
     queryKey: ['tasks', user?.id],
-    queryFn: () => api.getTasksByUserId(user?.id),
+    queryFn: () => api.tasks.getMany({ userId: user?.id }),
     enabled: !!user?.id,
   });
 
   const { data: categories, isPending: isPendingCategories } = useQuery({
     queryKey: ['categories', user?.id],
-    queryFn: () => api.getCategories(user?.id),
+    queryFn: () => api.categories.getMany({ userId: user?.id }),
     enabled: !!user?.id,
   });
   const taskChartData = useMemo(

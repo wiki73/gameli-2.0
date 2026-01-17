@@ -1,11 +1,12 @@
 import { useMemo, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { api } from '../../../../api';
+import { api } from '../../../../api/api';
 import { Spinner } from '../../../common/spinner/Spinner';
 import styles from './AuthForm.module.css';
 import { Button } from '@/components/common/Button/Button';
 import { Input } from '@/components/common/Input/Input';
 import { Card } from '@/components/common/Card/Card';
+import { Nullable } from '@/api/types';
 
 const TEXTS = {
   LOGIN: {
@@ -23,22 +24,24 @@ const TEXTS = {
   LABEL_PASSWORD: 'Пароль',
 };
 
+type Mode = 'LOGIN' | 'REGISTER';
+
 export const AuthForm = () => {
   const queryClient = useQueryClient();
-  const [mode, setMode] = useState('LOGIN');
+  const [mode, setMode] = useState<Mode>('LOGIN');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
   });
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<Nullable<string>>(null);
 
   const isLogin = mode === 'LOGIN';
 
   /* ---------- MUTATIONS ---------- */
 
   const loginMutation = useMutation({
-    mutationFn: api.login,
+    mutationFn: api.auth.login,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['session'] });
       queryClient.invalidateQueries({ queryKey: ['user'] });
@@ -47,7 +50,7 @@ export const AuthForm = () => {
   });
 
   const registerMutation = useMutation({
-    mutationFn: api.register,
+    mutationFn: api.auth.register,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['session'] });
       queryClient.invalidateQueries({ queryKey: ['user'] });
@@ -68,7 +71,7 @@ export const AuthForm = () => {
 
   /* ---------- HANDLERS ---------- */
 
-  const handleSubmit = e => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
 
@@ -96,10 +99,12 @@ export const AuthForm = () => {
     setMode(isLogin ? 'REGISTER' : 'LOGIN');
   };
 
-  const handleChange = field => e => {
-    setError(null);
-    setFormData(prev => ({ ...prev, [field]: e.target.value }));
-  };
+  const handleChange =
+    (field: keyof typeof formData) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setError(null);
+      setFormData(prev => ({ ...prev, [field]: e.target.value }));
+    };
 
   return (
     <Card className={styles.auth}>
