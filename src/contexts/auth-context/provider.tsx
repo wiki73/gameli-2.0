@@ -1,40 +1,37 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { PropsWithChildren, useCallback, useEffect, useMemo } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '../../supabase';
-import { api } from '../../api';
-import { AuthContext } from './index';
+import { AuthContext } from '.';
+import { api, supabase } from '@/api/api';
+import { User } from '@/api/auth/types';
 
-export const AuthProvider = ({ children }) => {
+export const AuthProvider = ({ children }: PropsWithChildren) => {
   const queryClient = useQueryClient();
 
-  /* ---------- SESSION QUERY ---------- */
   const {
     data: session,
     isLoading: sessionLoading,
     error: sessionError,
   } = useQuery({
     queryKey: ['session'],
-    queryFn: api.getSession,
+    queryFn: api.auth.session.get,
     staleTime: Infinity,
   });
 
-  /* ---------- USER QUERY ---------- */
   const {
     data: user,
     isLoading: userLoading,
     error: userError,
   } = useQuery({
     queryKey: ['user', session?.user?.id],
-    queryFn: () => api.getUserById(session?.user?.id),
+    queryFn: () => api.auth.user.get(session?.user?.id ?? ''),
     enabled: !!session?.user?.id,
   });
 
-  /* ---------- UPDATE USER ---------- */
   const updateUserMutation = useMutation({
-    mutationFn: api.updateUser,
+    mutationFn: api.auth.user.update,
     onSuccess: data => {
       if (!session?.user?.id) return;
-      queryClient.setQueryData(['user', session.user.id], prev => ({
+      queryClient.setQueryData(['user', session.user.id], (prev: User) => ({
         ...prev,
         ...data,
       }));
@@ -42,7 +39,7 @@ export const AuthProvider = ({ children }) => {
   });
 
   const handleUpdateUser = useCallback(
-    newUserData => {
+    (newUserData: Partial<User>) => {
       if (!session?.user?.id) return;
 
       updateUserMutation.mutate({
@@ -53,7 +50,6 @@ export const AuthProvider = ({ children }) => {
     [updateUserMutation, session?.user?.id],
   );
 
-  /* ---------- AUTH STATE LISTENER ---------- */
   useEffect(() => {
     const { data: listener } = supabase.auth.onAuthStateChange(() => {
       queryClient.invalidateQueries({ queryKey: ['session'] });
@@ -64,12 +60,9 @@ export const AuthProvider = ({ children }) => {
     return () => listener.subscription.unsubscribe();
   }, [queryClient]);
 
-  /* ---------- ERROR HANDLING ---------- */
   useEffect(() => {
     if (userError) {
-      // eslint-disable-next-line no-console
-      console.error('User fetch error:', userError);
-      queryClient.invalidateQueries(['session']);
+      queryClient.invalidateQueries({ queryKey: ['session'] });
     }
   }, [userError, queryClient]);
 

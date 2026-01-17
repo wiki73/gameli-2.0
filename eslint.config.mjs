@@ -13,7 +13,7 @@ import eslintConfigPrettier from 'eslint-config-prettier/flat';
 import tseslint from 'typescript-eslint';
 
 export default defineConfig([
-  { files: ['**/*.js'], plugins: { js }, extends: ['js/recommended'] },
+  { files: ['./src/**/*.js'], plugins: { js }, extends: ['js/recommended'] },
   {
     plugins: {
       react: fixupPluginRules(eslintReact),
@@ -27,7 +27,7 @@ export default defineConfig([
   },
 
   {
-    ignores: ['node_modules', '**/*.css'],
+    ignores: ['node_modules', '**/*.css', 'dist'],
   },
   {
     languageOptions: {

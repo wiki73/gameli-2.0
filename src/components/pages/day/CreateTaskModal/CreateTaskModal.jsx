@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Input } from '../../../common/Input/Input';
 import { Modal } from '../../../common/Modal/Modal';
-import { api } from '../../../../api';
+import { api } from '../../../../api/api';
 import { useAuth } from '../../../../contexts/auth-context';
 import { Select } from '../../../common/Select/Select';
 import { Button } from '../../../common/Button/Button';
@@ -25,12 +25,12 @@ export const CreateTaskModal = ({
 
   const { data: categories } = useQuery({
     queryKey: ['categories'],
-    queryFn: () => api.getCategories(user?.id),
+    queryFn: () => api.categories.getMany({ userId: user?.id }),
     enabled: !!user?.id,
   });
 
   const createTaskMutation = useMutation({
-    mutationFn: api.createTask,
+    mutationFn: api.tasks.create,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['tasks', user?.id, selectedDay],
@@ -40,7 +40,7 @@ export const CreateTaskModal = ({
   });
 
   const updateTaskMutation = useMutation({
-    mutationFn: api.updateTask,
+    mutationFn: api.tasks.update,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['tasks', user?.id, selectedDay],
