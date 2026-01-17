@@ -153,6 +153,18 @@ const getDay = async userId => {
   return { dayLists, tasks };
 };
 
+const getTask = async taskId => {
+  const { data: task, error: taskError } = await supabase
+    .from('tasks')
+    .select('*')
+    .eq('id', taskId);
+
+  if (taskError) {
+    throw taskError;
+  }
+  return task;
+};
+
 const getTasksByUserId = async userId => {
   const { data: tasks, error: tasksError } = await supabase
     .from('tasks')
@@ -320,4 +332,5 @@ export const api = {
   deleteTask,
   createDateForDayList,
   getTaskByListIdAndId,
+  getTask,
 };

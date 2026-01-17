@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import { Pencil1Icon, PlayIcon, TrashIcon } from '@radix-ui/react-icons';
+import { useNavigate } from 'react-router';
 import styles from './Task.module.css';
 import { Button } from '@/components/common/Button/Button';
 import { DeleteTaskModal } from '@/components/pages/day/DeleteTaskModal/DeleteTaskModal';
 import { CreateTaskModal } from '@/components/pages/day/CreateTaskModal/CreateTaskModal';
+import { ROUTES } from '@/constants/routes';
 
 export const Task = ({ task, selectedDay }) => {
   const [isEditTaskModalOpen, setIsEditTaskModalOpen] = useState(false);
   const [isDeleteTaskModalOpen, setIsDeleteTaskModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleEditTask = () => {
     setIsEditTaskModalOpen(true);
@@ -16,6 +19,9 @@ export const Task = ({ task, selectedDay }) => {
   const handleCloseDeleteTaskModal = () => setIsDeleteTaskModalOpen(false);
   const handleCloseEditTaskModal = () => setIsEditTaskModalOpen(false);
 
+  const handleGoTask = () => {
+    navigate(`${ROUTES.TASK}`.replace(':taskId', `${task.id}`));
+  };
   return (
     <div
       className={styles.task + ' ' + (task.is_done ? styles.taskCompleted : '')}
@@ -37,7 +43,7 @@ export const Task = ({ task, selectedDay }) => {
         {!task.is_done && (
           <>
             <Button
-              onClick={() => handleGoTask(task.id)}
+              onClick={handleGoTask}
               size='icon'
             >
               <PlayIcon />

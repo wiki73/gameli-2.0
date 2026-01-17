@@ -83,7 +83,6 @@ export const CreateTaskModal = ({
 
   const handleSubmit = async e => {
     e.preventDefault();
-
     const data = {
       userId: user?.id,
       title: formData.title,
@@ -93,7 +92,7 @@ export const CreateTaskModal = ({
 
     if (modeForm === 'CREATE') {
       createTaskMutation.mutate(data);
-    } else if (modeForm === 'EDIT') {
+    } else {
       updateTaskMutation.mutate({
         ...data,
         id: task.id,

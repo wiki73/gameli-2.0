@@ -1,0 +1,11 @@
+.timer {
+  padding: 40px 0;
+}
+
+.time {
+  margin-bottom: 0;
+}
+
+.message {
+  font-style: italic;
+}

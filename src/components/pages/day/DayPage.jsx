@@ -121,7 +121,7 @@ export const DayPage = () => {
         {isCreateTaskModalOpen && (
           <CreateTaskModal
             isOpen={isCreateTaskModalOpen}
-            modeForm='create'
+            modeForm='CREATE'
             onClose={handleCloseCreateTaskModal}
             selectedDay={selectedDay}
           />

@@ -1,0 +1,27 @@
+.task-page {
+  text-align: center;
+  padding: 15%;
+}
+
+h2 {
+  font-size: 4em;
+  margin-bottom: 10px;
+}
+
+h3 {
+  margin-bottom: 40px;
+}
+
+.container-time {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.time-icon {
+  width: 100px;
+}
+
+.btn-submit {
+  margin-top: 10px;
+}

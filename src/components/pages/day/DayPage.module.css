@@ -5,6 +5,10 @@
   gap: 24px;
 }
 
+h1 {
+  font-style: italic;
+}
+
 .tasks {
   display: grid;
   grid-template-columns: 1fr;
