@@ -97,8 +97,7 @@
       "prettier . \"**/*.{js,mjs,jsx,json,yml,css,md,node.json}\" --check"
     ],
     "**/*.{css,pcss}": [
-      "stylelint --fix",
-      "git add"
+      "stylelint --fix"
     ]
   }
 }

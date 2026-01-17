@@ -2,6 +2,21 @@ import { supabase } from '../api';
 import { CategoryApiType } from './types';
 
 export const categoryApi: CategoryApiType = {
+  getOne: async ({ id }) => {
+    if (!id) throw new Error('getCategories: id is required');
+
+    const { data, error } = await supabase
+      .from('categories')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error) throw error;
+
+    if (!data) return [];
+
+    return data;
+  },
   getMany: async ({ userId }) => {
     if (!userId) throw new Error('getCategories: userId is required');
 

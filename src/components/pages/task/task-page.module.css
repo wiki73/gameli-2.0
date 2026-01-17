@@ -1,0 +1,47 @@
+.taskPage {
+  text-align: center;
+  padding: 15%;
+}
+
+.title {
+  font-weight: 900;
+  font-size: 48px;
+  line-height: 58px;
+  text-align: center;
+}
+
+.category {
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 22px;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.containerTime {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
+
+.btnSubmit {
+  margin-top: 10px;
+}
+
+.containerForCompleet {
+  width: 246px;
+  height: 110px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.textForCompleet {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

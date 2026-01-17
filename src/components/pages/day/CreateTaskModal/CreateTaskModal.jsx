@@ -83,7 +83,6 @@ export const CreateTaskModal = ({
 
   const handleSubmit = async e => {
     e.preventDefault();
-
     const data = {
       userId: user?.id,
       title: formData.title,
