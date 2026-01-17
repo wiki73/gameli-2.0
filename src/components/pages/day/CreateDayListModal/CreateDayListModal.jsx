@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Modal } from '../../../common/Modal/Modal';
-import { api } from '../../../../api';
+import { api } from '../../../../api/api';
 import { useAuth } from '../../../../contexts/auth-context';
 import classes from './CreateDayListModal.module.css';
 import { Input } from '@/components/common/Input/Input';
@@ -14,12 +14,12 @@ export const CreateDayListModal = ({ isOpen, onClose, onSuccess }) => {
   const queryClient = useQueryClient();
 
   const createDayListMutation = useMutation({
-    mutationFn: api.createDateForDayList,
+    mutationFn: api.days.create,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['day', user?.id],
+        queryKey: ['days', user?.id],
       });
-      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ queryKey: ['tasks', user?.id] });
       onSuccess?.(date);
       onClose?.();
     },
