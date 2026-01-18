@@ -163,8 +163,34 @@ export const TaskPage = () => {
       </div>
       {showEffect && (
         <Confetti
+          colors={[
+            '#ff0a54',
+            '#ff477e',
+            '#ff7096',
+            '#ff85a1',
+            '#fbb1bd',
+            '#f9bec7',
+            '#00f5d4',
+            '#9b5de5',
+            '#f15bb5',
+            '#fee440',
+          ]}
+          confettiSource={{
+            x: 0,
+            y: 0,
+            w: width,
+            h: 0,
+          }}
+          friction={0.99}
+          gravity={0.15}
           height={height}
+          initialVelocityX={{ min: -20, max: 20 }}
+          initialVelocityY={{ min: -25, max: 5 }}
+          numberOfPieces={1200}
+          recycle={true}
+          run={true}
           width={width}
+          wind={0.01}
         />
       )}
     </div>
