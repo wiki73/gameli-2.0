@@ -11,7 +11,6 @@ import { FullScreenSpinner } from '../../common/spinner/FullScreenSpinner';
 import classes from './TaskPage.module.css';
 import { TaskCompleteEffect } from './TaskComplete.module/TaskCompleteEffect';
 import { ProgressBar } from './ProgressBar/ProgressBar';
-// import { timeEnd } from 'console';
 
 export const TaskPage = () => {
   const { taskId } = useParams();
@@ -68,7 +67,7 @@ export const TaskPage = () => {
     setModeForTimer('COMPLETE');
     setExp(getExp());
     setShowEffect(true);
-    startConfetti(); //const intervalId = startConfetti() clearInterval(intervalId); если надо выключить конффети
+    startConfetti();
   };
   const handelPause = () => {
     if (modeForTimer === 'TIMER') {
