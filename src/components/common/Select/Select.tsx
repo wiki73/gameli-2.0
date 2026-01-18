@@ -96,20 +96,18 @@ export const Select = <T extends string>({
   );
 };
 
-const Chevron = ({ className }: { className?: string }) => {
-  return (
-    <svg
-      className={className}
-      height='16'
-      viewBox='0 0 24 24'
-      width='16'
-    >
-      <path
-        d='M6 9l6 6 6-6'
-        fill='none'
-        stroke='currentColor'
-        strokeWidth='2'
-      />
-    </svg>
-  );
-};
+const Chevron = ({ className }: { className?: string }) => (
+  <svg
+    className={className}
+    height='16'
+    viewBox='0 0 24 24'
+    width='16'
+  >
+    <path
+      d='M6 9l6 6 6-6'
+      fill='none'
+      stroke='currentColor'
+      strokeWidth='2'
+    />
+  </svg>
+);

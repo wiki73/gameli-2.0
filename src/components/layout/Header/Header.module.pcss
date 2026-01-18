@@ -1,32 +1,38 @@
 @import url('@/styles/mixins.pcss');
 
 .header {
-  @mixin mobile {
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    z-index: 100;
-    left: 0;
-    right: 0;
-  }
+  position: fixed;
+  z-index: 100;
+
+  inset-inline: 12px;
+  bottom: calc(4px + env(safe-area-inset-bottom));
+
+  display: flex;
+  justify-content: center;
 
   @mixin tablet {
-    max-width: 720px;
-    top: 12px;
+    position: relative;
+    inset-inline: 0;
     width: 100%;
-    margin: 0 auto;
+    margin-inline: auto;
   }
 }
 
 .headerInner {
-  padding: 12px 24px;
+  width: 100%;
+  max-width: 720px;
+
+  padding: 8px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  gap: 8px;
+
+  border-radius: 40px;
 
   @mixin mobile {
-    border-top: 1px solid var(--border);
+    border: 1px solid var(--border);
   }
 }
 
@@ -35,4 +41,9 @@
   gap: 8px;
   align-items: center;
   justify-content: center;
+}
+
+.profileButton {
+  aspect-ratio: 1 / 1;
+  height: 100%;
 }

@@ -24,8 +24,6 @@ if (process.env.NODE_ENV === 'development') {
   window.__TANSTACK_QUERY_CLIENT__ = queryClient;
 }
 
-export const QueryProvider = ({ children }: PropsWithChildren) => {
-  return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
-};
+export const QueryProvider = ({ children }: PropsWithChildren) => (
+  <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+);

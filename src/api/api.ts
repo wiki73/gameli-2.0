@@ -1,10 +1,10 @@
 import { createClient } from '@supabase/supabase-js';
-import { ApiType } from './types';
+import { supabaseConfig } from '@/config/env';
 import { authApi } from './auth';
-import { taskApi } from './tasks';
 import { categoryApi } from './categories';
 import { dayApi } from './days';
-import { supabaseConfig } from '@/config/env';
+import { taskApi } from './tasks';
+import { ApiType } from './types';
 
 export const supabase = createClient(supabaseConfig.url, supabaseConfig.key);
 

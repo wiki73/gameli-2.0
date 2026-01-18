@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
-import { Modal } from '../../../common/Modal/Modal';
 import { api } from '../../../../api/api';
 import { useAuth } from '../../../../contexts/auth-context';
-import { Input } from '../../../common/Input/Input';
-import { Spinner } from '../../../common/spinner/Spinner';
 import { Button } from '../../../common/Button/Button';
+import { Input } from '../../../common/Input/Input';
+import { Modal } from '../../../common/Modal/Modal';
+import { Spinner } from '../../../common/spinner/Spinner';
 import styles from './CreateCategoryModal.module.css';
 
 export const CreateCategoryModal = props => {

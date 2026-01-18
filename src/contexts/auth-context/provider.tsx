@@ -1,8 +1,8 @@
-import { PropsWithChildren, useCallback, useEffect, useMemo } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { AuthContext } from '.';
+import { PropsWithChildren, useCallback, useEffect, useMemo } from 'react';
 import { api, supabase } from '@/api/api';
 import { User } from '@/api/auth/types';
+import { AuthContext } from '.';
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const queryClient = useQueryClient();

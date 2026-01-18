@@ -1,6 +1,6 @@
+import { CheckIcon, LapTimerIcon, PauseIcon } from '@radix-ui/react-icons';
 import { useEffect, useState } from 'react';
-import { CheckCircledIcon, TimerIcon } from '@radix-ui/react-icons';
-import classes from './timer.module.css';
+import classes from './Timer.module.pcss';
 
 export const Timer = ({ mode }) => {
   const [time, setTime] = useState(() => {
@@ -26,25 +26,22 @@ export const Timer = ({ mode }) => {
   return (
     <div className={classes.timer}>
       {mode === 'TIMER' && (
-        <TimerIcon
+        <LapTimerIcon
           height={70}
           width={70}
         />
       )}
 
       {mode === 'PAUSE' && (
-        <>
-          <TimerIcon
-            height={70}
-            width={70}
-          />
-          <p>Пауза</p>
-        </>
+        <PauseIcon
+          height={70}
+          width={70}
+        />
       )}
 
       {mode === 'COMPLETE' && (
         <>
-          <CheckCircledIcon
+          <CheckIcon
             height={70}
             width={70}
           />

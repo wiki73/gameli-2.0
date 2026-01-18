@@ -1,7 +1,7 @@
-import { useNavigate } from 'react-router';
 import { useEffect } from 'react';
-import { useAuth } from '../../../contexts/auth-context';
+import { useNavigate } from 'react-router';
 import { ROUTES } from '../../../constants/routes';
+import { useAuth } from '../../../contexts/auth-context';
 import { AuthForm } from './AuthForm/AuthForm';
 import styles from './AuthPage.module.css';
 

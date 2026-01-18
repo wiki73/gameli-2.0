@@ -5,6 +5,6 @@ type Props = PropsWithChildren<{
   className?: string;
 }>;
 
-export const Card = ({ children, className }: Props) => {
-  return <div className={`${styles.card} ${className || ''}`}>{children}</div>;
-};
+export const Card = ({ children, className }: Props) => (
+  <div className={`${styles.card} ${className || ''}`}>{children}</div>
+);
