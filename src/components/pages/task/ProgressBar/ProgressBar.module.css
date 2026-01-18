@@ -1,0 +1,33 @@
+.container {
+  position: relative;
+  width: 100%;
+  height: 24px;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.track {
+  position: absolute;
+  inset: 0;
+  background: var(--progress-bar-fon);
+  border-radius: 12px;
+}
+
+.base {
+  position: absolute;
+  inset: 0;
+  background: var(--progress-bar-current);
+  border-radius: 12px 0 0 12px;
+  height: 100%;
+  z-index: 2;
+}
+
+.added {
+  position: absolute;
+  inset: 0;
+  background: var(--progress-bar-add);
+  border-radius: 12px 8px 8px 12px;
+  height: 100%;
+  z-index: 1;
+}
