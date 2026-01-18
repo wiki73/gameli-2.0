@@ -1,7 +1,7 @@
+import { useParams } from 'react-router';
 import { CheckIcon } from '@radix-ui/react-icons';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import { useParams } from 'react-router';
 import { Button } from '@/components/common/Button/Button';
 import { Card } from '@/components/common/Card/Card';
 import { Timer } from '@/components/widgets/timer/Timer';
@@ -49,36 +49,35 @@ export const TaskPage = () => {
       <Card className={classes.containerTime}>
         <Timer mode={modeForTimer} />
         {modeForTimer === 'COMPLETE' && (
-          <div className={classes.containerForCompleet}>
+          <div className={classes.containerForComplete}>
             <h4>Заработанно</h4>
-            <div className={classes.textForCompleet}>
+            <div className={classes.textForComplete}>
               <p>Опыт</p>
               <p>{274}</p>
             </div>
-            <div className={classes.textForCompleet}>
+            <div className={classes.textForComplete}>
               <div>Опыт</div>
               <div>{23}</div>
             </div>
           </div>
         )}
       </Card>
-      <Button
-        className={classes.btnSubmit}
-        onClick={handelSubmit}
-      >
-        <CheckIcon />
-        Завершить
-      </Button>
-      <Button
-        onClick={handelPause}
-        variant='secondary'
-      >
-        {modeForTimer === 'TIMER' || modeForTimer === 'COMPLETE' ? (
-          <p>Пауза</p>
-        ) : (
-          <p>Снять паузы</p>
-        )}
-      </Button>
+      <div className={classes.buttons}>
+        <Button onClick={handelSubmit}>
+          <CheckIcon />
+          Завершить
+        </Button>
+        <Button
+          onClick={handelPause}
+          variant='secondary'
+        >
+          {modeForTimer === 'TIMER' || modeForTimer === 'COMPLETE' ? (
+            <p>Пауза</p>
+          ) : (
+            <p>Снять паузы</p>
+          )}
+        </Button>
+      </div>
     </div>
   );
 };
