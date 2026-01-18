@@ -1,23 +1,18 @@
 import { CheckIcon, LapTimerIcon, PauseIcon } from '@radix-ui/react-icons';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import classes from './Timer.module.pcss';
 
-export const Timer = ({ mode }) => {
-  const [time, setTime] = useState(() => {
-    const saved = localStorage.getItem('timer_time');
-    return saved ? Number(saved) : 0;
-  });
-
+export const Timer = ({ mode, time, setTime, taskId }) => {
   useEffect(() => {
     if (mode !== 'TIMER') return;
     const interval = setInterval(() => {
       setTime(prev => prev + 1);
     }, 1000);
     return () => clearInterval(interval);
-  }, [mode]);
+  }, [mode, setTime]);
   useEffect(() => {
-    localStorage.setItem('timer_time', time);
-  }, [time]);
+    localStorage.setItem(`timer_time_${taskId}`, time);
+  }, [time, taskId]);
 
   const hours = String(Math.floor(time / 3600)).padStart(2, '0');
   const minutes = String(Math.floor((time % 3600) / 60)).padStart(2, '0');

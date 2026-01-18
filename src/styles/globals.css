@@ -41,6 +41,13 @@
   --level-medium: #2995d8;
   --level-high: #d22121;
   --level-very-high: #dae817;
+
+  /* ---------- progressBar ---------- */
+  --progress-bar-current: #4caf50;
+  --progress-bar-add: #6aef6e;
+  --progress-bar-fon: #515151;
+
+  /* ---------- TaskComplete ---------- */
 }
 
 * {
