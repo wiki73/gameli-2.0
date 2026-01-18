@@ -27,15 +27,12 @@ export const authApi: AuthApiType = {
         throw new Error('updateUser: userId is required');
       }
 
-      const { error, data: updatedData } = await supabase
+      const { error } = await supabase
         .from('users')
         .update(data)
-        .eq('id', userId)
-        .select('*')
-        .single();
+        .eq('id', userId);
 
       if (error) throw error;
-      return updatedData;
     },
   },
   login: async ({ email, password }) => {

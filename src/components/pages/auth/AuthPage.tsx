@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
+import { Logo } from '@/components/common/Logo/Logo';
 import { ROUTES } from '../../../constants/routes';
 import { useAuth } from '../../../contexts/auth-context';
 import { AuthForm } from './AuthForm/AuthForm';
@@ -17,6 +18,7 @@ export const AuthPage = () => {
 
   return (
     <div className={styles.page}>
+      <Logo className={styles.logo} />
       <AuthForm />
     </div>
   );

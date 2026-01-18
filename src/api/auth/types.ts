@@ -15,7 +15,7 @@ export type AuthApiType = {
   };
   user: {
     get: (userId: string) => Promise<Nullable<User>>;
-    update: (params: { userId: string; data: Partial<User> }) => Promise<User>;
+    update: (params: { userId: string; data: Partial<User> }) => Promise<void>;
   };
   login: (params: { email: string; password: string }) => Promise<SupabaseUser>;
   register: (params: {
