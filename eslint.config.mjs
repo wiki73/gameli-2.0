@@ -1,15 +1,15 @@
-import globals from 'globals';
+import { fixupPluginRules } from '@eslint/compat';
+import js from '@eslint/js';
+import { defineConfig } from 'eslint/config';
+import eslintConfigPrettier from 'eslint-config-prettier/flat';
+import eslintImport from 'eslint-plugin-import';
+import prettierPlugin from 'eslint-plugin-prettier';
 import eslintReact from 'eslint-plugin-react';
 import eslintReactHooks from 'eslint-plugin-react-hooks';
 import eslintReactRefresh from 'eslint-plugin-react-refresh';
-import prettierPlugin from 'eslint-plugin-prettier';
-import eslintImport from 'eslint-plugin-import';
-import eslintUnusedImports from 'eslint-plugin-unused-imports';
 import eslintUnicorn from 'eslint-plugin-unicorn';
-import { fixupPluginRules } from '@eslint/compat';
-import { defineConfig } from 'eslint/config';
-import js from '@eslint/js';
-import eslintConfigPrettier from 'eslint-config-prettier/flat';
+import eslintUnusedImports from 'eslint-plugin-unused-imports';
+import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default defineConfig([
@@ -145,7 +145,7 @@ export default defineConfig([
         },
       ],
       'import/order': [
-        1,
+        'error',
         {
           groups: [
             'builtin',
@@ -156,10 +156,28 @@ export default defineConfig([
             'index',
             'object',
             'type',
+            'unknown',
           ],
+
+          pathGroups: [
+            {
+              pattern: '@/**',
+              group: 'internal',
+              position: 'after',
+            },
+            {
+              pattern: '**/*.{css,pcss,scss,sass,less}',
+              group: 'unknown',
+              position: 'after',
+            },
+          ],
+
+          pathGroupsExcludedImportTypes: ['builtin'],
+
           'newlines-between': 'never',
         },
       ],
+
       indent: ['error', 2],
       quotes: ['error', 'single'],
       semi: ['error', 'always'],
@@ -240,6 +258,7 @@ export default defineConfig([
       },
     },
     rules: {
+      'arrow-body-style': ['error', 'as-needed'],
       'react/react-in-jsx-scope': 'off',
       'react/jsx-uses-react': 'off',
     },

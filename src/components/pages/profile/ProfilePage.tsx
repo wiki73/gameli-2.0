@@ -1,11 +1,11 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AvatarIcon, ResetIcon } from '@radix-ui/react-icons';
-import { Card } from '../../common/Card/Card';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { getColorBySubjectLevel } from '@/constants/colors';
+import { api } from '../../../api/api';
 import { useAuth } from '../../../contexts/auth-context';
 import { Button } from '../../common/Button/Button';
-import { api } from '../../../api/api';
+import { Card } from '../../common/Card/Card';
 import styles from './ProfilePage.module.css';
-import { getColorBySubjectLevel } from '@/constants/colors';
 
 export const ProfilePage = () => {
   const { user } = useAuth();

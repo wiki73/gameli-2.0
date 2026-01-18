@@ -1,11 +1,11 @@
-import { useEffect, useMemo, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Input } from '../../../common/Input/Input';
-import { Modal } from '../../../common/Modal/Modal';
+import { useEffect, useMemo, useState } from 'react';
 import { api } from '../../../../api/api';
 import { useAuth } from '../../../../contexts/auth-context';
-import { Select } from '../../../common/Select/Select';
 import { Button } from '../../../common/Button/Button';
+import { Input } from '../../../common/Input/Input';
+import { Modal } from '../../../common/Modal/Modal';
+import { Select } from '../../../common/Select/Select';
 import styles from './CreateTaskModal.module.css';
 
 export const CreateTaskModal = ({

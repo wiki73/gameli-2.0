@@ -1,21 +1,21 @@
-import { useEffect, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import { PlusIcon } from '@radix-ui/react-icons';
-import { Card } from '../../common/Card/Card';
+import { useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
+import { Task } from '@/components/entities/Task/Task';
+import { api } from '../../../api/api';
 import { useAuth } from '../../../contexts/auth-context';
 import { getFormattedDay } from '../../../utils/date';
-import { FullScreenSpinner } from '../../common/spinner/FullScreenSpinner';
-import { api } from '../../../api/api';
-import { Select } from '../../common/Select/Select';
-import { Spinner } from '../../common/spinner/Spinner';
 import { Button } from '../../common/Button/Button';
-import { CategoryPage } from '../category/CategoryPage';
-import { CreateTaskModal } from './CreateTaskModal/CreateTaskModal';
+import { Card } from '../../common/Card/Card';
+import { Select } from '../../common/Select/Select';
+import { FullScreenSpinner } from '../../common/spinner/FullScreenSpinner';
+import { Spinner } from '../../common/spinner/Spinner';
+import { CategoryBlock } from '../../widgets/CategoryBlock/CategoryBlock';
 import { CreateDayListModal } from './CreateDayListModal/CreateDayListModal';
-import styles from './DayPage.module.css';
-import { Task } from '@/components/entities/Task/Task';
+import { CreateTaskModal } from './CreateTaskModal/CreateTaskModal';
+import styles from './MainPage.module.css';
 
-export const DayPage = () => {
+export const MainPage = () => {
   const { user } = useAuth();
 
   const [selectedDay, setSelectedDay] = useState(null);
@@ -137,7 +137,7 @@ export const DayPage = () => {
           />
         )}
       </Card>
-      <CategoryPage />
+      <CategoryBlock />
     </>
   );
 };
