@@ -38,8 +38,6 @@ export const AuthForm = () => {
 
   const isLogin = mode === 'LOGIN';
 
-  /* ---------- MUTATIONS ---------- */
-
   const loginMutation = useMutation({
     mutationFn: api.auth.login,
     onSuccess: () => {

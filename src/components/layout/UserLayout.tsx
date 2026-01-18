@@ -1,8 +1,8 @@
 import { PropsWithChildren, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router';
-import { FullScreenSpinner } from '@/components/common/spinner/FullScreenSpinner';
 import { ROUTES } from '../../constants/routes';
 import { useAuth } from '../../contexts/auth-context';
+import { Logo } from '../common/Logo/Logo';
 import { Header } from './Header/Header';
 import styles from './UserLayout.module.css';
 
@@ -18,12 +18,15 @@ export const UserLayout = ({ children }: PropsWithChildren) => {
   }, [navigate, isLoading, user]);
 
   if (isLoading || (location.pathname !== ROUTES.AUTH && !user && !isLoading)) {
-    return <FullScreenSpinner />;
+    return <Logo />;
   }
+
+  const showHeader =
+    !location.pathname.includes(ROUTES.TASK.replace(':taskId', '')) && !!user;
 
   return (
     <main className={styles.page}>
-      {!!user && <Header />}
+      {showHeader && <Header />}
       {children}
     </main>
   );

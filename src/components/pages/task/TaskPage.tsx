@@ -1,27 +1,30 @@
-import { useParams } from 'react-router';
+import { Link, useParams } from 'react-router';
 import { CheckIcon } from '@radix-ui/react-icons';
-import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { useCallback, useState } from 'react';
 import { useWindowSize } from 'react-use';
 import Confetti from 'react-confetti';
+import { useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/common/Button/Button';
 import { Card } from '@/components/common/Card/Card';
 import { Timer } from '@/components/widgets/timer/Timer';
 import { api } from '../../../api/api';
 import { FullScreenSpinner } from '../../common/spinner/FullScreenSpinner';
-// import { completeTask } from '../../../utils/tasks';
-import classes from './TaskPage.module.css';
+import { completeTask } from '../../../utils/tasks';
+import { useAuth } from '../../../contexts/auth-context';
+import { ROUTES } from '../../../constants/routes';
 import { ProgressBar } from './ProgressBar/ProgressBar';
+import classes from './TaskPage.module.css';
 
 export const TaskPage = () => {
   const { taskId } = useParams();
   const { width, height } = useWindowSize();
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+
   const [modeForTimer, setModeForTimer] = useState('TIMER');
-
-  const [exp, setExp] = useState(0);
-
+  const [experience, setExperience] = useState(0);
   const [showEffect, setShowEffect] = useState(false);
-
   const [time, setTime] = useState(() => {
     const saved = localStorage.getItem(`timer_time_${taskId}`);
     return saved ? Number(saved) : 0;
@@ -29,25 +32,24 @@ export const TaskPage = () => {
 
   const { data: task, isFetching } = useQuery({
     queryKey: ['task', taskId],
-    queryFn: () => api.tasks.getOne({ id: taskId }),
+    queryFn: () => api.tasks.getOne({ id: taskId ?? '' }),
     enabled: !!taskId,
   });
 
   const { data: category, isFetching: isCategoryFetching } = useQuery({
     queryKey: ['category', task],
-    queryFn: () => api.categories.getOne({ id: task.category_id }),
+    queryFn: () => api.categories.getOne({ id: task?.category_id ?? '' }),
     enabled: !!taskId,
   });
 
-  // const completeTaskMutation = useMutation({
-  //   mutationFn: completeTask,
-  // });
+  const completeTaskMutation = useMutation({
+    mutationFn: completeTask,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'], exact: false });
+    },
+  });
 
-  if (isFetching || isCategoryFetching) {
-    return <FullScreenSpinner />;
-  }
-
-  const getTimeIntervarRatio = () => {
+  const getTimeIntervarRatio = useCallback(() => {
     const min = Math.trunc(time / 60);
     if (min <= 15) {
       return 0.75;
@@ -60,18 +62,28 @@ export const TaskPage = () => {
     } else {
       return 2;
     }
-  };
-  const getExp = () => {
-    const categoryRatio = category.ratio;
+  }, [time]);
+
+  const getExp = useCallback(() => {
+    const categoryRatio = category?.ratio;
     const timeIntervarRatio = getTimeIntervarRatio();
+    if (!categoryRatio) return 0;
     const res = Math.round((time * categoryRatio * timeIntervarRatio) / 100);
 
     return res;
-  };
+  }, [category?.ratio, getTimeIntervarRatio, time]);
+
   const handelSubmit = () => {
+    if (!task || !user) return;
     setModeForTimer('COMPLETE');
-    setExp(getExp());
+    setExperience(getExp());
     setShowEffect(true);
+    completeTaskMutation.mutate({
+      taskId: task.id,
+      categoryId: task.category_id,
+      userId: user.id,
+      experience: getExp(),
+    });
   };
 
   const handelPause = () => {
@@ -81,6 +93,14 @@ export const TaskPage = () => {
       setModeForTimer('TIMER');
     }
   };
+
+  if (isFetching || isCategoryFetching) {
+    return <FullScreenSpinner />;
+  }
+
+  if (!task || !category) {
+    return <div>Задача не найдена</div>;
+  }
 
   return (
     <div className={classes.taskPage}>
@@ -100,7 +120,7 @@ export const TaskPage = () => {
             <h4>Заработанно</h4>
             <div className={classes.textForComplete}>
               <p>Опыт</p>
-              <p>{exp}</p>
+              <p>{experience}</p>
             </div>
             <div className={classes.textForComplete}>
               <div>Кристалы</div>
@@ -109,7 +129,7 @@ export const TaskPage = () => {
             <div>
               <h3 style={{ textAlign: 'center' }}>{category.name}</h3>
               <ProgressBar
-                addedExp={exp}
+                addedExp={experience}
                 currentExp={500}
                 maxExp={1000}
               />
@@ -124,9 +144,11 @@ export const TaskPage = () => {
             Завершить
           </Button>
         ) : (
-          <Button>
-            <CheckIcon />К планированю
-          </Button>
+          <Link to={ROUTES.MAIN}>
+            <Button>
+              <CheckIcon />К планированю
+            </Button>
+          </Link>
         )}
         <Button
           onClick={handelPause}

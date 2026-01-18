@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router';
 import { lazy, Suspense } from 'react';
 import { ROUTES } from '@/constants/routes';
-import { FullScreenSpinner } from '../common/spinner/FullScreenSpinner';
+import { Logo } from '../common/Logo/Logo';
 
 const AuthPage = lazy(() =>
   import('@/components/pages/auth/AuthPage').then(module => ({
@@ -30,7 +30,7 @@ const TaskPage = lazy(() =>
 );
 
 export const Router = () => (
-  <Suspense fallback={<FullScreenSpinner />}>
+  <Suspense fallback={<Logo />}>
     <Routes>
       <Route
         element={<MainPage />}

@@ -4,23 +4,23 @@ export const completeTask = async ({
   taskId,
   categoryId,
   userId,
-  expirence,
+  experience,
 }: {
   taskId: string;
   categoryId: string;
   userId: string;
-  expirence: number;
+  experience: number;
 }) =>
   Promise.all([
     api.tasks.update({
       id: taskId,
       is_done: true,
     }),
-    api.categories.update({ id: categoryId, expirence }),
+    api.categories.update({ id: categoryId, experience }),
     api.auth.user.update({
       userId,
       data: {
-        exp: expirence,
+        exp: experience,
       },
     }),
   ]);

@@ -3,7 +3,7 @@ export type Category = {
   name: string;
   description: string;
   ratio: number;
-  expirence: number;
+  experience: number;
 };
 
 export type CategoryApiType = {
