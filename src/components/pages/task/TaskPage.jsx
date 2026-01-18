@@ -2,18 +2,20 @@ import { useParams } from 'react-router';
 import { CheckIcon } from '@radix-ui/react-icons';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import confetti from 'canvas-confetti';
+import { useWindowSize } from 'react-use';
+import Confetti from 'react-confetti';
 import { Button } from '@/components/common/Button/Button';
 import { Card } from '@/components/common/Card/Card';
 import { Timer } from '@/components/widgets/timer/Timer';
 import { api } from '../../../api/api';
 import { FullScreenSpinner } from '../../common/spinner/FullScreenSpinner';
+// import { completeTask } from '../../../utils/tasks';
 import classes from './TaskPage.module.css';
-import { TaskCompleteEffect } from './TaskComplete.module/TaskCompleteEffect';
 import { ProgressBar } from './ProgressBar/ProgressBar';
 
 export const TaskPage = () => {
   const { taskId } = useParams();
+  const { width, height } = useWindowSize();
   const [modeForTimer, setModeForTimer] = useState('TIMER');
 
   const [exp, setExp] = useState(0);
@@ -21,7 +23,7 @@ export const TaskPage = () => {
   const [showEffect, setShowEffect] = useState(false);
 
   const [time, setTime] = useState(() => {
-    const saved = localStorage.getItem('timer_time');
+    const saved = localStorage.getItem(`timer_time_${taskId}`);
     return saved ? Number(saved) : 0;
   });
 
@@ -36,6 +38,10 @@ export const TaskPage = () => {
     queryFn: () => api.categories.getOne({ id: task.category_id }),
     enabled: !!taskId,
   });
+
+  // const completeTaskMutation = useMutation({
+  //   mutationFn: completeTask,
+  // });
 
   if (isFetching || isCategoryFetching) {
     return <FullScreenSpinner />;
@@ -62,44 +68,18 @@ export const TaskPage = () => {
 
     return res;
   };
-
   const handelSubmit = () => {
     setModeForTimer('COMPLETE');
     setExp(getExp());
     setShowEffect(true);
-    startConfetti();
   };
+
   const handelPause = () => {
     if (modeForTimer === 'TIMER') {
       setModeForTimer('PAUSE');
     } else {
       setModeForTimer('TIMER');
     }
-  };
-
-  const startConfetti = () => {
-    const interval = setInterval(() => {
-      const centerX = 0.5;
-      const offset = 350 / window.innerWidth;
-
-      confetti({
-        particleCount: 30,
-        spread: 100,
-        startVelocity: 20,
-        origin: { x: centerX - offset, y: Math.random() * 0.6 },
-        scalar: 0.6,
-      });
-
-      confetti({
-        particleCount: 30,
-        spread: 100,
-        startVelocity: 20,
-        origin: { x: centerX + offset, y: Math.random() * 0.6 },
-        scalar: 0.6,
-      });
-    }, 400);
-
-    return interval;
   };
 
   return (
@@ -112,6 +92,7 @@ export const TaskPage = () => {
         <Timer
           mode={modeForTimer}
           setTime={setTime}
+          taskId={taskId}
           time={time}
         />
         {modeForTimer === 'COMPLETE' && (
@@ -123,21 +104,30 @@ export const TaskPage = () => {
             </div>
             <div className={classes.textForComplete}>
               <div>Кристалы</div>
-              <div>{23}</div>
+              <div>...</div>
             </div>
-            <ProgressBar
-              addedExp={exp}
-              currentExp={500}
-              maxExp={1000}
-            />
+            <div>
+              <h3 style={{ textAlign: 'center' }}>{category.name}</h3>
+              <ProgressBar
+                addedExp={exp}
+                currentExp={500}
+                maxExp={1000}
+              />
+            </div>
           </div>
         )}
       </Card>
       <div className={classes.buttons}>
-        <Button onClick={handelSubmit}>
-          <CheckIcon />
-          Завершить
-        </Button>
+        {modeForTimer === 'TIMER' || modeForTimer === 'PAUSE' ? (
+          <Button onClick={handelSubmit}>
+            <CheckIcon />
+            Завершить
+          </Button>
+        ) : (
+          <Button>
+            <CheckIcon />К планированю
+          </Button>
+        )}
         <Button
           onClick={handelPause}
           variant='secondary'
@@ -150,10 +140,9 @@ export const TaskPage = () => {
         </Button>
       </div>
       {showEffect && (
-        <TaskCompleteEffect
-          onClose={() => setShowEffect(false)}
-          open={showEffect}
-          timeForClose={5000}
+        <Confetti
+          height={height}
+          width={width}
         />
       )}
     </div>

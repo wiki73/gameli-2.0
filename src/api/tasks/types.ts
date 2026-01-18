@@ -3,6 +3,8 @@ export type Task = {
   title: string;
   category_id: string;
   date: string;
+  is_done: boolean;
+  user_id: string;
 };
 
 export type TasksApiType = {
@@ -14,12 +16,6 @@ export type TasksApiType = {
   }) => Promise<void>;
   getMany: (_: { userId: string; date?: string }) => Promise<Task[]>;
   getOne: (_: { id: string }) => Promise<Task>;
-  update: (_: {
-    id: string;
-    userId: string;
-    title?: string;
-    categoryId?: string;
-    date?: string;
-  }) => Promise<void>;
+  update: (task: Partial<Task>) => Promise<void>;
   delete: (_: { id: string }) => Promise<void>;
 };

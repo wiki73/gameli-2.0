@@ -29,26 +29,23 @@ export const taskApi: TasksApiType = {
     if (error) throw error;
     return data;
   },
-  update: async ({ id, userId, title, categoryId, date }) => {
-    if (!id || !userId) {
-      throw new Error('updateTask: id and userId are required');
+  update: async ({ id, title, date, category_id, is_done }) => {
+    if (!id) {
+      throw new Error('updateTask: id are required');
     }
 
     const updates: Partial<Task> = {};
 
     if (title) updates.title = title;
-    if (categoryId) updates.category_id = categoryId;
+    if (category_id) updates.category_id = category_id;
     if (date) updates.date = date;
+    if (is_done) updates.is_done = is_done;
 
     if (Object.keys(updates).length === 0) {
       throw new Error('updateTask: no fields to update');
     }
 
-    const { error } = await supabase
-      .from('tasks')
-      .update(updates)
-      .eq('id', id)
-      .eq('user_id', userId);
+    const { error } = await supabase.from('tasks').update(updates).eq('id', id);
 
     if (error) throw error;
   },
