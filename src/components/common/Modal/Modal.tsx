@@ -1,6 +1,6 @@
+import { Cross1Icon } from '@radix-ui/react-icons';
 import { PropsWithChildren, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Cross1Icon } from '@radix-ui/react-icons';
 import styles from './Modal.module.pcss';
 
 type Props = PropsWithChildren<{

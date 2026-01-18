@@ -2,12 +2,12 @@ import { useParams } from 'react-router';
 import { CheckIcon } from '@radix-ui/react-icons';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import { api } from '../../../api/api';
-import { FullScreenSpinner } from '../../common/spinner/FullScreenSpinner';
-import classes from './task-page.module.css';
+import { Button } from '@/components/common/Button/Button';
 import { Card } from '@/components/common/Card/Card';
 import { Timer } from '@/components/widgets/timer/Timer';
-import { Button } from '@/components/common/Button/Button';
+import { api } from '../../../api/api';
+import { FullScreenSpinner } from '../../common/spinner/FullScreenSpinner';
+import classes from './TaskPage.module.css';
 
 export const TaskPage = () => {
   const { taskId } = useParams();
@@ -42,8 +42,10 @@ export const TaskPage = () => {
 
   return (
     <div className={classes.taskPage}>
-      <h2 className={classes.title}>{task.title}</h2>
-      <h3 className={classes.category}>{category.name}</h3>
+      <div className={classes.header}>
+        <h2 className={classes.title}>{task.title}</h2>
+        <h3 className={classes.category}>{category.name}</h3>
+      </div>
       <Card className={classes.containerTime}>
         <Timer mode={modeForTimer} />
         {modeForTimer === 'COMPLETE' && (

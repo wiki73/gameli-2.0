@@ -1,8 +1,8 @@
-import { useState } from 'react';
 import { Pencil1Icon, TrashIcon } from '@radix-ui/react-icons';
-import { DeleteCategoryModal } from '../pages/category/DeleteCategoryModal/DeleteCategoryModal';
+import { useState } from 'react';
 import { getColorBySubjectLevel } from '../../constants/colors';
 import { Button } from '../common/Button/Button';
+import { DeleteCategoryModal } from '../widgets/CategoryBlock/DeleteCategoryModal/DeleteCategoryModal';
 import styles from './Category.module.css';
 
 export const Category = ({ name, description, level, id }) => {

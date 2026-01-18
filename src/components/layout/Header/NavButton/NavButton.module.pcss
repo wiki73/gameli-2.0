@@ -1,16 +1,22 @@
+@import url('@/styles/mixins.pcss');
+
 .navButton {
+  min-height: 44px;
+  padding: 12px 16px;
+  gap: 8px;
+
   display: flex;
-  flex-direction: row;
-  justify-content: center;
   align-items: center;
-  padding: 12px;
-  gap: 12px;
+  justify-content: center;
+  font-weight: 600;
+
+  border-radius: 24px;
+
+  flex-direction: row;
 
   background: var(--background);
   color: var(--foreground);
-  font-weight: 600;
   text-decoration: none;
-  border-radius: 12px;
 
   cursor: pointer;
 
@@ -35,7 +41,7 @@
 }
 
 .navButtonText {
-  @media (width <= 768px) {
+  @mixin mobile {
     display: none;
   }
 }

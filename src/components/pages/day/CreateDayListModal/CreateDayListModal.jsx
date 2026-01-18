@@ -1,11 +1,11 @@
-import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Modal } from '../../../common/Modal/Modal';
+import { useState } from 'react';
+import { Button } from '@/components/common/Button/Button';
+import { Input } from '@/components/common/Input/Input';
 import { api } from '../../../../api/api';
 import { useAuth } from '../../../../contexts/auth-context';
+import { Modal } from '../../../common/Modal/Modal';
 import classes from './CreateDayListModal.module.css';
-import { Input } from '@/components/common/Input/Input';
-import { Button } from '@/components/common/Button/Button';
 
 export const CreateDayListModal = ({ isOpen, onClose, onSuccess }) => {
   const [date, setDate] = useState('');

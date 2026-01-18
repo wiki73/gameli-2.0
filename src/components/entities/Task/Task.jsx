@@ -1,11 +1,11 @@
-import { useState } from 'react';
 import { Pencil1Icon, PlayIcon, TrashIcon } from '@radix-ui/react-icons';
+import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import styles from './Task.module.css';
 import { Button } from '@/components/common/Button/Button';
-import { DeleteTaskModal } from '@/components/pages/day/DeleteTaskModal/DeleteTaskModal';
 import { CreateTaskModal } from '@/components/pages/day/CreateTaskModal/CreateTaskModal';
+import { DeleteTaskModal } from '@/components/pages/day/DeleteTaskModal/DeleteTaskModal';
 import { ROUTES } from '@/constants/routes';
+import styles from './Task.module.css';
 
 export const Task = ({ task, selectedDay }) => {
   const [isEditTaskModalOpen, setIsEditTaskModalOpen] = useState(false);

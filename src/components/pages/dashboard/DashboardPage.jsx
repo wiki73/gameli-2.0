@@ -1,3 +1,6 @@
+import { RechartsDevtools } from '@recharts/devtools';
+import { useQuery } from '@tanstack/react-query';
+import { useMemo } from 'react';
 import {
   Bar,
   BarChart,
@@ -8,14 +11,11 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import { RechartsDevtools } from '@recharts/devtools';
-import { useQuery } from '@tanstack/react-query';
-import { useMemo } from 'react';
-import { Card } from '../../common/Card/Card';
-import { useAuth } from '../../../contexts/auth-context';
 import { api } from '../../../api/api';
-import { FullScreenSpinner } from '../../common/spinner/FullScreenSpinner';
+import { useAuth } from '../../../contexts/auth-context';
 import { getFormattedDay } from '../../../utils/date';
+import { Card } from '../../common/Card/Card';
+import { FullScreenSpinner } from '../../common/spinner/FullScreenSpinner';
 import styles from './DashboardPage.module.css';
 
 export const DashboardPage = () => {

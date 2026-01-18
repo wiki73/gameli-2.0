@@ -1,10 +1,10 @@
-import { useState } from 'react';
 import { PlusIcon } from '@radix-ui/react-icons';
+import { useState } from 'react';
+import { Button } from '@/components/common/Button/Button';
 import { Spinner } from '../../common/spinner/Spinner';
 import { Category } from '../../entities/Category';
-import { CreateCategoryModal } from '../../pages/category/CreateCategoryModal/CreateCategoryModal';
+import { CreateCategoryModal } from '../CategoryBlock/CreateCategoryModal/CreateCategoryModal';
 import styles from './CategoryList.module.pcss';
-import { Button } from '@/components/common/Button/Button';
 
 export const CategoryList = ({ categories, isPending }) => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);

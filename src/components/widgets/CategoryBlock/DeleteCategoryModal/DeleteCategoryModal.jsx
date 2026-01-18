@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useMemo } from 'react';
-import { Modal } from '../../../common/Modal/Modal';
 import { api } from '../../../../api/api';
 import { useAuth } from '../../../../contexts/auth-context';
-import { Spinner } from '../../../common/spinner/Spinner';
 import { Button } from '../../../common/Button/Button';
+import { Modal } from '../../../common/Modal/Modal';
+import { Spinner } from '../../../common/spinner/Spinner';
 import styles from './CreateCategoryModal.module.css';
 
 export const DeleteCategoryModal = ({ id, onClose, isOpen }) => {

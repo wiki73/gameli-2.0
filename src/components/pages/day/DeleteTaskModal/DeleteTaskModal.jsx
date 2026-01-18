@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Modal } from '../../../common/Modal/Modal';
 import { api } from '../../../../api/api';
 import { useAuth } from '../../../../contexts/auth-context';
 import { Button } from '../../../common/Button/Button';
+import { Modal } from '../../../common/Modal/Modal';
 import styles from './DeleteTaskModal.module.css';
 
 export const DeleteTaskModal = ({ isOpen, onClose, selectedDay, id }) => {

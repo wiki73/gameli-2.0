@@ -1,14 +1,17 @@
+@import url('@/styles/mixins.pcss');
+
 .page {
   height: 100%;
+  min-height: 100dvh;
   width: 100%;
   max-width: 720px;
   margin: 0 auto;
-  padding: 12px 12px 70px;
+  padding: 12px 12px 0;
   display: flex;
   gap: 12px;
   flex-direction: column;
 
-  @media (width >= 768px) {
-    padding: 24px 48px;
+  @mixin tablet {
+    padding: 24px 12px;
   }
 }

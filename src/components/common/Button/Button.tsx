@@ -1,6 +1,6 @@
-import { ButtonHTMLAttributes } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import clsx from 'clsx';
+import { ButtonHTMLAttributes } from 'react';
 import styles from './Button.module.pcss';
 
 const buttonVariants = cva(styles.root, {
@@ -34,13 +34,11 @@ export const Button = ({
   className,
   type = 'button',
   ...props
-}: Props) => {
-  return (
-    <button
-      className={clsx(buttonVariants({ variant, size }), className)}
-      ref={ref}
-      type={type}
-      {...props}
-    />
-  );
-};
+}: Props) => (
+  <button
+    className={clsx(buttonVariants({ variant, size }), className)}
+    ref={ref}
+    type={type}
+    {...props}
+  />
+);

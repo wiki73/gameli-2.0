@@ -1,12 +1,12 @@
-import { useEffect } from 'react';
+import { PropsWithChildren, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router';
+import { FullScreenSpinner } from '@/components/common/spinner/FullScreenSpinner';
 import { ROUTES } from '../../constants/routes';
 import { useAuth } from '../../contexts/auth-context';
-import { FullScreenSpinner } from '../common/spinner/FullScreenSpinner';
-import styles from './UserLayout.module.css';
 import { Header } from './Header/Header';
+import styles from './UserLayout.module.css';
 
-export const UserLayout = ({ children }) => {
+export const UserLayout = ({ children }: PropsWithChildren) => {
   const { user, isLoading } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
