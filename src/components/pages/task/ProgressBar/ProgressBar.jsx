@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import styles from './progressBar.module.css';
+import styles from './ProgressBar.module.pcss';
 
 export const ProgressBar = ({ currentExp, addedExp, maxExp }) => {
   const basePercent = Math.min((currentExp / maxExp) * 100, 100);
