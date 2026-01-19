@@ -7,3 +7,15 @@
   font-weight: 700;
   color: var(--text);
 }
+
+.noCategoriesMessage {
+  padding: 12px;
+  border-radius: 16px;
+  background: var(--primary-default);
+  color: var(--primary-foreground);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  justify-content: center;
+  max-width: 400px;
+}

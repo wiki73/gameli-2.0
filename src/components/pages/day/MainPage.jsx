@@ -13,7 +13,7 @@ import { Spinner } from '../../common/spinner/Spinner';
 import { CategoryBlock } from '../../widgets/CategoryBlock/CategoryBlock';
 import { CreateDayListModal } from './CreateDayListModal/CreateDayListModal';
 import { CreateTaskModal } from './CreateTaskModal/CreateTaskModal';
-import styles from './MainPage.module.css';
+import styles from './MainPage.module.pcss';
 
 export const MainPage = () => {
   const { user } = useAuth();
@@ -25,6 +25,12 @@ export const MainPage = () => {
   const { data: days, isPending: isDaysPending } = useQuery({
     queryKey: ['days', user?.id],
     queryFn: () => api.days.getMany({ userId: user?.id }),
+    enabled: !!user?.id,
+  });
+
+  const { data: categories, isPending: isCategoriesPending } = useQuery({
+    queryKey: ['categories', user?.id],
+    queryFn: () => api.categories.getMany({ userId: user?.id ?? '' }),
     enabled: !!user?.id,
   });
 
@@ -62,7 +68,6 @@ export const MainPage = () => {
 
   const handleCloseCreateTaskModal = () => {
     setIsCreateTaskModalOpen(false);
-    setIsEditTaskModalOpen(false);
   };
 
   if (isDaysPending) {
@@ -80,64 +85,100 @@ export const MainPage = () => {
   return (
     <>
       <Card className={styles.tasksBlock}>
-        <h1>Задачи</h1>
-        <div className={styles.dayList}>
-          <Select
-            onChange={handleDayChange}
-            options={[
-              ...days.map(({ date }) => ({
-                value: date,
-                label: getFormattedDay(date),
-              })),
-            ]}
-            value={selectedDay}
-          />
-          <Button
-            onClick={handleCreateNewDay}
-            size='md'
-          >
-            Новый день
-          </Button>
-        </div>
-        <div className={styles.tasks}>
-          {tasks?.map(task => (
-            <Task
-              key={task.id}
-              selectedDay={selectedDay}
-              task={task}
-            />
-          ))}
-          {!isLoading && (
-            <Button
-              onClick={handleCreateTask}
-              type='button'
-              variant='secondary'
-            >
-              <PlusIcon
-                height={32}
-                width={32}
+        {categories?.length ? (
+          <>
+            <h1>Задачи</h1>
+            {!days.length && (
+              <div className={styles.noDaysMessage}>
+                <h3>Нет списков</h3>
+                <p>
+                  Вы не создали ни одного списка дня, нажмите кнопку ниже, чтобы
+                  создать
+                </p>
+                <Button onClick={handleCreateNewDay}>Новый день</Button>
+              </div>
+            )}
+            {!!days.length && (
+              <div className={styles.dayList}>
+                <Select
+                  onChange={handleDayChange}
+                  options={[
+                    ...days.map(({ date }) => ({
+                      value: date,
+                      label: getFormattedDay(date),
+                    })),
+                  ]}
+                  value={selectedDay}
+                />
+                <Button
+                  onClick={handleCreateNewDay}
+                  size='md'
+                >
+                  Новый день
+                </Button>
+              </div>
+            )}
+            {!tasks?.length && !!days.length && (
+              <div className={styles.noTasksMessage}>
+                <h3>Нет задач</h3>
+                <p>
+                  Вы не создали ни одной задачи, нажмите кнопку ниже, чтобы
+                  создать первую!
+                </p>
+              </div>
+            )}
+            <div className={styles.tasks}>
+              {tasks?.map(task => (
+                <Task
+                  key={task.id}
+                  selectedDay={selectedDay}
+                  task={task}
+                />
+              ))}
+              {!isLoading && !!days.length && (
+                <Button
+                  onClick={handleCreateTask}
+                  type='button'
+                  variant='secondary'
+                >
+                  <PlusIcon
+                    height={32}
+                    width={32}
+                  />
+                </Button>
+              )}
+              {isLoading && <Spinner />}
+            </div>
+            {isCreateTaskModalOpen && (
+              <CreateTaskModal
+                isOpen={isCreateTaskModalOpen}
+                modeForm='CREATE'
+                onClose={handleCloseCreateTaskModal}
+                selectedDay={selectedDay}
               />
-            </Button>
-          )}
-          {isLoading && <Spinner />}
-        </div>
-        {isCreateTaskModalOpen && (
-          <CreateTaskModal
-            isOpen={isCreateTaskModalOpen}
-            modeForm='CREATE'
-            onClose={handleCloseCreateTaskModal}
-            selectedDay={selectedDay}
-          />
-        )}
-        {isModalOpen && (
-          <CreateDayListModal
-            isOpen={isModalOpen}
-            onClose={closeModal}
-            onSuccess={date => setSelectedDay(date)}
-          />
+            )}
+            {isModalOpen && (
+              <CreateDayListModal
+                isOpen={isModalOpen}
+                onClose={closeModal}
+                onSuccess={date => setSelectedDay(date)}
+              />
+            )}
+          </>
+        ) : (
+          <div className={styles.noCategoriesMessage}>
+            <h3>Нет доступа к задачам</h3>
+            <p>
+              Вы не создали ни одной категории, чтобы получить доступ к задачам,
+              создайте хотя бы одну категорию
+            </p>
+          </div>
         )}
       </Card>
-      <CategoryBlock />
+      <CategoryBlock
+        categories={categories}
+        isPending={isCategoriesPending}
+      />
     </>
   );
 };

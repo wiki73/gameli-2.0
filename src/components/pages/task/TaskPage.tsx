@@ -16,13 +16,15 @@ import { ROUTES } from '../../../constants/routes';
 import { ProgressBar } from './ProgressBar/ProgressBar';
 import classes from './TaskPage.module.css';
 
+export type TaskState = 'TIMER' | 'PAUSE' | 'COMPLETE';
+
 export const TaskPage = () => {
   const { taskId } = useParams();
   const { width, height } = useWindowSize();
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
-  const [modeForTimer, setModeForTimer] = useState('TIMER');
+  const [taskState, setTaskState] = useState<TaskState>('TIMER');
   const [experience, setExperience] = useState(0);
   const [showEffect, setShowEffect] = useState(false);
   const [time, setTime] = useState(() => {
@@ -46,6 +48,7 @@ export const TaskPage = () => {
     mutationFn: completeTask,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'], exact: false });
+      queryClient.invalidateQueries({ queryKey: ['user'], exact: false });
     },
   });
 
@@ -75,22 +78,26 @@ export const TaskPage = () => {
 
   const handelSubmit = () => {
     if (!task || !user) return;
-    setModeForTimer('COMPLETE');
+    setTaskState('COMPLETE');
     setExperience(getExp());
     setShowEffect(true);
     completeTaskMutation.mutate({
       taskId: task.id,
       categoryId: task.category_id,
+      categoryCurrentExperience: category?.experience || 0,
+      categoryCurrentLevel: category?.level || 0,
       userId: user.id,
-      experience: getExp(),
+      userCurrentExperience: user.exp || 0,
+      userCurrentLevel: user.level || 0,
+      earnedExperience: getExp(),
     });
   };
 
   const handelPause = () => {
-    if (modeForTimer === 'TIMER') {
-      setModeForTimer('PAUSE');
+    if (taskState === 'TIMER') {
+      setTaskState('PAUSE');
     } else {
-      setModeForTimer('TIMER');
+      setTaskState('TIMER');
     }
   };
 
@@ -98,7 +105,7 @@ export const TaskPage = () => {
     return <FullScreenSpinner />;
   }
 
-  if (!task || !category) {
+  if (!task || !category || !taskId) {
     return <div>Задача не найдена</div>;
   }
 
@@ -110,12 +117,12 @@ export const TaskPage = () => {
       </div>
       <Card className={classes.containerTime}>
         <Timer
-          mode={modeForTimer}
           setTime={setTime}
+          state={taskState}
           taskId={taskId}
           time={time}
         />
-        {modeForTimer === 'COMPLETE' && (
+        {taskState === 'COMPLETE' && (
           <div className={classes.containerForComplete}>
             <h4>Заработанно</h4>
             <div className={classes.textForComplete}>
@@ -129,16 +136,16 @@ export const TaskPage = () => {
             <div>
               <h3 style={{ textAlign: 'center' }}>{category.name}</h3>
               <ProgressBar
-                addedExp={experience}
-                currentExp={500}
-                maxExp={1000}
+                addedExperience={experience}
+                categoryLevel={category.level}
+                currentExperience={category.experience}
               />
             </div>
           </div>
         )}
       </Card>
       <div className={classes.buttons}>
-        {modeForTimer === 'TIMER' || modeForTimer === 'PAUSE' ? (
+        {taskState === 'TIMER' || taskState === 'PAUSE' ? (
           <Button onClick={handelSubmit}>
             <CheckIcon />
             Завершить
@@ -150,16 +157,14 @@ export const TaskPage = () => {
             </Button>
           </Link>
         )}
-        <Button
-          onClick={handelPause}
-          variant='secondary'
-        >
-          {modeForTimer === 'TIMER' || modeForTimer === 'COMPLETE' ? (
-            <p>Пауза</p>
-          ) : (
-            <p>Снять паузы</p>
-          )}
-        </Button>
+        {taskState !== 'COMPLETE' && (
+          <Button
+            onClick={handelPause}
+            variant='secondary'
+          >
+            {taskState === 'PAUSE' ? 'Снять паузы' : 'Пауза'}
+          </Button>
+        )}
       </div>
       {showEffect && (
         <Confetti
@@ -182,11 +187,11 @@ export const TaskPage = () => {
             h: 0,
           }}
           friction={0.99}
-          gravity={0.15}
+          gravity={0.05}
           height={height}
-          initialVelocityX={{ min: -20, max: 20 }}
-          initialVelocityY={{ min: -25, max: 5 }}
-          numberOfPieces={1200}
+          initialVelocityX={{ min: -5, max: 5 }}
+          initialVelocityY={{ min: 5, max: 10 }}
+          numberOfPieces={800}
           recycle={true}
           run={true}
           width={width}

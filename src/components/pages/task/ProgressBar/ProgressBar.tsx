@@ -1,9 +1,25 @@
 import { motion } from 'framer-motion';
+import { getExperienceByLevel } from '@/utils/level';
 import styles from './ProgressBar.module.pcss';
 
-export const ProgressBar = ({ currentExp, addedExp, maxExp }) => {
-  const basePercent = Math.min((currentExp / maxExp) * 100, 100);
-  const addedPercent = Math.min(((currentExp + addedExp) / maxExp) * 100, 100);
+type Props = {
+  currentExperience: number;
+  addedExperience: number;
+  categoryLevel: number;
+};
+
+export const ProgressBar = ({
+  currentExperience,
+  addedExperience,
+  categoryLevel,
+}: Props) => {
+  const expToLevelUp = getExperienceByLevel(categoryLevel + 1);
+
+  const basePercent = Math.min((currentExperience / expToLevelUp) * 100, 100);
+  const addedPercent = Math.min(
+    ((currentExperience + addedExperience) / expToLevelUp) * 100,
+    100,
+  );
 
   return (
     <div className={styles.container}>

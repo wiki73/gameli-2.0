@@ -1,5 +1,5 @@
 import { supabase } from '../api';
-import { Category, CategoryApiType } from './types';
+import { CategoryApiType } from './types';
 
 export const categoryApi: CategoryApiType = {
   getOne: async ({ id }) => {
@@ -17,23 +17,18 @@ export const categoryApi: CategoryApiType = {
 
     return data;
   },
-  update: async ({ id, name, experience }) => {
+  update: async ({ id, data }) => {
     if (!id) {
       throw new Error('updateCategory: id are required');
     }
 
-    const updates: Partial<Category> = {};
-
-    if (name) updates.name = name;
-    if (experience) updates.experience = experience;
-
-    if (Object.keys(updates).length === 0) {
+    if (Object.keys(data).length === 0) {
       throw new Error('updateCategory: no fields to update');
     }
 
     const { error } = await supabase
       .from('categories')
-      .update(updates)
+      .update(data)
       .eq('id', id);
 
     if (error) throw error;
