@@ -59,6 +59,7 @@ export const Timer = ({ state: mode, time, setTime, taskId }: Props) => {
       <p className={classes.message}>
         {mode === 'COMPLETE' ? 'Отличная работа!' : 'У вас всё получится!'}
       </p>
+      {mode === 'COMPLETE' && <h3>😁Улыбнитесь себе!😁</h3>}
     </div>
   );
 };

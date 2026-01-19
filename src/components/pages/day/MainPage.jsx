@@ -100,6 +100,7 @@ export const MainPage = () => {
             )}
             {!!days.length && (
               <div className={styles.dayList}>
+                <label style={{ fontSize: 34 }}>План на:</label>
                 <Select
                   onChange={handleDayChange}
                   options={[
