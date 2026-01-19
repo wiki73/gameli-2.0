@@ -3,13 +3,18 @@ import { useState } from 'react';
 import { getColorBySubjectLevel } from '../../constants/colors';
 import { Button } from '../common/Button/Button';
 import { DeleteCategoryModal } from '../widgets/CategoryBlock/DeleteCategoryModal/DeleteCategoryModal';
+import { CreateCategoryModal } from '../widgets/CategoryBlock/CreateCategoryModal/CreateCategoryModal';
 import styles from './Category.module.css';
 
-export const Category = ({ name, description, level, id }) => {
+export const Category = ({ name, description, level, ratio, id }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
   const color = getColorBySubjectLevel(level);
 
-  const handleEditButtonClick = () => {};
+  const handleEditButtonClick = () => {
+    setIsEditModalOpen(true);
+  };
 
   const handleDeleteButtonClick = () => {
     setIsDeleteModalOpen(true);
@@ -51,6 +56,14 @@ export const Category = ({ name, description, level, id }) => {
           ) : null}
         </div>
       </div>
+      {isEditModalOpen ? (
+        <CreateCategoryModal
+          category={{ name, description, ratio }}
+          isOpen={isEditModalOpen}
+          modeForm='EDIT'
+          onClose={() => setIsEditModalOpen(false)}
+        />
+      ) : null}
     </div>
   );
 };

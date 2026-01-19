@@ -34,6 +34,7 @@ export const CategoryList = ({ categories, isPending }) => {
       {isCreateModalOpen ? (
         <CreateCategoryModal
           isOpen={isCreateModalOpen}
+          modeForm='CREATE'
           onClose={() => setIsCreateModalOpen(false)}
         />
       ) : null}

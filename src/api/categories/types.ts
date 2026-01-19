@@ -4,6 +4,7 @@ export type Category = {
   description: string;
   ratio: number;
   experience: number;
+  level: number;
 };
 
 export type CategoryApiType = {
@@ -13,7 +14,7 @@ export type CategoryApiType = {
     description: string;
     ratio: number;
   }) => Promise<void>;
-  update: (category: Partial<Category>) => Promise<void>;
+  update: (_: { id: string; data: Partial<Category> }) => Promise<void>;
   getMany: (_: { userId: string }) => Promise<Category[]>;
   getOne: (_: { id: string }) => Promise<Category>;
   delete: (_: { id: string }) => Promise<void>;
