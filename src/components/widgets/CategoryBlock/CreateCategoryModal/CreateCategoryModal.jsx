@@ -58,33 +58,61 @@ export const CreateCategoryModal = props => {
         className={styles.form}
         onSubmit={handleSubmit}
       >
-        <Input
-          autoComplete='name'
-          id='name'
-          onChange={handleChange('name')}
-          placeholder='Название категории'
-          type='text'
-          value={formData.name}
-        />
-        <Input
-          as='textarea'
-          autoComplete='description'
-          id='description'
-          onChange={handleChange('description')}
-          placeholder='Описание категории'
-          type='text'
-          value={formData.description}
-        />
-        <Input
-          autoComplete='ratio'
-          id='ratio'
-          max='10'
-          min='0'
-          onChange={handleChange('ratio')}
-          placeholder='Коэффициент сложности (0-10)'
-          type='range'
-          value={formData.ratio}
-        />
+        <div className={styles.containerInput}>
+          <label>Категория:</label>
+          <Input
+            autoComplete='name'
+            id='name'
+            onChange={handleChange('name')}
+            placeholder='Название категории'
+            type='text'
+            value={formData.name}
+          />
+        </div>
+
+        <div className={styles.containerInput}>
+          <label>Описание:</label>
+          <Input
+            as='textarea'
+            autoComplete='description'
+            id='description'
+            onChange={handleChange('description')}
+            placeholder='Описание категории'
+            type='text'
+            value={formData.description}
+          />
+        </div>
+        <div
+          className={styles.containerRangeInput}
+          style={{ position: 'relative', width: '100%', marginTop: '30px' }}
+        >
+          <input
+            id='ratio'
+            max='10'
+            min='0'
+            onChange={handleChange('ratio')}
+            style={{ width: '100%' }}
+            type='range'
+            value={formData.ratio}
+          />
+          <span
+            className={styles.lableForRangeInput}
+            style={{
+              position: 'absolute',
+              top: '-24px',
+              left: `calc(${(formData.ratio / 10) * 100}% )`,
+              transform: 'translateX(-50%)',
+              background: '#4caf50',
+              color: 'white',
+              padding: '2px 6px',
+              borderRadius: '4px',
+              fontSize: '12px',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {formData.ratio}
+          </span>
+        </div>
 
         {error ? <p className={styles.error}>{error}</p> : null}
 

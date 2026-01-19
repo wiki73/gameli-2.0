@@ -119,14 +119,19 @@ export const CreateTaskModal = ({
           type='text'
           value={formData.title}
         />
-        <Select
-          onChange={handleSelectCategory}
-          options={categories.map(({ name, id }) => ({
-            label: name,
-            value: id,
-          }))}
-          value={formData.categoryId}
-        />
+        <div style={{ display: 'flex' }}>
+          <label style={{ marginTop: 'auto', marginRight: 5, fontSize: 34 }}>
+            Категория
+          </label>
+          <Select
+            onChange={handleSelectCategory}
+            options={categories.map(({ name, id }) => ({
+              label: name,
+              value: id,
+            }))}
+            value={formData.categoryId}
+          />
+        </div>
         {error ? <p className={styles.error}>{error}</p> : null}
         <Button
           disabled={isButtonDisabled}
