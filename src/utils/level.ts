@@ -35,5 +35,13 @@ export const experienceToLevelMap = new Map<number, number>([
 export const getExperienceByLevel = (level: number): number =>
   levelToExperienceMap.get(level) ?? 0;
 
-export const getLevelByExperience = (experience: number): number =>
-  experienceToLevelMap.get(experience) ?? 1;
+export const getLevelByExperience = (experience: number): number => {
+  let level = 0;
+  levelToExperienceMap.forEach((value, key) => {
+    if (value <= experience) {
+      level = key;
+    }
+  });
+
+  return level;
+};

@@ -1,15 +1,13 @@
 import { api } from '@/api/api';
-import { getExperienceByLevel } from './level';
+import { getLevelByExperience } from './level';
 
 export const completeTask = async ({
   taskId,
   categoryId,
   userId,
   userCurrentExperience,
-  userCurrentLevel,
   earnedExperience,
   categoryCurrentExperience,
-  categoryCurrentLevel,
 }: {
   taskId: string;
   categoryId: string;
@@ -20,18 +18,10 @@ export const completeTask = async ({
   userCurrentLevel: number;
   earnedExperience: number;
 }) => {
-  let categoryLevel = categoryCurrentLevel;
-  let userLevel = userCurrentLevel;
   const newCategoryExperience = categoryCurrentExperience + earnedExperience;
   const newUserExperience = userCurrentExperience + earnedExperience;
-
-  if (newCategoryExperience >= getExperienceByLevel(categoryLevel + 1)) {
-    categoryLevel++;
-  }
-
-  if (newUserExperience >= getExperienceByLevel(userLevel + 1)) {
-    userLevel++;
-  }
+  const categoryLevel = getLevelByExperience(newCategoryExperience);
+  const userLevel = getLevelByExperience(newUserExperience);
 
   return Promise.all([
     api.tasks.update({

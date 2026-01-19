@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Nullable } from '@/api/types';
+import { Category } from '@/api/categories/types';
 import { api } from '../../../../api/api';
 import { useAuth } from '../../../../contexts/auth-context';
 import { Button } from '../../../common/Button/Button';
@@ -12,23 +13,55 @@ import styles from './CreateCategoryModal.module.pcss';
 type Props = {
   isOpen: boolean;
   onClose: VoidFunction;
+  modeForm?: 'CREATE' | 'EDIT';
+  category?: Category;
 };
 
-export const CreateCategoryModal = (props: Props) => {
+export const CreateCategoryModal = ({
+  isOpen,
+  onClose,
+  modeForm,
+  category,
+}: Props) => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const [error, setError] = useState<Nullable<string>>(null);
   const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-    ratio: 5,
+    name: category?.name ?? '',
+    description: category?.description ?? '',
+    ratio: category?.ratio ?? 5,
   });
+
+  useEffect(() => {
+    if (modeForm === 'EDIT' && category) {
+      setFormData({
+        name: category.name || '',
+        description: category.description || '',
+        ratio: category.ratio || 5,
+      });
+    } else {
+      setFormData({
+        name: '',
+        description: '',
+        ratio: 5,
+      });
+    }
+  }, [modeForm, category, isOpen]);
 
   const createMutation = useMutation({
     mutationFn: api.categories.create,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['categories', user?.id] });
-      props?.onClose();
+      onClose();
+    },
+    onError: err => setError(err.message),
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: api.categories.update,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['categories', user?.id] });
+      onClose();
     },
     onError: err => setError(err.message),
   });
@@ -37,8 +70,8 @@ export const CreateCategoryModal = (props: Props) => {
     const formInvalid =
       formData.name.length < 3 || formData.ratio < 0 || formData.ratio > 10;
 
-    return formInvalid || createMutation.isPending;
-  }, [formData, createMutation.isPending]);
+    return formInvalid || createMutation.isPending || updateMutation.isPending;
+  }, [formData, createMutation.isPending, updateMutation.isPending]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,22 +82,42 @@ export const CreateCategoryModal = (props: Props) => {
       return;
     }
 
-    createMutation.mutate({
+    const data = {
       userId: user.id,
       ...formData,
-    });
+    };
+
+    if (modeForm === 'EDIT' && category) {
+      updateMutation.mutate({
+        id: category.id,
+        data,
+      });
+    } else {
+      createMutation.mutate(data);
+    }
   };
 
   const handleChange =
     (field: keyof typeof formData) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       setError(null);
-      setFormData(prev => ({ ...prev, [field]: e.target.value }));
+      setFormData(prev => ({
+        ...prev,
+        [field]: field === 'ratio' ? parseInt(e.target.value) : e.target.value,
+      }));
     };
 
+  const modalTitle =
+    modeForm === 'EDIT' ? 'Редактирование категории' : 'Создание категории';
+  const buttonText =
+    modeForm === 'EDIT' ? 'Сохранить изменения' : 'Создать категорию';
+
   return (
-    <Modal {...props}>
-      <h1 className={styles.title}>Создание категории</h1>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+    >
+      <h1 className={styles.title}>{modalTitle}</h1>
       <form
         className={styles.form}
         onSubmit={handleSubmit}
@@ -106,8 +159,10 @@ export const CreateCategoryModal = (props: Props) => {
           disabled={isButtonDisabled}
           type='submit'
         >
-          {createMutation.isPending ? <Spinner /> : null}
-          Создать категорию
+          {createMutation.isPending || updateMutation.isPending ? (
+            <Spinner />
+          ) : null}
+          {buttonText}
         </Button>
       </form>
     </Modal>
