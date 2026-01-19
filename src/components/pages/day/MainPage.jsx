@@ -82,6 +82,7 @@ export const MainPage = () => {
       <Card className={styles.tasksBlock}>
         <h1>Задачи</h1>
         <div className={styles.dayList}>
+          <label style={{ fontSize: 34 }}>План на:</label>
           <Select
             onChange={handleDayChange}
             options={[

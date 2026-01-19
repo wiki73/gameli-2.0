@@ -51,6 +51,7 @@ export const Timer = ({ mode, time, setTime, taskId }) => {
       <p className={classes.message}>
         {mode === 'COMPLETE' ? 'Отличная работа!' : 'У вас всё получится!'}
       </p>
+      {mode === 'COMPLETE' && <h3>😁Улыбнитесь себе!😁</h3>}
     </div>
   );
 };

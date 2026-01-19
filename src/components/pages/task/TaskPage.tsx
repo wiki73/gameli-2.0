@@ -150,16 +150,14 @@ export const TaskPage = () => {
             </Button>
           </Link>
         )}
-        <Button
-          onClick={handelPause}
-          variant='secondary'
-        >
-          {modeForTimer === 'TIMER' || modeForTimer === 'COMPLETE' ? (
-            <p>Пауза</p>
-          ) : (
-            <p>Снять паузы</p>
-          )}
-        </Button>
+        {modeForTimer !== 'COMPLETE' && (
+          <Button
+            onClick={handelPause}
+            variant='secondary'
+          >
+            {modeForTimer === 'TIMER' ? <p>Пауза</p> : <p>Снять паузы</p>}
+          </Button>
+        )}
       </div>
       {showEffect && (
         <Confetti

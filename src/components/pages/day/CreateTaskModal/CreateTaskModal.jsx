@@ -107,39 +107,49 @@ export const CreateTaskModal = ({
       isOpen={isOpen}
       onClose={onClose}
     >
-      <h1>Создание задачи</h1>
-      <form
-        className={styles.form}
-        onSubmit={handleSubmit}
-      >
-        <Input
-          autoComplete='name'
-          onChange={handleChange('title')}
-          placeholder='Название задачи'
-          type='text'
-          value={formData.title}
-        />
-        <div style={{ display: 'flex' }}>
-          <label style={{ marginTop: 'auto', marginRight: 5, fontSize: 34 }}>
-            Категория
-          </label>
-          <Select
-            onChange={handleSelectCategory}
-            options={categories.map(({ name, id }) => ({
-              label: name,
-              value: id,
-            }))}
-            value={formData.categoryId}
-          />
-        </div>
-        {error ? <p className={styles.error}>{error}</p> : null}
-        <Button
-          disabled={isButtonDisabled}
-          type='submit'
+      <div className={styles.modal}>
+        <h1 className={styles.title}>
+          {modeForm === 'CREATE' ? 'Создание задачи' : 'Редактирование задачи'}
+        </h1>
+
+        <form
+          className={styles.form}
+          onSubmit={handleSubmit}
         >
-          Создать
-        </Button>
-      </form>
+          <div className={styles.field}>
+            <label className={styles.label}>Название задачи</label>
+            <Input
+              autoComplete='name'
+              onChange={handleChange('title')}
+              placeholder='Введите название задачи'
+              type='text'
+              value={formData.title}
+            />
+          </div>
+
+          <div className={styles.field}>
+            <label className={styles.label}>Категория</label>
+            <Select
+              onChange={handleSelectCategory}
+              options={categories.map(({ name, id }) => ({
+                label: name,
+                value: id,
+              }))}
+              value={formData.categoryId}
+            />
+          </div>
+
+          {error && <p className={styles.error}>{error}</p>}
+
+          <Button
+            className={styles.submit}
+            disabled={isButtonDisabled}
+            type='submit'
+          >
+            {modeForm === 'CREATE' ? 'Создать задачу' : 'Сохранить изменения'}
+          </Button>
+        </form>
+      </div>
     </Modal>
   );
 };
