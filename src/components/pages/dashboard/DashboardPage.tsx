@@ -11,10 +11,10 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
+import { Card } from '@/components/ui/card';
 import { api } from '../../../api/api';
 import { useAuth } from '../../../contexts/auth-context';
 import { getFormattedDay } from '../../../utils/date';
-import { Card } from '../../common/Card/Card';
 import { FullScreenSpinner } from '../../common/spinner/FullScreenSpinner';
 import styles from './DashboardPage.module.pcss';
 

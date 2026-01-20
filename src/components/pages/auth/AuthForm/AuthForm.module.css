@@ -1,5 +1,3 @@
-@import url('@/styles/mixins.pcss');
-
 .auth {
   display: flex;
   flex-direction: column;

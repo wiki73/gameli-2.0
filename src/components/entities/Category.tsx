@@ -1,9 +1,9 @@
 import { Pencil1Icon, TrashIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
 import { getColorBySubjectLevel } from '../../constants/colors';
-import { Button } from '../common/Button/Button';
-import { DeleteCategoryModal } from '../widgets/CategoryBlock/DeleteCategoryModal/DeleteCategoryModal';
+import { DeleteCategoryModal } from '../widgets/CategoryBlock/DeleteCategoryModal/DeleteCategoryModal.js';
 import { CreateCategoryModal } from '../widgets/CategoryBlock/CreateCategoryModal/CreateCategoryModal';
+import { Button } from '../ui/button';
 import styles from './Category.module.css';
 
 export const Category = ({ name, description, level, ratio, id }) => {
@@ -43,7 +43,7 @@ export const Category = ({ name, description, level, ratio, id }) => {
           <Button
             onClick={handleDeleteButtonClick}
             size='icon'
-            variant='danger'
+            variant='destructive'
           >
             <TrashIcon />
           </Button>

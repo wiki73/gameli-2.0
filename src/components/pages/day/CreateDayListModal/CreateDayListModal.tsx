@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
-import { Button } from '@/components/common/Button/Button';
-import { Input } from '@/components/common/Input/Input';
+import { Dialog } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { api } from '../../../../api/api';
 import { useAuth } from '../../../../contexts/auth-context';
-import { Modal } from '../../../common/Modal/Modal';
 import classes from './CreateDayListModal.module.css';
 
 export const CreateDayListModal = ({ isOpen, onClose, onSuccess }) => {
@@ -60,9 +60,9 @@ export const CreateDayListModal = ({ isOpen, onClose, onSuccess }) => {
   };
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={handleClose}
+    <Dialog
+      onOpenChange={handleClose}
+      open={isOpen}
     >
       <div className={classes.modal}>
         <h2 className={classes.title}>Создать новый список дня</h2>
@@ -91,6 +91,6 @@ export const CreateDayListModal = ({ isOpen, onClose, onSuccess }) => {
           </Button>
         </div>
       </div>
-    </Modal>
+    </Dialog>
   );
 };

@@ -1,10 +1,10 @@
 import { AvatarIcon, ResetIcon } from '@radix-ui/react-icons';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { getColorBySubjectLevel } from '@/constants/colors';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { api } from '../../../api/api';
 import { useAuth } from '../../../contexts/auth-context';
-import { Button } from '../../common/Button/Button';
-import { Card } from '../../common/Card/Card';
 import styles from './ProfilePage.module.css';
 
 export const ProfilePage = () => {
@@ -47,7 +47,7 @@ export const ProfilePage = () => {
           <Button
             onClick={handleLogout}
             size='sm'
-            variant='danger'
+            variant='destructive'
           >
             <ResetIcon /> Выйти
           </Button>

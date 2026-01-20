@@ -1,23 +1,39 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
+import { PlusIcon } from '@radix-ui/react-icons';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Task } from '@/api/tasks/types';
 import { api } from '../../../../api/api';
 import { useAuth } from '../../../../contexts/auth-context';
-import { Button } from '../../../common/Button/Button';
-import { Input } from '../../../common/Input/Input';
-import { Modal } from '../../../common/Modal/Modal';
-import { Select } from '../../../common/Select/Select';
 import styles from './CreateTaskModal.module.css';
 
+type Props = {
+  selectedDay: string;
+  modeForm?: 'CREATE' | 'EDIT';
+  task?: Task;
+};
+
 export const CreateTaskModal = ({
-  isOpen,
-  onClose,
   selectedDay,
   modeForm = 'CREATE',
   task,
-}) => {
+}: Props) => {
   const { user } = useAuth();
   const [error, setError] = useState(null);
   const queryClient = useQueryClient();
+  const [isOpen, setIsOpen] = useState(false);
+
   const [formData, setFormData] = useState({
     title: task?.title ?? '',
     categoryId: null,
@@ -35,7 +51,7 @@ export const CreateTaskModal = ({
       queryClient.invalidateQueries({
         queryKey: ['tasks', user?.id, selectedDay],
       });
-      onClose();
+      setIsOpen(false);
     },
   });
 
@@ -45,7 +61,7 @@ export const CreateTaskModal = ({
       queryClient.invalidateQueries({
         queryKey: ['tasks', user?.id, selectedDay],
       });
-      onClose();
+      setIsOpen(false);
     },
   });
 
@@ -62,24 +78,24 @@ export const CreateTaskModal = ({
     }
   }, [categories, modeForm, task]);
 
-  const isButtonDisabled = useMemo(() => {
-    return (
-      createTaskMutation.isLoading ||
+  const isButtonDisabled = useMemo(
+    () =>
+      createTaskMutation.isPending ||
       !formData.categoryId ||
       !formData.title ||
       formData.title.length < 3 ||
-      formData.title.length > 50
-    );
-  }, [createTaskMutation.isLoading, formData]);
+      formData.title.length > 50,
+    [createTaskMutation.isPending, formData],
+  );
 
   const handleChange = field => e => {
     setError(null);
     setFormData(prev => ({ ...prev, [field]: e.target.value }));
   };
 
-  const handleSelectCategory = async value => {
-    setFormData(prev => ({ ...prev, categoryId: value }));
-  };
+  // const handleSelectCategory = async value => {
+  //   setFormData(prev => ({ ...prev, categoryId: value }));
+  // };
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -103,11 +119,24 @@ export const CreateTaskModal = ({
   if (!categories) return null;
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
+    <Dialog
+      onOpenChange={setIsOpen}
+      open={isOpen}
     >
-      <div className={styles.modal}>
+      <DialogTrigger asChild>
+        <Button
+          className='h-full'
+          onClick={() => setIsOpen(true)}
+          type='button'
+          variant='secondary'
+        >
+          <PlusIcon
+            height={32}
+            width={32}
+          />
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
         <h1 className={styles.title}>
           {modeForm === 'CREATE' ? 'Создание задачи' : 'Редактирование задачи'}
         </h1>
@@ -130,13 +159,28 @@ export const CreateTaskModal = ({
           <div className={styles.field}>
             <label className={styles.label}>Категория</label>
             <Select
-              onChange={handleSelectCategory}
-              options={categories.map(({ name, id }) => ({
-                label: name,
-                value: id,
-              }))}
-              value={formData.categoryId}
-            />
+              onValueChange={value =>
+                setFormData(prev => ({ ...prev, categoryId: value }))
+              }
+              value={formData.categoryId ?? ''}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder='Выбери категорию' />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Категории</SelectLabel>
+                  {categories.map(({ name, id }) => (
+                    <SelectItem
+                      key={id}
+                      value={id}
+                    >
+                      {name}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </div>
 
           {error && <p className={styles.error}>{error}</p>}
@@ -149,7 +193,7 @@ export const CreateTaskModal = ({
             {modeForm === 'CREATE' ? 'Создать задачу' : 'Сохранить изменения'}
           </Button>
         </form>
-      </div>
-    </Modal>
+      </DialogContent>
+    </Dialog>
   );
 };

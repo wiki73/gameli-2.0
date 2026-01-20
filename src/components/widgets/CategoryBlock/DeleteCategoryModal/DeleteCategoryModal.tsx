@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useMemo } from 'react';
+import { Dialog } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 import { api } from '../../../../api/api';
 import { useAuth } from '../../../../contexts/auth-context';
-import { Button } from '../../../common/Button/Button';
-import { Modal } from '../../../common/Modal/Modal';
 import { Spinner } from '../../../common/spinner/Spinner';
 import styles from './CreateCategoryModal.module.css';
 
@@ -19,9 +19,10 @@ export const DeleteCategoryModal = ({ id, onClose, isOpen }) => {
     },
   });
 
-  const isButtonDisabled = useMemo(() => {
-    return deleteMutation.isLoading || !id;
-  }, [deleteMutation.isLoading, id]);
+  const isButtonDisabled = useMemo(
+    () => deleteMutation.isPending || !id,
+    [deleteMutation.isPending, id],
+  );
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -33,9 +34,9 @@ export const DeleteCategoryModal = ({ id, onClose, isOpen }) => {
   };
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
+    <Dialog
+      onOpenChange={onClose}
+      open={isOpen}
     >
       <h1 className={styles.title}>
         Вы уверены что хотите удалить эту категорию?
@@ -47,12 +48,12 @@ export const DeleteCategoryModal = ({ id, onClose, isOpen }) => {
         <Button
           disabled={isButtonDisabled}
           type='submit'
-          variant='danger'
+          variant='destructive'
         >
-          {deleteMutation.isLoading ? <Spinner /> : null}
+          {deleteMutation.isPending ? <Spinner /> : null}
           Удалить категорию
         </Button>
       </form>
-    </Modal>
+    </Dialog>
   );
 };

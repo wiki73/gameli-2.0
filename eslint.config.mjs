@@ -27,7 +27,7 @@ export default defineConfig([
   },
 
   {
-    ignores: ['node_modules', '**/*.css', 'dist'],
+    ignores: ['node_modules', 'dist', '**/*.css', '**/*.pcss', '**/*.scss'],
   },
   {
     languageOptions: {

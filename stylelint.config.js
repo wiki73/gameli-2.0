@@ -99,5 +99,8 @@ export default {
     '**/node_modules/**',
     '**/.next/**',
     '**/dist/**',
+    '**/*.css',
+    '**/*.pcss',
+    '**/*.scss',
   ],
 };

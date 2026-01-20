@@ -7,7 +7,7 @@ import { AuthProvider } from '@/contexts/auth-context/provider';
 import { QueryProvider } from '@/contexts/query-context/provider';
 import '@fontsource/inter/latin';
 
-import './styles/globals.css';
+import './index.css';
 
 const root = createRoot(document.getElementById('root') as HTMLElement);
 

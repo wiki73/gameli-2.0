@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Dialog } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 import { api } from '../../../../api/api';
 import { useAuth } from '../../../../contexts/auth-context';
-import { Button } from '../../../common/Button/Button';
-import { Modal } from '../../../common/Modal/Modal';
 import styles from './DeleteTaskModal.module.css';
 
 export const DeleteTaskModal = ({ isOpen, onClose, selectedDay, id }) => {
@@ -27,9 +27,9 @@ export const DeleteTaskModal = ({ isOpen, onClose, selectedDay, id }) => {
   };
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
+    <Dialog
+      onOpenChange={onClose}
+      open={isOpen}
     >
       <h1 className={styles.title}>Удалить задачу?</h1>
       <form
@@ -37,13 +37,13 @@ export const DeleteTaskModal = ({ isOpen, onClose, selectedDay, id }) => {
         onSubmit={handleSubmit}
       >
         <Button
-          disabled={deleteTaskMutation.isLoading}
+          disabled={deleteTaskMutation.isPending}
           type='submit'
-          variant='danger'
+          variant='destructive'
         >
           Удалить
         </Button>
       </form>
-    </Modal>
+    </Dialog>
   );
 };

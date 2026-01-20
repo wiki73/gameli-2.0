@@ -1,13 +1,12 @@
-import { PlusIcon } from '@radix-ui/react-icons';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
+import { Select } from '@radix-ui/react-select';
 import { Task } from '@/components/entities/Task/Task';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { api } from '../../../api/api';
 import { useAuth } from '../../../contexts/auth-context';
 import { getFormattedDay } from '../../../utils/date';
-import { Button } from '../../common/Button/Button';
-import { Card } from '../../common/Card/Card';
-import { Select } from '../../common/Select/Select';
 import { FullScreenSpinner } from '../../common/spinner/FullScreenSpinner';
 import { Spinner } from '../../common/spinner/Spinner';
 import { CategoryBlock } from '../../widgets/CategoryBlock/CategoryBlock';
@@ -19,7 +18,6 @@ export const MainPage = () => {
   const { user } = useAuth();
 
   const [selectedDay, setSelectedDay] = useState(null);
-  const [isCreateTaskModalOpen, setIsCreateTaskModalOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { data: days, isPending: isDaysPending } = useQuery({
@@ -62,13 +60,13 @@ export const MainPage = () => {
     openModal();
   };
 
-  const handleCreateTask = () => {
-    setIsCreateTaskModalOpen(true);
-  };
+  // const handleCreateTask = () => {
+  //   setIsCreateTaskModalOpen(true);
+  // };
 
-  const handleCloseCreateTaskModal = () => {
-    setIsCreateTaskModalOpen(false);
-  };
+  // const handleCloseCreateTaskModal = () => {
+  //   setIsCreateTaskModalOpen(false);
+  // };
 
   if (isDaysPending) {
     return <FullScreenSpinner />;
@@ -84,11 +82,11 @@ export const MainPage = () => {
 
   return (
     <>
-      <Card className={styles.tasksBlock}>
+      <Card className='p-10'>
         {categories?.length ? (
           <>
-            <h1>Задачи</h1>
-            {!days.length && (
+            <h1 className=' text-4xl font-bold'>Задачи</h1>
+            {!days?.length && (
               <div className={styles.noDaysMessage}>
                 <h3>Нет списков</h3>
                 <p>
@@ -98,9 +96,9 @@ export const MainPage = () => {
                 <Button onClick={handleCreateNewDay}>Новый день</Button>
               </div>
             )}
-            {!!days.length && (
+            {!!days?.length && (
               <div className={styles.dayList}>
-                <label style={{ fontSize: 34 }}>План на:</label>
+                <label className='text-3xl'>План на:</label>
                 <Select
                   onChange={handleDayChange}
                   options={[
@@ -111,12 +109,7 @@ export const MainPage = () => {
                   ]}
                   value={selectedDay}
                 />
-                <Button
-                  onClick={handleCreateNewDay}
-                  size='md'
-                >
-                  Новый день
-                </Button>
+                <Button onClick={handleCreateNewDay}>Новый день</Button>
               </div>
             )}
             {!tasks?.length && !!days.length && (
@@ -128,7 +121,7 @@ export const MainPage = () => {
                 </p>
               </div>
             )}
-            <div className={styles.tasks}>
+            <div className='grid grid-cols-2 gap-3'>
               {tasks?.map(task => (
                 <Task
                   key={task.id}
@@ -137,27 +130,13 @@ export const MainPage = () => {
                 />
               ))}
               {!isLoading && !!days.length && (
-                <Button
-                  onClick={handleCreateTask}
-                  type='button'
-                  variant='secondary'
-                >
-                  <PlusIcon
-                    height={32}
-                    width={32}
-                  />
-                </Button>
+                <CreateTaskModal
+                  modeForm='CREATE'
+                  selectedDay={selectedDay}
+                />
               )}
               {isLoading && <Spinner />}
             </div>
-            {isCreateTaskModalOpen && (
-              <CreateTaskModal
-                isOpen={isCreateTaskModalOpen}
-                modeForm='CREATE'
-                onClose={handleCloseCreateTaskModal}
-                selectedDay={selectedDay}
-              />
-            )}
             {isModalOpen && (
               <CreateDayListModal
                 isOpen={isModalOpen}

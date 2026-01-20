@@ -1,170 +1,199 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useEffect, useMemo, useState } from 'react';
-import { Nullable } from '@/api/types';
+import { useMemo, useState } from 'react';
+import { PlusIcon } from '@radix-ui/react-icons';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { Category } from '@/api/categories/types';
+import { Slider } from '@/components/ui/slider';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import { api } from '../../../../api/api';
 import { useAuth } from '../../../../contexts/auth-context';
-import { Button } from '../../../common/Button/Button';
-import { Input } from '../../../common/Input/Input';
-import { Modal } from '../../../common/Modal/Modal';
 import { Spinner } from '../../../common/spinner/Spinner';
 import styles from './CreateCategoryModal.module.pcss';
 
 type Props = {
-  isOpen: boolean;
-  onClose: VoidFunction;
   modeForm?: 'CREATE' | 'EDIT';
   category?: Category;
 };
 
+type CategoryForm = {
+  name: string;
+  description: string;
+  ratio: number;
+};
+
 export const CreateCategoryModal = ({
-  isOpen,
-  onClose,
-  modeForm,
+  modeForm = 'CREATE',
   category,
 }: Props) => {
+  const [isOpen, setIsOpen] = useState(false);
   const { user } = useAuth();
   const queryClient = useQueryClient();
-  const [error, setError] = useState<Nullable<string>>(null);
-  const [formData, setFormData] = useState({
-    name: category?.name ?? '',
-    description: category?.description ?? '',
-    ratio: category?.ratio ?? 5,
+
+  const form = useForm<CategoryForm>({
+    defaultValues: {
+      name: category?.name ?? '',
+      description: category?.description ?? '',
+      ratio: category?.ratio ?? 3,
+    },
   });
 
-  useEffect(() => {
-    if (modeForm === 'EDIT' && category) {
-      setFormData({
-        name: category.name || '',
-        description: category.description || '',
-        ratio: category.ratio || 5,
-      });
-    } else {
-      setFormData({
-        name: '',
-        description: '',
-        ratio: 5,
-      });
-    }
-  }, [modeForm, category, isOpen]);
+  const { setError } = form;
 
   const createMutation = useMutation({
     mutationFn: api.categories.create,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['categories', user?.id] });
-      onClose();
+      setIsOpen(false);
     },
-    onError: err => setError(err.message),
+    onError: err => setError('root', { message: err.message }),
   });
 
   const updateMutation = useMutation({
     mutationFn: api.categories.update,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['categories', user?.id] });
-      onClose();
+      setIsOpen(false);
     },
-    onError: err => setError(err.message),
+    onError: err => setError('root', { message: err.message }),
   });
 
-  const isButtonDisabled = useMemo(() => {
-    const formInvalid =
-      formData.name.length < 3 || formData.ratio < 0 || formData.ratio > 10;
+  const isButtonDisabled = useMemo(
+    () =>
+      !form.formState.isValid ||
+      createMutation.isPending ||
+      updateMutation.isPending,
+    [
+      createMutation.isPending,
+      form.formState.isValid,
+      updateMutation.isPending,
+    ],
+  );
 
-    return formInvalid || createMutation.isPending || updateMutation.isPending;
-  }, [formData, createMutation.isPending, updateMutation.isPending]);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-
-    if (!user?.id) {
-      setError('Пользователь не авторизован');
-      return;
-    }
-
-    const data = {
-      userId: user.id,
-      ...formData,
-    };
-
+  const handleSubmit: SubmitHandler<CategoryForm> = data => {
     if (modeForm === 'EDIT' && category) {
       updateMutation.mutate({
         id: category.id,
         data,
       });
     } else {
-      createMutation.mutate(data);
+      createMutation.mutate({
+        userId: user?.id ?? '',
+        ...data,
+      });
     }
   };
 
-  const handleChange =
-    (field: keyof typeof formData) =>
-    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      setError(null);
-      setFormData(prev => ({
-        ...prev,
-        [field]: field === 'ratio' ? parseInt(e.target.value) : e.target.value,
-      }));
-    };
-
-  const modalTitle =
-    modeForm === 'EDIT' ? 'Редактирование категории' : 'Создание категории';
-  const buttonText =
-    modeForm === 'EDIT' ? 'Сохранить изменения' : 'Создать категорию';
+  // const modalTitle =
+  //   modeForm === 'EDIT' ? 'Редактирование категории' : 'Создание категории';
+  // const buttonText =
+  //   modeForm === 'EDIT' ? 'Сохранить изменения' : 'Создать категорию';
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
+    <Dialog
+      onOpenChange={setIsOpen}
+      open={isOpen}
     >
-      <h1 className={styles.title}>{modalTitle}</h1>
-      <form
-        className={styles.form}
-        onSubmit={handleSubmit}
-      >
-        <Input
-          autoComplete='name'
-          id='name'
-          label='Название'
-          onChange={handleChange('name')}
-          placeholder='Название категории'
-          type='text'
-          value={formData.name}
-        />
-        <Input
-          as='textarea'
-          autoComplete='description'
-          id='description'
-          label='Описание'
-          onChange={handleChange('description')}
-          placeholder='Описание категории'
-          type='text'
-          value={formData.description}
-        />
-        <Input
-          autoComplete='ratio'
-          id='ratio'
-          label='Коэффициент сложности (0-10)'
-          max='10'
-          min='0'
-          onChange={handleChange('ratio')}
-          placeholder='Коэффициент сложности (0-10)'
-          type='range'
-          value={formData.ratio}
-        />
-
-        {error ? <p className={styles.error}>{error}</p> : null}
-
+      <DialogTrigger>
         <Button
-          disabled={isButtonDisabled}
-          type='submit'
+          onClick={() => setIsOpen(true)}
+          variant='secondary'
         >
-          {createMutation.isPending || updateMutation.isPending ? (
-            <Spinner />
-          ) : null}
-          {buttonText}
+          <PlusIcon
+            height={32}
+            width={32}
+          />
         </Button>
-      </form>
-    </Modal>
+      </DialogTrigger>
+      <DialogContent>
+        <Form {...form}>
+          <form
+            className={styles.form}
+            onSubmit={form.handleSubmit(handleSubmit)}
+          >
+            <FormField
+              control={form.control}
+              name='name'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Название</FormLabel>
+                  <FormControl>
+                    <Input
+                      autoComplete='name'
+                      id='name'
+                      placeholder='Название категории'
+                      type='text'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='description'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Описание</FormLabel>
+                  <FormControl>
+                    <Input
+                      autoComplete='description'
+                      id='description'
+                      placeholder='Описание категории'
+                      type='text'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name='ratio'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Описание</FormLabel>
+                  <FormControl>
+                    <Slider
+                      defaultValue={[3]}
+                      max={5}
+                      min={1}
+                      onChange={e => [field.onChange(e)]}
+                      step={1}
+                    />
+                  </FormControl>
+                  <FormDescription />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <Button
+              disabled={isButtonDisabled}
+              type='submit'
+            >
+              {(createMutation.isPending || updateMutation.isPending) && (
+                <Spinner />
+              )}
+              {buttonText}
+            </Button>
+          </form>
+        </Form>
+      </DialogContent>
+    </Dialog>
   );
 };

@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 import { Nullable } from '@/api/types';
-import { Button } from '@/components/common/Button/Button';
-import { Card } from '@/components/common/Card/Card';
-import { Input } from '@/components/common/Input/Input';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { api } from '../../../../api/api';
 import { Spinner } from '../../../common/spinner/Spinner';
 import styles from './AuthForm.module.css';

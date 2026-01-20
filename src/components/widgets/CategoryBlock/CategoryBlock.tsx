@@ -1,7 +1,6 @@
 import { Category } from '@/api/categories/types';
-import { Card } from '../../common/Card/Card';
+import { Card } from '@/components/ui/card';
 import { CategoryList } from '../CategoryList/CategoryList';
-import styles from './CategoryBlock.module.css';
 
 type Props = {
   categories: Category[];
@@ -9,10 +8,10 @@ type Props = {
 };
 
 export const CategoryBlock = ({ categories, isPending }: Props) => (
-  <Card className={styles.page}>
-    <h1 className={styles.pageTitle}>Категории</h1>
+  <Card className='p-10'>
+    <h1 className='text-4xl font-bold'>Категории</h1>
     {!categories?.length && (
-      <div className={styles.noCategoriesMessage}>
+      <div className='p-5 border-2 rounded-2xl border-primary'>
         <h3>Нет категорий</h3>
         <p>
           Вы не создали ни одной категории, нажмите кнопку ниже, чтобы создать
