@@ -1,26 +1,42 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Dialog } from '@/components/ui/dialog';
+import { TrashIcon } from '@radix-ui/react-icons';
+import { useState } from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { api } from '../../../../api/api';
 import { useAuth } from '../../../../contexts/auth-context';
-import styles from './DeleteTaskModal.module.css';
 
-export const DeleteTaskModal = ({ isOpen, onClose, selectedDay, id }) => {
+type Props = {
+  id: string;
+};
+
+export const DeleteTaskModal = ({ id }: Props) => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => setOpen(false);
+  const handleOpen = () => setOpen(true);
 
   const deleteTaskMutation = useMutation({
     mutationFn: api.tasks.delete,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['tasks', user?.id, selectedDay],
+        queryKey: ['tasks', user?.id],
       });
-      onClose();
+      handleClose();
     },
   });
 
-  const handleSubmit = async e => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     deleteTaskMutation.mutate({
       id,
     });
@@ -28,22 +44,35 @@ export const DeleteTaskModal = ({ isOpen, onClose, selectedDay, id }) => {
 
   return (
     <Dialog
-      onOpenChange={onClose}
-      open={isOpen}
+      onOpenChange={setOpen}
+      open={open}
     >
-      <h1 className={styles.title}>Удалить задачу?</h1>
-      <form
-        className={styles.form}
-        onSubmit={handleSubmit}
-      >
+      <DialogTrigger asChild>
         <Button
-          disabled={deleteTaskMutation.isPending}
-          type='submit'
+          onClick={handleOpen}
+          size='icon'
           variant='destructive'
         >
-          Удалить
+          <TrashIcon />
         </Button>
-      </form>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Удалить задачу?</DialogTitle>
+          <DialogDescription>
+            Это действие нельзя будет отменить.
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <Button
+            disabled={deleteTaskMutation.isPending}
+            onClick={handleSubmit}
+            variant='destructive'
+          >
+            Удалить
+          </Button>
+        </DialogFooter>
+      </DialogContent>
     </Dialog>
   );
 };

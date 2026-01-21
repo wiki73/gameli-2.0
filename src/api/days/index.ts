@@ -21,21 +21,6 @@ export const dayApi: DayApiType = {
       throw new Error('createDayList: userId and date are required');
     }
 
-    const { data: existingList, error: checkError } = await supabase
-      .from('day_lists')
-      .select('id')
-      .eq('user_id', userId)
-      .eq('date', date)
-      .maybeSingle();
-
-    if (checkError && checkError.code !== 'PGRST116') {
-      throw checkError;
-    }
-
-    if (existingList) {
-      throw new Error('Список на эту дату уже существует');
-    }
-
     const { error } = await supabase
       .from('day_lists')
       .insert({

@@ -1,12 +1,29 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
-import { Nullable } from '@/api/types';
-import { Card } from '@/components/ui/card';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useSearchParams } from 'react-router';
+import { AuthError } from '@supabase/supabase-js';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { api } from '../../../../api/api';
-import { Spinner } from '../../../common/spinner/Spinner';
-import styles from './AuthForm.module.css';
+import { Spinner } from '@/components/ui/spinner';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { api } from '@/api/api';
 
 const TEXTS = {
   LOGIN: {
@@ -26,15 +43,32 @@ const TEXTS = {
 
 type Mode = 'LOGIN' | 'REGISTER';
 
+const formSchema = z.object({
+  name: z.string().optional(),
+  email: z.email('Некорректный формат почты'),
+  password: z.string().min(6, 'Пароль должен содержать минимум 6 символов'),
+});
+
+type FormData = z.infer<typeof formSchema>;
+
 export const AuthForm = () => {
   const queryClient = useQueryClient();
-  const [mode, setMode] = useState<Mode>('LOGIN');
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [mode, setMode] = useState<Mode>(
+    (searchParams.get('mode') as Mode) ?? 'LOGIN',
+  );
+  const form = useForm<FormData>({
+    resolver: zodResolver(formSchema),
+    mode: 'onChange',
+    reValidateMode: 'onChange',
+    defaultValues: {
+      name: '',
+      email: '',
+      password: '',
+    },
   });
-  const [error, setError] = useState<Nullable<string>>(null);
+
+  const { control, handleSubmit, clearErrors, setError, formState } = form;
 
   const isLogin = mode === 'LOGIN';
 
@@ -44,7 +78,13 @@ export const AuthForm = () => {
       queryClient.invalidateQueries({ queryKey: ['session'] });
       queryClient.invalidateQueries({ queryKey: ['user'] });
     },
-    onError: err => setError(err.message),
+    onError: (err: AuthError) => {
+      if (err.code === 'invalid_credentials') {
+        setError('root', { message: 'Неверный логин или пароль' });
+      } else {
+        setError('root', { message: 'Ошибка авторизации' });
+      }
+    },
   });
 
   const registerMutation = useMutation({
@@ -53,105 +93,140 @@ export const AuthForm = () => {
       queryClient.invalidateQueries({ queryKey: ['session'] });
       queryClient.invalidateQueries({ queryKey: ['user'] });
     },
-    onError: err => setError(err.message),
+    onError: err => setError('root', { message: err.message }),
   });
 
   const isLoading = loginMutation.isPending || registerMutation.isPending;
-  const isButtonDisabled = useMemo(() => {
-    const formInvalid = isLogin
-      ? !formData.email || formData.password.length < 6
-      : formData.name.length < 3 ||
-        !formData.email ||
-        formData.password.length < 6;
+  const isButtonDisabled = useMemo(
+    () => !formState.isValid || isLoading,
+    [formState.isValid, isLoading],
+  );
 
-    return formInvalid || isLoading;
-  }, [formData, isLogin, isLoading]);
-
-  /* ---------- HANDLERS ---------- */
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setError(null);
+  const onSubmit: SubmitHandler<FormData> = data => {
+    clearErrors();
 
     if (isLogin) {
       loginMutation.mutate({
-        email: formData.email,
-        password: formData.password,
+        email: data.email,
+        password: data.password,
       });
     } else {
-      registerMutation.mutate({
-        email: formData.email,
-        password: formData.password,
-        name: formData.name,
-      });
+      registerMutation.mutate(data);
     }
   };
 
   const handleSwitchMode = () => {
-    setError(null);
-    setFormData({
-      name: '',
-      email: '',
-      password: '',
+    setMode(prev => {
+      setSearchParams({ mode: prev === 'LOGIN' ? 'REGISTER' : 'LOGIN' });
+      return prev === 'LOGIN' ? 'REGISTER' : 'LOGIN';
     });
-    setMode(isLogin ? 'REGISTER' : 'LOGIN');
   };
 
-  const handleChange =
-    (field: keyof typeof formData) =>
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setError(null);
-      setFormData(prev => ({ ...prev, [field]: e.target.value }));
-    };
-
   return (
-    <Card className={styles.auth}>
-      <h1>{TEXTS[mode].TITLE}</h1>
+    <Form {...form}>
       <form
-        className={styles.form}
-        onSubmit={handleSubmit}
+        className='max-w-100 w-full'
+        onSubmit={handleSubmit(onSubmit)}
       >
-        {!isLogin && (
-          <Input
-            autoComplete='name'
-            id='name'
-            onChange={handleChange('name')}
-            placeholder={TEXTS.LABEL_NAME}
-            type='text'
-            value={formData.name}
-          />
-        )}
-        <Input
-          autoComplete='email'
-          id='email'
-          onChange={handleChange('email')}
-          placeholder={TEXTS.LABEL_EMAIL}
-          type='email'
-          value={formData.email}
-        />
-        <Input
-          autoComplete='password'
-          id='password'
-          onChange={handleChange('password')}
-          placeholder={TEXTS.LABEL_PASSWORD}
-          type='password'
-          value={formData.password}
-        />
-        {error ? <p className={styles.error}>{error}</p> : null}
-        <Button
-          disabled={isButtonDisabled}
-          type='submit'
-        >
-          {isLoading ? <Spinner /> : null}
-          {TEXTS[mode].BTN_PRIMARY}
-        </Button>
+        <Card>
+          <CardHeader>
+            <CardTitle>{TEXTS[mode].TITLE}</CardTitle>
+          </CardHeader>
+          <CardContent className='flex flex-col gap-4'>
+            {!isLogin && (
+              <FormField
+                control={control}
+                name='name'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Имя</FormLabel>
+                    <FormControl>
+                      <Input
+                        autoComplete='name'
+                        id='name'
+                        placeholder={TEXTS.LABEL_NAME}
+                        type='text'
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
+            <FormField
+              control={control}
+              name='email'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Почта</FormLabel>
+                  <FormControl>
+                    <Input
+                      autoComplete='email'
+                      id='email'
+                      placeholder={TEXTS.LABEL_EMAIL}
+                      type='email'
+                      {...field}
+                      onChange={e => {
+                        clearErrors('root');
+                        field.onChange(e);
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name='password'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Пароль</FormLabel>
+                  <FormControl>
+                    <Input
+                      autoComplete='password'
+                      id='password'
+                      placeholder={TEXTS.LABEL_PASSWORD}
+                      type='password'
+                      {...field}
+                      onChange={e => {
+                        clearErrors('root');
+                        field.onChange(e);
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <p
+              className='text-destructive text-sm'
+              data-slot='form-message'
+            >
+              {formState.errors.root?.message}
+            </p>
+          </CardContent>
+          <CardFooter className='flex flex-col gap-2 w-full'>
+            <Button
+              className='w-full'
+              disabled={isButtonDisabled}
+              type='submit'
+            >
+              {isLoading && <Spinner />}
+              {TEXTS[mode].BTN_PRIMARY}
+            </Button>
+            <Button
+              className='w-full'
+              onClick={handleSwitchMode}
+              type='button'
+              variant='secondary'
+            >
+              {TEXTS[mode].BTN_SECONDARY}
+            </Button>
+          </CardFooter>
+        </Card>
       </form>
-      <Button
-        onClick={handleSwitchMode}
-        variant='secondary'
-      >
-        {TEXTS[mode].BTN_SECONDARY}
-      </Button>
-    </Card>
+    </Form>
   );
 };

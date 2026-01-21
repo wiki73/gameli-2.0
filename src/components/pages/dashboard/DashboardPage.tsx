@@ -11,12 +11,20 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import { Card } from '@/components/ui/card';
-import { api } from '../../../api/api';
+import { NavLink } from 'react-router';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { api } from '@/api/api';
+import { getFormattedDay } from '@/utils/date';
+import { Spinner } from '@/components/ui/spinner';
+import { Button } from '@/components/ui/button';
+import { ROUTES } from '@/constants/routes';
 import { useAuth } from '../../../contexts/auth-context';
-import { getFormattedDay } from '../../../utils/date';
-import { FullScreenSpinner } from '../../common/spinner/FullScreenSpinner';
-import styles from './DashboardPage.module.pcss';
 
 type TaskChartDataItem = {
   name: string;
@@ -41,7 +49,7 @@ export const DashboardPage = () => {
   const taskChartData = useMemo(
     () =>
       tasks?.reduce((acc: TaskChartDataItem[], task) => {
-        const day = getFormattedDay(task.date, 'D MMM');
+        const day = getFormattedDay(task.day?.date ?? new Date(), 'D MMM');
 
         const existing = acc.find(item => item.name === day);
 
@@ -83,11 +91,32 @@ export const DashboardPage = () => {
     categoriesChartData.some(item => item.experience > 0);
 
   if (isPendingTasks || isPendingCategories) {
-    return <FullScreenSpinner />;
+    return <Spinner />;
+  }
+
+  if (
+    !showTasksChart ||
+    !showCategoryLevelChart ||
+    !showCategoryExperienceChart
+  ) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Недостаточно данных</CardTitle>
+          <CardDescription>
+            Выполните больше задач и прокачайте категории, чтобы увидеть
+            статистику
+          </CardDescription>
+          <NavLink to={ROUTES.MAIN}>
+            <Button variant='outline'>К планированию</Button>
+          </NavLink>
+        </CardHeader>
+      </Card>
+    );
   }
 
   return (
-    <Card className={styles.page}>
+    <Card>
       {!showTasksChart &&
         !showCategoryLevelChart &&
         !showCategoryExperienceChart && (
@@ -99,83 +128,91 @@ export const DashboardPage = () => {
             </p>
           </>
         )}
-      {showTasksChart && (
-        <Card className={styles.block}>
-          <h4>Задачи</h4>
-          <LineChart
-            data={taskChartData}
-            style={{ width: '100%', aspectRatio: 1.618, maxWidth: 600 }}
-          >
-            <CartesianGrid strokeDasharray='3 3' />
+      <CardContent className='flex flex-col gap-4'>
+        {showTasksChart && (
+          <>
+            <CardHeader>
+              <CardTitle>Задачи</CardTitle>
+            </CardHeader>
+            <LineChart
+              data={taskChartData}
+              style={{ width: '100%', aspectRatio: 1.618, maxWidth: 600 }}
+            >
+              <CartesianGrid strokeDasharray='3 3' />
 
-            <XAxis dataKey='name' />
-            <YAxis allowDecimals={false} />
+              <XAxis dataKey='name' />
+              <YAxis allowDecimals={false} />
 
-            <Line
-              dataKey='total'
-              name='Всего'
-              stroke='purple'
-              type='monotone'
-            />
+              <Line
+                dataKey='total'
+                name='Всего'
+                stroke='purple'
+                type='monotone'
+              />
 
-            <Line
-              dataKey='completed'
-              name='Выполнено'
-              stroke='green'
-              type='monotone'
-            />
+              <Line
+                dataKey='completed'
+                name='Выполнено'
+                stroke='green'
+                type='monotone'
+              />
 
-            <Legend />
-            <RechartsDevtools />
-          </LineChart>
-        </Card>
-      )}
-      {showCategoryLevelChart && (
-        <Card className={styles.block}>
-          <h4>Уровень по категориям</h4>
+              <Legend />
+              <RechartsDevtools />
+            </LineChart>
+          </>
+        )}
+        {showCategoryLevelChart && (
+          <>
+            <CardHeader>
+              <CardTitle>Уровень по категориям</CardTitle>
+            </CardHeader>
 
-          <BarChart
-            data={categoriesChartData}
-            style={{ width: '100%', aspectRatio: 1.618, maxWidth: 600 }}
-          >
-            <CartesianGrid strokeDasharray='3 3' />
+            <BarChart
+              data={categoriesChartData}
+              style={{ width: '100%', aspectRatio: 1.618, maxWidth: 600 }}
+            >
+              <CartesianGrid strokeDasharray='3 3' />
 
-            <XAxis dataKey='name' />
-            <YAxis allowDecimals={false} />
+              <XAxis dataKey='name' />
+              <YAxis allowDecimals={false} />
 
-            <Bar
-              dataKey='level'
-              fill='purple'
-              name='Уровень'
-            />
+              <Bar
+                dataKey='level'
+                fill='purple'
+                name='Уровень'
+              />
 
-            <Legend />
-          </BarChart>
-        </Card>
-      )}
-      {showCategoryExperienceChart && (
-        <Card className={styles.block}>
-          <h4>Опыт по категориям</h4>
+              <Legend />
+            </BarChart>
+          </>
+        )}
+        {showCategoryExperienceChart && (
+          <>
+            <CardHeader>
+              <CardTitle>Опыт по категориям</CardTitle>
+            </CardHeader>
 
-          <BarChart
-            data={categoriesChartData}
-            style={{ width: '100%', aspectRatio: 1.618, maxWidth: 600 }}
-          >
-            <CartesianGrid strokeDasharray='3 3' />
+            <BarChart
+              data={categoriesChartData}
+              style={{ width: '100%', aspectRatio: 1.618, maxWidth: 600 }}
+            >
+              <CartesianGrid strokeDasharray='3 3' />
 
-            <XAxis dataKey='name' />
-            <YAxis allowDecimals={false} />
+              <XAxis dataKey='name' />
+              <YAxis allowDecimals={false} />
 
-            <Bar
-              dataKey='experience'
-              fill='green'
-              name='Опыт'
-            />
+              <Bar
+                dataKey='experience'
+                fill='green'
+                name='Опыт'
+              />
 
-            <Legend />
-          </BarChart>
-        </Card>
-      )}
+              <Legend />
+            </BarChart>
+          </>
+        )}
+      </CardContent>
     </Card>
   );
 };

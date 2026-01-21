@@ -15,7 +15,7 @@ const LINKS: Link[] = [
 ];
 
 export const Header = () => (
-  <header className='flex flex-row justify-between  bg-card rounded-full p-4'>
+  <header className='flex flex-row justify-between  bg-card rounded-full p-2'>
     <nav className='flex gap-1'>
       {LINKS.map(link => (
         <NavButton

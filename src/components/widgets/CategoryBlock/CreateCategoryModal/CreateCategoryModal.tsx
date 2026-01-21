@@ -1,11 +1,17 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
-import { PlusIcon } from '@radix-ui/react-icons';
+import { Pencil1Icon, PlusIcon } from '@radix-ui/react-icons';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Category } from '@/api/categories/types';
 import { Slider } from '@/components/ui/slider';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import {
   Form,
@@ -16,9 +22,10 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { Spinner } from '@/components/ui/spinner';
+import { cn } from '@/lib/utils';
 import { api } from '../../../../api/api';
 import { useAuth } from '../../../../contexts/auth-context';
-import { Spinner } from '../../../common/spinner/Spinner';
 import styles from './CreateCategoryModal.module.pcss';
 
 type Props = {
@@ -94,28 +101,33 @@ export const CreateCategoryModal = ({
     }
   };
 
-  // const modalTitle =
-  //   modeForm === 'EDIT' ? 'Редактирование категории' : 'Создание категории';
-  // const buttonText =
-  //   modeForm === 'EDIT' ? 'Сохранить изменения' : 'Создать категорию';
+  const modalTitle =
+    modeForm === 'EDIT' ? 'Редактирование категории' : 'Создание категории';
+  const buttonText =
+    modeForm === 'EDIT' ? 'Сохранить изменения' : 'Создать категорию';
 
   return (
     <Dialog
       onOpenChange={setIsOpen}
       open={isOpen}
     >
-      <DialogTrigger>
+      <DialogTrigger asChild>
         <Button
+          className={cn(modeForm === 'CREATE' && 'h-full')}
           onClick={() => setIsOpen(true)}
           variant='secondary'
         >
-          <PlusIcon
-            height={32}
-            width={32}
-          />
+          {modeForm === 'CREATE' ? (
+            <PlusIcon className='size-12' />
+          ) : (
+            <Pencil1Icon />
+          )}
         </Button>
       </DialogTrigger>
       <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{modalTitle}</DialogTitle>
+        </DialogHeader>
         <Form {...form}>
           <form
             className={styles.form}

@@ -1,28 +1,31 @@
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
-import { Select } from '@radix-ui/react-select';
-import { Task } from '@/components/entities/Task/Task';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { api } from '../../../api/api';
+import { useEffect, useMemo, useState } from 'react';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@ui/card';
+import { FullScreenSpinner, Spinner } from '@ui/spinner';
+import { TaskItem } from '@/components/entities/Task/Task';
+import { Nullable } from '@/api/types';
+import { api } from '@/api/api';
+import { getFormattedDay, toCalendarDate } from '@/utils/date';
+import { Day } from '@/api/days/types';
 import { useAuth } from '../../../contexts/auth-context';
-import { getFormattedDay } from '../../../utils/date';
-import { FullScreenSpinner } from '../../common/spinner/FullScreenSpinner';
-import { Spinner } from '../../common/spinner/Spinner';
 import { CategoryBlock } from '../../widgets/CategoryBlock/CategoryBlock';
-import { CreateDayListModal } from './CreateDayListModal/CreateDayListModal';
-import { CreateTaskModal } from './CreateTaskModal/CreateTaskModal';
-import styles from './MainPage.module.pcss';
+import { DaySelection } from './DaySelection/DaySelection';
+import { TaskCreateEditDialog } from './TaskCreateEditDialog/TaskCreateEditDialog';
 
 export const MainPage = () => {
   const { user } = useAuth();
 
-  const [selectedDay, setSelectedDay] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedDay, setSelectedDay] = useState<Nullable<Day>>();
 
   const { data: days, isPending: isDaysPending } = useQuery({
     queryKey: ['days', user?.id],
-    queryFn: () => api.days.getMany({ userId: user?.id }),
+    queryFn: () => api.days.getMany({ userId: user?.id ?? '' }),
     enabled: !!user?.id,
   });
 
@@ -32,133 +35,99 @@ export const MainPage = () => {
     enabled: !!user?.id,
   });
 
-  const {
-    data: tasks,
-    refetch,
-    isLoading,
-  } = useQuery({
+  const { data: tasks, isLoading } = useQuery({
     queryKey: ['tasks', user?.id, selectedDay],
     queryFn: () =>
       api.tasks.getMany({
-        userId: user?.id,
-        date: selectedDay ?? days[0].date,
+        userId: user?.id ?? '',
+        day_id: selectedDay?.id ?? days?.[0].id,
       }),
     enabled: !!user?.id && !!selectedDay,
   });
 
+  const hasCategories = !!categories?.length;
+  const hasTasks = !!tasks?.length;
+  const hasDays = !!days?.length;
+
   useEffect(() => {
-    if (days?.length) {
-      setSelectedDay(days[0].date);
+    if (!!days?.length) {
+      setSelectedDay(
+        days.find(
+          day => toCalendarDate(day.date) === toCalendarDate(new Date()),
+        ),
+      );
     }
-  }, [days, refetch]);
+  }, [days]);
 
-  const handleDayChange = async value => {
-    setSelectedDay(value);
-  };
+  const title = useMemo(() => {
+    switch (true) {
+      case !hasCategories:
+        return 'Нет доступа к задачам';
+      case !hasDays:
+        return 'Не выбрана дата';
+      case !hasTasks && !!selectedDay:
+        return `Нет задач на ${getFormattedDay(selectedDay?.date)}`;
+      case !!selectedDay:
+        return `Задачи на ${getFormattedDay(selectedDay?.date)}`;
+      default:
+        return 'Выберите день';
+    }
+  }, [hasCategories, hasDays, hasTasks, selectedDay]);
 
-  const handleCreateNewDay = () => {
-    openModal();
-  };
-
-  // const handleCreateTask = () => {
-  //   setIsCreateTaskModalOpen(true);
-  // };
-
-  // const handleCloseCreateTaskModal = () => {
-  //   setIsCreateTaskModalOpen(false);
-  // };
+  const description = useMemo(() => {
+    switch (true) {
+      case !hasCategories:
+        return 'Вы не создали ни одной категории, нажмите кнопку ниже, чтобы создать';
+      case !hasDays:
+        return 'Выберите дату и начните планировать задачи';
+      case !hasTasks && !!selectedDay:
+        return 'Вы не создали ни одной задачи, нажмите кнопку ниже, чтобы создать первую!';
+      default:
+        return 'Выберите день и начните планировать задачи';
+    }
+  }, [hasCategories, hasDays, hasTasks, selectedDay]);
 
   if (isDaysPending) {
     return <FullScreenSpinner />;
   }
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
   return (
     <>
-      <Card className='p-10'>
-        {categories?.length ? (
-          <>
-            <h1 className=' text-4xl font-bold'>Задачи</h1>
-            {!days?.length && (
-              <div className={styles.noDaysMessage}>
-                <h3>Нет списков</h3>
-                <p>
-                  Вы не создали ни одного списка дня, нажмите кнопку ниже, чтобы
-                  создать
-                </p>
-                <Button onClick={handleCreateNewDay}>Новый день</Button>
-              </div>
-            )}
-            {!!days?.length && (
-              <div className={styles.dayList}>
-                <label className='text-3xl'>План на:</label>
-                <Select
-                  onChange={handleDayChange}
-                  options={[
-                    ...days.map(({ date }) => ({
-                      value: date,
-                      label: getFormattedDay(date),
-                    })),
-                  ]}
-                  value={selectedDay}
-                />
-                <Button onClick={handleCreateNewDay}>Новый день</Button>
-              </div>
-            )}
-            {!tasks?.length && !!days.length && (
-              <div className={styles.noTasksMessage}>
-                <h3>Нет задач</h3>
-                <p>
-                  Вы не создали ни одной задачи, нажмите кнопку ниже, чтобы
-                  создать первую!
-                </p>
-              </div>
-            )}
-            <div className='grid grid-cols-2 gap-3'>
-              {tasks?.map(task => (
-                <Task
-                  key={task.id}
-                  selectedDay={selectedDay}
-                  task={task}
-                />
-              ))}
-              {!isLoading && !!days.length && (
-                <CreateTaskModal
-                  modeForm='CREATE'
-                  selectedDay={selectedDay}
-                />
-              )}
-              {isLoading && <Spinner />}
-            </div>
-            {isModalOpen && (
-              <CreateDayListModal
-                isOpen={isModalOpen}
-                onClose={closeModal}
-                onSuccess={date => setSelectedDay(date)}
+      <Card>
+        <CardHeader>
+          <CardTitle className='flex items-center gap-4'>
+            {!!days && (
+              <DaySelection
+                days={days}
+                onSuccess={setSelectedDay}
+                selectedDay={selectedDay}
               />
             )}
-          </>
-        ) : (
-          <div className={styles.noCategoriesMessage}>
-            <h3>Нет доступа к задачам</h3>
-            <p>
-              Вы не создали ни одной категории, чтобы получить доступ к задачам,
-              создайте хотя бы одну категорию
-            </p>
-          </div>
+            {title}
+          </CardTitle>
+          <CardDescription>{description}</CardDescription>
+        </CardHeader>
+        {selectedDay && (
+          <CardContent className='grid md:grid-cols-2 gap-4'>
+            {tasks?.map(task => (
+              <TaskItem
+                key={task.id}
+                selectedDay={selectedDay}
+                task={task}
+              />
+            ))}
+            {!isLoading && !!days?.length && (
+              <TaskCreateEditDialog selectedDay={selectedDay} />
+            )}
+            {isLoading && <Spinner />}
+          </CardContent>
         )}
       </Card>
-      <CategoryBlock
-        categories={categories}
-        isPending={isCategoriesPending}
-      />
+      {!!categories && (
+        <CategoryBlock
+          categories={categories}
+          isPending={isCategoriesPending}
+        />
+      )}
     </>
   );
 };

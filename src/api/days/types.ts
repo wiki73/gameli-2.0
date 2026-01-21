@@ -1,9 +1,9 @@
-type Day = {
+export type Day = {
   id: string;
-  date: string;
+  date: Date;
 };
 
 export type DayApiType = {
   getMany: (_: { userId: string }) => Promise<Day[]>;
-  create: (_: { userId: string; date: string }) => Promise<void>;
+  create: (_: { userId: string; date: Date }) => Promise<void>;
 };
