@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import { getExperienceByLevel } from '@/utils/level';
-import styles from './ProgressBar.module.pcss';
 
 type Props = {
   currentExperience: number;
@@ -22,19 +21,19 @@ export const ProgressBar = ({
   );
 
   return (
-    <div className={styles.container}>
-      <div className={styles.track} />
+    <div className='relative w-full h-6 rounded-4xl overflow-hidden'>
+      <div className='absolute inset-0 bg-background' />
 
       <motion.div
         animate={{ width: `${basePercent}%` }}
-        className={styles.base}
+        className='absolute inset-0 bg-green-600 z-2 h-full'
         initial={{ width: 0 }}
         transition={{ duration: 2.8, ease: 'easeInOut' }}
       />
 
       <motion.div
         animate={{ width: `${addedPercent}%` }}
-        className={styles.added}
+        className='absolute inset-0 bg-green-500 z-1 h-full'
         initial={{ width: 0 }}
         transition={{ duration: 2.8, ease: 'easeInOut', delay: 0.3 }}
       />

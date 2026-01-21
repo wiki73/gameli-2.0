@@ -4,7 +4,6 @@ import { Logo } from '@/components/common/Logo/Logo';
 import { ROUTES } from '../../../constants/routes';
 import { useAuth } from '../../../contexts/auth-context';
 import { AuthForm } from './AuthForm/AuthForm';
-import styles from './AuthPage.module.css';
 
 export const AuthPage = () => {
   const navigate = useNavigate();
@@ -17,8 +16,8 @@ export const AuthPage = () => {
   }, [user, isLoading, navigate]);
 
   return (
-    <div className={styles.page}>
-      <Logo className={styles.logo} />
+    <div className='flex flex-col gap-4 w-full h-full justify-center items-center'>
+      <Logo className='relative max-w-3xs w-full text-center mx-auto' />
       <AuthForm />
     </div>
   );

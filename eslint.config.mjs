@@ -13,8 +13,10 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default defineConfig([
-  { files: ['./src/**/*.js'], plugins: { js }, extends: ['js/recommended'] },
+  { files: ['./src/**/*.{js}'], plugins: { js }, extends: ['js/recommended'] },
+  ...tseslint.configs.recommended,
   {
+    files: ['./src/**/*.{js,jsx,ts,tsx}'],
     plugins: {
       react: fixupPluginRules(eslintReact),
       'react-hooks': eslintReactHooks,
@@ -24,12 +26,6 @@ export default defineConfig([
       'unused-imports': eslintUnusedImports,
       unicorn: eslintUnicorn,
     },
-  },
-
-  {
-    ignores: ['node_modules', '**/*.css', 'dist'],
-  },
-  {
     languageOptions: {
       ...eslintReact.configs.recommended.languageOptions,
       globals: {
@@ -44,9 +40,15 @@ export default defineConfig([
         },
       },
     },
-  },
-  {
+    settings: {
+      react: {
+        version: 'detect',
+      },
+    },
     rules: {
+      'arrow-body-style': ['error', 'as-needed'],
+      'react/react-in-jsx-scope': 'off',
+      'react/jsx-uses-react': 'off',
       'react/boolean-prop-naming': 'error',
       'react/button-has-type': 'off',
       'react/checked-requires-onchange-or-readonly': 'error',
@@ -166,7 +168,7 @@ export default defineConfig([
               position: 'after',
             },
             {
-              pattern: '**/*.{css,pcss,scss,sass,less}',
+              pattern: '**/*.css',
               group: 'unknown',
               position: 'after',
             },
@@ -185,83 +187,7 @@ export default defineConfig([
     },
   },
   {
-    files: ['src/hooks/*.js'],
-    rules: {
-      'unicorn/filename-case': [
-        'error',
-        {
-          case: 'camelCase',
-        },
-      ],
-    },
-  },
-  {
-    settings: {
-      react: {
-        version: 'detect',
-      },
-    },
-  },
-  {
-    files: ['**/*.{js,jsx}'],
-    plugins: {
-      react: fixupPluginRules(eslintReact),
-      'react-hooks': eslintReactHooks,
-      'react-refresh': eslintReactRefresh,
-    },
-    languageOptions: {
-      parserOptions: {
-        ecmaFeatures: {
-          jsx: true,
-        },
-      },
-    },
-    rules: {
-      'no-restricted-imports': [
-        'error',
-        {
-          patterns: [
-            {
-              group: ['**/!(*.module).css'],
-              message: 'Components must use CSS Modules (.module.css)',
-            },
-          ],
-        },
-      ],
-    },
-  },
-  {
-    files: ['src/components/**/*.module.css'],
-    rules: {
-      'no-restricted-imports': 'off',
-    },
-  },
-  {
-    files: ['src/styles/**/*.css', 'src/main.{js,jsx,ts,tsx}'],
-    rules: {
-      'no-restricted-imports': 'off',
-    },
-  },
-  ...tseslint.configs.recommended,
-  {
-    files: ['**/*.{ts,tsx}'],
-    plugins: {
-      eslintReact,
-    },
-    languageOptions: {
-      parserOptions: {
-        ecmaVersion: 'latest',
-        sourceType: 'module',
-        ecmaFeatures: {
-          jsx: true,
-        },
-      },
-    },
-    rules: {
-      'arrow-body-style': ['error', 'as-needed'],
-      'react/react-in-jsx-scope': 'off',
-      'react/jsx-uses-react': 'off',
-    },
+    ignores: ['node_modules', 'dist', 'src/index.css', 'src/components/ui/**'],
   },
   eslintConfigPrettier,
 ]);

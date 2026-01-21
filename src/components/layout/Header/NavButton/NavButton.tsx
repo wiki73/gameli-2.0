@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router';
-import styles from './NavButton.module.pcss';
+import { cn } from '@/lib/utils';
 
 type Props = {
   label: string;
@@ -10,14 +10,15 @@ type Props = {
 export const NavButton = ({ label, href, icon }: Props) => (
   <NavLink
     className={({ isActive }) =>
-      isActive
-        ? [styles.navButton, styles.navButtonActive].join(' ')
-        : styles.navButton
+      cn(
+        'flex p-2 px-4 bg-background items-center gap-1 rounded-3xl',
+        isActive ? 'bg-primary text-primary-foreground' : '',
+      )
     }
     key={href}
     to={href}
   >
     {icon}
-    <span className={styles.navButtonText}>{label}</span>
+    <span>{label}</span>
   </NavLink>
 );

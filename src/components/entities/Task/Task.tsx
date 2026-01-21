@@ -1,0 +1,60 @@
+import { PlayIcon } from '@radix-ui/react-icons';
+import { useNavigate } from 'react-router';
+import { Button } from '@ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
+import { TaskCreateEditDialog } from '@/components/pages/day/TaskCreateEditDialog/TaskCreateEditDialog';
+import { DeleteTaskModal } from '@/components/pages/day/DeleteTaskModal/DeleteTaskModal';
+import { ROUTES } from '@/constants/routes';
+import { Task } from '@/api/tasks/types';
+import { Day } from '@/api/days/types';
+import { cn } from '@/lib/utils';
+
+type Props = {
+  task: Task;
+  selectedDay: Day;
+};
+
+export const TaskItem = ({ task, selectedDay }: Props) => {
+  const navigate = useNavigate();
+
+  const handleGoTask = () => {
+    navigate(`${ROUTES.TASK}`.replace(':taskId', `${task.id}`));
+  };
+  return (
+    <Card
+      className={cn(
+        'flex flex-row items-center justify-between gap-1 ',
+        task.is_done && 'opacity-50',
+      )}
+    >
+      <CardHeader className='w-full pr-0'>
+        <CardTitle
+          className={cn(
+            'h-full w-full line-clamp-2',
+            task.is_done && 'text-gray-500 line-through',
+          )}
+        >
+          {task.title}
+        </CardTitle>
+      </CardHeader>
+      <CardContent className='flex items-center gap-1 pl-0'>
+        {!task.is_done && (
+          <>
+            <Button
+              onClick={handleGoTask}
+              size='icon'
+            >
+              <PlayIcon />
+            </Button>
+            <TaskCreateEditDialog
+              modeForm='EDIT'
+              selectedDay={selectedDay}
+              task={task}
+            />
+          </>
+        )}
+        <DeleteTaskModal id={task.id} />
+      </CardContent>
+    </Card>
+  );
+};

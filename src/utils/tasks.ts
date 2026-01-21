@@ -26,7 +26,9 @@ export const completeTask = async ({
   return Promise.all([
     api.tasks.update({
       id: taskId,
-      is_done: true,
+      data: {
+        is_done: true,
+      },
     }),
     api.categories.update({
       id: categoryId,

@@ -1,17 +1,23 @@
 import { supabase } from '../api';
-import { Task, TasksApiType } from './types';
+import { TasksApiType } from './types';
 
 export const taskApi: TasksApiType = {
-  getMany: async ({ userId, date }) => {
+  getMany: async ({ userId, day_id }) => {
     if (!userId) throw new Error('getTasks: userId is required');
 
-    let query = supabase.from('tasks').select('*').eq('user_id', userId);
+    let query = supabase
+      .from('tasks')
+      .select(`*, day:day_lists (date)`)
+      .eq('user_id', userId);
 
-    if (date) {
-      query = query.eq('date', date);
+    if (day_id) {
+      query = query.eq('day_id', day_id);
     }
 
-    const { data, error } = await query.order('date', { ascending: true });
+    const { data, error } = await query.order('date', {
+      foreignTable: 'day_lists',
+      ascending: true,
+    });
 
     if (error) {
       throw error;
@@ -29,23 +35,19 @@ export const taskApi: TasksApiType = {
     if (error) throw error;
     return data;
   },
-  update: async ({ id, title, date, category_id, is_done }) => {
+  update: async ({ id, data }) => {
     if (!id) {
       throw new Error('updateTask: id are required');
     }
 
-    const updates: Partial<Task> = {};
-
-    if (title) updates.title = title;
-    if (category_id) updates.category_id = category_id;
-    if (date) updates.date = date;
-    if (is_done) updates.is_done = is_done;
-
-    if (Object.keys(updates).length === 0) {
+    if (Object.keys(data).length === 0) {
       throw new Error('updateTask: no fields to update');
     }
 
-    const { error } = await supabase.from('tasks').update(updates).eq('id', id);
+    const { error } = await supabase
+      .from('tasks')
+      .update({ ...data })
+      .eq('id', id);
 
     if (error) throw error;
   },
@@ -56,16 +58,16 @@ export const taskApi: TasksApiType = {
     });
     if (error) throw error;
   },
-  create: async ({ userId, title, categoryId, date }) => {
-    if (!userId || !title || !categoryId || !date) {
+  create: async ({ user_id, title, category_id, day_id }) => {
+    if (!user_id || !title || !category_id || !day_id) {
       throw new Error('createTask: field is required');
     }
 
     const { error } = await supabase.from('tasks').insert({
-      user_id: userId,
+      user_id,
       title,
-      category_id: categoryId,
-      date,
+      category_id,
+      day_id,
     });
 
     if (error) throw error;

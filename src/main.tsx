@@ -6,14 +6,13 @@ import { UserLayout } from '@/components/layout/UserLayout';
 import { AuthProvider } from '@/contexts/auth-context/provider';
 import { QueryProvider } from '@/contexts/query-context/provider';
 import '@fontsource/inter/latin';
-
-import './styles/globals.css';
+import './index.css';
 
 const root = createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter unstable_useTransitions>
       <QueryProvider>
         <AuthProvider>
           <UserLayout>

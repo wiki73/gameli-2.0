@@ -1,11 +1,17 @@
 import { AvatarIcon, ResetIcon } from '@radix-ui/react-icons';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { getColorBySubjectLevel } from '@/constants/colors';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { api } from '../../../api/api';
 import { useAuth } from '../../../contexts/auth-context';
-import { Button } from '../../common/Button/Button';
-import { Card } from '../../common/Card/Card';
-import styles from './ProfilePage.module.css';
 
 export const ProfilePage = () => {
   const { user } = useAuth();
@@ -27,32 +33,38 @@ export const ProfilePage = () => {
 
   return (
     <Card>
-      <h1>Профиль</h1>
-      <div className={styles.profile}>
-        <div className={styles.userAvatarWrapper}>
-          <AvatarIcon className={styles.userAvatar} />
-          <div
-            className={styles.level}
-            style={{
-              border: `2px solid var(${color})`,
-              boxShadow: `0 0 10px var(${color}), inset 0 0 2px var(${color})`,
-            }}
-          >
-            {user?.level}
+      <CardHeader>
+        <CardTitle>Профиль пользователя</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className='flex gap-4'>
+          <div className='relative w-fit'>
+            <AvatarIcon className='size-16' />
+            <div
+              className='absolute -bottom-2 -right-2 rounded-full aspect-square w-8 flex justify-center items-center bg-card text-card-foreground'
+              style={{
+                border: `2px solid var(${color})`,
+                boxShadow: `0 0 10px var(${color}), inset 0 0 2px var(${color})`,
+              }}
+            >
+              {user?.level}
+            </div>
+          </div>
+          <div>
+            <CardDescription>{user?.name}</CardDescription>
+            <CardDescription>Exp. {user?.exp}</CardDescription>
           </div>
         </div>
-        <div className={styles.userInfo}>
-          <p>Имя: {user?.name}</p>
-          <p>Опыт: {user?.exp}</p>
-          <Button
-            onClick={handleLogout}
-            size='sm'
-            variant='danger'
-          >
-            <ResetIcon /> Выйти
-          </Button>
-        </div>
-      </div>
+      </CardContent>
+      <CardFooter>
+        <Button
+          onClick={handleLogout}
+          size='sm'
+          variant='destructive'
+        >
+          <ResetIcon /> Выйти
+        </Button>
+      </CardFooter>
     </Card>
   );
 };

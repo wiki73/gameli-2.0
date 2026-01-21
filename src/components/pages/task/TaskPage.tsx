@@ -1,20 +1,26 @@
-import { Link, useParams } from 'react-router';
+import { Link, useNavigate, useParams } from 'react-router';
 import { CheckIcon } from '@radix-ui/react-icons';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useWindowSize } from 'react-use';
 import Confetti from 'react-confetti';
 import { useQueryClient } from '@tanstack/react-query';
-import { Button } from '@/components/common/Button/Button';
-import { Card } from '@/components/common/Card/Card';
 import { Timer } from '@/components/widgets/timer/Timer';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { FullScreenSpinner } from '@/components/ui/spinner';
 import { api } from '../../../api/api';
-import { FullScreenSpinner } from '../../common/spinner/FullScreenSpinner';
 import { completeTask } from '../../../utils/tasks';
 import { useAuth } from '../../../contexts/auth-context';
 import { ROUTES } from '../../../constants/routes';
 import { ProgressBar } from './ProgressBar/ProgressBar';
-import classes from './TaskPage.module.css';
 
 export type TaskState = 'TIMER' | 'PAUSE' | 'COMPLETE';
 
@@ -23,6 +29,7 @@ export const TaskPage = () => {
   const { width, height } = useWindowSize();
   const { user } = useAuth();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const [taskState, setTaskState] = useState<TaskState>('TIMER');
   const [experience, setExperience] = useState(0);
@@ -51,6 +58,12 @@ export const TaskPage = () => {
       queryClient.invalidateQueries({ queryKey: ['user'], exact: false });
     },
   });
+
+  useEffect(() => {
+    if (task?.is_done) {
+      navigate(ROUTES.MAIN);
+    }
+  }, [navigate, task?.is_done]);
 
   const getTimeIntervarRatio = useCallback(() => {
     const min = Math.trunc(time / 60);
@@ -110,62 +123,53 @@ export const TaskPage = () => {
   }
 
   return (
-    <div className={classes.taskPage}>
-      <div className={classes.header}>
-        <h2 className={classes.title}>{task.title}</h2>
-        <h3 className={classes.category}>{category.name}</h3>
-      </div>
-      <Card className={classes.containerTime}>
-        <Timer
-          setTime={setTime}
-          state={taskState}
-          taskId={taskId}
-          time={time}
-        />
-        {taskState === 'COMPLETE' && (
-          <div className={classes.containerForComplete}>
-            <h4>Заработанно</h4>
-            <div className={classes.textForComplete}>
-              <p>Опыт</p>
-              <p>{experience}</p>
-            </div>
-            <div className={classes.textForComplete}>
-              <div>Кристалы</div>
-              <div>...</div>
-            </div>
+    <div className='fixed inset-0 flex justify-center items-center'>
+      <Card className='z-10 max-w-md w-full'>
+        <CardHeader className='text-center'>
+          <CardTitle>{task.title}</CardTitle>
+          <CardDescription>{category.name}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Timer
+            setTime={setTime}
+            state={taskState}
+            taskId={taskId}
+            time={time}
+          />
+          {taskState === 'COMPLETE' && (
             <div>
-              <h3 style={{ textAlign: 'center' }}>{category.name}</h3>
+              <h4>Заработанно {experience} опыта</h4>
               <ProgressBar
                 addedExperience={experience}
                 categoryLevel={category.level}
                 currentExperience={category.experience}
               />
             </div>
-          </div>
-        )}
-      </Card>
-      <div className={classes.buttons}>
-        {taskState === 'TIMER' || taskState === 'PAUSE' ? (
-          <Button onClick={handelSubmit}>
-            <CheckIcon />
-            Завершить
-          </Button>
-        ) : (
-          <Link to={ROUTES.MAIN}>
-            <Button>
-              <CheckIcon />К планированю
+          )}
+        </CardContent>
+        <CardFooter className='gap-4 items-center justify-center flex'>
+          {taskState === 'TIMER' || taskState === 'PAUSE' ? (
+            <Button onClick={handelSubmit}>
+              <CheckIcon />
+              Завершить
             </Button>
-          </Link>
-        )}
-        {taskState !== 'COMPLETE' && (
-          <Button
-            onClick={handelPause}
-            variant='secondary'
-          >
-            {taskState === 'PAUSE' ? 'Снять паузы' : 'Пауза'}
-          </Button>
-        )}
-      </div>
+          ) : (
+            <Link to={ROUTES.MAIN}>
+              <Button>
+                <CheckIcon />К планированю
+              </Button>
+            </Link>
+          )}
+          {taskState !== 'COMPLETE' && (
+            <Button
+              onClick={handelPause}
+              variant='secondary'
+            >
+              {taskState === 'PAUSE' ? 'Снять паузы' : 'Пауза'}
+            </Button>
+          )}
+        </CardFooter>
+      </Card>
       {showEffect && (
         <Confetti
           colors={[

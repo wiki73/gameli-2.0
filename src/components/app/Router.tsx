@@ -8,21 +8,25 @@ const AuthPage = lazy(() =>
     default: module.AuthPage,
   })),
 );
+
 const DashboardPage = lazy(() =>
   import('@/components/pages/dashboard/DashboardPage').then(module => ({
     default: module.DashboardPage,
   })),
 );
+
 const MainPage = lazy(() =>
   import('@/components/pages/day/MainPage').then(module => ({
     default: module.MainPage,
   })),
 );
+
 const ProfilePage = lazy(() =>
   import('@/components/pages/profile/ProfilePage').then(module => ({
     default: module.ProfilePage,
   })),
 );
+
 const TaskPage = lazy(() =>
   import('@/components/pages/task/TaskPage').then(module => ({
     default: module.TaskPage,
