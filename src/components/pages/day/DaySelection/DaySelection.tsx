@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Calendar } from '@ui/calendar';
 import { Calendar1 } from 'lucide-react';
 import dayjs from 'dayjs';
@@ -20,6 +20,8 @@ export const DaySelection = ({ onSuccess, selectedDay, days }: Props) => {
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
 
+  const containerRef = useRef<HTMLDivElement>(null);
+
   const createDayListMutation = useMutation({
     mutationFn: api.days.create,
     onMutate: () => {
@@ -35,6 +37,19 @@ export const DaySelection = ({ onSuccess, selectedDay, days }: Props) => {
       });
     },
   });
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const handleDaySelect = (date: Date) => {
     const day = days.find(
@@ -57,7 +72,10 @@ export const DaySelection = ({ onSuccess, selectedDay, days }: Props) => {
   };
 
   return (
-    <div className='relative'>
+    <div
+      className='relative'
+      ref={containerRef}
+    >
       <Button
         onClick={() => setOpen(!open)}
         size='icon'

@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -26,7 +27,6 @@ import { Spinner } from '@/components/ui/spinner';
 import { cn } from '@/lib/utils';
 import { api } from '../../../../api/api';
 import { useAuth } from '../../../../contexts/auth-context';
-import styles from './CreateCategoryModal.module.pcss';
 
 type Props = {
   modeForm?: 'CREATE' | 'EDIT';
@@ -39,7 +39,7 @@ type CategoryForm = {
   ratio: number;
 };
 
-export const CreateCategoryModal = ({
+export const CategoryCreateEditDialog = ({
   modeForm = 'CREATE',
   category,
 }: Props) => {
@@ -87,6 +87,13 @@ export const CreateCategoryModal = ({
     ],
   );
 
+  const handleOpenChange = (open: boolean) => {
+    setIsOpen(open);
+    if (!open) {
+      form.reset();
+    }
+  };
+
   const handleSubmit: SubmitHandler<CategoryForm> = data => {
     if (modeForm === 'EDIT' && category) {
       updateMutation.mutate({
@@ -103,12 +110,16 @@ export const CreateCategoryModal = ({
 
   const modalTitle =
     modeForm === 'EDIT' ? 'Редактирование категории' : 'Создание категории';
+  const modalDescription =
+    modeForm === 'EDIT'
+      ? 'Введите новые данные, чтобы отредактировать категорию'
+      : 'Введите название категории и коэффициент сложности, чтобы создать новую категорию';
   const buttonText =
     modeForm === 'EDIT' ? 'Сохранить изменения' : 'Создать категорию';
 
   return (
     <Dialog
-      onOpenChange={setIsOpen}
+      onOpenChange={handleOpenChange}
       open={isOpen}
     >
       <DialogTrigger asChild>
@@ -127,10 +138,11 @@ export const CreateCategoryModal = ({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{modalTitle}</DialogTitle>
+          <DialogDescription>{modalDescription}</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form
-            className={styles.form}
+            className='flex flex-col gap-4'
             onSubmit={form.handleSubmit(handleSubmit)}
           >
             <FormField
@@ -141,7 +153,7 @@ export const CreateCategoryModal = ({
                   <FormLabel>Название</FormLabel>
                   <FormControl>
                     <Input
-                      autoComplete='name'
+                      autoComplete='title'
                       id='name'
                       placeholder='Название категории'
                       type='text'
@@ -178,7 +190,7 @@ export const CreateCategoryModal = ({
               name='ratio'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Описание</FormLabel>
+                  <FormLabel>Коэффициент сложности</FormLabel>
                   <FormControl>
                     <Slider
                       defaultValue={[3]}
@@ -188,6 +200,17 @@ export const CreateCategoryModal = ({
                       step={1}
                     />
                   </FormControl>
+                  <FormLabel className='flex w-full justify-between items-start text-center text-muted-foreground'>
+                    <span className='whitespace-pre-wrap w-min text-left'>
+                      Очень легко
+                    </span>
+                    <span>Легко</span>
+                    <span>Средне</span>
+                    <span>Сложно</span>
+                    <span className='whitespace-pre-wrap w-min text-right'>
+                      Очень сложно
+                    </span>
+                  </FormLabel>
                   <FormDescription />
                   <FormMessage />
                 </FormItem>

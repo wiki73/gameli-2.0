@@ -21,7 +21,7 @@ import {
 } from '@/components/ui/card';
 import { api } from '@/api/api';
 import { getFormattedDay } from '@/utils/date';
-import { Spinner } from '@/components/ui/spinner';
+import { FullScreenSpinner } from '@/components/ui/spinner';
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/constants/routes';
 import { useAuth } from '../../../contexts/auth-context';
@@ -91,7 +91,7 @@ export const DashboardPage = () => {
     categoriesChartData.some(item => item.experience > 0);
 
   if (isPendingTasks || isPendingCategories) {
-    return <Spinner />;
+    return <FullScreenSpinner />;
   }
 
   if (
