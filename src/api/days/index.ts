@@ -7,9 +7,9 @@ export const dayApi: DayApiType = {
 
     const { data, error } = await supabase
       .from('day_lists')
-      .select('*')
+      .select(`*,tasks(count)`)
       .eq('user_id', userId)
-      .order('date', { ascending: false });
+      .order('date', { ascending: true });
 
     if (error) throw error;
 
