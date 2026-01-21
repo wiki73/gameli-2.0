@@ -1,7 +1,7 @@
 import { Pencil1Icon, TrashIcon } from '@radix-ui/react-icons';
 import { useState } from 'react';
 import { getColorBySubjectLevel } from '../../constants/colors';
-import { DeleteCategoryModal } from '../widgets/CategoryBlock/DeleteCategoryModal/DeleteCategoryModal.js';
+import { DeleteCategoryModal } from '../widgets/CategoryBlock/DeleteCategoryModal/DeleteCategoryModal';
 import { CreateCategoryModal } from '../widgets/CategoryBlock/CreateCategoryModal/CreateCategoryModal';
 import { Button } from '../ui/button';
 import styles from './Category.module.css';
