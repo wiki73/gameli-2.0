@@ -12,9 +12,10 @@ import { cn } from '@/lib/utils';
 type Props = {
   task: Task;
   selectedDay: Day;
+  isBlocked: boolean;
 };
 
-export const TaskItem = ({ task, selectedDay }: Props) => {
+export const TaskItem = ({ task, selectedDay, isBlocked }: Props) => {
   const navigate = useNavigate();
 
   const handleGoTask = () => {
@@ -38,7 +39,7 @@ export const TaskItem = ({ task, selectedDay }: Props) => {
         </CardTitle>
       </CardHeader>
       <CardContent className='flex items-center gap-1 pl-0'>
-        {!task.is_done && (
+        {!task.is_done && !isBlocked && (
           <>
             <Button
               onClick={handleGoTask}

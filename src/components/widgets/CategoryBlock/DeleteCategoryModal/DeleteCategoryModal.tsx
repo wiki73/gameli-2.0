@@ -34,6 +34,7 @@ export const DeleteCategoryModal = ({ id }: Props) => {
     mutationFn: api.categories.delete,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['categories'], exact: false });
+      queryClient.invalidateQueries({ queryKey: ['tasks'], exact: false });
       handleClose();
     },
   });

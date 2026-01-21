@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Calendar } from '@ui/calendar';
 import { Calendar1 } from 'lucide-react';
+import dayjs from 'dayjs';
 import { api } from '@/api/api';
 import { useAuth } from '@/contexts/auth-context';
 import { Button } from '@/components/ui/button';
@@ -66,7 +67,20 @@ export const DaySelection = ({ onSuccess, selectedDay, days }: Props) => {
       {open && (
         <Calendar
           className='rounded-lg border absolute top-10 z-10'
-          disabled={{ before: new Date() }}
+          disabled={[
+            days
+              .filter(
+                day =>
+                  day.tasks[0].count === 0 &&
+                  dayjs(day.date).isBefore(toCalendarDate(new Date())),
+              )
+              .map(day => new Date(day.date)),
+            {
+              before:
+                days.filter(day => day.tasks[0].count > 0).at(0)?.date ??
+                new Date(),
+            },
+          ]}
           mode='single'
           onSelect={handleDaySelect}
           required

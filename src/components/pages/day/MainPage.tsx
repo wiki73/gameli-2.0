@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from '@ui/card';
 import { FullScreenSpinner, Spinner } from '@ui/spinner';
+import dayjs from 'dayjs';
 import { TaskItem } from '@/components/entities/Task/Task';
 import { Nullable } from '@/api/types';
 import { api } from '@/api/api';
@@ -110,12 +111,15 @@ export const MainPage = () => {
           <CardContent className='grid md:grid-cols-2 gap-4'>
             {tasks?.map(task => (
               <TaskItem
+                isBlocked={dayjs(toCalendarDate(selectedDay.date)).isBefore(
+                  toCalendarDate(new Date()),
+                )}
                 key={task.id}
                 selectedDay={selectedDay}
                 task={task}
               />
             ))}
-            {!isLoading && !!days?.length && (
+            {!isLoading && !!days?.length && !!categories?.length && (
               <TaskCreateEditDialog selectedDay={selectedDay} />
             )}
             {isLoading && <Spinner />}

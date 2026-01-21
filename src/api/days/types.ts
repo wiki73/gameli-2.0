@@ -1,6 +1,7 @@
 export type Day = {
   id: string;
   date: Date;
+  tasks: { count: number }[];
 };
 
 export type DayApiType = {
