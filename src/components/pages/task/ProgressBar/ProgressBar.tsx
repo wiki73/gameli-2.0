@@ -5,12 +5,14 @@ type Props = {
   currentExperience: number;
   addedExperience: number;
   categoryLevel: number;
+  animationDuration?: number;
 };
 
 export const ProgressBar = ({
   currentExperience,
   addedExperience,
   categoryLevel,
+  animationDuration = 2.8,
 }: Props) => {
   const expToLevelUp = getExperienceByLevel(categoryLevel + 1);
 
@@ -28,14 +30,18 @@ export const ProgressBar = ({
         animate={{ width: `${basePercent}%` }}
         className='absolute inset-0 bg-green-600 z-2 h-full'
         initial={{ width: 0 }}
-        transition={{ duration: 2.8, ease: 'easeInOut' }}
+        transition={{ duration: animationDuration, ease: 'easeInOut' }}
       />
 
       <motion.div
         animate={{ width: `${addedPercent}%` }}
         className='absolute inset-0 bg-green-500 z-1 h-full'
         initial={{ width: 0 }}
-        transition={{ duration: 2.8, ease: 'easeInOut', delay: 0.3 }}
+        transition={{
+          duration: animationDuration,
+          ease: 'easeInOut',
+          delay: 0.3,
+        }}
       />
     </div>
   );

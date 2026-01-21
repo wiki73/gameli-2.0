@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';
 import { CategoryItem } from '@/components/entities/Category';
-import { CreateCategoryModal } from './CreateCategoryModal/CreateCategoryModal';
+import { CategoryCreateEditDialog } from './CategoryCreateEditDialog/CategoryCreateEditDialog';
 
 type Props = {
   categories: Category[];
@@ -36,7 +36,7 @@ export const CategoryBlock = ({ categories, isPending }: Props) => {
               key={category.id}
             />
           ))}
-          {!isPending && <CreateCategoryModal modeForm='CREATE' />}
+          {!isPending && <CategoryCreateEditDialog modeForm='CREATE' />}
           {isPending && <Spinner />}
         </div>
       </CardContent>

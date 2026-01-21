@@ -9,7 +9,8 @@ import { Category } from '@/api/categories/types';
 import { getColorBySubjectLevel } from '../../constants/colors';
 import { DeleteCategoryModal } from '../widgets/CategoryBlock/DeleteCategoryModal/DeleteCategoryModal';
 import { TypographySmall } from '../ui/typography-small';
-import { CreateCategoryModal } from '../widgets/CategoryBlock/CreateCategoryModal/CreateCategoryModal';
+import { CategoryCreateEditDialog } from '../widgets/CategoryBlock/CategoryCreateEditDialog/CategoryCreateEditDialog';
+import { ProgressBar } from '../pages/task/ProgressBar/ProgressBar';
 
 type Props = {
   category: Category;
@@ -17,6 +18,7 @@ type Props = {
 
 export const CategoryItem = ({ category }: Props) => (
   <Card
+    className='flex flex-col justify-between'
     style={{
       boxShadow: `0px 0px 12px var(${getColorBySubjectLevel(category.level)})`,
     }}
@@ -28,9 +30,19 @@ export const CategoryItem = ({ category }: Props) => (
       </CardDescription>
     </CardHeader>
     <CardContent className='flex items-center justify-between gap-4'>
-      <TypographySmall>Lvl. {category.level}</TypographySmall>
+      <TypographySmall className='whitespace-nowrap'>
+        Lvl. {category.level}
+      </TypographySmall>
+      {category.experience > 0 && (
+        <ProgressBar
+          addedExperience={0}
+          animationDuration={1}
+          categoryLevel={category.level}
+          currentExperience={category.experience}
+        />
+      )}
       <div className='flex items-center gap-2'>
-        <CreateCategoryModal
+        <CategoryCreateEditDialog
           category={category}
           modeForm='EDIT'
         />

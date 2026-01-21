@@ -24,21 +24,21 @@ export const TaskItem = ({ task, selectedDay, isBlocked }: Props) => {
   return (
     <Card
       className={cn(
-        'flex flex-row items-center justify-between gap-1 ',
+        'flex flex-row items-center justify-between gap-1 py-4',
         task.is_done && 'opacity-50',
       )}
     >
-      <CardHeader className='w-full pr-0'>
+      <CardHeader className='w-full pr-0 mb-auto'>
         <CardTitle
           className={cn(
-            'h-full w-full line-clamp-2',
+            'h-full w-full line-clamp-3 text-sm',
             task.is_done && 'text-gray-500 line-through',
           )}
         >
           {task.title}
         </CardTitle>
       </CardHeader>
-      <CardContent className='flex items-center gap-1 pl-0'>
+      <CardContent className='flex items-center gap-1 pl-0 mt-auto'>
         {!task.is_done && !isBlocked && (
           <>
             <Button

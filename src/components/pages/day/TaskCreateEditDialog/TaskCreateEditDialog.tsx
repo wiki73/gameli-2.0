@@ -78,6 +78,13 @@ export const TaskCreateEditDialog = ({
     reset();
     setOpen(false);
   };
+
+  const handleOpenChange = (open: boolean) => {
+    setOpen(open);
+    if (!open) {
+      form.reset();
+    }
+  };
   const { data: categories, isPending } = useQuery({
     queryKey: ['categories'],
     queryFn: () => api.categories.getMany({ userId: user?.id ?? '' }),
@@ -167,7 +174,7 @@ export const TaskCreateEditDialog = ({
 
   return (
     <Dialog
-      onOpenChange={setOpen}
+      onOpenChange={handleOpenChange}
       open={open}
     >
       <DialogTrigger asChild>
