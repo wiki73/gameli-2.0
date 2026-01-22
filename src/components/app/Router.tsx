@@ -33,6 +33,12 @@ const TaskPage = lazy(() =>
   })),
 );
 
+const LeaderBoard = lazy(() =>
+  import('@/components/pages/leaderBoard/LeaderBoard').then(module => ({
+    default: module.LeaderBoard,
+  })),
+);
+
 export const Router = () => (
   <Suspense fallback={<Logo />}>
     <Routes>
@@ -56,6 +62,10 @@ export const Router = () => (
       <Route
         element={<TaskPage />}
         path={ROUTES.TASK}
+      />
+      <Route
+        element={<LeaderBoard />}
+        path={ROUTES.LEADERBOARD}
       />
     </Routes>
   </Suspense>

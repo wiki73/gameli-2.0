@@ -1,4 +1,9 @@
-import { CalendarIcon, DashboardIcon, PersonIcon } from '@radix-ui/react-icons';
+import {
+  CalendarIcon,
+  DashboardIcon,
+  PersonIcon,
+  StarIcon,
+} from '@radix-ui/react-icons';
 import { NavLink } from 'react-router';
 import { ROUTES } from '../../../constants/routes';
 import { NavButton } from './NavButton/NavButton';
@@ -12,6 +17,7 @@ type Link = {
 const LINKS: Link[] = [
   { label: 'Статистика', href: ROUTES.DASHBOARD, icon: <DashboardIcon /> },
   { label: 'Планирование', href: ROUTES.MAIN, icon: <CalendarIcon /> },
+  { label: 'Таблица лидеров', href: ROUTES.LEADERBOARD, icon: <StarIcon /> },
 ];
 
 export const Header = () => (

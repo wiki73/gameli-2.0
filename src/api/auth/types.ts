@@ -16,6 +16,7 @@ export type AuthApiType = {
   };
   user: {
     get: (userId: string) => Promise<Nullable<User>>;
+    getMany: () => Promise<User[]>;
     update: (params: { userId: string; data: Partial<User> }) => Promise<User>;
   };
   login: (params: {

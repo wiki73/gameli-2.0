@@ -96,7 +96,7 @@ export const MainPage = () => {
       <Card>
         <CardHeader>
           <CardTitle className='flex items-center gap-4'>
-            {!!days && !!selectedDay && (
+            {!!days && (
               <DaySelection
                 days={days}
                 onSuccess={setSelectedDay}
