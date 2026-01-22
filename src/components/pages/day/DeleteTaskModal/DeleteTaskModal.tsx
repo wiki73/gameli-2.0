@@ -23,8 +23,12 @@ export const DeleteTaskModal = ({ id }: Props) => {
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
 
-  const handleClose = () => setOpen(false);
-  const handleOpen = () => setOpen(true);
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleOpen = () => {
+    setOpen(true);
+  };
 
   const deleteTaskMutation = useMutation({
     mutationFn: api.tasks.delete,
@@ -36,7 +40,7 @@ export const DeleteTaskModal = ({ id }: Props) => {
     },
   });
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     deleteTaskMutation.mutate({
       id,
     });

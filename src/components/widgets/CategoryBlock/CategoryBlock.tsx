@@ -1,4 +1,4 @@
-import { Category } from '@/api/categories/types';
+import type { Category } from '@/api/categories/types';
 import {
   Card,
   CardContent,

@@ -1,5 +1,5 @@
 import { supabase } from '../api';
-import { AuthApiType } from './types';
+import type { AuthApiType, User } from './types';
 
 export const authApi: AuthApiType = {
   session: {
@@ -17,7 +17,7 @@ export const authApi: AuthApiType = {
         .from('users')
         .select('*')
         .eq('id', userId)
-        .single();
+        .single<User>();
 
       if (error) throw error;
       return data;
@@ -27,12 +27,16 @@ export const authApi: AuthApiType = {
         throw new Error('updateUser: userId is required');
       }
 
-      const { error } = await supabase
+      const { data: user, error } = await supabase
         .from('users')
         .update(data)
-        .eq('id', userId);
+        .eq('id', userId)
+        .select('*')
+        .single<User>();
 
       if (error) throw error;
+
+      return user;
     },
   },
   login: async ({ email, password }) => {

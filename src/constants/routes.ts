@@ -4,4 +4,4 @@ export const ROUTES = {
   PROFILE: '/profile',
   DASHBOARD: '/dashboard',
   TASK: '/task/:taskId',
-};
+} as const;

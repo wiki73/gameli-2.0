@@ -1,4 +1,4 @@
-import { PropsWithChildren, useEffect } from 'react';
+import { type PropsWithChildren, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { ROUTES } from '../../constants/routes';
 import { useAuth } from '../../contexts/auth-context';

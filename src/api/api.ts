@@ -4,7 +4,7 @@ import { authApi } from './auth';
 import { categoryApi } from './categories';
 import { dayApi } from './days';
 import { taskApi } from './tasks';
-import { ApiType } from './types';
+import { type ApiType } from './types';
 
 export const supabase = createClient(supabaseConfig.url, supabaseConfig.key);
 

@@ -1,10 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { type SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSearchParams } from 'react-router';
-import { AuthError } from '@supabase/supabase-js';
 import {
   Card,
   CardContent,
@@ -24,6 +23,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { api } from '@/api/api';
+import type { AuthError } from '@supabase/supabase-js';
 
 const TEXTS = {
   LOGIN: {
@@ -93,7 +93,9 @@ export const AuthForm = () => {
       queryClient.invalidateQueries({ queryKey: ['session'] });
       queryClient.invalidateQueries({ queryKey: ['user'] });
     },
-    onError: err => setError('root', { message: err.message }),
+    onError: err => {
+      setError('root', { message: err.message });
+    },
   });
 
   const isLoading = loginMutation.isPending || registerMutation.isPending;

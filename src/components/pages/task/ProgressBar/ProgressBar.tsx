@@ -27,14 +27,14 @@ export const ProgressBar = ({
       <div className='absolute inset-0 bg-background' />
 
       <motion.div
-        animate={{ width: `${basePercent}%` }}
+        animate={{ width: `${String(basePercent)}%` }}
         className='absolute inset-0 bg-green-600 z-2 h-full'
         initial={{ width: 0 }}
         transition={{ duration: animationDuration, ease: 'easeInOut' }}
       />
 
       <motion.div
-        animate={{ width: `${addedPercent}%` }}
+        animate={{ width: `${String(addedPercent)}%` }}
         className='absolute inset-0 bg-green-500 z-1 h-full'
         initial={{ width: 0 }}
         transition={{

@@ -1,6 +1,6 @@
 import { CheckIcon, LapTimerIcon, PauseIcon } from '@radix-ui/react-icons';
 import { useEffect } from 'react';
-import { TaskState } from '@/components/pages/task/TaskPage';
+import type { TaskState } from '@/components/pages/task/TaskPage';
 
 type Props = {
   state: TaskState;
@@ -15,7 +15,9 @@ export const Timer = ({ state: mode, time, setTime, taskId }: Props) => {
     const interval = setInterval(() => {
       setTime(prev => prev + 1);
     }, 1000);
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+    };
   }, [mode, setTime]);
 
   useEffect(() => {

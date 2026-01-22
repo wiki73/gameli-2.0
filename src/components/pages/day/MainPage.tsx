@@ -10,10 +10,10 @@ import {
 import { FullScreenSpinner, Spinner } from '@ui/spinner';
 import dayjs from 'dayjs';
 import { TaskItem } from '@/components/entities/Task/Task';
-import { Nullable } from '@/api/types';
+import type { Nullable } from '@/api/types';
 import { api } from '@/api/api';
 import { getFormattedDay, toCalendarDate } from '@/utils/date';
-import { Day } from '@/api/days/types';
+import type { Day } from '@/api/days/types';
 import { useAuth } from '../../../contexts/auth-context';
 import { CategoryBlock } from '../../widgets/CategoryBlock/CategoryBlock';
 import { DaySelection } from './DaySelection/DaySelection';
@@ -41,7 +41,7 @@ export const MainPage = () => {
     queryFn: () =>
       api.tasks.getMany({
         userId: user?.id ?? '',
-        day_id: selectedDay?.id ?? days?.[0].id,
+        day_id: selectedDay?.id ?? days?.[0]?.id,
       }),
     enabled: !!user?.id && !!selectedDay,
   });
@@ -96,7 +96,7 @@ export const MainPage = () => {
       <Card>
         <CardHeader>
           <CardTitle className='flex items-center gap-4'>
-            {!!days && (
+            {!!days && !!selectedDay && (
               <DaySelection
                 days={days}
                 onSuccess={setSelectedDay}

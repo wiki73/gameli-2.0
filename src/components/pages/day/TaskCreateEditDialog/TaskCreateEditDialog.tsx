@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
 import { Pencil1Icon, PlusIcon } from '@radix-ui/react-icons';
 import z from 'zod';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { type SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Select,
@@ -31,8 +31,8 @@ import {
 import { Input } from '@ui/input';
 import { Button } from '@ui/button';
 import { Spinner } from '@ui/spinner';
-import { Task } from '@/api/tasks/types';
-import { Day } from '@/api/days/types';
+import type { Task } from '@/api/tasks/types';
+import type { Day } from '@/api/days/types';
 import { api } from '@/api/api';
 import { useAuth } from '@/contexts/auth-context';
 
@@ -136,10 +136,7 @@ export const TaskCreateEditDialog = ({
     [createTaskMutation.isPending, formState.isValid],
   );
 
-  const onSubmit: SubmitHandler<TaskFormType> = async ({
-    title,
-    category_id,
-  }) => {
+  const onSubmit: SubmitHandler<TaskFormType> = ({ title, category_id }) => {
     if (!user?.id) {
       setError('root', {
         message: 'Ошибка авторизации, повторите попытку позже',

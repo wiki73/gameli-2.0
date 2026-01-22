@@ -5,7 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@ui/card';
-import { Category } from '@/api/categories/types';
+import type { Category } from '@/api/categories/types';
 import { getColorBySubjectLevel } from '../../constants/colors';
 import { DeleteCategoryModal } from '../widgets/CategoryBlock/DeleteCategoryModal/DeleteCategoryModal';
 import { TypographySmall } from '../ui/typography-small';

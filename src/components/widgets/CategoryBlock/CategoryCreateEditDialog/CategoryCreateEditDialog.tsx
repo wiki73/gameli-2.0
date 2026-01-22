@@ -1,10 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 import { Pencil1Icon, PlusIcon } from '@radix-ui/react-icons';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { Category } from '@/api/categories/types';
-import { Slider } from '@/components/ui/slider';
-import { Button } from '@/components/ui/button';
+import { type SubmitHandler, useForm } from 'react-hook-form';
+import z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Slider } from '@ui/slider';
+import { Button } from '@ui/button';
 import {
   Dialog,
   DialogContent,
@@ -12,8 +13,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
+} from '@ui/dialog';
+import { Input } from '@ui/input';
 import {
   Form,
   FormControl,
@@ -22,22 +23,31 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Spinner } from '@/components/ui/spinner';
+} from '@ui/form';
+import { Spinner } from '@ui/spinner';
+import type { Category } from '@/api/categories/types';
 import { cn } from '@/lib/utils';
-import { api } from '../../../../api/api';
-import { useAuth } from '../../../../contexts/auth-context';
+import { api } from '@/api/api';
+import { useAuth } from '@/contexts/auth-context';
 
 type Props = {
   modeForm?: 'CREATE' | 'EDIT';
   category?: Category;
 };
 
-type CategoryForm = {
-  name: string;
-  description: string;
-  ratio: number;
-};
+const categoryFormSchema = z.object({
+  name: z
+    .string()
+    .min(3, 'Название должно содержать не менее 3 символов')
+    .max(50, 'Название должно содержать не более 50 символов'),
+  description: z
+    .string()
+    .max(200, 'Описание должно содержать не более 200 символов')
+    .optional(),
+  ratio: z.number().min(1).max(5),
+});
+
+type CategoryFormType = z.infer<typeof categoryFormSchema>;
 
 export const CategoryCreateEditDialog = ({
   modeForm = 'CREATE',
@@ -47,7 +57,8 @@ export const CategoryCreateEditDialog = ({
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
-  const form = useForm<CategoryForm>({
+  const form = useForm<CategoryFormType>({
+    resolver: zodResolver(categoryFormSchema),
     defaultValues: {
       name: category?.name ?? '',
       description: category?.description ?? '',
@@ -63,7 +74,9 @@ export const CategoryCreateEditDialog = ({
       queryClient.invalidateQueries({ queryKey: ['categories', user?.id] });
       setIsOpen(false);
     },
-    onError: err => setError('root', { message: err.message }),
+    onError: err => {
+      setError('root', { message: err.message });
+    },
   });
 
   const updateMutation = useMutation({
@@ -72,19 +85,16 @@ export const CategoryCreateEditDialog = ({
       queryClient.invalidateQueries({ queryKey: ['categories', user?.id] });
       setIsOpen(false);
     },
-    onError: err => setError('root', { message: err.message }),
+    onError: err => {
+      setError('root', { message: err.message });
+    },
   });
 
+  const isPending = createMutation.isPending || updateMutation.isPending;
+
   const isButtonDisabled = useMemo(
-    () =>
-      !form.formState.isValid ||
-      createMutation.isPending ||
-      updateMutation.isPending,
-    [
-      createMutation.isPending,
-      form.formState.isValid,
-      updateMutation.isPending,
-    ],
+    () => !form.formState.isValid || isPending,
+    [form.formState.isValid, isPending],
   );
 
   const handleOpenChange = (open: boolean) => {
@@ -94,7 +104,7 @@ export const CategoryCreateEditDialog = ({
     }
   };
 
-  const handleSubmit: SubmitHandler<CategoryForm> = data => {
+  const handleSubmit: SubmitHandler<CategoryFormType> = data => {
     if (modeForm === 'EDIT' && category) {
       updateMutation.mutate({
         id: category.id,
@@ -102,8 +112,9 @@ export const CategoryCreateEditDialog = ({
       });
     } else {
       createMutation.mutate({
-        userId: user?.id ?? '',
         ...data,
+        userId: user?.id ?? '',
+        description: data.description ?? '',
       });
     }
   };
@@ -125,7 +136,9 @@ export const CategoryCreateEditDialog = ({
       <DialogTrigger asChild>
         <Button
           className={cn(modeForm === 'CREATE' && 'h-full')}
-          onClick={() => setIsOpen(true)}
+          onClick={() => {
+            setIsOpen(true);
+          }}
           variant='secondary'
         >
           {modeForm === 'CREATE' ? (
@@ -154,6 +167,7 @@ export const CategoryCreateEditDialog = ({
                   <FormControl>
                     <Input
                       autoComplete='title'
+                      disabled={isPending}
                       id='name'
                       placeholder='Название категории'
                       type='text'
@@ -173,6 +187,7 @@ export const CategoryCreateEditDialog = ({
                   <FormControl>
                     <Input
                       autoComplete='description'
+                      disabled={isPending}
                       id='description'
                       placeholder='Описание категории'
                       type='text'
@@ -194,9 +209,10 @@ export const CategoryCreateEditDialog = ({
                   <FormControl>
                     <Slider
                       defaultValue={[3]}
+                      disabled={isPending}
                       max={5}
                       min={1}
-                      onChange={e => [field.onChange(e)]}
+                      onChange={field.onChange}
                       step={1}
                     />
                   </FormControl>
@@ -221,9 +237,7 @@ export const CategoryCreateEditDialog = ({
               disabled={isButtonDisabled}
               type='submit'
             >
-              {(createMutation.isPending || updateMutation.isPending) && (
-                <Spinner />
-              )}
+              {isPending && <Spinner />}
               {buttonText}
             </Button>
           </form>

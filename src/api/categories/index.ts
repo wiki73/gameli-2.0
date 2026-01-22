@@ -1,5 +1,5 @@
 import { supabase } from '../api';
-import { CategoryApiType } from './types';
+import type { Category, CategoryApiType } from './types';
 
 export const categoryApi: CategoryApiType = {
   getOne: async ({ id }) => {
@@ -9,11 +9,11 @@ export const categoryApi: CategoryApiType = {
       .from('categories')
       .select('*')
       .eq('id', id)
-      .single();
+      .single<Category>();
 
     if (error) throw error;
 
-    if (!data) return [];
+    if (!data) throw new Error('Category not found');
 
     return data;
   },
@@ -45,7 +45,7 @@ export const categoryApi: CategoryApiType = {
 
     if (!data) return [];
 
-    return data;
+    return data as Category[];
   },
 
   create: async ({ userId, name, description, ratio }) => {
