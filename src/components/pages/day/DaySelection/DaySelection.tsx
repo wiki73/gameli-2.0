@@ -8,10 +8,11 @@ import { useAuth } from '@/contexts/auth-context';
 import { Button } from '@/components/ui/button';
 import type { Day } from '@/api/days/types';
 import { toCalendarDate } from '@/utils/date';
+import type { Nullable } from '@/api/types';
 
 type Props = {
   onSuccess: (date: Day) => void;
-  selectedDay?: Day;
+  selectedDay: Nullable<Day>;
   days: Day[];
 };
 

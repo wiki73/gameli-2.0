@@ -22,6 +22,16 @@ export const authApi: AuthApiType = {
       if (error) throw error;
       return data;
     },
+    getMany: async () => {
+      const { data, error } = await supabase
+        .from('users')
+        .select('*')
+        .filter('exp', 'gt', 0)
+        .order('exp', { ascending: false });
+
+      if (error) throw error;
+      return data as User[];
+    },
     update: async ({ userId, data }) => {
       if (!userId) {
         throw new Error('updateUser: userId is required');

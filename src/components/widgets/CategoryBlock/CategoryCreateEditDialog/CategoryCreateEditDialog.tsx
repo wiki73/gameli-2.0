@@ -108,7 +108,9 @@ export const CategoryCreateEditDialog = ({
     if (modeForm === 'EDIT' && category) {
       updateMutation.mutate({
         id: category.id,
-        data,
+        data: {
+          ...data,
+        },
       });
     } else {
       createMutation.mutate({
@@ -210,10 +212,14 @@ export const CategoryCreateEditDialog = ({
                     <Slider
                       defaultValue={[3]}
                       disabled={isPending}
+                      itemType='number'
                       max={5}
                       min={1}
-                      onChange={field.onChange}
+                      onValueChange={value => {
+                        field.onChange(value?.[0]);
+                      }}
                       step={1}
+                      value={[field.value]}
                     />
                   </FormControl>
                   <FormLabel className='flex w-full justify-between items-start text-center text-muted-foreground'>
