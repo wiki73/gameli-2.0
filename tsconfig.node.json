@@ -4,6 +4,9 @@
     "skipLibCheck": true,
     "module": "ESNext",
     "moduleResolution": "bundler",
+    "strictBindCallApply": true,
+    "strictNullChecks": true,
+    "strictBuiltinIteratorReturn": true,
     "allowSyntheticDefaultImports": true,
     "jsx": "react-jsx"
   },

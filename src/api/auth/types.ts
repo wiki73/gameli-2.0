@@ -1,9 +1,6 @@
-import {
-  AuthError,
-  Session,
-  User as SupabaseUser,
-} from '@supabase/supabase-js';
-import { Nullable } from '../types';
+import { type Session, type User as SupabaseUser } from '@supabase/supabase-js';
+import type { AuthError } from '@supabase/supabase-js';
+import type { Nullable } from '../types';
 
 export type User = {
   id: string;
@@ -19,7 +16,7 @@ export type AuthApiType = {
   };
   user: {
     get: (userId: string) => Promise<Nullable<User>>;
-    update: (params: { userId: string; data: Partial<User> }) => Promise<void>;
+    update: (params: { userId: string; data: Partial<User> }) => Promise<User>;
   };
   login: (params: {
     email: string;

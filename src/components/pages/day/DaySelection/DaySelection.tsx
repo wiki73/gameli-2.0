@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import { api } from '@/api/api';
 import { useAuth } from '@/contexts/auth-context';
 import { Button } from '@/components/ui/button';
-import { Day } from '@/api/days/types';
+import type { Day } from '@/api/days/types';
 import { toCalendarDate } from '@/utils/date';
 
 type Props = {
@@ -48,7 +48,9 @@ export const DaySelection = ({ onSuccess, selectedDay, days }: Props) => {
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, []);
 
   const handleDaySelect = (date: Date) => {
@@ -77,7 +79,9 @@ export const DaySelection = ({ onSuccess, selectedDay, days }: Props) => {
       ref={containerRef}
     >
       <Button
-        onClick={() => setOpen(!open)}
+        onClick={() => {
+          setOpen(!open);
+        }}
         size='icon'
       >
         <Calendar1 />
@@ -89,13 +93,13 @@ export const DaySelection = ({ onSuccess, selectedDay, days }: Props) => {
             days
               .filter(
                 day =>
-                  day.tasks[0].count === 0 &&
+                  day.tasks[0]?.count === 0 &&
                   dayjs(day.date).isBefore(toCalendarDate(new Date())),
               )
               .map(day => new Date(day.date)),
             {
               before:
-                days.filter(day => day.tasks[0].count > 0).at(0)?.date ??
+                days.filter(day => day.tasks[0]?.count ?? 0 > 0)[0]?.date ??
                 new Date(),
             },
           ]}

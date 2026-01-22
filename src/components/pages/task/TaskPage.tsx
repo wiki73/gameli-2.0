@@ -35,7 +35,7 @@ export const TaskPage = () => {
   const [experience, setExperience] = useState(0);
   const [showEffect, setShowEffect] = useState(false);
   const [time, setTime] = useState(() => {
-    const saved = localStorage.getItem(`timer_time_${taskId}`);
+    const saved = localStorage.getItem(`timer_time_${String(taskId)}`);
     return saved ? Number(saved) : 0;
   });
 

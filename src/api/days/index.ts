@@ -1,5 +1,5 @@
 import { supabase } from '../api';
-import { DayApiType } from './types';
+import type { Day, DayApiType } from './types';
 
 export const dayApi: DayApiType = {
   getMany: async ({ userId }) => {
@@ -13,7 +13,7 @@ export const dayApi: DayApiType = {
 
     if (error) throw error;
 
-    return data;
+    return data as Day[];
   },
 
   create: async ({ userId, date }) => {

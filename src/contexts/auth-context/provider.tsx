@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { PropsWithChildren, useCallback, useEffect, useMemo } from 'react';
+import { type PropsWithChildren, useCallback, useEffect, useMemo } from 'react';
 import { api, supabase } from '@/api/api';
-import { User } from '@/api/auth/types';
+import type { User } from '@/api/auth/types';
 import { AuthContext } from '.';
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
@@ -57,7 +57,9 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       queryClient.invalidateQueries({ queryKey: ['categories'] });
     });
 
-    return () => listener.subscription.unsubscribe();
+    return () => {
+      listener.subscription.unsubscribe();
+    };
   }, [queryClient]);
 
   useEffect(() => {

@@ -5,8 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
 import { TaskCreateEditDialog } from '@/components/pages/day/TaskCreateEditDialog/TaskCreateEditDialog';
 import { DeleteTaskModal } from '@/components/pages/day/DeleteTaskModal/DeleteTaskModal';
 import { ROUTES } from '@/constants/routes';
-import { Task } from '@/api/tasks/types';
-import { Day } from '@/api/days/types';
+import type { Task } from '@/api/tasks/types';
+import type { Day } from '@/api/days/types';
 import { cn } from '@/lib/utils';
 
 type Props = {
@@ -19,7 +19,7 @@ export const TaskItem = ({ task, selectedDay, isBlocked }: Props) => {
   const navigate = useNavigate();
 
   const handleGoTask = () => {
-    navigate(`${ROUTES.TASK}`.replace(':taskId', `${task.id}`));
+    navigate(ROUTES.TASK.replace(':taskId', task.id));
   };
   return (
     <Card

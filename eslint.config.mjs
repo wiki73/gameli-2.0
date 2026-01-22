@@ -13,8 +13,58 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default defineConfig([
-  { files: ['./src/**/*.{js}'], plugins: { js }, extends: ['js/recommended'] },
-  ...tseslint.configs.recommended,
+  // --------------------
+  // JS only
+  // --------------------
+  {
+    files: ['./**/*.{js,cjs,mjs}'],
+    plugins: { js },
+    extends: [js.configs.recommended],
+  },
+  // --------------------
+  // TS WITHOUT type info
+  // --------------------
+  {
+    files: ['./**/*.{ts,tsx}'],
+    extends: [tseslint.configs.strict],
+  },
+  // --------------------
+  // TS WITH type info (SRC ONLY)
+  // --------------------
+  {
+    files: ['./src/**/*.{ts,tsx}'],
+    languageOptions: {
+      ...eslintReact.configs.recommended.languageOptions,
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        ...globals.es2021,
+      },
+      parserOptions: {
+        projectService: true,
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+    },
+    extends: [tseslint.configs.strictTypeChecked],
+    rules: {
+      '@typescript-eslint/no-misused-promises': 'off',
+      '@typescript-eslint/no-unnecessary-condition': 'off',
+      '@typescript-eslint/no-floating-promises': 'off',
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        {
+          prefer: 'type-imports',
+          disallowTypeAnnotations: false,
+          fixStyle: 'separate-type-imports',
+        },
+      ],
+    },
+  },
+  // --------------------
+  // React rules
+  // --------------------
   {
     files: ['./src/**/*.{js,jsx,ts,tsx}'],
     plugins: {
@@ -25,20 +75,6 @@ export default defineConfig([
       import: fixupPluginRules(eslintImport),
       'unused-imports': eslintUnusedImports,
       unicorn: eslintUnicorn,
-    },
-    languageOptions: {
-      ...eslintReact.configs.recommended.languageOptions,
-      globals: {
-        ...globals.browser,
-        ...globals.node,
-        ...globals.es2021,
-      },
-      parserOptions: {
-        ...eslintReact.configs.recommended.parserOptions,
-        ecmaFeatures: {
-          jsx: true,
-        },
-      },
     },
     settings: {
       react: {
@@ -83,7 +119,6 @@ export default defineConfig([
       'react/jsx-props-no-multi-spaces': 'error',
       'react/jsx-sort-props': 'error',
       'react/jsx-tag-spacing': 'error',
-      'react/jsx-uses-react': 'error',
       'react/jsx-uses-vars': 'error',
       'react/jsx-wrap-multilines': 'error',
       'react/no-array-index-key': 'error',

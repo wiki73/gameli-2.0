@@ -1,5 +1,6 @@
 import { supabase } from '../api';
-import { TasksApiType } from './types';
+import { type TasksApiType } from './types';
+import type { Task } from './types';
 
 export const taskApi: TasksApiType = {
   getMany: async ({ userId, day_id }) => {
@@ -15,7 +16,7 @@ export const taskApi: TasksApiType = {
     }
 
     const { data, error } = await query.order('date', {
-      foreignTable: 'day_lists',
+      referencedTable: 'day_lists',
       ascending: true,
     });
 
@@ -23,14 +24,14 @@ export const taskApi: TasksApiType = {
       throw error;
     }
 
-    return data;
+    return data as Task[];
   },
   getOne: async ({ id }) => {
     const { data, error } = await supabase
       .from('tasks')
       .select('*')
       .eq('id', id)
-      .single();
+      .single<Task>();
 
     if (error) throw error;
     return data;
@@ -44,10 +45,7 @@ export const taskApi: TasksApiType = {
       throw new Error('updateTask: no fields to update');
     }
 
-    const { error } = await supabase
-      .from('tasks')
-      .update({ ...data })
-      .eq('id', id);
+    const { error } = await supabase.from('tasks').update({}).eq('id', id);
 
     if (error) throw error;
   },
