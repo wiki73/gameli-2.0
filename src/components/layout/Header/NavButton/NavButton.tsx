@@ -19,6 +19,6 @@ export const NavButton = ({ label, href, icon }: Props) => (
     to={href}
   >
     {icon}
-    <span>{label}</span>
+    <span className='hidden md:flex'>{label}</span>
   </NavLink>
 );
