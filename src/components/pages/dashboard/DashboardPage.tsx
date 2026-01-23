@@ -1,16 +1,6 @@
-import { RechartsDevtools } from '@recharts/devtools';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Legend,
-  Line,
-  LineChart,
-  XAxis,
-  YAxis,
-} from 'recharts';
+import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts';
 import { NavLink } from 'react-router';
 import {
   Card,
@@ -24,6 +14,14 @@ import { FullScreenSpinner } from '@/components/ui/spinner';
 import { Button } from '@/components/ui/button';
 import { getFormattedDay } from '@/lib/date';
 import { getQueryKey, QUERY_KEY_TYPES, ROUTES } from '@/consts';
+import {
+  ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+  ChartTooltip,
+  ChartTooltipContent,
+} from '@/components/ui/chart';
+import { type ChartConfig } from '@/components/ui/chart';
 import { useAuth } from '../../../contexts/auth-context';
 
 type TaskChartDataItem = {
@@ -31,6 +29,37 @@ type TaskChartDataItem = {
   total: number;
   completed: number;
 };
+
+const chartConfig = {
+  total: {
+    label: 'Всего',
+    theme: {
+      light: '#2563eb',
+      dark: '#dc2626',
+    },
+  },
+  completed: {
+    label: 'Выполнено',
+    theme: {
+      light: '#dc2626',
+      dark: '#2563eb',
+    },
+  },
+  level: {
+    label: 'Уровень',
+    theme: {
+      light: '#39FF0A',
+      dark: '##CAFF7E',
+    },
+  },
+  experience: {
+    label: 'Опыт',
+    theme: {
+      light: '#FF00FF',
+      dark: '#FF00FF',
+    },
+  },
+} satisfies ChartConfig;
 
 export const DashboardPage = () => {
   const { user } = useAuth();
@@ -135,89 +164,86 @@ export const DashboardPage = () => {
           </>
         )}
       <CardContent className='flex flex-col gap-4'>
-        {showTasksChart && (
-          <>
-            <CardHeader>
-              <CardTitle>Задачи</CardTitle>
-            </CardHeader>
-            <LineChart
-              data={taskChartData}
-              style={{ width: '100%', aspectRatio: 1.618, maxWidth: 600 }}
-            >
-              <CartesianGrid strokeDasharray='3 3' />
-
-              <XAxis dataKey='name' />
-              <YAxis allowDecimals={false} />
-
-              <Line
-                dataKey='total'
-                name='Всего'
-                stroke='purple'
-                type='monotone'
-              />
-
-              <Line
-                dataKey='completed'
-                name='Выполнено'
-                stroke='green'
-                type='monotone'
-              />
-
-              <Legend />
-              <RechartsDevtools />
-            </LineChart>
-          </>
-        )}
-        {showCategoryLevelChart && (
-          <>
-            <CardHeader>
-              <CardTitle>Уровень по категориям</CardTitle>
-            </CardHeader>
-
-            <BarChart
-              data={categoriesChartData}
-              style={{ width: '100%', aspectRatio: 1.618, maxWidth: 600 }}
-            >
-              <CartesianGrid strokeDasharray='3 3' />
-
-              <XAxis dataKey='name' />
-              <YAxis allowDecimals={false} />
-
-              <Bar
-                dataKey='level'
-                fill='purple'
-                name='Уровень'
-              />
-
-              <Legend />
-            </BarChart>
-          </>
-        )}
-        {showCategoryExperienceChart && (
-          <>
-            <CardHeader>
-              <CardTitle>Опыт по категориям</CardTitle>
-            </CardHeader>
-
-            <BarChart
-              data={categoriesChartData}
-              style={{ width: '100%', aspectRatio: 1.618, maxWidth: 600 }}
-            >
-              <CartesianGrid strokeDasharray='3 3' />
-
-              <XAxis dataKey='name' />
-              <YAxis allowDecimals={false} />
-
-              <Bar
-                dataKey='experience'
-                fill='green'
-                name='Опыт'
-              />
-
-              <Legend />
-            </BarChart>
-          </>
-        )}
+        <h1 className='font-bolf text-2xl'>Выполнение задач</h1>
+        <ChartContainer
+          className='min-h-50 w-full'
+          config={chartConfig}
+        >
+          <BarChart
+            accessibilityLayer
+            data={taskChartData}
+          >
+            <CartesianGrid vertical={false} />
+            <XAxis
+              axisLine={false}
+              dataKey='name'
+              tickLine={false}
+              tickMargin={10}
+            />
+            <ChartTooltip content={<ChartTooltipContent />} />
+            <ChartLegend content={<ChartLegendContent />} />
+            <Bar
+              dataKey='total'
+              fill='var(--color-total)'
+              radius={4}
+            />
+            <Bar
+              dataKey='completed'
+              fill='var(--color-completed)'
+              radius={4}
+            />
+          </BarChart>
+        </ChartContainer>
+        <h1 className='font-bolf text-2xl'>Уровень по категориям</h1>
+        <ChartContainer
+          className='min-h-50 w-full'
+          config={chartConfig}
+        >
+          <BarChart
+            accessibilityLayer
+            data={categoriesChartData}
+          >
+            <CartesianGrid vertical={false} />
+            <XAxis
+              axisLine={false}
+              dataKey='name'
+              tickLine={false}
+              tickMargin={10}
+            />
+            <ChartTooltip content={<ChartTooltipContent />} />
+            <ChartLegend content={<ChartLegendContent />} />
+            <Bar
+              dataKey='level'
+              fill='var(--color-level)'
+              radius={4}
+            />
+          </BarChart>
+        </ChartContainer>
+        <h1 className='font-bolf text-2xl'>Опыт по категориям</h1>
+        <ChartContainer
+          className='min-h-50 w-full'
+          config={chartConfig}
+        >
+          <BarChart
+            accessibilityLayer
+            data={categoriesChartData}
+          >
+            <CartesianGrid vertical={false} />
+            <XAxis
+              axisLine={false}
+              dataKey='name'
+              tickLine={false}
+              tickMargin={10}
+            />
+            <ChartTooltip content={<ChartTooltipContent />} />
+            <ChartLegend content={<ChartLegendContent />} />
+            <Bar
+              dataKey='experience'
+              fill='var(--color-experience)'
+              radius={4}
+            />
+          </BarChart>
+        </ChartContainer>
       </CardContent>
     </Card>
   );

@@ -7,7 +7,7 @@ export const queryClient = new QueryClient({
       gcTime: TIME.DAY,
       retry: 0,
       refetchOnWindowFocus: false,
-      staleTime: Infinity,
+      staleTime: TIME.HOUR,
       networkMode: 'offlineFirst',
     },
     mutations: {
