@@ -23,11 +23,14 @@ const USER_STORAGE_KEY = 'offline_user';
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const queryClient = useQueryClient();
   const [offlineUser, setOfflineUser] = useState<Nullable<User>>(null);
+  const [isOfflineUserLoading, setIsOfflineUserLoading] = useState(true);
 
   useEffect(() => {
     const loadOfflineUser = async () => {
+      setIsOfflineUserLoading(true);
       const stored = await localforage.getItem<User>(USER_STORAGE_KEY);
       if (stored) setOfflineUser(stored);
+      setIsOfflineUserLoading(false);
     };
     loadOfflineUser();
   }, []);
@@ -134,7 +137,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const value = useMemo(
     () => ({
       user: user ?? offlineUser ?? null,
-      isLoading: sessionLoading || userLoading,
+      isLoading: sessionLoading || userLoading || isOfflineUserLoading,
       error: sessionError || userError,
       updateUser: handleUpdateUser,
     }),
@@ -143,6 +146,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       offlineUser,
       sessionLoading,
       userLoading,
+      isOfflineUserLoading,
       sessionError,
       userError,
       handleUpdateUser,

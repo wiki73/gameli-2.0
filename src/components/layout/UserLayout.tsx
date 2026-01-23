@@ -12,9 +12,14 @@ export const UserLayout = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     if (!isLoading && !user) {
-      navigate(ROUTES.AUTH, { replace: true });
+      navigate(ROUTES.AUTH, {
+        replace: true,
+        state: {
+          from: location.pathname,
+        },
+      });
     }
-  }, [navigate, isLoading, user]);
+  }, [navigate, isLoading, user, location.pathname]);
 
   if (isLoading || (location.pathname !== ROUTES.AUTH && !user && !isLoading)) {
     return <Logo />;
