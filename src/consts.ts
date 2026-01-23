@@ -1,6 +1,7 @@
 import type { Category } from './api/categories/types';
 import type { Task } from './api/tasks/types';
 import type { User } from './api/auth/types';
+import type { Nullable } from './api/types';
 
 const getEnv = <K extends keyof ImportMetaEnv>(key: K): ImportMetaEnv[K] => {
   const value = import.meta.env[key];
@@ -25,6 +26,53 @@ export const ROUTES = {
   TASK: '/task/:taskId',
   LEADERBOARD: '/leaderboard',
 } as const;
+
+export const QUERY_KEY_TYPES = {
+  TASKS: 'tasks',
+  CATEGORIES: 'categories',
+  USER: 'user',
+  DAYS: 'days',
+  SESSION: 'session',
+} as const;
+
+export type QueryKey =
+  | {
+      type: typeof QUERY_KEY_TYPES.TASKS;
+      payload: { userId?: string; dayId?: string };
+    }
+  | {
+      type: typeof QUERY_KEY_TYPES.CATEGORIES;
+      payload: { userId?: string };
+    }
+  | {
+      type: typeof QUERY_KEY_TYPES.USER;
+      payload: { userId?: string };
+    }
+  | {
+      type: typeof QUERY_KEY_TYPES.DAYS;
+      payload: { userId?: string };
+    }
+  | {
+      type: typeof QUERY_KEY_TYPES.SESSION;
+      payload: object;
+    };
+
+export const getQueryKey = (key: QueryKey): Nullable<string>[] => {
+  switch (key.type) {
+    case QUERY_KEY_TYPES.TASKS:
+      return [QUERY_KEY_TYPES.TASKS, key.payload.userId, key.payload.dayId];
+    case QUERY_KEY_TYPES.CATEGORIES:
+      return ['categories', key.payload.userId];
+    case QUERY_KEY_TYPES.USER:
+      return ['user', key.payload.userId];
+    case QUERY_KEY_TYPES.DAYS:
+      return ['days', key.payload.userId];
+    case QUERY_KEY_TYPES.SESSION:
+      return ['session'];
+    default:
+      throw new Error('Invalid query key type');
+  }
+};
 
 export const TIME = {
   SECONDS_IN_MINUTE: 60,
@@ -140,7 +188,7 @@ export const getLevelByExperience = (experience: number): number => {
     const prevExp = ACCUMULATED_EXP[i] ?? 0;
 
     if (experience < prevExp + (thresholdLevel - prevLevel) * expPerLevel) {
-      return prevLevel + (experience - prevExp) / expPerLevel;
+      return Math.floor(prevLevel + (experience - prevExp) / expPerLevel);
     }
   }
 

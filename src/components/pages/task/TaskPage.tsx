@@ -17,7 +17,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { FullScreenSpinner } from '@/components/ui/spinner';
 import { completeTask } from '@/lib/tasks';
-import { getExperience, ROUTES } from '@/consts';
+import { getExperience, getQueryKey, QUERY_KEY_TYPES, ROUTES } from '@/consts';
 import { api } from '../../../api/api';
 import { useAuth } from '../../../contexts/auth-context';
 import { ProgressBar } from './ProgressBar/ProgressBar';
@@ -57,8 +57,24 @@ export const TaskPage = () => {
   >({
     mutationFn: completeTask,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['tasks'], exact: false });
-      queryClient.invalidateQueries({ queryKey: ['user'], exact: false });
+      queryClient.invalidateQueries({
+        queryKey: getQueryKey({
+          type: QUERY_KEY_TYPES.TASKS,
+          payload: { userId: user?.id, dayId: task?.day_id },
+        }),
+      });
+      queryClient.invalidateQueries({
+        queryKey: getQueryKey({
+          type: QUERY_KEY_TYPES.USER,
+          payload: { userId: user?.id },
+        }),
+      });
+      queryClient.invalidateQueries({
+        queryKey: getQueryKey({
+          type: QUERY_KEY_TYPES.CATEGORIES,
+          payload: { userId: user?.id },
+        }),
+      });
     },
   });
 

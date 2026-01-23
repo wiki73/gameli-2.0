@@ -31,8 +31,10 @@ import { api } from '@/api/api';
 import { useAuth } from '@/contexts/auth-context';
 import {
   DEFAUL_CATEGORY_RATIO,
+  getQueryKey,
   MAX_CATEGORY_RATIO,
   MIN_CATEGORY_RATIO,
+  QUERY_KEY_TYPES,
 } from '@/consts';
 
 type Props = {
@@ -89,7 +91,12 @@ export const CategoryCreateEditDialog = ({
   const createMutation = useMutation({
     mutationFn: api.categories.create,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['categories', user?.id] });
+      queryClient.invalidateQueries({
+        queryKey: getQueryKey({
+          type: QUERY_KEY_TYPES.CATEGORIES,
+          payload: { userId: user?.id },
+        }),
+      });
       setIsOpen(false);
     },
     onError: err => {
@@ -100,7 +107,12 @@ export const CategoryCreateEditDialog = ({
   const updateMutation = useMutation({
     mutationFn: api.categories.update,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['categories', user?.id] });
+      queryClient.invalidateQueries({
+        queryKey: getQueryKey({
+          type: QUERY_KEY_TYPES.CATEGORIES,
+          payload: { userId: user?.id },
+        }),
+      });
       setIsOpen(false);
     },
     onError: err => {
