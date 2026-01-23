@@ -4,8 +4,7 @@ import {
   PersonIcon,
   StarIcon,
 } from '@radix-ui/react-icons';
-import { NavLink } from 'react-router';
-import { ROUTES } from '../../../constants/routes';
+import { ROUTES } from '@/consts';
 import { NavButton } from './NavButton/NavButton';
 
 type Link = {
@@ -21,7 +20,7 @@ const LINKS: Link[] = [
 ];
 
 export const Header = () => (
-  <header className='flex flex-row justify-between  bg-card rounded-full p-2'>
+  <header className='flex flex-row justify-between bg-card rounded-full p-2 fixed bottom-4 inset-x-4 md:relative md:inset-x-0 md:bottom-0 border border-border'>
     <nav className='flex gap-1'>
       {LINKS.map(link => (
         <NavButton
@@ -30,11 +29,10 @@ export const Header = () => (
         />
       ))}
     </nav>
-    <NavLink
-      className='rounded-full p-4 bg-background'
-      to={ROUTES.PROFILE}
-    >
-      <PersonIcon />
-    </NavLink>
+    <NavButton
+      className='md:aspect-square'
+      href={ROUTES.PROFILE}
+      icon={<PersonIcon />}
+    />
   </header>
 );

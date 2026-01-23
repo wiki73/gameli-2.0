@@ -6,7 +6,10 @@ import {
   CardTitle,
 } from '@ui/card';
 import type { Category } from '@/api/categories/types';
-import { getColorBySubjectLevel } from '../../constants/colors';
+import {
+  getColorBySubjectLevel,
+  PROGRESS_BAR_ANIMATION_DURATIONS,
+} from '@/consts';
 import { DeleteCategoryModal } from '../widgets/CategoryBlock/DeleteCategoryModal/DeleteCategoryModal';
 import { TypographySmall } from '../ui/typography-small';
 import { CategoryCreateEditDialog } from '../widgets/CategoryBlock/CategoryCreateEditDialog/CategoryCreateEditDialog';
@@ -14,9 +17,10 @@ import { ProgressBar } from '../pages/task/ProgressBar/ProgressBar';
 
 type Props = {
   category: Category;
+  dayId?: string;
 };
 
-export const CategoryItem = ({ category }: Props) => (
+export const CategoryItem = ({ category, dayId }: Props) => (
   <Card
     className='flex flex-col justify-between'
     style={{
@@ -36,7 +40,7 @@ export const CategoryItem = ({ category }: Props) => (
       {category.experience > 0 && (
         <ProgressBar
           addedExperience={0}
-          animationDuration={1}
+          animationDuration={PROGRESS_BAR_ANIMATION_DURATIONS.SHORT}
           categoryLevel={category.level}
           currentExperience={category.experience}
         />
@@ -47,7 +51,10 @@ export const CategoryItem = ({ category }: Props) => (
           modeForm='EDIT'
         />
 
-        <DeleteCategoryModal id={category.id} />
+        <DeleteCategoryModal
+          dayId={dayId}
+          id={category.id}
+        />
       </div>
     </CardContent>
   </Card>

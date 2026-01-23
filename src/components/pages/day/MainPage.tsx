@@ -12,8 +12,9 @@ import dayjs from 'dayjs';
 import { TaskItem } from '@/components/entities/Task/Task';
 import type { Nullable } from '@/api/types';
 import { api } from '@/api/api';
-import { getFormattedDay, toCalendarDate } from '@/utils/date';
 import type { Day } from '@/api/days/types';
+import { getFormattedDay, toCalendarDate } from '@/lib/date';
+import { getQueryKey, QUERY_KEY_TYPES } from '@/consts';
 import { useAuth } from '../../../contexts/auth-context';
 import { CategoryBlock } from '../../widgets/CategoryBlock/CategoryBlock';
 import { DaySelection } from './DaySelection/DaySelection';
@@ -25,19 +26,28 @@ export const MainPage = () => {
   const [selectedDay, setSelectedDay] = useState<Nullable<Day>>();
 
   const { data: days, isPending: isDaysPending } = useQuery({
-    queryKey: ['days', user?.id],
+    queryKey: getQueryKey({
+      type: QUERY_KEY_TYPES.DAYS,
+      payload: { userId: user?.id ?? '' },
+    }),
     queryFn: () => api.days.getMany({ userId: user?.id ?? '' }),
     enabled: !!user?.id,
   });
 
   const { data: categories, isPending: isCategoriesPending } = useQuery({
-    queryKey: ['categories', user?.id],
+    queryKey: getQueryKey({
+      type: QUERY_KEY_TYPES.CATEGORIES,
+      payload: { userId: user?.id ?? '' },
+    }),
     queryFn: () => api.categories.getMany({ userId: user?.id ?? '' }),
     enabled: !!user?.id,
   });
 
   const { data: tasks, isLoading } = useQuery({
-    queryKey: ['tasks', user?.id, selectedDay],
+    queryKey: getQueryKey({
+      type: QUERY_KEY_TYPES.TASKS,
+      payload: { userId: user?.id ?? '', dayId: selectedDay?.id ?? '' },
+    }),
     queryFn: () =>
       api.tasks.getMany({
         userId: user?.id ?? '',
@@ -129,6 +139,7 @@ export const MainPage = () => {
       {!!categories && (
         <CategoryBlock
           categories={categories}
+          dayId={selectedDay?.id}
           isPending={isCategoriesPending}
         />
       )}

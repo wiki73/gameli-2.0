@@ -4,10 +4,10 @@ import { Button } from '@ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
 import { TaskCreateEditDialog } from '@/components/pages/day/TaskCreateEditDialog/TaskCreateEditDialog';
 import { DeleteTaskModal } from '@/components/pages/day/DeleteTaskModal/DeleteTaskModal';
-import { ROUTES } from '@/constants/routes';
 import type { Task } from '@/api/tasks/types';
 import type { Day } from '@/api/days/types';
 import { cn } from '@/lib/utils';
+import { ROUTES } from '@/consts';
 
 type Props = {
   task: Task;
@@ -54,7 +54,10 @@ export const TaskItem = ({ task, selectedDay, isBlocked }: Props) => {
             />
           </>
         )}
-        <DeleteTaskModal id={task.id} />
+        <DeleteTaskModal
+          dayId={selectedDay?.id}
+          id={task.id}
+        />
       </CardContent>
     </Card>
   );

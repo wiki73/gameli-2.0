@@ -8,11 +8,12 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { FullScreenSpinner } from '@/components/ui/spinner';
+import { getQueryKey, QUERY_KEY_TYPES } from '@/consts';
 import { LeaderList } from './LeaderList';
 
 export const LeaderBoard = () => {
   const { data: leaders, isPending } = useQuery({
-    queryKey: ['users'],
+    queryKey: getQueryKey({ type: QUERY_KEY_TYPES.USERS, payload: {} }),
     queryFn: api.auth.user.getMany,
   });
 

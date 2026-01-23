@@ -23,6 +23,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { api } from '@/api/api';
+import { getQueryKey, QUERY_KEY_TYPES } from '@/consts';
 import type { AuthError } from '@supabase/supabase-js';
 
 const TEXTS = {
@@ -41,12 +42,16 @@ const TEXTS = {
   LABEL_PASSWORD: 'Пароль',
 };
 
+const MIN_PASSWORD_LENGTH = 6;
+
 type Mode = 'LOGIN' | 'REGISTER';
 
 const formSchema = z.object({
   name: z.string().optional(),
   email: z.email('Некорректный формат почты'),
-  password: z.string().min(6, 'Пароль должен содержать минимум 6 символов'),
+  password: z
+    .string()
+    .min(MIN_PASSWORD_LENGTH, 'Пароль должен содержать минимум 6 символов'),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -75,8 +80,15 @@ export const AuthForm = () => {
   const loginMutation = useMutation({
     mutationFn: api.auth.login,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['session'] });
-      queryClient.invalidateQueries({ queryKey: ['user'] });
+      queryClient.invalidateQueries({
+        queryKey: getQueryKey({ type: QUERY_KEY_TYPES.SESSION, payload: {} }),
+      });
+      queryClient.invalidateQueries({
+        queryKey: getQueryKey({
+          type: QUERY_KEY_TYPES.USER,
+          payload: {},
+        }),
+      });
     },
     onError: (err: AuthError) => {
       if (err.code === 'invalid_credentials') {
@@ -90,8 +102,12 @@ export const AuthForm = () => {
   const registerMutation = useMutation({
     mutationFn: api.auth.register,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['session'] });
-      queryClient.invalidateQueries({ queryKey: ['user'] });
+      queryClient.invalidateQueries({
+        queryKey: getQueryKey({ type: QUERY_KEY_TYPES.SESSION, payload: {} }),
+      });
+      queryClient.invalidateQueries({
+        queryKey: getQueryKey({ type: QUERY_KEY_TYPES.USER, payload: {} }),
+      });
     },
     onError: err => {
       setError('root', { message: err.message });

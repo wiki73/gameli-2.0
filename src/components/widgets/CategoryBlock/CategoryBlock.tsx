@@ -13,9 +13,10 @@ import { CategoryCreateEditDialog } from './CategoryCreateEditDialog/CategoryCre
 type Props = {
   categories: Category[];
   isPending: boolean;
+  dayId?: string;
 };
 
-export const CategoryBlock = ({ categories, isPending }: Props) => {
+export const CategoryBlock = ({ categories, isPending, dayId }: Props) => {
   const hasCategories = !!categories?.length;
   const title = hasCategories ? 'Ваши категории' : 'Нет категорий';
   const description = hasCategories
@@ -33,6 +34,7 @@ export const CategoryBlock = ({ categories, isPending }: Props) => {
           {categories.map(category => (
             <CategoryItem
               category={category}
+              dayId={dayId}
               key={category.id}
             />
           ))}

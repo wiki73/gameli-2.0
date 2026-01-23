@@ -12,13 +12,17 @@ import {
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { api } from '@/api/api';
+import { getQueryKey, QUERY_KEY_TYPES } from '@/consts';
+import { useAuth } from '@/contexts/auth-context';
 
 type Props = {
   id: string;
+  dayId?: string;
 };
 
-export const DeleteCategoryModal = ({ id }: Props) => {
+export const DeleteCategoryModal = ({ id, dayId }: Props) => {
   const queryClient = useQueryClient();
+  const { user } = useAuth();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -33,8 +37,18 @@ export const DeleteCategoryModal = ({ id }: Props) => {
   const deleteMutation = useMutation({
     mutationFn: api.categories.delete,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['categories'], exact: false });
-      queryClient.invalidateQueries({ queryKey: ['tasks'], exact: false });
+      queryClient.invalidateQueries({
+        queryKey: getQueryKey({
+          type: QUERY_KEY_TYPES.CATEGORIES,
+          payload: { userId: user?.id ?? '' },
+        }),
+      });
+      queryClient.invalidateQueries({
+        queryKey: getQueryKey({
+          type: QUERY_KEY_TYPES.TASKS,
+          payload: { userId: user?.id ?? '', dayId: dayId ?? '' },
+        }),
+      });
       handleClose();
     },
   });

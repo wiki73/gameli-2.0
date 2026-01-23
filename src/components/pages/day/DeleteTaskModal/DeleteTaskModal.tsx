@@ -11,14 +11,16 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import { getQueryKey, QUERY_KEY_TYPES } from '@/consts';
 import { api } from '../../../../api/api';
 import { useAuth } from '../../../../contexts/auth-context';
 
 type Props = {
   id: string;
+  dayId?: string;
 };
 
-export const DeleteTaskModal = ({ id }: Props) => {
+export const DeleteTaskModal = ({ id, dayId }: Props) => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
@@ -34,7 +36,11 @@ export const DeleteTaskModal = ({ id }: Props) => {
     mutationFn: api.tasks.delete,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['tasks', user?.id],
+        queryKey: getQueryKey({
+          type: QUERY_KEY_TYPES.TASKS,
+          payload: { userId: user?.id ?? '', dayId: dayId ?? '' },
+        }),
+        exact: false,
       });
       handleClose();
     },

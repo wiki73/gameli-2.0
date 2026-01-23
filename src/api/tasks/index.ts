@@ -45,7 +45,7 @@ export const taskApi: TasksApiType = {
       throw new Error('updateTask: no fields to update');
     }
 
-    const { error } = await supabase.from('tasks').update({}).eq('id', id);
+    const { error } = await supabase.from('tasks').update(data).eq('id', id);
 
     if (error) throw error;
   },

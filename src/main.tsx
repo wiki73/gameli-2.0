@@ -5,8 +5,11 @@ import { Router } from '@/components/app/Router';
 import { UserLayout } from '@/components/layout/UserLayout';
 import { AuthProvider } from '@/contexts/auth-context/provider';
 import { QueryProvider } from '@/contexts/query-context/provider';
+import { setupOnlineSync } from './contexts/query-context/persist';
 import '@fontsource/inter/latin';
 import './index.css';
+
+setupOnlineSync();
 
 const root = createRoot(document.getElementById('root') as HTMLElement);
 

@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { supabaseConfig } from '@/config/env';
+import { supabaseConfig } from '@/consts';
 import { authApi } from './auth';
 import { categoryApi } from './categories';
 import { dayApi } from './days';

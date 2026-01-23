@@ -20,10 +20,10 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { api } from '@/api/api';
-import { getFormattedDay } from '@/utils/date';
 import { FullScreenSpinner } from '@/components/ui/spinner';
 import { Button } from '@/components/ui/button';
-import { ROUTES } from '@/constants/routes';
+import { getFormattedDay } from '@/lib/date';
+import { getQueryKey, QUERY_KEY_TYPES, ROUTES } from '@/consts';
 import { useAuth } from '../../../contexts/auth-context';
 
 type TaskChartDataItem = {
@@ -36,13 +36,19 @@ export const DashboardPage = () => {
   const { user } = useAuth();
 
   const { data: tasks, isPending: isPendingTasks } = useQuery({
-    queryKey: ['tasks', user?.id],
+    queryKey: getQueryKey({
+      type: QUERY_KEY_TYPES.USER_TASKS,
+      payload: { userId: user?.id ?? '' },
+    }),
     queryFn: () => api.tasks.getMany({ userId: user?.id ?? '' }),
     enabled: !!user?.id,
   });
 
   const { data: categories, isPending: isPendingCategories } = useQuery({
-    queryKey: ['categories', user?.id],
+    queryKey: getQueryKey({
+      type: QUERY_KEY_TYPES.CATEGORIES,
+      payload: { userId: user?.id ?? '' },
+    }),
     queryFn: () => api.categories.getMany({ userId: user?.id ?? '' }),
     enabled: !!user?.id,
   });

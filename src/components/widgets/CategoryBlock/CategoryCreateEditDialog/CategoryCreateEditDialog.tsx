@@ -29,22 +29,42 @@ import type { Category } from '@/api/categories/types';
 import { cn } from '@/lib/utils';
 import { api } from '@/api/api';
 import { useAuth } from '@/contexts/auth-context';
+import {
+  DEFAUL_CATEGORY_RATIO,
+  getQueryKey,
+  MAX_CATEGORY_RATIO,
+  MIN_CATEGORY_RATIO,
+  QUERY_KEY_TYPES,
+} from '@/consts';
 
 type Props = {
   modeForm?: 'CREATE' | 'EDIT';
   category?: Category;
 };
 
+export const NAME_MIN_LENGTH = 3;
+export const NAME_MAX_LENGTH = 50;
+export const DESCRIPTION_MAX_LENGTH = 200;
+
 const categoryFormSchema = z.object({
   name: z
     .string()
-    .min(3, 'Название должно содержать не менее 3 символов')
-    .max(50, 'Название должно содержать не более 50 символов'),
+    .min(
+      NAME_MIN_LENGTH,
+      `Название должно содержать не менее ${String(NAME_MIN_LENGTH)} символов`,
+    )
+    .max(
+      NAME_MAX_LENGTH,
+      `Название должно содержать не более ${String(NAME_MAX_LENGTH)} символов`,
+    ),
   description: z
     .string()
-    .max(200, 'Описание должно содержать не более 200 символов')
+    .max(
+      DESCRIPTION_MAX_LENGTH,
+      `Описание должно содержать не более ${String(DESCRIPTION_MAX_LENGTH)} символов`,
+    )
     .optional(),
-  ratio: z.number().min(1).max(5),
+  ratio: z.number().min(MIN_CATEGORY_RATIO).max(MAX_CATEGORY_RATIO),
 });
 
 type CategoryFormType = z.infer<typeof categoryFormSchema>;
@@ -62,7 +82,7 @@ export const CategoryCreateEditDialog = ({
     defaultValues: {
       name: category?.name ?? '',
       description: category?.description ?? '',
-      ratio: category?.ratio ?? 3,
+      ratio: category?.ratio ?? DEFAUL_CATEGORY_RATIO,
     },
   });
 
@@ -71,7 +91,12 @@ export const CategoryCreateEditDialog = ({
   const createMutation = useMutation({
     mutationFn: api.categories.create,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['categories', user?.id] });
+      queryClient.invalidateQueries({
+        queryKey: getQueryKey({
+          type: QUERY_KEY_TYPES.CATEGORIES,
+          payload: { userId: user?.id ?? '' },
+        }),
+      });
       setIsOpen(false);
     },
     onError: err => {
@@ -82,7 +107,12 @@ export const CategoryCreateEditDialog = ({
   const updateMutation = useMutation({
     mutationFn: api.categories.update,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['categories', user?.id] });
+      queryClient.invalidateQueries({
+        queryKey: getQueryKey({
+          type: QUERY_KEY_TYPES.CATEGORIES,
+          payload: { userId: user?.id ?? '' },
+        }),
+      });
       setIsOpen(false);
     },
     onError: err => {
@@ -210,11 +240,11 @@ export const CategoryCreateEditDialog = ({
                   <FormLabel>Коэффициент сложности</FormLabel>
                   <FormControl>
                     <Slider
-                      defaultValue={[3]}
+                      defaultValue={[DEFAUL_CATEGORY_RATIO]}
                       disabled={isPending}
                       itemType='number'
-                      max={5}
-                      min={1}
+                      max={MAX_CATEGORY_RATIO}
+                      min={MIN_CATEGORY_RATIO}
                       onValueChange={value => {
                         field.onChange(value?.[0]);
                       }}

@@ -1,6 +1,7 @@
 import { CheckIcon, LapTimerIcon, PauseIcon } from '@radix-ui/react-icons';
 import { useEffect } from 'react';
 import type { TaskState } from '@/components/pages/task/TaskPage';
+import { TIME } from '@/consts';
 
 type Props = {
   state: TaskState;
@@ -9,12 +10,14 @@ type Props = {
   taskId: string;
 };
 
+const POSITION = 2;
+
 export const Timer = ({ state: mode, time, setTime, taskId }: Props) => {
   useEffect(() => {
     if (mode !== 'TIMER') return;
     const interval = setInterval(() => {
       setTime(prev => prev + 1);
-    }, 1000);
+    }, TIME.SECOND);
     return () => {
       clearInterval(interval);
     };
@@ -24,9 +27,13 @@ export const Timer = ({ state: mode, time, setTime, taskId }: Props) => {
     localStorage.setItem(`timer_time_${taskId}`, time.toString());
   }, [time, taskId]);
 
-  const hours = String(Math.floor(time / 3600)).padStart(2, '0');
-  const minutes = String(Math.floor((time % 3600) / 60)).padStart(2, '0');
-  const seconds = String(time % 60).padStart(2, '0');
+  const hours = String(
+    Math.floor(time / TIME.MINUTE_IN_HOUR / TIME.SECONDS_IN_MINUTE),
+  ).padStart(POSITION, '0');
+  const minutes = String(
+    Math.floor((time % TIME.MINUTE_IN_HOUR) / TIME.SECONDS_IN_MINUTE),
+  ).padStart(POSITION, '0');
+  const seconds = String(time % TIME.SECONDS_IN_MINUTE).padStart(POSITION, '0');
 
   return (
     <div className='flex items-center justify-center flex-col gap-4'>

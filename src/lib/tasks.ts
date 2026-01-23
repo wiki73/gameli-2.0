@@ -1,5 +1,6 @@
 import { api } from '@/api/api';
-import { getLevelByExperience } from './level';
+import { getLevelByExperience, OFFLINE_MUTATIONS_TYPES } from '@/consts';
+import { enqueueMutation } from '@/contexts/query-context/persist';
 
 export const completeTask = async ({
   taskId,
@@ -12,18 +13,31 @@ export const completeTask = async ({
   taskId: string;
   categoryId: string;
   categoryCurrentExperience: number;
-  categoryCurrentLevel: number;
   userId: string;
   userCurrentExperience: number;
-  userCurrentLevel: number;
   earnedExperience: number;
 }) => {
+  if (!navigator.onLine) {
+    await enqueueMutation({
+      type: OFFLINE_MUTATIONS_TYPES.COMPLETE_TASK,
+      payload: {
+        taskId,
+        categoryId,
+        userId,
+        userCurrentExperience,
+        categoryCurrentExperience,
+        earnedExperience,
+      },
+    });
+    return { offline: true };
+  }
+
   const newCategoryExperience = categoryCurrentExperience + earnedExperience;
   const newUserExperience = userCurrentExperience + earnedExperience;
   const categoryLevel = getLevelByExperience(newCategoryExperience);
   const userLevel = getLevelByExperience(newUserExperience);
 
-  return Promise.all([
+  await Promise.all([
     api.tasks.update({
       id: taskId,
       data: {
@@ -45,4 +59,6 @@ export const completeTask = async ({
       },
     }),
   ]);
+
+  return { offline: false };
 };
