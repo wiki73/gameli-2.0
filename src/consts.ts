@@ -75,8 +75,10 @@ export const getQueryKey = (key: QueryKey): string[] => {
   switch (key.type) {
     case QUERY_KEY_TYPES.TASKS:
       return [QUERY_KEY_TYPES.TASKS, key.payload.userId, key.payload.dayId];
+    case QUERY_KEY_TYPES.TASK:
+      return [QUERY_KEY_TYPES.TASK, key.payload.taskId];
     case QUERY_KEY_TYPES.USER_TASKS:
-      return [QUERY_KEY_TYPES.TASKS, key.payload.userId];
+      return [QUERY_KEY_TYPES.USER_TASKS, key.payload.userId];
     case QUERY_KEY_TYPES.CATEGORIES:
       return [QUERY_KEY_TYPES.CATEGORIES, key.payload.userId];
     case QUERY_KEY_TYPES.USER:
