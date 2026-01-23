@@ -31,6 +31,7 @@ export const QUERY_KEY_TYPES = {
   TASK: 'task',
   USER_TASKS: 'user_tasks',
   CATEGORIES: 'categories',
+  CATEGORY: 'category',
   USER: 'user',
   USERS: 'users',
   DAYS: 'days',
@@ -53,6 +54,10 @@ export type QueryKey =
   | {
       type: typeof QUERY_KEY_TYPES.CATEGORIES;
       payload: { userId: string };
+    }
+  | {
+      type: typeof QUERY_KEY_TYPES.CATEGORY;
+      payload: { categoryId: string };
     }
   | {
       type: typeof QUERY_KEY_TYPES.USER;
@@ -81,6 +86,8 @@ export const getQueryKey = (key: QueryKey): string[] => {
       return [QUERY_KEY_TYPES.USER_TASKS, key.payload.userId];
     case QUERY_KEY_TYPES.CATEGORIES:
       return [QUERY_KEY_TYPES.CATEGORIES, key.payload.userId];
+    case QUERY_KEY_TYPES.CATEGORY:
+      return [QUERY_KEY_TYPES.CATEGORY, key.payload.categoryId];
     case QUERY_KEY_TYPES.USER:
       return [QUERY_KEY_TYPES.USER];
     case QUERY_KEY_TYPES.USERS:
@@ -198,7 +205,7 @@ export const getExperienceByLevel = (level: number): number => {
 };
 
 export const getLevelByExperience = (experience: number): number => {
-  if (!experience || experience <= 0) return 0;
+  if (!experience || experience <= 0) return 1;
 
   for (let i = 0; i < LEVEL_THRESHOLDS.length; i++) {
     const { level: thresholdLevel, expPerLevel } =

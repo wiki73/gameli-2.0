@@ -49,8 +49,8 @@ export const TaskPage = () => {
 
   const { data: category, isFetching: isCategoryFetching } = useQuery({
     queryKey: getQueryKey({
-      type: QUERY_KEY_TYPES.CATEGORIES,
-      payload: { userId: user?.id ?? '' },
+      type: QUERY_KEY_TYPES.CATEGORY,
+      payload: { categoryId: task?.category_id ?? '' },
     }),
     queryFn: () => api.categories.getOne({ id: task?.category_id ?? '' }),
     enabled: !!taskId,
