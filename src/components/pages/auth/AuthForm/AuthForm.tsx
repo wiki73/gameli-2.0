@@ -23,6 +23,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { api } from '@/api/api';
+import { getQueryKey, QUERY_KEY_TYPES } from '@/consts';
 import type { AuthError } from '@supabase/supabase-js';
 
 const TEXTS = {
@@ -79,8 +80,15 @@ export const AuthForm = () => {
   const loginMutation = useMutation({
     mutationFn: api.auth.login,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['session'] });
-      queryClient.invalidateQueries({ queryKey: ['user'] });
+      queryClient.invalidateQueries({
+        queryKey: getQueryKey({ type: QUERY_KEY_TYPES.SESSION, payload: {} }),
+      });
+      queryClient.invalidateQueries({
+        queryKey: getQueryKey({
+          type: QUERY_KEY_TYPES.USER,
+          payload: {},
+        }),
+      });
     },
     onError: (err: AuthError) => {
       if (err.code === 'invalid_credentials') {
@@ -94,8 +102,12 @@ export const AuthForm = () => {
   const registerMutation = useMutation({
     mutationFn: api.auth.register,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['session'] });
-      queryClient.invalidateQueries({ queryKey: ['user'] });
+      queryClient.invalidateQueries({
+        queryKey: getQueryKey({ type: QUERY_KEY_TYPES.SESSION, payload: {} }),
+      });
+      queryClient.invalidateQueries({
+        queryKey: getQueryKey({ type: QUERY_KEY_TYPES.USER, payload: {} }),
+      });
     },
     onError: err => {
       setError('root', { message: err.message });

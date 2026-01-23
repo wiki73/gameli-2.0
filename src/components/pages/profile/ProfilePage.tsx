@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { getColorBySubjectLevel } from '@/consts';
+import { getColorBySubjectLevel, getQueryKey, QUERY_KEY_TYPES } from '@/consts';
 import { api } from '../../../api/api';
 import { useAuth } from '../../../contexts/auth-context';
 
@@ -20,8 +20,12 @@ export const ProfilePage = () => {
   const logoutMutation = useMutation({
     mutationFn: api.auth.signOut,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['session'] });
-      queryClient.invalidateQueries({ queryKey: ['user'] });
+      queryClient.invalidateQueries({
+        queryKey: getQueryKey({ type: QUERY_KEY_TYPES.SESSION, payload: {} }),
+      });
+      queryClient.invalidateQueries({
+        queryKey: getQueryKey({ type: QUERY_KEY_TYPES.USER, payload: {} }),
+      });
     },
   });
 

@@ -39,13 +39,19 @@ export const TaskPage = () => {
   });
 
   const { data: task, isFetching } = useQuery({
-    queryKey: ['task', taskId],
+    queryKey: getQueryKey({
+      type: QUERY_KEY_TYPES.TASK,
+      payload: { taskId: taskId ?? '' },
+    }),
     queryFn: () => api.tasks.getOne({ id: taskId ?? '' }),
     enabled: !!taskId,
   });
 
   const { data: category, isFetching: isCategoryFetching } = useQuery({
-    queryKey: ['category', task],
+    queryKey: getQueryKey({
+      type: QUERY_KEY_TYPES.CATEGORIES,
+      payload: { userId: user?.id ?? '' },
+    }),
     queryFn: () => api.categories.getOne({ id: task?.category_id ?? '' }),
     enabled: !!taskId,
   });
@@ -60,19 +66,19 @@ export const TaskPage = () => {
       queryClient.invalidateQueries({
         queryKey: getQueryKey({
           type: QUERY_KEY_TYPES.TASKS,
-          payload: { userId: user?.id, dayId: task?.day_id },
+          payload: { userId: user?.id ?? '', dayId: task?.day_id ?? '' },
         }),
       });
       queryClient.invalidateQueries({
         queryKey: getQueryKey({
           type: QUERY_KEY_TYPES.USER,
-          payload: { userId: user?.id },
+          payload: {},
         }),
       });
       queryClient.invalidateQueries({
         queryKey: getQueryKey({
           type: QUERY_KEY_TYPES.CATEGORIES,
-          payload: { userId: user?.id },
+          payload: { userId: user?.id ?? '' },
         }),
       });
     },

@@ -94,7 +94,7 @@ export const CategoryCreateEditDialog = ({
       queryClient.invalidateQueries({
         queryKey: getQueryKey({
           type: QUERY_KEY_TYPES.CATEGORIES,
-          payload: { userId: user?.id },
+          payload: { userId: user?.id ?? '' },
         }),
       });
       setIsOpen(false);
@@ -110,7 +110,7 @@ export const CategoryCreateEditDialog = ({
       queryClient.invalidateQueries({
         queryKey: getQueryKey({
           type: QUERY_KEY_TYPES.CATEGORIES,
-          payload: { userId: user?.id },
+          payload: { userId: user?.id ?? '' },
         }),
       });
       setIsOpen(false);

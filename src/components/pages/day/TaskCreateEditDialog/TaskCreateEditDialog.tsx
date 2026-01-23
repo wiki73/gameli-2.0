@@ -35,7 +35,11 @@ import type { Task } from '@/api/tasks/types';
 import type { Day } from '@/api/days/types';
 import { api } from '@/api/api';
 import { useAuth } from '@/contexts/auth-context';
-import { OFFLINE_MUTATIONS_TYPES } from '@/consts';
+import {
+  getQueryKey,
+  OFFLINE_MUTATIONS_TYPES,
+  QUERY_KEY_TYPES,
+} from '@/consts';
 import { enqueueMutation } from '@/contexts/query-context/persist';
 
 type Props = {
@@ -93,7 +97,10 @@ export const TaskCreateEditDialog = ({
     }
   };
   const { data: categories, isPending } = useQuery({
-    queryKey: ['categories'],
+    queryKey: getQueryKey({
+      type: QUERY_KEY_TYPES.CATEGORIES,
+      payload: { userId: user?.id ?? '' },
+    }),
     queryFn: () => api.categories.getMany({ userId: user?.id ?? '' }),
     enabled: !!user?.id,
   });
@@ -117,8 +124,10 @@ export const TaskCreateEditDialog = ({
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['tasks', user?.id, selectedDay],
-        exact: false,
+        queryKey: getQueryKey({
+          type: QUERY_KEY_TYPES.TASKS,
+          payload: { userId: user?.id ?? '', dayId: selectedDay?.id ?? '' },
+        }),
       });
       setOpen(false);
     },
@@ -148,7 +157,10 @@ export const TaskCreateEditDialog = ({
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['tasks', user?.id, selectedDay],
+        queryKey: getQueryKey({
+          type: QUERY_KEY_TYPES.TASKS,
+          payload: { userId: user?.id ?? '', dayId: selectedDay?.id ?? '' },
+        }),
       });
       setOpen(false);
     },

@@ -54,7 +54,10 @@ export const TaskItem = ({ task, selectedDay, isBlocked }: Props) => {
             />
           </>
         )}
-        <DeleteTaskModal id={task.id} />
+        <DeleteTaskModal
+          dayId={selectedDay?.id}
+          id={task.id}
+        />
       </CardContent>
     </Card>
   );

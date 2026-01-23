@@ -28,7 +28,7 @@ export const MainPage = () => {
   const { data: days, isPending: isDaysPending } = useQuery({
     queryKey: getQueryKey({
       type: QUERY_KEY_TYPES.DAYS,
-      payload: { userId: user?.id },
+      payload: { userId: user?.id ?? '' },
     }),
     queryFn: () => api.days.getMany({ userId: user?.id ?? '' }),
     enabled: !!user?.id,
@@ -37,7 +37,7 @@ export const MainPage = () => {
   const { data: categories, isPending: isCategoriesPending } = useQuery({
     queryKey: getQueryKey({
       type: QUERY_KEY_TYPES.CATEGORIES,
-      payload: { userId: user?.id },
+      payload: { userId: user?.id ?? '' },
     }),
     queryFn: () => api.categories.getMany({ userId: user?.id ?? '' }),
     enabled: !!user?.id,
@@ -46,7 +46,7 @@ export const MainPage = () => {
   const { data: tasks, isLoading } = useQuery({
     queryKey: getQueryKey({
       type: QUERY_KEY_TYPES.TASKS,
-      payload: { userId: user?.id, dayId: selectedDay?.id },
+      payload: { userId: user?.id ?? '', dayId: selectedDay?.id ?? '' },
     }),
     queryFn: () =>
       api.tasks.getMany({
@@ -139,6 +139,7 @@ export const MainPage = () => {
       {!!categories && (
         <CategoryBlock
           categories={categories}
+          dayId={selectedDay?.id}
           isPending={isCategoriesPending}
         />
       )}

@@ -1,7 +1,13 @@
 /* eslint-disable no-console */
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
 import localforage from 'localforage';
-import { OFFLINE_MUTATIONS_TYPES, type OfflineMutation, TIME } from '@/consts';
+import {
+  getQueryKey,
+  OFFLINE_MUTATIONS_TYPES,
+  type OfflineMutation,
+  QUERY_KEY_TYPES,
+  TIME,
+} from '@/consts';
 import { api } from '@/api/api';
 import { queryClient } from './queryClient';
 
@@ -81,9 +87,31 @@ export function setupOnlineSync() {
 
     await clearQueue();
 
-    queryClient.invalidateQueries({ queryKey: ['days'], exact: false });
-    queryClient.invalidateQueries({ queryKey: ['tasks'], exact: false });
-    queryClient.invalidateQueries({ queryKey: ['categories'], exact: false });
+    queryClient.invalidateQueries({
+      queryKey: getQueryKey({
+        type: QUERY_KEY_TYPES.DAYS,
+        payload: {
+          userId: '',
+        },
+      }),
+      exact: false,
+    });
+    queryClient.invalidateQueries({
+      queryKey: getQueryKey({
+        type: QUERY_KEY_TYPES.TASKS,
+        payload: { userId: '', dayId: '' },
+      }),
+      exact: false,
+    });
+    queryClient.invalidateQueries({
+      queryKey: getQueryKey({
+        type: QUERY_KEY_TYPES.CATEGORIES,
+        payload: {
+          userId: '',
+        },
+      }),
+      exact: false,
+    });
 
     console.log('[Offline Sync] Очередь синхронизирована!');
   });

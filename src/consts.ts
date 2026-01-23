@@ -1,7 +1,6 @@
 import type { Category } from './api/categories/types';
 import type { Task } from './api/tasks/types';
 import type { User } from './api/auth/types';
-import type { Nullable } from './api/types';
 
 const getEnv = <K extends keyof ImportMetaEnv>(key: K): ImportMetaEnv[K] => {
   const value = import.meta.env[key];
@@ -29,8 +28,11 @@ export const ROUTES = {
 
 export const QUERY_KEY_TYPES = {
   TASKS: 'tasks',
+  TASK: 'task',
+  USER_TASKS: 'user_tasks',
   CATEGORIES: 'categories',
   USER: 'user',
+  USERS: 'users',
   DAYS: 'days',
   SESSION: 'session',
 } as const;
@@ -38,37 +40,49 @@ export const QUERY_KEY_TYPES = {
 export type QueryKey =
   | {
       type: typeof QUERY_KEY_TYPES.TASKS;
-      payload: { userId?: string; dayId?: string };
+      payload: { userId: string; dayId: string };
+    }
+  | {
+      type: typeof QUERY_KEY_TYPES.TASK;
+      payload: { taskId: string };
+    }
+  | {
+      type: typeof QUERY_KEY_TYPES.USER_TASKS;
+      payload: { userId: string };
     }
   | {
       type: typeof QUERY_KEY_TYPES.CATEGORIES;
-      payload: { userId?: string };
+      payload: { userId: string };
     }
   | {
       type: typeof QUERY_KEY_TYPES.USER;
-      payload: { userId?: string };
+      payload: object;
+    }
+  | {
+      type: typeof QUERY_KEY_TYPES.USERS;
+      payload: object;
     }
   | {
       type: typeof QUERY_KEY_TYPES.DAYS;
-      payload: { userId?: string };
+      payload: { userId: string };
     }
   | {
       type: typeof QUERY_KEY_TYPES.SESSION;
       payload: object;
     };
 
-export const getQueryKey = (key: QueryKey): Nullable<string>[] => {
+export const getQueryKey = (key: QueryKey): string[] => {
   switch (key.type) {
     case QUERY_KEY_TYPES.TASKS:
       return [QUERY_KEY_TYPES.TASKS, key.payload.userId, key.payload.dayId];
     case QUERY_KEY_TYPES.CATEGORIES:
-      return ['categories', key.payload.userId];
+      return [QUERY_KEY_TYPES.CATEGORIES, key.payload.userId];
     case QUERY_KEY_TYPES.USER:
-      return ['user', key.payload.userId];
+      return [QUERY_KEY_TYPES.USER];
     case QUERY_KEY_TYPES.DAYS:
-      return ['days', key.payload.userId];
+      return [QUERY_KEY_TYPES.DAYS, key.payload.userId];
     case QUERY_KEY_TYPES.SESSION:
-      return ['session'];
+      return [QUERY_KEY_TYPES.SESSION];
     default:
       throw new Error('Invalid query key type');
   }

@@ -10,6 +10,7 @@ import type { Day } from '@/api/days/types';
 import type { Nullable } from '@/api/types';
 import { toCalendarDate } from '@/lib/date';
 import { enqueueMutation } from '@/contexts/query-context/persist';
+import { getQueryKey, QUERY_KEY_TYPES } from '@/consts';
 
 type Props = {
   onSuccess: (date: Day) => void;
@@ -41,13 +42,26 @@ export const DaySelection = ({ onSuccess, selectedDay, days }: Props) => {
     },
     onMutate: () => {
       queryClient.invalidateQueries({
-        queryKey: ['days', user?.id],
+        queryKey: getQueryKey({
+          type: QUERY_KEY_TYPES.DAYS,
+          payload: { userId: user?.id ?? '' },
+        }),
         exact: false,
       });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['tasks', user?.id],
+        queryKey: getQueryKey({
+          type: QUERY_KEY_TYPES.TASKS,
+          payload: { userId: user?.id ?? '', dayId: selectedDay?.id ?? '' },
+        }),
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: getQueryKey({
+          type: QUERY_KEY_TYPES.DAYS,
+          payload: { userId: user?.id ?? '' },
+        }),
         exact: false,
       });
     },
@@ -81,7 +95,10 @@ export const DaySelection = ({ onSuccess, selectedDay, days }: Props) => {
     } else {
       onSuccess(day);
       queryClient.invalidateQueries({
-        queryKey: ['tasks', user?.id, day],
+        queryKey: getQueryKey({
+          type: QUERY_KEY_TYPES.TASKS,
+          payload: { userId: user?.id ?? '', dayId: day?.id ?? '' },
+        }),
         exact: false,
       });
     }

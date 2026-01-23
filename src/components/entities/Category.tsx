@@ -17,9 +17,10 @@ import { ProgressBar } from '../pages/task/ProgressBar/ProgressBar';
 
 type Props = {
   category: Category;
+  dayId?: string;
 };
 
-export const CategoryItem = ({ category }: Props) => (
+export const CategoryItem = ({ category, dayId }: Props) => (
   <Card
     className='flex flex-col justify-between'
     style={{
@@ -50,7 +51,10 @@ export const CategoryItem = ({ category }: Props) => (
           modeForm='EDIT'
         />
 
-        <DeleteCategoryModal id={category.id} />
+        <DeleteCategoryModal
+          dayId={dayId}
+          id={category.id}
+        />
       </div>
     </CardContent>
   </Card>

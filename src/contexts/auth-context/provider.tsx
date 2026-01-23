@@ -9,7 +9,11 @@ import {
 import localforage from 'localforage';
 import { api, supabase } from '@/api/api';
 import type { User } from '@/api/auth/types';
-import { OFFLINE_MUTATIONS_TYPES } from '@/consts';
+import {
+  getQueryKey,
+  OFFLINE_MUTATIONS_TYPES,
+  QUERY_KEY_TYPES,
+} from '@/consts';
 import type { Nullable } from '@/api/types';
 import { enqueueMutation, setupOnlineSync } from '../query-context/persist';
 import { AuthContext } from '.';
@@ -38,7 +42,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     isLoading: sessionLoading,
     error: sessionError,
   } = useQuery({
-    queryKey: ['session'],
+    queryKey: getQueryKey({ type: QUERY_KEY_TYPES.SESSION, payload: {} }),
     queryFn: api.auth.session.get,
     staleTime: Infinity,
     retry: 1,
@@ -50,7 +54,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     isLoading: userLoading,
     error: userError,
   } = useQuery({
-    queryKey: ['user', session?.user?.id],
+    queryKey: getQueryKey({ type: QUERY_KEY_TYPES.USER, payload: {} }),
     queryFn: () => api.auth.user.get(session?.user?.id ?? ''),
     enabled: !!session?.user?.id && navigator.onLine,
     initialData: offlineUser,
@@ -115,8 +119,12 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     const { data: listener } = supabase.auth.onAuthStateChange(() => {
-      queryClient.invalidateQueries({ queryKey: ['session'] });
-      queryClient.invalidateQueries({ queryKey: ['user'] });
+      queryClient.invalidateQueries({
+        queryKey: getQueryKey({ type: QUERY_KEY_TYPES.SESSION, payload: {} }),
+      });
+      queryClient.invalidateQueries({
+        queryKey: getQueryKey({ type: QUERY_KEY_TYPES.USER, payload: {} }),
+      });
     });
     return () => {
       listener.subscription.unsubscribe();
