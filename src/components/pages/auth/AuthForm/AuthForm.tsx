@@ -41,12 +41,16 @@ const TEXTS = {
   LABEL_PASSWORD: 'Пароль',
 };
 
+const MIN_PASSWORD_LENGTH = 6;
+
 type Mode = 'LOGIN' | 'REGISTER';
 
 const formSchema = z.object({
   name: z.string().optional(),
   email: z.email('Некорректный формат почты'),
-  password: z.string().min(6, 'Пароль должен содержать минимум 6 символов'),
+  password: z
+    .string()
+    .min(MIN_PASSWORD_LENGTH, 'Пароль должен содержать минимум 6 символов'),
 });
 
 type FormData = z.infer<typeof formSchema>;

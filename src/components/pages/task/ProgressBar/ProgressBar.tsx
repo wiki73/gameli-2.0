@@ -1,25 +1,35 @@
 import { motion } from 'framer-motion';
-import { getExperienceByLevel } from '@/utils/level';
+import {
+  getExperienceByLevel,
+  HUNDRED_PERCENT,
+  PROGRESS_BAR_ANIMATION_DURATIONS,
+} from '@/consts';
+
+export type AnimationDuration =
+  (typeof PROGRESS_BAR_ANIMATION_DURATIONS)[keyof typeof PROGRESS_BAR_ANIMATION_DURATIONS];
 
 type Props = {
   currentExperience: number;
   addedExperience: number;
   categoryLevel: number;
-  animationDuration?: number;
+  animationDuration?: AnimationDuration;
 };
 
 export const ProgressBar = ({
   currentExperience,
   addedExperience,
   categoryLevel,
-  animationDuration = 2.8,
+  animationDuration = PROGRESS_BAR_ANIMATION_DURATIONS.LONG,
 }: Props) => {
   const expToLevelUp = getExperienceByLevel(categoryLevel + 1);
 
-  const basePercent = Math.min((currentExperience / expToLevelUp) * 100, 100);
+  const basePercent = Math.min(
+    (currentExperience / expToLevelUp) * HUNDRED_PERCENT,
+    HUNDRED_PERCENT,
+  );
   const addedPercent = Math.min(
-    ((currentExperience + addedExperience) / expToLevelUp) * 100,
-    100,
+    ((currentExperience + addedExperience) / expToLevelUp) * HUNDRED_PERCENT,
+    HUNDRED_PERCENT,
   );
 
   return (

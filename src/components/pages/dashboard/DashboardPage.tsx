@@ -20,10 +20,10 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { api } from '@/api/api';
-import { getFormattedDay } from '@/utils/date';
 import { FullScreenSpinner } from '@/components/ui/spinner';
 import { Button } from '@/components/ui/button';
-import { ROUTES } from '@/constants/routes';
+import { getFormattedDay } from '@/lib/date';
+import { ROUTES } from '@/consts';
 import { useAuth } from '../../../contexts/auth-context';
 
 type TaskChartDataItem = {

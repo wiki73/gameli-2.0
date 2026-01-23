@@ -1,6 +1,5 @@
 import { AvatarIcon, ResetIcon } from '@radix-ui/react-icons';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { getColorBySubjectLevel } from '@/constants/colors';
 import {
   Card,
   CardContent,
@@ -10,6 +9,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { getColorBySubjectLevel } from '@/consts';
 import { api } from '../../../api/api';
 import { useAuth } from '../../../contexts/auth-context';
 

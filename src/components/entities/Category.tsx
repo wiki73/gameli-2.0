@@ -6,7 +6,10 @@ import {
   CardTitle,
 } from '@ui/card';
 import type { Category } from '@/api/categories/types';
-import { getColorBySubjectLevel } from '../../constants/colors';
+import {
+  getColorBySubjectLevel,
+  PROGRESS_BAR_ANIMATION_DURATIONS,
+} from '@/consts';
 import { DeleteCategoryModal } from '../widgets/CategoryBlock/DeleteCategoryModal/DeleteCategoryModal';
 import { TypographySmall } from '../ui/typography-small';
 import { CategoryCreateEditDialog } from '../widgets/CategoryBlock/CategoryCreateEditDialog/CategoryCreateEditDialog';
@@ -36,7 +39,7 @@ export const CategoryItem = ({ category }: Props) => (
       {category.experience > 0 && (
         <ProgressBar
           addedExperience={0}
-          animationDuration={1}
+          animationDuration={PROGRESS_BAR_ANIMATION_DURATIONS.SHORT}
           categoryLevel={category.level}
           currentExperience={category.experience}
         />

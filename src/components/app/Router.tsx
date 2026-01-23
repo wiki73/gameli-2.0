@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router';
 import { lazy, Suspense } from 'react';
-import { ROUTES } from '@/constants/routes';
+import { ROUTES } from '@/consts';
 import { Logo } from '../common/Logo/Logo';
 
 const AuthPage = lazy(() =>

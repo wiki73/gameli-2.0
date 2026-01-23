@@ -35,6 +35,8 @@ import type { Task } from '@/api/tasks/types';
 import type { Day } from '@/api/days/types';
 import { api } from '@/api/api';
 import { useAuth } from '@/contexts/auth-context';
+import { OFFLINE_MUTATIONS_TYPES } from '@/consts';
+import { enqueueMutation } from '@/contexts/query-context/persist';
 
 type Props = {
   selectedDay?: Day;
@@ -42,13 +44,18 @@ type Props = {
   task?: Task;
 };
 
+const MIN_TITLE_LENGTH = 3;
+const MAX_TITLE_LENGTH = 50;
+
 const taskFormSchema = z.object({
   title: z
     .string()
-    .min(3, {
+    .min(MIN_TITLE_LENGTH, {
       error: 'Название задачи должно содержать не менее 3 символов',
     })
-    .max(50, { error: 'Название задачи не должно превышать 50 символов' }),
+    .max(MAX_TITLE_LENGTH, {
+      error: 'Название задачи не должно превышать 50 символов',
+    }),
   category_id: z.uuid({ error: 'Неверный формат идентификатора категории' }),
 });
 
@@ -91,8 +98,23 @@ export const TaskCreateEditDialog = ({
     enabled: !!user?.id,
   });
 
-  const createTaskMutation = useMutation({
-    mutationFn: api.tasks.create,
+  const createTaskMutation = useMutation<
+    { offline: boolean },
+    unknown,
+    { title: string; category_id: string; user_id: string; day_id: string }
+  >({
+    mutationFn: async data => {
+      if (!navigator.onLine) {
+        await enqueueMutation({
+          type: OFFLINE_MUTATIONS_TYPES.CREATE_TASK,
+          payload: data,
+        });
+        return { offline: true };
+      }
+
+      await api.tasks.create(data);
+      return { offline: false };
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['tasks', user?.id, selectedDay],
@@ -107,8 +129,23 @@ export const TaskCreateEditDialog = ({
     },
   });
 
-  const updateTaskMutation = useMutation({
-    mutationFn: api.tasks.update,
+  const updateTaskMutation = useMutation<
+    { offline: boolean },
+    unknown,
+    { id: string; data: Partial<Task> }
+  >({
+    mutationFn: async ({ id, data }) => {
+      if (!navigator.onLine) {
+        await enqueueMutation({
+          type: OFFLINE_MUTATIONS_TYPES.UPDATE_TASK,
+          payload: { id, data },
+        });
+        return { offline: true };
+      }
+
+      await api.tasks.update({ id, data });
+      return { offline: false };
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['tasks', user?.id, selectedDay],

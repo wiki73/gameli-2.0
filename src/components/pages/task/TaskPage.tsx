@@ -1,7 +1,7 @@
 import { Link, useNavigate, useParams } from 'react-router';
 import { CheckIcon } from '@radix-ui/react-icons';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useWindowSize } from 'react-use';
 import Confetti from 'react-confetti';
 import { useQueryClient } from '@tanstack/react-query';
@@ -16,10 +16,10 @@ import {
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { FullScreenSpinner } from '@/components/ui/spinner';
+import { completeTask } from '@/lib/tasks';
+import { getExperience, ROUTES } from '@/consts';
 import { api } from '../../../api/api';
-import { completeTask } from '../../../utils/tasks';
 import { useAuth } from '../../../contexts/auth-context';
-import { ROUTES } from '../../../constants/routes';
 import { ProgressBar } from './ProgressBar/ProgressBar';
 
 export type TaskState = 'TIMER' | 'PAUSE' | 'COMPLETE';
@@ -32,7 +32,6 @@ export const TaskPage = () => {
   const navigate = useNavigate();
 
   const [taskState, setTaskState] = useState<TaskState>('TIMER');
-  const [experience, setExperience] = useState(0);
   const [showEffect, setShowEffect] = useState(false);
   const [time, setTime] = useState(() => {
     const saved = localStorage.getItem(`timer_time_${String(taskId)}`);
@@ -51,7 +50,11 @@ export const TaskPage = () => {
     enabled: !!taskId,
   });
 
-  const completeTaskMutation = useMutation({
+  const completeTaskMutation = useMutation<
+    { offline: boolean },
+    unknown,
+    Parameters<typeof completeTask>[0]
+  >({
     mutationFn: completeTask,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'], exact: false });
@@ -65,44 +68,22 @@ export const TaskPage = () => {
     }
   }, [navigate, task?.is_done]);
 
-  const getTimeIntervarRatio = useCallback(() => {
-    const min = Math.trunc(time / 60);
-    if (min <= 15) {
-      return 0.75;
-    } else if (min <= 30) {
-      return 1;
-    } else if (min <= 60) {
-      return 1.25;
-    } else if (min <= 90) {
-      return 1.5;
-    } else {
-      return 2;
-    }
-  }, [time]);
-
-  const getExp = useCallback(() => {
-    const categoryRatio = category?.ratio;
-    const timeIntervarRatio = getTimeIntervarRatio();
-    if (!categoryRatio) return 0;
-    const res = Math.round((time * categoryRatio * timeIntervarRatio) / 100);
-
-    return res;
-  }, [category?.ratio, getTimeIntervarRatio, time]);
+  const experience = useMemo(
+    () => getExperience(time, category?.ratio),
+    [time, category?.ratio],
+  );
 
   const handelSubmit = () => {
     if (!task || !user) return;
     setTaskState('COMPLETE');
-    setExperience(getExp());
     setShowEffect(true);
     completeTaskMutation.mutate({
       taskId: task.id,
       categoryId: task.category_id,
       categoryCurrentExperience: category?.experience || 0,
-      categoryCurrentLevel: category?.level || 0,
       userId: user.id,
       userCurrentExperience: user.exp || 0,
-      userCurrentLevel: user.level || 0,
-      earnedExperience: getExp(),
+      earnedExperience: experience,
     });
   };
 

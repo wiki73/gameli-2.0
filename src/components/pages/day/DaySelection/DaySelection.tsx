@@ -7,8 +7,9 @@ import { api } from '@/api/api';
 import { useAuth } from '@/contexts/auth-context';
 import { Button } from '@/components/ui/button';
 import type { Day } from '@/api/days/types';
-import { toCalendarDate } from '@/utils/date';
 import type { Nullable } from '@/api/types';
+import { toCalendarDate } from '@/lib/date';
+import { enqueueMutation } from '@/contexts/query-context/persist';
 
 type Props = {
   onSuccess: (date: Day) => void;
@@ -23,8 +24,21 @@ export const DaySelection = ({ onSuccess, selectedDay, days }: Props) => {
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const createDayListMutation = useMutation({
-    mutationFn: api.days.create,
+  const createDayListMutation = useMutation<
+    { offline: boolean },
+    unknown,
+    { userId: string; date: Date }
+  >({
+    mutationFn: async dayData => {
+      if (!navigator.onLine) {
+        await enqueueMutation({ type: 'createDay', payload: dayData });
+        return { offline: true };
+      }
+
+      await api.days.create(dayData);
+
+      return { offline: false };
+    },
     onMutate: () => {
       queryClient.invalidateQueries({
         queryKey: ['days', user?.id],

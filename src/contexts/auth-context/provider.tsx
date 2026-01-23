@@ -1,11 +1,37 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { type PropsWithChildren, useCallback, useEffect, useMemo } from 'react';
+import {
+  type PropsWithChildren,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+import localforage from 'localforage';
 import { api, supabase } from '@/api/api';
 import type { User } from '@/api/auth/types';
+import { OFFLINE_MUTATIONS_TYPES } from '@/consts';
+import type { Nullable } from '@/api/types';
+import { enqueueMutation, setupOnlineSync } from '../query-context/persist';
 import { AuthContext } from '.';
+
+const USER_STORAGE_KEY = 'offline_user';
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const queryClient = useQueryClient();
+  const [offlineUser, setOfflineUser] = useState<Nullable<User>>(null);
+
+  useEffect(() => {
+    const loadOfflineUser = async () => {
+      const stored = await localforage.getItem<User>(USER_STORAGE_KEY);
+      if (stored) setOfflineUser(stored);
+    };
+    loadOfflineUser();
+  }, []);
+
+  const handleOfflineUser = async (user: Nullable<User>) => {
+    await localforage.setItem(USER_STORAGE_KEY, user);
+    setOfflineUser(user);
+  };
 
   const {
     data: session,
@@ -15,6 +41,8 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     queryKey: ['session'],
     queryFn: api.auth.session.get,
     staleTime: Infinity,
+    retry: 1,
+    initialData: null,
   });
 
   const {
@@ -24,17 +52,34 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   } = useQuery({
     queryKey: ['user', session?.user?.id],
     queryFn: () => api.auth.user.get(session?.user?.id ?? ''),
-    enabled: !!session?.user?.id,
+    enabled: !!session?.user?.id && navigator.onLine,
+    initialData: offlineUser,
   });
 
-  const updateUserMutation = useMutation({
-    mutationFn: api.auth.user.update,
-    onSuccess: data => {
-      if (!session?.user?.id) return;
-      queryClient.setQueryData(['user', session.user.id], (prev: User) => ({
-        ...prev,
-        ...data,
-      }));
+  const updateUserMutation = useMutation<
+    { offline: boolean },
+    unknown,
+    { userId: string; data: Partial<User> }
+  >({
+    mutationFn: async ({ userId, data }) => {
+      if (!navigator.onLine) {
+        await enqueueMutation({
+          type: OFFLINE_MUTATIONS_TYPES.UPDATE_USER,
+          payload: { userId, data },
+        });
+        const prev = queryClient.getQueryData<User>(['user', userId]);
+        if (prev) {
+          const updated = { ...prev, ...data };
+          queryClient.setQueryData(['user', userId], updated);
+          await handleOfflineUser(updated);
+        }
+        return { offline: true };
+      }
+
+      const updatedUser = await api.auth.user.update({ userId, data });
+      queryClient.setQueryData(['user', userId], updatedUser);
+      await handleOfflineUser(updatedUser);
+      return { offline: false };
     },
   });
 
@@ -51,32 +96,43 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   );
 
   useEffect(() => {
+    const handleOnline = async () => {
+      setupOnlineSync();
+
+      if (session?.user?.id) {
+        const freshUser = await api.auth.user.get(session.user.id);
+        queryClient.setQueryData(['user', session.user.id], freshUser);
+        if (freshUser) {
+          await handleOfflineUser(freshUser);
+        }
+      }
+    };
+    window.addEventListener('online', handleOnline);
+    return () => {
+      window.removeEventListener('online', handleOnline);
+    };
+  }, [queryClient, session?.user?.id]);
+
+  useEffect(() => {
     const { data: listener } = supabase.auth.onAuthStateChange(() => {
       queryClient.invalidateQueries({ queryKey: ['session'] });
       queryClient.invalidateQueries({ queryKey: ['user'] });
-      queryClient.invalidateQueries({ queryKey: ['categories'] });
     });
-
     return () => {
       listener.subscription.unsubscribe();
     };
   }, [queryClient]);
 
-  useEffect(() => {
-    if (userError) {
-      queryClient.invalidateQueries({ queryKey: ['session'] });
-    }
-  }, [userError, queryClient]);
-
   const value = useMemo(
     () => ({
-      user: user ?? null,
+      user: user ?? offlineUser ?? null,
       isLoading: sessionLoading || userLoading,
       error: sessionError || userError,
       updateUser: handleUpdateUser,
     }),
     [
       user,
+      offlineUser,
       sessionLoading,
       userLoading,
       sessionError,
