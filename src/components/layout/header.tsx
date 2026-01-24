@@ -4,6 +4,7 @@ import {
   PersonIcon,
   StarIcon,
 } from '@radix-ui/react-icons';
+import { PenBoxIcon } from 'lucide-react';
 import { ROUTES } from '@/consts';
 import { ModeToggle } from '@/components/widgets/mode-toggle';
 import { NavButton } from './nav-button';
@@ -18,6 +19,7 @@ const LINKS: Link[] = [
   { label: 'Статистика', href: ROUTES.DASHBOARD, icon: <DashboardIcon /> },
   { label: 'Планирование', href: ROUTES.MAIN, icon: <CalendarIcon /> },
   { label: 'Таблица лидеров', href: ROUTES.LEADERBOARD, icon: <StarIcon /> },
+  { label: 'Привычки', href: ROUTES.HABITS, icon: <PenBoxIcon /> },
 ];
 
 export const Header = () => (

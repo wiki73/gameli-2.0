@@ -39,6 +39,12 @@ const LeaderBoard = lazy(() =>
   })),
 );
 
+const HabitsPage = lazy(() =>
+  import('@/components/pages/habits/HabitsPage').then(module => ({
+    default: module.HabitsPage,
+  })),
+);
+
 export const Router = () => (
   <Suspense fallback={<Logo />}>
     <Routes>
@@ -66,6 +72,10 @@ export const Router = () => (
       <Route
         element={<LeaderBoard />}
         path={ROUTES.LEADERBOARD}
+      />
+      <Route
+        element={<HabitsPage />}
+        path={ROUTES.HABITS}
       />
     </Routes>
   </Suspense>

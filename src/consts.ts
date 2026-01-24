@@ -24,6 +24,7 @@ export const ROUTES = {
   DASHBOARD: '/dashboard',
   TASK: '/task/:taskId',
   LEADERBOARD: '/leaderboard',
+  HABITS: '/habits',
 } as const;
 
 export const QUERY_KEY_TYPES = {
