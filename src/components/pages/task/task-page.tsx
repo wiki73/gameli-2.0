@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useWindowSize } from 'react-use';
 import Confetti from 'react-confetti';
 import { useQueryClient } from '@tanstack/react-query';
-import { Timer } from '@/components/widgets/timer/Timer';
+import { Timer } from '@/components/widgets/CategoryBlock/timer';
 import {
   Card,
   CardContent,
@@ -21,8 +21,8 @@ import { getExperience, getQueryKey, QUERY_KEY_TYPES, ROUTES } from '@/consts';
 import type { TaskWithCategory } from '@/api/tasks/types';
 import type { Nullable } from '@/api/types';
 import { api } from '../../../api/api';
-import { useAuth } from '../../../contexts/auth-context';
-import { ProgressBar } from './ProgressBar/ProgressBar';
+import { useAuth } from '../../../contexts/auth';
+import { ProgressBar } from './progress-bar';
 
 export type TaskState = 'TIMER' | 'PAUSE' | 'COMPLETE';
 

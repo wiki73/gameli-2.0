@@ -10,10 +10,10 @@ import {
   getColorBySubjectLevel,
   PROGRESS_BAR_ANIMATION_DURATIONS,
 } from '@/consts';
-import { DeleteCategoryModal } from '../widgets/CategoryBlock/DeleteCategoryModal/DeleteCategoryModal';
+import { CategoryDeleteDialog } from '../widgets/CategoryBlock/category-delete-dialog';
 import { TypographySmall } from '../ui/typography-small';
-import { CategoryCreateEditDialog } from '../widgets/CategoryBlock/CategoryCreateEditDialog/CategoryCreateEditDialog';
-import { ProgressBar } from '../pages/task/ProgressBar/ProgressBar';
+import { CategoryCreateEditDialog } from '../widgets/CategoryBlock/category-create-edit-dialog';
+import { ProgressBar } from '../pages/task/progress-bar';
 
 type Props = {
   category: Category;
@@ -51,7 +51,7 @@ export const CategoryItem = ({ category, dayId }: Props) => (
           modeForm='EDIT'
         />
 
-        <DeleteCategoryModal
+        <CategoryDeleteDialog
           dayId={dayId}
           id={category.id}
         />

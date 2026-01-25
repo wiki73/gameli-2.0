@@ -1,6 +1,6 @@
 import { api } from '@/api/api';
 import { getLevelByExperience, OFFLINE_MUTATIONS_TYPES } from '@/consts';
-import { enqueueMutation } from '@/contexts/query-context/persist';
+import { enqueueMutation } from '@/contexts/query/persist';
 
 export const completeTask = async ({
   taskId,

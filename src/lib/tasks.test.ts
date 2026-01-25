@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('@/api/api', () => import('../../__tests__/__mocks__/api'));
 vi.mock(
-  '@/contexts/query-context/persist',
+  '@/contexts/query/persist',
   () => import('../../__tests__/__mocks__/offline'),
 );
 vi.mock('@/consts', () => ({
@@ -18,7 +18,7 @@ vi.mock('@/consts', () => ({
   getLevelByExperience: vi.fn().mockReturnValue(1),
 }));
 
-import { enqueueMutation } from '@/contexts/query-context/persist';
+import { enqueueMutation } from '@/contexts/query/persist';
 import { OFFLINE_MUTATIONS_TYPES } from '@/consts';
 import { api } from '@/api/api';
 import { completeTask } from './tasks';

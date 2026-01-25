@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router';
-import { Logo } from '@/components/common/Logo/Logo';
+import { Logo } from '@/components/widgets/logo';
 import { ROUTES } from '@/consts';
-import { useAuth } from '../../../contexts/auth-context';
-import { AuthForm } from './AuthForm/AuthForm';
+import { useAuth } from '../../../contexts/auth';
+import { AuthForm } from './auth-form';
 import type { To } from 'react-router';
 
 type LocationState = {

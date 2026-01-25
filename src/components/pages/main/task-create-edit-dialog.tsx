@@ -34,13 +34,13 @@ import { Spinner } from '@ui/spinner';
 import type { Task } from '@/api/tasks/types';
 import type { Day } from '@/api/days/types';
 import { api } from '@/api/api';
-import { useAuth } from '@/contexts/auth-context';
+import { useAuth } from '@/contexts/auth';
 import {
   getQueryKey,
   OFFLINE_MUTATIONS_TYPES,
   QUERY_KEY_TYPES,
 } from '@/consts';
-import { enqueueMutation } from '@/contexts/query-context/persist';
+import { enqueueMutation } from '@/contexts/query/persist';
 
 type Props = {
   selectedDay?: Day;

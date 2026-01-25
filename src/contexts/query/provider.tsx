@@ -1,6 +1,6 @@
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { TIME } from '@/consts';
-import { queryClient } from './queryClient';
+import { queryClient } from './query-client';
 import { persister } from './persist';
 import type { PropsWithChildren } from 'react';
 
