@@ -1,10 +1,12 @@
 name: Coverage Badge
 
 on:
-  push:
-    branches: [main]
   pull_request:
-    branches: [main]
+    branches:
+      - master
+  push:
+    branches:
+      - master
 
 jobs:
   coverage:
