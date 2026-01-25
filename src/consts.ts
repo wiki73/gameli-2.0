@@ -216,15 +216,19 @@ export const getLevelByExperience = (experience: number): number => {
     const prevExp = ACCUMULATED_EXP[i] ?? 0;
 
     if (experience < prevExp + (thresholdLevel - prevLevel) * expPerLevel) {
-      return Math.floor(prevLevel + (experience - prevExp) / expPerLevel);
+      return Math.max(
+        1,
+        Math.floor(prevLevel + (experience - prevExp) / expPerLevel),
+      );
     }
   }
 
   const last = LEVEL_THRESHOLDS[LEVEL_THRESHOLDS.length - 1];
   const lastExp = ACCUMULATED_EXP[ACCUMULATED_EXP.length - 1] ?? 0;
-  return (
+  return Math.max(
+    1,
     (last?.level ?? LEVELS.VERY_HIGH) +
-    (experience - lastExp) / (last?.expPerLevel ?? EXPERIENCE.VERY_HIGH)
+      (experience - lastExp) / (last?.expPerLevel ?? EXPERIENCE.VERY_HIGH),
   );
 };
 
