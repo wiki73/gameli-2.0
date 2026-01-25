@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
   const {
     data: session,
-    isLoading: sessionLoading,
+    isPending: sessionLoading,
     error: sessionError,
   } = useQuery({
     queryKey: getQueryKey({ type: QUERY_KEY_TYPES.SESSION, payload: {} }),
@@ -54,7 +54,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
   const {
     data: user,
-    isLoading: userLoading,
+    isPending: userLoading,
     error: userError,
   } = useQuery({
     queryKey: getQueryKey({ type: QUERY_KEY_TYPES.USER, payload: {} }),

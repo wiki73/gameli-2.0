@@ -1,7 +1,10 @@
-import { Route, Routes } from 'react-router';
+import { createBrowserRouter, Outlet } from 'react-router';
 import { lazy, Suspense } from 'react';
 import { ROUTES } from '@/consts';
+import { AuthProvider } from '@/contexts/auth/provider';
+import { QueryProvider } from '@/contexts/query/provider';
 import { Logo } from './widgets/logo';
+import { UserLayout } from './layout/user-layout';
 
 const AuthPage = lazy(() =>
   import('@/components/pages/auth/auth-page').then(module => ({
@@ -45,38 +48,32 @@ const HabitsPage = lazy(() =>
   })),
 );
 
-export const Router = () => (
-  <Suspense fallback={<Logo />}>
-    <Routes>
-      <Route
-        element={<MainPage />}
-        path={ROUTES.MAIN}
-      />
-      <Route
-        element={<AuthPage />}
-        path={ROUTES.AUTH}
-      />
-      <Route
-        element={<ProfilePage />}
-        path={ROUTES.PROFILE}
-      />
-
-      <Route
-        element={<DashboardPage />}
-        path={ROUTES.DASHBOARD}
-      />
-      <Route
-        element={<TaskPage />}
-        path={ROUTES.TASK}
-      />
-      <Route
-        element={<LeaderBoard />}
-        path={ROUTES.LEADERBOARD}
-      />
-      <Route
-        element={<HabitsPage />}
-        path={ROUTES.HABITS}
-      />
-    </Routes>
-  </Suspense>
-);
+export const router = createBrowserRouter([
+  {
+    element: (
+      <QueryProvider>
+        <AuthProvider>
+          <UserLayout>
+            <Suspense fallback={<Logo />}>
+              <main
+                className='h-full min-h-dvh w-full max-w-3xl mx-auto flex gap-4 flex-col'
+                style={{ viewTransitionName: 'page' }}
+              >
+                <Outlet />
+              </main>
+            </Suspense>
+          </UserLayout>
+        </AuthProvider>
+      </QueryProvider>
+    ),
+    children: [
+      { path: ROUTES.MAIN, element: <MainPage /> },
+      { path: ROUTES.AUTH, element: <AuthPage /> },
+      { path: ROUTES.PROFILE, element: <ProfilePage /> },
+      { path: ROUTES.DASHBOARD, element: <DashboardPage /> },
+      { path: ROUTES.TASK, element: <TaskPage /> },
+      { path: ROUTES.LEADERBOARD, element: <LeaderBoard /> },
+      { path: ROUTES.HABITS, element: <HabitsPage /> },
+    ],
+  },
+]);

@@ -29,9 +29,9 @@ export const UserLayout = ({ children }: PropsWithChildren) => {
     !location.pathname.includes(ROUTES.TASK.replace(':taskId', '')) && !!user;
 
   return (
-    <main className='h-full min-h-dvh w-full max-w-3xl mx-auto pt-4 md:pt-6 px-3 md:px-0 pb-24 md:pb-4 flex gap-4 flex-col'>
+    <div className='h-full min-h-dvh w-full max-w-3xl mx-auto pt-4 md:pt-6 px-3 md:px-0 pb-24 md:pb-4 flex gap-4 flex-col'>
       {showHeader && <Header />}
       {children}
-    </main>
+    </div>
   );
 };

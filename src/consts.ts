@@ -30,6 +30,7 @@ export const QUERY_KEY_TYPES = {
   USERS: 'users',
   DAYS: 'days',
   SESSION: 'session',
+  UNKNOWN: 'unknown',
 } as const;
 
 export type QueryKey =
@@ -59,7 +60,7 @@ export type QueryKey =
     }
   | {
       type: typeof QUERY_KEY_TYPES.USERS;
-      payload: object;
+      payload: { page: number };
     }
   | {
       type: typeof QUERY_KEY_TYPES.DAYS;
@@ -67,6 +68,10 @@ export type QueryKey =
     }
   | {
       type: typeof QUERY_KEY_TYPES.SESSION;
+      payload: object;
+    }
+  | {
+      type: typeof QUERY_KEY_TYPES.UNKNOWN;
       payload: object;
     };
 
@@ -85,13 +90,13 @@ export const getQueryKey = (key: QueryKey): string[] => {
     case QUERY_KEY_TYPES.USER:
       return [QUERY_KEY_TYPES.USER];
     case QUERY_KEY_TYPES.USERS:
-      return [QUERY_KEY_TYPES.USERS];
+      return [QUERY_KEY_TYPES.USERS, String(key.payload.page)];
     case QUERY_KEY_TYPES.DAYS:
       return [QUERY_KEY_TYPES.DAYS, key.payload.userId];
     case QUERY_KEY_TYPES.SESSION:
       return [QUERY_KEY_TYPES.SESSION];
     default:
-      throw new Error('Invalid query key type');
+      return [QUERY_KEY_TYPES.UNKNOWN];
   }
 };
 
@@ -167,6 +172,10 @@ for (let i = 0; i < LEVEL_THRESHOLDS.length; i++) {
 export const PROGRESS_BAR_ANIMATION_DURATIONS = {
   SHORT: 1,
   LONG: 2.8,
+} as const;
+
+export const PAGE_SIZES = {
+  [QUERY_KEY_TYPES.USERS]: 10,
 } as const;
 
 /**

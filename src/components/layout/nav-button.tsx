@@ -19,6 +19,7 @@ export const NavButton = ({ label, href, icon, className }: Props) => (
     }
     key={href}
     to={href}
+    viewTransition
   >
     {icon}
     {!!label && <span className='hidden md:flex'>{label}</span>}

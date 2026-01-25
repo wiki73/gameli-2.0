@@ -34,29 +34,29 @@ const chartConfig = {
   total: {
     label: 'Всего',
     theme: {
-      light: '#2563eb',
-      dark: '#dc2626',
+      light: 'var(--chart-light-3)',
+      dark: 'var(--chart-dark-1)',
     },
   },
   completed: {
     label: 'Выполнено',
     theme: {
-      light: '#dc2626',
-      dark: '#2563eb',
+      light: 'var(--chart-light-2)',
+      dark: 'var(--chart-dark-2)',
     },
   },
   level: {
     label: 'Уровень',
     theme: {
-      light: '#39FF0A',
-      dark: '##CAFF7E',
+      light: 'var(--chart-light-3)',
+      dark: 'var(--chart-dark-1)',
     },
   },
   experience: {
     label: 'Опыт',
     theme: {
-      light: '#FF00FF',
-      dark: '#FF00FF',
+      light: 'var(--chart-light-3)',
+      dark: 'var(--chart-dark-2)',
     },
   },
 } satisfies ChartConfig;

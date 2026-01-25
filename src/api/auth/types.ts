@@ -10,13 +10,21 @@ export type User = {
   level: number;
 };
 
+type GetManyUsersResponse = {
+  data: User[];
+  total: number;
+};
+
 export type AuthApiType = {
   session: {
     get: () => Promise<Nullable<Session> | null>;
   };
   user: {
     get: (userId: string) => Promise<Nullable<User>>;
-    getMany: () => Promise<User[]>;
+    getMany: (params: {
+      page: number;
+      limit: number;
+    }) => Promise<GetManyUsersResponse>;
     update: (params: { userId: string; data: Partial<User> }) => Promise<User>;
   };
   login: (params: {
