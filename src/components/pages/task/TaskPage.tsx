@@ -18,6 +18,8 @@ import { Button } from '@/components/ui/button';
 import { FullScreenSpinner } from '@/components/ui/spinner';
 import { completeTask } from '@/lib/tasks';
 import { getExperience, getQueryKey, QUERY_KEY_TYPES, ROUTES } from '@/consts';
+import type { TaskWithCategory } from '@/api/tasks/types';
+import type { Nullable } from '@/api/types';
 import { api } from '../../../api/api';
 import { useAuth } from '../../../contexts/auth-context';
 import { ProgressBar } from './ProgressBar/ProgressBar';
@@ -25,27 +27,28 @@ import { ProgressBar } from './ProgressBar/ProgressBar';
 export type TaskState = 'TIMER' | 'PAUSE' | 'COMPLETE';
 
 export const TaskPage = () => {
-  const { taskId } = useParams();
+  const { taskId = '' } = useParams();
   const { width, height } = useWindowSize();
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const [localTask, setLocalTask] = useState<Nullable<TaskWithCategory>>(() => {
+    const saved = localStorage.getItem('activeTask');
+    return saved ? (JSON.parse(saved) as TaskWithCategory) : null;
+  });
+
+  const { time = 0 } = localTask || {};
 
   const [taskState, setTaskState] = useState<TaskState>('TIMER');
-  const [showEffect, setShowEffect] = useState(false);
-  const [time, setTime] = useState(() => {
-    const saved = localStorage.getItem(`timer_time_${String(taskId)}`);
-    return saved ? Number(saved) : 0;
-  });
 
   const {
     data: {
-      title: taskTitle,
-      is_done: isTaskDone,
+      title: taskTitle = '',
+      is_done: isTaskDone = false,
       day_id: dayId = '',
       category: {
         id: categoryId = '',
-        name: categoryName,
+        name: categoryName = '',
         level: categoryLevel = 1,
         experience: categoryExperience = 0,
         ratio: categoryRatio = 1,
@@ -55,12 +58,24 @@ export const TaskPage = () => {
   } = useQuery({
     queryKey: getQueryKey({
       type: QUERY_KEY_TYPES.TASK,
-      payload: { taskId: taskId ?? '' },
+      payload: { taskId: taskId },
     }),
-    queryFn: () => api.tasks.getOne({ id: taskId ?? '' }),
+    queryFn: async () => {
+      const task = await api.tasks.getOne({ id: taskId });
+
+      if (task) {
+        setLocalTask({
+          ...task,
+          time,
+        });
+      }
+
+      return task;
+    },
     enabled: !!taskId,
     staleTime: 0,
     refetchOnMount: 'always',
+    initialData: localTask ? localTask : undefined,
   });
 
   const completeTaskMutation = useMutation<
@@ -97,6 +112,10 @@ export const TaskPage = () => {
     }
   }, [navigate, isTaskDone]);
 
+  useEffect(() => {
+    localStorage.setItem('activeTask', JSON.stringify(localTask));
+  }, [localTask]);
+
   const experience = useMemo(
     () => getExperience(time, categoryRatio),
     [time, categoryRatio],
@@ -105,10 +124,9 @@ export const TaskPage = () => {
   const handelSubmit = () => {
     if (!taskId || !user) return;
     setTaskState('COMPLETE');
-    setShowEffect(true);
     completeTaskMutation.mutate({
-      taskId: taskId,
-      categoryId: categoryId,
+      taskId,
+      categoryId,
       categoryCurrentExperience: categoryExperience,
       userId: user.id,
       userCurrentExperience: user.exp || 0,
@@ -141,9 +159,8 @@ export const TaskPage = () => {
         </CardHeader>
         <CardContent>
           <Timer
-            setTime={setTime}
+            setLocalTask={setLocalTask}
             state={taskState}
-            taskId={taskId}
             time={time}
           />
           {taskState === 'COMPLETE' && (
@@ -180,7 +197,7 @@ export const TaskPage = () => {
           )}
         </CardFooter>
       </Card>
-      {showEffect && (
+      {taskState === 'COMPLETE' && (
         <Confetti
           colors={[
             '#ff0a54',

@@ -1,31 +1,30 @@
 import { CheckIcon, LapTimerIcon, PauseIcon } from '@radix-ui/react-icons';
-import { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 import type { TaskState } from '@/components/pages/task/TaskPage';
 import { TIME } from '@/consts';
+import type { Nullable } from '@/api/types';
+import type { TaskWithCategory } from '@/api/tasks/types';
 
 type Props = {
   state: TaskState;
   time: number;
-  setTime: React.Dispatch<React.SetStateAction<number>>;
-  taskId: string;
+  setLocalTask: React.Dispatch<
+    React.SetStateAction<Nullable<TaskWithCategory>>
+  >;
 };
 
 const POSITION = 2;
 
-export const Timer = ({ state: mode, time, setTime, taskId }: Props) => {
+export const Timer = memo(({ state: mode, time, setLocalTask }: Props) => {
   useEffect(() => {
     if (mode !== 'TIMER') return;
     const interval = setInterval(() => {
-      setTime(prev => prev + 1);
+      setLocalTask(prev => (!!prev ? { ...prev, time: prev?.time + 1 } : prev));
     }, TIME.SECOND);
     return () => {
       clearInterval(interval);
     };
-  }, [mode, setTime]);
-
-  useEffect(() => {
-    localStorage.setItem(`timer_time_${taskId}`, time.toString());
-  }, [time, taskId]);
+  }, [mode, setLocalTask]);
 
   const hours = String(
     Math.floor(time / (TIME.SECONDS_IN_MINUTE * TIME.MINUTE_IN_HOUR)),
@@ -48,7 +47,7 @@ export const Timer = ({ state: mode, time, setTime, taskId }: Props) => {
         </>
       )}
 
-      <h2 className='text-4xl font-bold'>
+      <h2 className='text-4xl font-bold tabular-nums'>
         {hours} : {minutes} : {seconds}
       </h2>
 
@@ -58,4 +57,4 @@ export const Timer = ({ state: mode, time, setTime, taskId }: Props) => {
       {mode === 'COMPLETE' && <h3>😁Улыбнитесь себе!😁</h3>}
     </div>
   );
-};
+});
