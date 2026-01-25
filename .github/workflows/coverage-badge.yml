@@ -1,0 +1,63 @@
+name: Coverage Badge
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests with coverage
+        run: npm run coverage
+
+      - name: Read coverage percentage
+        id: coverage
+        run: |
+          # Берём процент покрытия по линиям из coverage-final.json
+          COVERAGE=$(jq '.total.lines.pct' coverage/coverage-final.json)
+          # Округляем до целого числа
+          COVERAGE_ROUNDED=$(printf "%.0f" $COVERAGE)
+          echo "Coverage percent: $COVERAGE_ROUNDED"
+          echo "coverage=$COVERAGE_ROUNDED" >> $GITHUB_OUTPUT
+
+      - name: Determine badge color
+        id: color
+        run: |
+          COVERAGE=${{ steps.coverage.outputs.coverage }}
+          if (( COVERAGE < 50 )); then
+            COLOR=red
+          elif (( COVERAGE < 80 )); then
+            COLOR=yellow
+          else
+            COLOR=brightgreen
+          fi
+          echo "color=$COLOR" >> $GITHUB_OUTPUT
+
+      - name: Generate coverage badge
+        run: |
+          COVERAGE=${{ steps.coverage.outputs.coverage }}
+          COLOR=${{ steps.color.outputs.color }}
+          npx coverage-badge -o coverage/badge.svg -f -b "coverage" -c $COLOR
+
+      - name: Commit and push badge
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: github-actions
+          author_email: github-actions@github.com
+          message: 'Update coverage badge'
+          add: 'coverage/badge.svg'
