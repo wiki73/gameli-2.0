@@ -40,7 +40,7 @@ const LeaderBoard = lazy(() =>
 );
 
 const HabitsPage = lazy(() =>
-  import('@/components/pages/habits/HabitsPage').then(module => ({
+  import('@/components/pages/habits/habits-page').then(module => ({
     default: module.HabitsPage,
   })),
 );

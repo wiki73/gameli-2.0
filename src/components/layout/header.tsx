@@ -16,14 +16,30 @@ type Link = {
 };
 
 const LINKS: Link[] = [
-  { label: 'Статистика', href: ROUTES.DASHBOARD, icon: <DashboardIcon /> },
-  { label: 'Планирование', href: ROUTES.MAIN, icon: <CalendarIcon /> },
-  { label: 'Таблица лидеров', href: ROUTES.LEADERBOARD, icon: <StarIcon /> },
-  { label: 'Привычки', href: ROUTES.HABITS, icon: <PenBoxIcon /> },
+  {
+    label: 'Статистика',
+    href: ROUTES.DASHBOARD,
+    icon: <DashboardIcon className='size-4' />,
+  },
+  {
+    label: 'Планирование',
+    href: ROUTES.MAIN,
+    icon: <CalendarIcon className='size-4' />,
+  },
+  {
+    label: 'Таблица лидеров',
+    href: ROUTES.LEADERBOARD,
+    icon: <StarIcon className='size-4' />,
+  },
+  {
+    label: 'Привычки',
+    href: ROUTES.HABITS,
+    icon: <PenBoxIcon className='size-4' />,
+  },
 ];
 
 export const Header = () => (
-  <header className='flex flex-row justify-between bg-card rounded-full p-2 fixed bottom-4 inset-x-4 md:relative md:inset-x-0 md:bottom-0 border border-border'>
+  <header className='z-50 flex flex-row justify-between bg-card rounded-full p-2 fixed bottom-4 inset-x-4 md:relative md:inset-x-0 md:bottom-0 border border-border'>
     <nav className='flex gap-1'>
       {LINKS.map(link => (
         <NavButton

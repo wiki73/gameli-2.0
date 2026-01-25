@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { HabitCard } from './HabitCard';
+import { HabitCard } from './habit-card';
 
 export const HabitsPage = () => {
   const habits = [

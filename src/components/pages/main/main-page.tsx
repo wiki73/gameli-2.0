@@ -124,7 +124,7 @@ export const MainPage = () => {
           <CardDescription>{description}</CardDescription>
         </CardHeader>
         {selectedDay && (
-          <CardContent className='grid md:grid-cols-2 gap-4'>
+          <CardContent className='grid md:grid-cols-2 gap-2'>
             {tasks?.map(task => (
               <TaskItem
                 isBlocked={dayjs(toCalendarDate(selectedDay.date)).isBefore(
