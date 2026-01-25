@@ -71,6 +71,8 @@ export const DashboardPage = () => {
     }),
     queryFn: () => api.tasks.getMany({ userId: user?.id ?? '' }),
     enabled: !!user?.id,
+    staleTime: 0,
+    refetchOnMount: 'always',
   });
 
   const { data: categories, isPending: isPendingCategories } = useQuery({
@@ -80,6 +82,8 @@ export const DashboardPage = () => {
     }),
     queryFn: () => api.categories.getMany({ userId: user?.id ?? '' }),
     enabled: !!user?.id,
+    staleTime: 0,
+    refetchOnMount: 'always',
   });
   const taskChartData = useMemo(
     () =>
@@ -181,7 +185,7 @@ export const DashboardPage = () => {
               tickMargin={10}
             />
             <ChartTooltip content={<ChartTooltipContent />} />
-            <ChartLegend content={<ChartLegendContent />} />
+            <ChartLegend content={<ChartLegendContent payload={undefined} />} />
             <Bar
               dataKey='total'
               fill='var(--color-total)'
@@ -211,7 +215,7 @@ export const DashboardPage = () => {
               tickMargin={10}
             />
             <ChartTooltip content={<ChartTooltipContent />} />
-            <ChartLegend content={<ChartLegendContent />} />
+            <ChartLegend content={<ChartLegendContent payload={undefined} />} />
             <Bar
               dataKey='level'
               fill='var(--color-level)'
@@ -236,7 +240,7 @@ export const DashboardPage = () => {
               tickMargin={10}
             />
             <ChartTooltip content={<ChartTooltipContent />} />
-            <ChartLegend content={<ChartLegendContent />} />
+            <ChartLegend content={<ChartLegendContent payload={undefined} />} />
             <Bar
               dataKey='experience'
               fill='var(--color-experience)'

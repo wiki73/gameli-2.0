@@ -15,6 +15,8 @@ export const LeaderBoard = () => {
   const { data: leaders, isPending } = useQuery({
     queryKey: getQueryKey({ type: QUERY_KEY_TYPES.USERS, payload: {} }),
     queryFn: api.auth.user.getMany,
+    staleTime: 0,
+    refetchOnMount: 'always',
   });
 
   if (isPending) {

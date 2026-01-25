@@ -38,22 +38,29 @@ export const TaskPage = () => {
     return saved ? Number(saved) : 0;
   });
 
-  const { data: task, isFetching } = useQuery({
+  const {
+    data: {
+      title: taskTitle,
+      is_done: isTaskDone,
+      day_id: dayId = '',
+      category: {
+        id: categoryId = '',
+        name: categoryName,
+        level: categoryLevel = 1,
+        experience: categoryExperience = 0,
+        ratio: categoryRatio = 1,
+      } = {},
+    } = {},
+    isFetching,
+  } = useQuery({
     queryKey: getQueryKey({
       type: QUERY_KEY_TYPES.TASK,
       payload: { taskId: taskId ?? '' },
     }),
     queryFn: () => api.tasks.getOne({ id: taskId ?? '' }),
     enabled: !!taskId,
-  });
-
-  const { data: category, isFetching: isCategoryFetching } = useQuery({
-    queryKey: getQueryKey({
-      type: QUERY_KEY_TYPES.CATEGORY,
-      payload: { categoryId: task?.category_id ?? '' },
-    }),
-    queryFn: () => api.categories.getOne({ id: task?.category_id ?? '' }),
-    enabled: !!taskId,
+    staleTime: 0,
+    refetchOnMount: 'always',
   });
 
   const completeTaskMutation = useMutation<
@@ -66,7 +73,7 @@ export const TaskPage = () => {
       queryClient.invalidateQueries({
         queryKey: getQueryKey({
           type: QUERY_KEY_TYPES.TASKS,
-          payload: { userId: user?.id ?? '', dayId: task?.day_id ?? '' },
+          payload: { userId: user?.id ?? '', dayId },
         }),
       });
       queryClient.invalidateQueries({
@@ -85,24 +92,24 @@ export const TaskPage = () => {
   });
 
   useEffect(() => {
-    if (task?.is_done) {
+    if (isTaskDone) {
       navigate(ROUTES.MAIN);
     }
-  }, [navigate, task?.is_done]);
+  }, [navigate, isTaskDone]);
 
   const experience = useMemo(
-    () => getExperience(time, category?.ratio),
-    [time, category?.ratio],
+    () => getExperience(time, categoryRatio),
+    [time, categoryRatio],
   );
 
   const handelSubmit = () => {
-    if (!task || !user) return;
+    if (!taskId || !user) return;
     setTaskState('COMPLETE');
     setShowEffect(true);
     completeTaskMutation.mutate({
-      taskId: task.id,
-      categoryId: task.category_id,
-      categoryCurrentExperience: category?.experience || 0,
+      taskId: taskId,
+      categoryId: categoryId,
+      categoryCurrentExperience: categoryExperience,
       userId: user.id,
       userCurrentExperience: user.exp || 0,
       earnedExperience: experience,
@@ -117,11 +124,11 @@ export const TaskPage = () => {
     }
   };
 
-  if (isFetching || isCategoryFetching) {
+  if (isFetching) {
     return <FullScreenSpinner />;
   }
 
-  if (!task || !category || !taskId) {
+  if (!taskId || !categoryId || !taskId) {
     return <div>Задача не найдена</div>;
   }
 
@@ -129,8 +136,8 @@ export const TaskPage = () => {
     <div className='fixed inset-0 flex justify-center items-center'>
       <Card className='z-10 max-w-md w-full'>
         <CardHeader className='text-center'>
-          <CardTitle>{task.title}</CardTitle>
-          <CardDescription>{category.name}</CardDescription>
+          <CardTitle>{taskTitle}</CardTitle>
+          <CardDescription>{categoryName}</CardDescription>
         </CardHeader>
         <CardContent>
           <Timer
@@ -144,8 +151,8 @@ export const TaskPage = () => {
               <h4>Заработанно {experience} опыта</h4>
               <ProgressBar
                 addedExperience={experience}
-                categoryLevel={category.level}
-                currentExperience={category.experience}
+                categoryLevel={categoryLevel}
+                currentExperience={categoryExperience}
               />
             </div>
           )}

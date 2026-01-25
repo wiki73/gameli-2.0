@@ -1,6 +1,6 @@
 import { supabase } from '../api';
 import { type TasksApiType } from './types';
-import type { Task } from './types';
+import type { TaskWithCategory, TaskWithDate } from './types';
 
 export const taskApi: TasksApiType = {
   getMany: async ({ userId, day_id }) => {
@@ -24,14 +24,25 @@ export const taskApi: TasksApiType = {
       throw error;
     }
 
-    return data as Task[];
+    return data as TaskWithDate[];
   },
   getOne: async ({ id }) => {
     const { data, error } = await supabase
       .from('tasks')
-      .select('*')
+      .select(
+        `
+      *,
+      category:categories (
+        id,
+        name,
+        level,
+        experience,
+        ratio
+      )
+    `,
+      )
       .eq('id', id)
-      .single<Task>();
+      .single<TaskWithCategory>();
 
     if (error) throw error;
     return data;

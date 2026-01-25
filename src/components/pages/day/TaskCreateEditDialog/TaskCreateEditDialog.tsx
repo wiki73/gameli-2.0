@@ -103,6 +103,8 @@ export const TaskCreateEditDialog = ({
     }),
     queryFn: () => api.categories.getMany({ userId: user?.id ?? '' }),
     enabled: !!user?.id,
+    staleTime: 0,
+    refetchOnMount: 'always',
   });
 
   const createTaskMutation = useMutation<
