@@ -1,9 +1,9 @@
 import { type PropsWithChildren, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { ROUTES } from '@/consts';
-import { useAuth } from '../../contexts/auth-context';
-import { Logo } from '../common/Logo/Logo';
-import { Header } from './Header/Header';
+import { useAuth } from '../../contexts/auth';
+import { Logo } from '../widgets/logo';
+import { Header } from './header';
 
 export const UserLayout = ({ children }: PropsWithChildren) => {
   const { user, isLoading } = useAuth();

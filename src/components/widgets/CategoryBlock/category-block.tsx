@@ -7,8 +7,8 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';
-import { CategoryItem } from '@/components/entities/Category';
-import { CategoryCreateEditDialog } from './CategoryCreateEditDialog/CategoryCreateEditDialog';
+import { CategoryItem } from '@/components/entities/category-item';
+import { CategoryCreateEditDialog } from './category-create-edit-dialog';
 
 type Props = {
   categories: Category[];

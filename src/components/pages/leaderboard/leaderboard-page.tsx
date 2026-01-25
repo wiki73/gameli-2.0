@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/card';
 import { FullScreenSpinner } from '@/components/ui/spinner';
 import { getQueryKey, QUERY_KEY_TYPES } from '@/consts';
-import { LeaderList } from './LeaderList';
+import { LeaderList } from './leaders-list';
 
 export const LeaderBoard = () => {
   const { data: leaders, isPending } = useQuery({

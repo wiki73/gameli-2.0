@@ -1,40 +1,40 @@
 import { Route, Routes } from 'react-router';
 import { lazy, Suspense } from 'react';
 import { ROUTES } from '@/consts';
-import { Logo } from '../common/Logo/Logo';
+import { Logo } from './widgets/logo';
 
 const AuthPage = lazy(() =>
-  import('@/components/pages/auth/AuthPage').then(module => ({
+  import('@/components/pages/auth/auth-page').then(module => ({
     default: module.AuthPage,
   })),
 );
 
 const DashboardPage = lazy(() =>
-  import('@/components/pages/dashboard/DashboardPage').then(module => ({
+  import('@/components/pages/dashboard/dashboard-page').then(module => ({
     default: module.DashboardPage,
   })),
 );
 
 const MainPage = lazy(() =>
-  import('@/components/pages/day/MainPage').then(module => ({
+  import('@/components/pages/main/main-page').then(module => ({
     default: module.MainPage,
   })),
 );
 
 const ProfilePage = lazy(() =>
-  import('@/components/pages/profile/ProfilePage').then(module => ({
+  import('@/components/pages/profile/profile-page').then(module => ({
     default: module.ProfilePage,
   })),
 );
 
 const TaskPage = lazy(() =>
-  import('@/components/pages/task/TaskPage').then(module => ({
+  import('@/components/pages/task/task-page').then(module => ({
     default: module.TaskPage,
   })),
 );
 
 const LeaderBoard = lazy(() =>
-  import('@/components/pages/leaderBoard/LeaderBoard').then(module => ({
+  import('@/components/pages/leaderboard/leaderboard-page').then(module => ({
     default: module.LeaderBoard,
   })),
 );

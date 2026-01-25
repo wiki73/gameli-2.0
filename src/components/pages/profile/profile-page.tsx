@@ -11,7 +11,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { getColorBySubjectLevel, getQueryKey, QUERY_KEY_TYPES } from '@/consts';
 import { api } from '../../../api/api';
-import { useAuth } from '../../../contexts/auth-context';
+import { useAuth } from '../../../contexts/auth';
 
 export const ProfilePage = () => {
   const { user } = useAuth();

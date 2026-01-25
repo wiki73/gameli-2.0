@@ -2,12 +2,12 @@ import { PlayIcon } from '@radix-ui/react-icons';
 import { useNavigate } from 'react-router';
 import { Button } from '@ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@ui/card';
-import { TaskCreateEditDialog } from '@/components/pages/day/TaskCreateEditDialog/TaskCreateEditDialog';
-import { DeleteTaskModal } from '@/components/pages/day/DeleteTaskModal/DeleteTaskModal';
+import { TaskCreateEditDialog } from '@/components/pages/main/task-create-edit-dialog';
 import type { Task } from '@/api/tasks/types';
 import type { Day } from '@/api/days/types';
 import { cn } from '@/lib/utils';
 import { ROUTES } from '@/consts';
+import { TaskDeleteDialog } from './task-delete-dialog';
 
 type Props = {
   task: Task;
@@ -54,7 +54,7 @@ export const TaskItem = ({ task, selectedDay, isBlocked }: Props) => {
             />
           </>
         )}
-        <DeleteTaskModal
+        <TaskDeleteDialog
           dayId={selectedDay?.id}
           id={task.id}
         />

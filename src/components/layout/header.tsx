@@ -6,7 +6,7 @@ import {
 } from '@radix-ui/react-icons';
 import { ROUTES } from '@/consts';
 import { ModeToggle } from '@/components/widgets/mode-toggle';
-import { NavButton } from './NavButton/NavButton';
+import { NavButton } from './nav-button';
 
 type Link = {
   label: string;

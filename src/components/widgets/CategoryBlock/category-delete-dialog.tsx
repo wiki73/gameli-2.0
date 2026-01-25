@@ -13,14 +13,14 @@ import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { api } from '@/api/api';
 import { getQueryKey, QUERY_KEY_TYPES } from '@/consts';
-import { useAuth } from '@/contexts/auth-context';
+import { useAuth } from '@/contexts/auth';
 
 type Props = {
   id: string;
   dayId?: string;
 };
 
-export const DeleteCategoryModal = ({ id, dayId }: Props) => {
+export const CategoryDeleteDialog = ({ id, dayId }: Props) => {
   const queryClient = useQueryClient();
   const { user } = useAuth();
 

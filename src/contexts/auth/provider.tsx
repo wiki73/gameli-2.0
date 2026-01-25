@@ -15,7 +15,7 @@ import {
   QUERY_KEY_TYPES,
 } from '@/consts';
 import type { Nullable } from '@/api/types';
-import { enqueueMutation, setupOnlineSync } from '../query-context/persist';
+import { enqueueMutation, setupOnlineSync } from '../query/persist';
 import { AuthContext } from '.';
 
 const USER_STORAGE_KEY = 'offline_user';

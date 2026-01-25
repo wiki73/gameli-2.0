@@ -12,15 +12,15 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { getQueryKey, QUERY_KEY_TYPES } from '@/consts';
-import { api } from '../../../../api/api';
-import { useAuth } from '../../../../contexts/auth-context';
+import { useAuth } from '@/contexts/auth';
+import { api } from '@/api/api';
 
 type Props = {
   id: string;
   dayId?: string;
 };
 
-export const DeleteTaskModal = ({ id, dayId }: Props) => {
+export const TaskDeleteDialog = ({ id, dayId }: Props) => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);

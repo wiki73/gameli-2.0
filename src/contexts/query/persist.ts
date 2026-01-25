@@ -9,7 +9,7 @@ import {
   TIME,
 } from '@/consts';
 import { api } from '@/api/api';
-import { queryClient } from './queryClient';
+import { queryClient } from './query-client';
 
 export const store = localforage.createInstance({
   name: 'offline-mutations',

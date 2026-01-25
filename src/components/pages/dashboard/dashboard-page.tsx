@@ -22,7 +22,7 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart';
 import { type ChartConfig } from '@/components/ui/chart';
-import { useAuth } from '../../../contexts/auth-context';
+import { useAuth } from '../../../contexts/auth';
 
 type TaskChartDataItem = {
   name: string;

@@ -1,6 +1,6 @@
 import { CheckIcon, LapTimerIcon, PauseIcon } from '@radix-ui/react-icons';
 import { memo, useEffect } from 'react';
-import type { TaskState } from '@/components/pages/task/TaskPage';
+import type { TaskState } from '@/components/pages/task/task-page';
 import { TIME } from '@/consts';
 import type { Nullable } from '@/api/types';
 import type { TaskWithCategory } from '@/api/tasks/types';

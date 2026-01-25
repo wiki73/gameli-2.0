@@ -28,7 +28,7 @@ import { Spinner } from '@ui/spinner';
 import type { Category } from '@/api/categories/types';
 import { cn } from '@/lib/utils';
 import { api } from '@/api/api';
-import { useAuth } from '@/contexts/auth-context';
+import { useAuth } from '@/contexts/auth';
 import {
   DEFAUL_CATEGORY_RATIO,
   getQueryKey,

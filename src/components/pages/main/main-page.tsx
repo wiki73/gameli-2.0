@@ -9,16 +9,16 @@ import {
 } from '@ui/card';
 import { FullScreenSpinner, Spinner } from '@ui/spinner';
 import dayjs from 'dayjs';
-import { TaskItem } from '@/components/entities/Task/Task';
+import { TaskItem } from '@/components/entities/task';
 import type { Nullable } from '@/api/types';
 import { api } from '@/api/api';
 import type { Day } from '@/api/days/types';
 import { getFormattedDay, toCalendarDate } from '@/lib/date';
 import { getQueryKey, QUERY_KEY_TYPES } from '@/consts';
-import { useAuth } from '../../../contexts/auth-context';
-import { CategoryBlock } from '../../widgets/CategoryBlock/CategoryBlock';
-import { DaySelection } from './DaySelection/DaySelection';
-import { TaskCreateEditDialog } from './TaskCreateEditDialog/TaskCreateEditDialog';
+import { useAuth } from '../../../contexts/auth';
+import { CategoryBlock } from '../../widgets/CategoryBlock/category-block';
+import { DaySelection } from './day-selection';
+import { TaskCreateEditDialog } from './task-create-edit-dialog';
 
 export const MainPage = () => {
   const { user } = useAuth();

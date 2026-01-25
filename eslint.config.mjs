@@ -95,6 +95,16 @@ export default defineConfig([
       },
     },
     rules: {
+      'unicorn/filename-case': [
+        'error',
+        {
+          cases: {
+            kebabCase: true,
+          },
+        },
+      ],
+      'unicorn/prefer-modern-dom-apis': 'error',
+      'import/no-unused-modules': 'error',
       'arrow-body-style': ['error', 'as-needed'],
       'react/react-in-jsx-scope': 'off',
       'react/jsx-uses-react': 'off',

@@ -4,12 +4,12 @@ import { Calendar } from '@ui/calendar';
 import { Calendar1 } from 'lucide-react';
 import dayjs from 'dayjs';
 import { api } from '@/api/api';
-import { useAuth } from '@/contexts/auth-context';
+import { useAuth } from '@/contexts/auth';
 import { Button } from '@/components/ui/button';
 import type { Day } from '@/api/days/types';
 import type { Nullable } from '@/api/types';
 import { toCalendarDate } from '@/lib/date';
-import { enqueueMutation } from '@/contexts/query-context/persist';
+import { enqueueMutation } from '@/contexts/query/persist';
 import { getQueryKey, QUERY_KEY_TYPES } from '@/consts';
 
 type Props = {
