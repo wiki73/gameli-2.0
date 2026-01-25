@@ -28,10 +28,10 @@ export const Timer = ({ state: mode, time, setTime, taskId }: Props) => {
   }, [time, taskId]);
 
   const hours = String(
-    Math.floor(time / TIME.MINUTE_IN_HOUR / TIME.SECONDS_IN_MINUTE),
+    Math.floor(time / (TIME.SECONDS_IN_MINUTE * TIME.MINUTE_IN_HOUR)),
   ).padStart(POSITION, '0');
   const minutes = String(
-    Math.floor((time % TIME.MINUTE_IN_HOUR) / TIME.SECONDS_IN_MINUTE),
+    Math.floor((time / TIME.SECONDS_IN_MINUTE) % TIME.MINUTE_IN_HOUR),
   ).padStart(POSITION, '0');
   const seconds = String(time % TIME.SECONDS_IN_MINUTE).padStart(POSITION, '0');
 

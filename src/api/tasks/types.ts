@@ -5,8 +5,21 @@ export type Task = {
   is_done: boolean;
   user_id: string;
   day_id: string;
-  day?: {
-    date?: Date;
+};
+
+export type TaskWithDate = Task & {
+  day: {
+    date: Date;
+  };
+};
+
+export type TaskWithCategory = Task & {
+  category: {
+    id: string;
+    name: string;
+    level: number;
+    experience: number;
+    ratio: number;
   };
 };
 
@@ -17,8 +30,8 @@ export type TasksApiType = {
     category_id: string;
     day_id: string;
   }) => Promise<void>;
-  getMany: (_: { userId: string; day_id?: string }) => Promise<Task[]>;
-  getOne: (_: { id: string }) => Promise<Task>;
+  getMany: (_: { userId: string; day_id?: string }) => Promise<TaskWithDate[]>;
+  getOne: (_: { id: string }) => Promise<TaskWithCategory>;
   update: (_: { id: string; data: Partial<Task> }) => Promise<void>;
   delete: (_: { id: string }) => Promise<void>;
 };
