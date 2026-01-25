@@ -2,15 +2,8 @@ import type { Category } from './api/categories/types';
 import type { Task } from './api/tasks/types';
 import type { User } from './api/auth/types';
 
-const getEnv = <K extends keyof ImportMetaEnv>(key: K): ImportMetaEnv[K] => {
-  const value = import.meta.env[key];
-
-  if (!value) {
-    throw new Error(`Missing env variable: ${String(key)}`);
-  }
-
-  return value;
-};
+const getEnv = <K extends keyof ImportMetaEnv>(key: K): ImportMetaEnv[K] =>
+  import.meta.env[key];
 
 export const supabaseConfig = {
   url: getEnv('VITE_SUPABASE_URL'),
