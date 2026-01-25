@@ -5,6 +5,7 @@ export type Task = {
   is_done: boolean;
   user_id: string;
   day_id: string;
+  time: number;
 };
 
 export type TaskWithDate = Task & {

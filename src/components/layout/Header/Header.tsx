@@ -5,6 +5,7 @@ import {
   StarIcon,
 } from '@radix-ui/react-icons';
 import { ROUTES } from '@/consts';
+import { ModeToggle } from '@/components/widgets/mode-toggle';
 import { NavButton } from './NavButton/NavButton';
 
 type Link = {
@@ -29,10 +30,13 @@ export const Header = () => (
         />
       ))}
     </nav>
-    <NavButton
-      className='md:aspect-square'
-      href={ROUTES.PROFILE}
-      icon={<PersonIcon />}
-    />
+    <div className='flex gap-1'>
+      <NavButton
+        className='md:aspect-square rounded-full'
+        href={ROUTES.PROFILE}
+        icon={<PersonIcon />}
+      />
+      <ModeToggle className='h-full rounded-full aspect-square p-6' />
+    </div>
   </header>
 );

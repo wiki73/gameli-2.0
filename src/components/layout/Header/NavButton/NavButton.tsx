@@ -12,7 +12,7 @@ export const NavButton = ({ label, href, icon, className }: Props) => (
   <NavLink
     className={({ isActive }) =>
       cn(
-        'flex p-2 px-4 bg-background items-center gap-1 rounded-3xl aspect-square md:aspect-auto',
+        'flex p-2 px-4 bg-background items-center gap-1 rounded-full md:rounded-3xl aspect-square md:aspect-auto',
         isActive ? 'bg-primary text-primary-foreground' : '',
         className,
       )
