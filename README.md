@@ -1,3 +1,5 @@
+![Coverage](coverage/badge.svg)
+
 # Gameli 2.0
 
 Это веб-приложение на **React** с использованием **Vite**, **React Router**, **React Query**, **Supabase** и поддержкой **PWA** (Progressive Web App).\
