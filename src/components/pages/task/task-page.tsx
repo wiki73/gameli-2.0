@@ -107,6 +107,25 @@ export const TaskPage = () => {
   });
 
   useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (taskState === 'COMPLETE') {
+        localStorage.removeItem('activeTask');
+      }
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      if (taskState === 'COMPLETE') {
+        localStorage.removeItem('activeTask');
+      }
+    };
+  }, [taskState]);
+
+  useEffect(() => {
+    localStorage.setItem('activeTask', JSON.stringify(localTask));
+  }, [localTask]);
+
+  useEffect(() => {
     if (isTaskDone) {
       navigate(ROUTES.MAIN);
     }
