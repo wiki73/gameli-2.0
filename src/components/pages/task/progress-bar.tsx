@@ -21,14 +21,17 @@ export const ProgressBar = ({
   categoryLevel,
   animationDuration = PROGRESS_BAR_ANIMATION_DURATIONS.LONG,
 }: Props) => {
-  const expToLevelUp = getExperienceByLevel(categoryLevel + 1);
+  const currentLevelExp = getExperienceByLevel(categoryLevel);
+  const initialExp = currentExperience - currentLevelExp;
+  const expToLevelUp =
+    getExperienceByLevel(categoryLevel + 1) - currentLevelExp;
 
   const basePercent = Math.min(
-    (currentExperience / expToLevelUp) * HUNDRED_PERCENT,
+    (initialExp / expToLevelUp) * HUNDRED_PERCENT,
     HUNDRED_PERCENT,
   );
   const addedPercent = Math.min(
-    ((currentExperience + addedExperience) / expToLevelUp) * HUNDRED_PERCENT,
+    ((initialExp + addedExperience) / expToLevelUp) * HUNDRED_PERCENT,
     HUNDRED_PERCENT,
   );
 
