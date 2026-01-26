@@ -107,10 +107,19 @@ export const TaskPage = () => {
   });
 
   useEffect(() => {
-    if (isTaskDone) {
-      navigate(ROUTES.MAIN);
-    }
-  }, [navigate, isTaskDone]);
+    const handleBeforeUnload = () => {
+      if (taskState === 'COMPLETE') {
+        localStorage.removeItem('activeTask');
+      }
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      if (taskState === 'COMPLETE') {
+        localStorage.removeItem('activeTask');
+      }
+    };
+  }, [taskState]);
 
   useEffect(() => {
     localStorage.setItem('activeTask', JSON.stringify(localTask));
