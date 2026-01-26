@@ -135,6 +135,16 @@ export const TaskPage = () => {
     localStorage.setItem('activeTask', JSON.stringify(localTask));
   }, [localTask]);
 
+  useEffect(() => {
+    if (isTaskDone) {
+      navigate(ROUTES.MAIN);
+    }
+  }, [navigate, isTaskDone]);
+
+  useEffect(() => {
+    localStorage.setItem('activeTask', JSON.stringify(localTask));
+  }, [localTask]);
+
   const experience = useMemo(
     () => getExperience(time, categoryRatio),
     [time, categoryRatio],
