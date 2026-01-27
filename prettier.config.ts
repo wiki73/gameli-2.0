@@ -1,8 +1,6 @@
-/**
- * @see https://prettier.io/docs/configuration
- * @type {import("prettier").Config}
- */
-const config = {
+import { type Config } from 'prettier';
+
+const config: Config = {
   tabWidth: 2,
   useTabs: false,
   semi: true,
@@ -14,6 +12,7 @@ const config = {
   printWidth: 80,
   proseWrap: 'preserve',
   quoteProps: 'as-needed',
+
   singleAttributePerLine: true,
   trailingComma: 'all',
 };
