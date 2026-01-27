@@ -55,7 +55,7 @@ const chartConfig = {
   experience: {
     label: 'Опыт',
     theme: {
-      light: 'var(--chart-light-3)',
+      light: 'var(--chart-light-2)',
       dark: 'var(--chart-dark-2)',
     },
   },
@@ -64,27 +64,32 @@ const chartConfig = {
 export const DashboardPage = () => {
   const { user } = useAuth();
 
-  const { data: tasks, isPending: isPendingTasks } = useQuery({
-    queryKey: getQueryKey({
-      type: QUERY_KEY_TYPES.USER_TASKS,
-      payload: { userId: user?.id ?? '' },
-    }),
-    queryFn: () => api.tasks.getMany({ userId: user?.id ?? '' }),
-    enabled: !!user?.id,
-    staleTime: 0,
-    refetchOnMount: 'always',
-  });
+  const { data: { data: tasks = [] } = {}, isPending: isPendingTasks } =
+    useQuery({
+      queryKey: getQueryKey({
+        type: QUERY_KEY_TYPES.USER_TASKS,
+        payload: { userId: user?.id ?? '' },
+      }),
+      queryFn: () => api.tasks.getMany({ userId: user?.id ?? '' }),
+      enabled: !!user?.id,
+      staleTime: 0,
+      refetchOnMount: 'always',
+    });
 
-  const { data: categories, isPending: isPendingCategories } = useQuery({
+  const {
+    data: { data: categories = [] } = {},
+    isPending: isPendingCategories,
+  } = useQuery({
     queryKey: getQueryKey({
       type: QUERY_KEY_TYPES.CATEGORIES,
-      payload: { userId: user?.id ?? '' },
+      payload: { userId: user?.id ?? '', page: 'all' },
     }),
     queryFn: () => api.categories.getMany({ userId: user?.id ?? '' }),
     enabled: !!user?.id,
     staleTime: 0,
     refetchOnMount: 'always',
   });
+
   const taskChartData = useMemo(
     () =>
       tasks?.reduce((acc: TaskChartDataItem[], task) => {

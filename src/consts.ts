@@ -36,7 +36,7 @@ export const QUERY_KEY_TYPES = {
 export type QueryKey =
   | {
       type: typeof QUERY_KEY_TYPES.TASKS;
-      payload: { userId: string; dayId: string };
+      payload: { userId: string; dayId: string; page: number };
     }
   | {
       type: typeof QUERY_KEY_TYPES.TASK;
@@ -48,7 +48,7 @@ export type QueryKey =
     }
   | {
       type: typeof QUERY_KEY_TYPES.CATEGORIES;
-      payload: { userId: string };
+      payload: { userId: string; page: number | 'all' };
     }
   | {
       type: typeof QUERY_KEY_TYPES.CATEGORY;
@@ -78,13 +78,22 @@ export type QueryKey =
 export const getQueryKey = (key: QueryKey): string[] => {
   switch (key.type) {
     case QUERY_KEY_TYPES.TASKS:
-      return [QUERY_KEY_TYPES.TASKS, key.payload.userId, key.payload.dayId];
+      return [
+        QUERY_KEY_TYPES.TASKS,
+        key.payload.userId,
+        key.payload.dayId,
+        String(key.payload.page),
+      ];
     case QUERY_KEY_TYPES.TASK:
       return [QUERY_KEY_TYPES.TASK, key.payload.taskId];
     case QUERY_KEY_TYPES.USER_TASKS:
       return [QUERY_KEY_TYPES.USER_TASKS, key.payload.userId];
     case QUERY_KEY_TYPES.CATEGORIES:
-      return [QUERY_KEY_TYPES.CATEGORIES, key.payload.userId];
+      return [
+        QUERY_KEY_TYPES.CATEGORIES,
+        key.payload.userId,
+        String(key.payload.page),
+      ];
     case QUERY_KEY_TYPES.CATEGORY:
       return [QUERY_KEY_TYPES.CATEGORY, key.payload.categoryId];
     case QUERY_KEY_TYPES.USER:
@@ -201,6 +210,8 @@ export const PROGRESS_BAR_ANIMATION_DURATIONS = {
 
 export const PAGE_SIZES = {
   [QUERY_KEY_TYPES.USERS]: 10,
+  [QUERY_KEY_TYPES.CATEGORIES]: 10,
+  [QUERY_KEY_TYPES.TASKS]: 10,
 } as const;
 
 /**

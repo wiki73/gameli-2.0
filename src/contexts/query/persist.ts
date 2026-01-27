@@ -99,7 +99,7 @@ export function setupOnlineSync() {
     queryClient.invalidateQueries({
       queryKey: getQueryKey({
         type: QUERY_KEY_TYPES.TASKS,
-        payload: { userId: '', dayId: '' },
+        payload: { userId: '', dayId: '', page: 1 },
       }),
       exact: false,
     });
@@ -108,6 +108,7 @@ export function setupOnlineSync() {
         type: QUERY_KEY_TYPES.CATEGORIES,
         payload: {
           userId: '',
+          page: 1,
         },
       }),
       exact: false,

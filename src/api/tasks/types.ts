@@ -24,6 +24,11 @@ export type TaskWithCategory = Task & {
   };
 };
 
+export type GetManyTasksResponse = {
+  data: TaskWithDate[];
+  total: number;
+};
+
 export type TasksApiType = {
   create: (_: {
     user_id: string;
@@ -31,7 +36,12 @@ export type TasksApiType = {
     category_id: string;
     day_id: string;
   }) => Promise<void>;
-  getMany: (_: { userId: string; day_id?: string }) => Promise<TaskWithDate[]>;
+  getMany: (_: {
+    userId: string;
+    day_id?: string;
+    page?: number;
+    limit?: number;
+  }) => Promise<GetManyTasksResponse>;
   getOne: (_: { id: string }) => Promise<TaskWithCategory>;
   update: (_: { id: string; data: Partial<Task> }) => Promise<void>;
   delete: (_: { id: string }) => Promise<void>;

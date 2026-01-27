@@ -1,4 +1,4 @@
-import { Link, useNavigate, useParams } from 'react-router';
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router';
 import { CheckIcon } from '@radix-ui/react-icons';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect, useMemo, useState } from 'react';
@@ -28,6 +28,9 @@ export type TaskState = 'TIMER' | 'PAUSE' | 'COMPLETE';
 
 export const TaskPage = () => {
   const { taskId = '' } = useParams();
+  const [searchParams] = useSearchParams();
+  const tasksPage = Number(searchParams.get('tasksPage') ?? 1);
+  const categoriesPage = Number(searchParams.get('categoriesPage') ?? 1);
   const { width, height } = useWindowSize();
   const { user } = useAuth();
   const queryClient = useQueryClient();
@@ -88,8 +91,9 @@ export const TaskPage = () => {
       queryClient.invalidateQueries({
         queryKey: getQueryKey({
           type: QUERY_KEY_TYPES.TASKS,
-          payload: { userId: user?.id ?? '', dayId },
+          payload: { userId: user?.id ?? '', dayId, page: tasksPage },
         }),
+        exact: false,
       });
       queryClient.invalidateQueries({
         queryKey: getQueryKey({
@@ -100,8 +104,9 @@ export const TaskPage = () => {
       queryClient.invalidateQueries({
         queryKey: getQueryKey({
           type: QUERY_KEY_TYPES.CATEGORIES,
-          payload: { userId: user?.id ?? '' },
+          payload: { userId: user?.id ?? '', page: categoriesPage },
         }),
+        exact: false,
       });
     },
   });

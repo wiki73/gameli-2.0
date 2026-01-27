@@ -16,9 +16,15 @@ type Props = {
   onSuccess: (date: Day) => void;
   selectedDay: Nullable<Day>;
   days: Day[];
+  tasksPage: number;
 };
 
-export const DaySelection = ({ onSuccess, selectedDay, days }: Props) => {
+export const DaySelection = ({
+  onSuccess,
+  selectedDay,
+  days,
+  tasksPage,
+}: Props) => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
@@ -53,7 +59,11 @@ export const DaySelection = ({ onSuccess, selectedDay, days }: Props) => {
       queryClient.invalidateQueries({
         queryKey: getQueryKey({
           type: QUERY_KEY_TYPES.TASKS,
-          payload: { userId: user?.id ?? '', dayId: selectedDay?.id ?? '' },
+          payload: {
+            userId: user?.id ?? '',
+            dayId: selectedDay?.id ?? '',
+            page: tasksPage,
+          },
         }),
         exact: false,
       });
@@ -97,7 +107,11 @@ export const DaySelection = ({ onSuccess, selectedDay, days }: Props) => {
       queryClient.invalidateQueries({
         queryKey: getQueryKey({
           type: QUERY_KEY_TYPES.TASKS,
-          payload: { userId: user?.id ?? '', dayId: day?.id ?? '' },
+          payload: {
+            userId: user?.id ?? '',
+            dayId: day?.id ?? '',
+            page: tasksPage,
+          },
         }),
         exact: false,
       });

@@ -40,6 +40,7 @@ import {
 type Props = {
   modeForm?: 'CREATE' | 'EDIT';
   category?: Category;
+  categoriesPage: number;
 };
 
 export const NAME_MIN_LENGTH = 3;
@@ -72,6 +73,7 @@ type CategoryFormType = z.infer<typeof categoryFormSchema>;
 export const CategoryCreateEditDialog = ({
   modeForm = 'CREATE',
   category,
+  categoriesPage,
 }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useAuth();
@@ -94,7 +96,7 @@ export const CategoryCreateEditDialog = ({
       queryClient.invalidateQueries({
         queryKey: getQueryKey({
           type: QUERY_KEY_TYPES.CATEGORIES,
-          payload: { userId: user?.id ?? '' },
+          payload: { userId: user?.id ?? '', page: categoriesPage },
         }),
       });
       setIsOpen(false);
@@ -110,7 +112,7 @@ export const CategoryCreateEditDialog = ({
       queryClient.invalidateQueries({
         queryKey: getQueryKey({
           type: QUERY_KEY_TYPES.CATEGORIES,
-          payload: { userId: user?.id ?? '' },
+          payload: { userId: user?.id ?? '', page: categoriesPage },
         }),
       });
       setIsOpen(false);
