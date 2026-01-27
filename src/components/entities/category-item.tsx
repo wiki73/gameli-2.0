@@ -24,7 +24,7 @@ export const CategoryItem = ({ category, dayId }: Props) => (
   <Card
     className='flex flex-col justify-between'
     style={{
-      boxShadow: `0px 0px 12px var(${getColorBySubjectLevel(category.level)})`,
+      boxShadow: `0px 0px 15px var(${getColorBySubjectLevel(category.level)})`,
     }}
   >
     <CardHeader>
