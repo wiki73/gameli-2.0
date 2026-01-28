@@ -26,6 +26,15 @@ import { ProgressBar } from './progress-bar';
 
 export type TaskState = 'TIMER' | 'PAUSE' | 'COMPLETE';
 
+type TimerState = {
+  startTime: number | null;
+  pausedAt: number | null;
+  totalPaused: number;
+  isRunning: boolean;
+};
+
+const TICK_INTERVAL = 1000;
+
 export const TaskPage = () => {
   const { taskId = '' } = useParams();
   const [searchParams] = useSearchParams();
@@ -39,10 +48,108 @@ export const TaskPage = () => {
     const saved = localStorage.getItem('activeTask');
     return saved ? (JSON.parse(saved) as TaskWithCategory) : null;
   });
-
-  const { time = 0 } = localTask || {};
-
   const [taskState, setTaskState] = useState<TaskState>('TIMER');
+
+  const TIMER_KEY = taskId ? `timerState_${taskId}` : null;
+
+  const [timer, setTimer] = useState<TimerState>(() => {
+    if (!TIMER_KEY) {
+      return {
+        startTime: null,
+        pausedAt: null,
+        totalPaused: 0,
+        isRunning: false,
+      };
+    }
+
+    const saved = localStorage.getItem(TIMER_KEY);
+    return saved
+      ? (JSON.parse(saved) as TimerState)
+      : {
+          startTime: null,
+          pausedAt: null,
+          totalPaused: 0,
+          isRunning: false,
+        };
+  });
+
+  const startTimer = () => {
+    const now = Date.now();
+
+    setTimer({
+      startTime: now,
+      pausedAt: null,
+      totalPaused: 0,
+      isRunning: true,
+    });
+  };
+  const pauseTimer = () => {
+    setTimer(prev => ({
+      ...prev,
+      pausedAt: Date.now(),
+      isRunning: false,
+    }));
+  };
+  const resumeTimer = () => {
+    const now = Date.now();
+
+    setTimer(prev => ({
+      ...prev,
+      totalPaused: prev.totalPaused + (now - (prev.pausedAt ?? now)),
+      pausedAt: null,
+      isRunning: true,
+    }));
+  };
+  const getElapsedTime = (timer: TimerState) => {
+    if (!timer.startTime) return 0;
+
+    const now = timer.isRunning ? Date.now() : (timer.pausedAt ?? Date.now());
+    return now - timer.startTime - timer.totalPaused;
+  };
+
+  useEffect(() => {
+    if (!TIMER_KEY) return;
+    localStorage.setItem(TIMER_KEY, JSON.stringify(timer));
+  }, [timer, TIMER_KEY]);
+
+  useEffect(() => {
+    if (taskState === 'TIMER' && !timer.isRunning) {
+      if (!timer.startTime) {
+        startTimer();
+      } else {
+        resumeTimer();
+      }
+    }
+
+    if (taskState === 'PAUSE' && timer.isRunning) {
+      pauseTimer();
+    }
+  }, [taskState, timer]);
+
+  const [tick, setTick] = useState(0);
+
+  useEffect(() => {
+    if (!timer.startTime && taskState === 'TIMER') {
+      startTimer();
+    }
+  }, [taskState, timer]);
+
+  const elapsedTime = useMemo(() => {
+    void tick; // Это официальный способ в TS сказать: "я использую эту переменную, просто ничего с ней не делаю"
+    return getElapsedTime(timer);
+  }, [timer, tick]);
+
+  useEffect(() => {
+    if (taskState === 'COMPLETE') return;
+
+    const id = setInterval(() => {
+      setTick(t => t + 1);
+    }, TICK_INTERVAL);
+
+    return () => {
+      clearInterval(id);
+    };
+  }, [taskState]);
 
   const {
     data: {
@@ -67,10 +174,7 @@ export const TaskPage = () => {
       const task = await api.tasks.getOne({ id: taskId });
 
       if (task) {
-        setLocalTask({
-          ...task,
-          time,
-        });
+        setLocalTask(task);
       }
 
       return task;
@@ -127,10 +231,6 @@ export const TaskPage = () => {
   }, [taskState]);
 
   useEffect(() => {
-    localStorage.setItem('activeTask', JSON.stringify(localTask));
-  }, [localTask]);
-
-  useEffect(() => {
     if (isTaskDone) {
       navigate(ROUTES.MAIN);
     }
@@ -140,23 +240,18 @@ export const TaskPage = () => {
     localStorage.setItem('activeTask', JSON.stringify(localTask));
   }, [localTask]);
 
-  useEffect(() => {
-    if (isTaskDone) {
-      navigate(ROUTES.MAIN);
-    }
-  }, [navigate, isTaskDone]);
-
-  useEffect(() => {
-    localStorage.setItem('activeTask', JSON.stringify(localTask));
-  }, [localTask]);
-
-  const experience = useMemo(
-    () => getExperience(time, categoryRatio),
-    [time, categoryRatio],
-  );
+  const experience = useMemo(() => {
+    const elapsedSeconds = Math.floor(elapsedTime / TICK_INTERVAL);
+    return getExperience(elapsedSeconds, categoryRatio);
+  }, [elapsedTime, categoryRatio]);
 
   const handelSubmit = () => {
     if (!taskId || !user) return;
+    setTimer(prev => ({
+      ...prev,
+      isRunning: false,
+      pausedAt: Date.now(),
+    }));
     setTaskState('COMPLETE');
     completeTaskMutation.mutate({
       taskId,
@@ -193,10 +288,10 @@ export const TaskPage = () => {
         </CardHeader>
         <CardContent>
           <Timer
-            setLocalTask={setLocalTask}
             state={taskState}
-            time={time}
+            time={elapsedTime}
           />
+
           {taskState === 'COMPLETE' && (
             <div>
               <h4>Заработанно {experience} опыта</h4>

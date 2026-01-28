@@ -1,38 +1,32 @@
 import { CheckIcon, LapTimerIcon, PauseIcon } from '@radix-ui/react-icons';
-import { memo, useEffect } from 'react';
 import type { TaskState } from '@/components/pages/task/task-page';
 import { TIME } from '@/consts';
-import type { Nullable } from '@/api/types';
-import type { TaskWithCategory } from '@/api/tasks/types';
 
 type Props = {
   state: TaskState;
   time: number;
-  setLocalTask: React.Dispatch<
-    React.SetStateAction<Nullable<TaskWithCategory>>
-  >;
+  // setLocalTask: React.Dispatch<
+  //   React.SetStateAction<Nullable<TaskWithCategory>>
+  // >;
 };
+const TICK_INTERVAL = 1000;
 
 const POSITION = 2;
 
-export const Timer = memo(({ state: mode, time, setLocalTask }: Props) => {
-  useEffect(() => {
-    if (mode !== 'TIMER') return;
-    const interval = setInterval(() => {
-      setLocalTask(prev => (!!prev ? { ...prev, time: prev?.time + 1 } : prev));
-    }, TIME.SECOND);
-    return () => {
-      clearInterval(interval);
-    };
-  }, [mode, setLocalTask]);
-
+export const Timer = ({ state: mode, time }: Props) => {
+  const totalSeconds = Math.floor(time / TICK_INTERVAL);
   const hours = String(
-    Math.floor(time / (TIME.SECONDS_IN_MINUTE * TIME.MINUTE_IN_HOUR)),
+    Math.floor(totalSeconds / (TIME.SECONDS_IN_MINUTE * TIME.MINUTE_IN_HOUR)),
   ).padStart(POSITION, '0');
+
   const minutes = String(
-    Math.floor((time / TIME.SECONDS_IN_MINUTE) % TIME.MINUTE_IN_HOUR),
+    Math.floor((totalSeconds / TIME.SECONDS_IN_MINUTE) % TIME.MINUTE_IN_HOUR),
   ).padStart(POSITION, '0');
-  const seconds = String(time % TIME.SECONDS_IN_MINUTE).padStart(POSITION, '0');
+
+  const seconds = String(totalSeconds % TIME.SECONDS_IN_MINUTE).padStart(
+    POSITION,
+    '0',
+  );
 
   return (
     <div className='flex items-center justify-center flex-col gap-4'>
@@ -57,4 +51,4 @@ export const Timer = memo(({ state: mode, time, setLocalTask }: Props) => {
       {mode === 'COMPLETE' && <h3>😁Улыбнитесь себе!😁</h3>}
     </div>
   );
-});
+};
