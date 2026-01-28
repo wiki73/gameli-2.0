@@ -1,0 +1,9 @@
+{
+  "files.eol": "\r\n",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "always"
+  },
+  "editor.formatOnSave": true,
+  "notebook.formatOnSave.enabled": true,
+  "typescript.tsdk": "node_modules/typescript/lib"
+}
