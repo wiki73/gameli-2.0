@@ -85,6 +85,7 @@ export default defineConfig([
       },
     },
     rules: {
+      'react/jsx-no-bind': 'off',
       'unicorn/filename-case': [
         'error',
         {
@@ -173,13 +174,6 @@ export default defineConfig([
           checkLocalVariables: true,
         },
       ],
-      'react/jsx-no-bind': [
-        'error',
-        {
-          allowArrowFunctions: true,
-        },
-      ],
-
       'react-refresh/only-export-components': [
         'warn',
         { allowConstantExport: true },

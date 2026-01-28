@@ -46,3 +46,6 @@ yarn-error.log*
 .idea
 
 .prettiercache
+.vercel
+.env*.local
+.eslintcache
