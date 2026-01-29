@@ -81,22 +81,17 @@ export const HabitCard = ({ habit, onDelete, userId }: Props) => {
 
       return { previousHabits };
     },
-    onError: (err, variables, context) => {
+    onError: (err, _variables, context) => {
       if (context?.previousHabits) {
         queryClient.setQueryData(['habits', userId], context.previousHabits);
       }
-      setError('Не удалось обновить привычку');
+      const errorMessage = err instanceof Error ? err.message : String(err);
+      setError(`Не удалось обновить привычку. ${errorMessage}`);
       setTimeout(() => {
         setError(null);
       }, ERROR_TIMEOUT);
     },
-    // onSuccess: (data, variables) => {
-    //   // Логирование для разработки
-    //   if (process.env.NODE_ENV === 'development') {
-    //     console.log(`День ${variables.dayNumber}: ${variables.completed ? 'выполнено' : 'отменено'}`);
-    //   }
-    // },
-    onSettled: (data, error, variables) => {
+    onSettled: (_data, _error, variables) => {
       setLoadingDays(prev => ({ ...prev, [variables.dayNumber]: false }));
       queryClient.invalidateQueries({ queryKey: ['habits', userId] });
     },
