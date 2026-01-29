@@ -1,6 +1,5 @@
-import { type Config } from 'prettier';
-
-const config: Config = {
+/** @type {import('prettier').Options} */
+const config = {
   tabWidth: 2,
   useTabs: false,
   semi: true,
