@@ -34,29 +34,29 @@ const chartConfig = {
   total: {
     label: 'Всего',
     theme: {
-      light: '#2563eb',
-      dark: '#dc2626',
+      light: 'var(--chart-light-3)',
+      dark: 'var(--chart-dark-1)',
     },
   },
   completed: {
     label: 'Выполнено',
     theme: {
-      light: '#dc2626',
-      dark: '#2563eb',
+      light: 'var(--chart-light-2)',
+      dark: 'var(--chart-dark-2)',
     },
   },
   level: {
     label: 'Уровень',
     theme: {
-      light: '#39FF0A',
-      dark: '##CAFF7E',
+      light: 'var(--chart-light-3)',
+      dark: 'var(--chart-dark-1)',
     },
   },
   experience: {
     label: 'Опыт',
     theme: {
-      light: '#FF00FF',
-      dark: '#FF00FF',
+      light: 'var(--chart-light-2)',
+      dark: 'var(--chart-dark-2)',
     },
   },
 } satisfies ChartConfig;
@@ -64,27 +64,32 @@ const chartConfig = {
 export const DashboardPage = () => {
   const { user } = useAuth();
 
-  const { data: tasks, isPending: isPendingTasks } = useQuery({
-    queryKey: getQueryKey({
-      type: QUERY_KEY_TYPES.USER_TASKS,
-      payload: { userId: user?.id ?? '' },
-    }),
-    queryFn: () => api.tasks.getMany({ userId: user?.id ?? '' }),
-    enabled: !!user?.id,
-    staleTime: 0,
-    refetchOnMount: 'always',
-  });
+  const { data: { data: tasks = [] } = {}, isPending: isPendingTasks } =
+    useQuery({
+      queryKey: getQueryKey({
+        type: QUERY_KEY_TYPES.USER_TASKS,
+        payload: { userId: user?.id ?? '' },
+      }),
+      queryFn: () => api.tasks.getMany({ userId: user?.id ?? '' }),
+      enabled: !!user?.id,
+      staleTime: 0,
+      refetchOnMount: 'always',
+    });
 
-  const { data: categories, isPending: isPendingCategories } = useQuery({
+  const {
+    data: { data: categories = [] } = {},
+    isPending: isPendingCategories,
+  } = useQuery({
     queryKey: getQueryKey({
       type: QUERY_KEY_TYPES.CATEGORIES,
-      payload: { userId: user?.id ?? '' },
+      payload: { userId: user?.id ?? '', page: 'all' },
     }),
     queryFn: () => api.categories.getMany({ userId: user?.id ?? '' }),
     enabled: !!user?.id,
     staleTime: 0,
     refetchOnMount: 'always',
   });
+
   const taskChartData = useMemo(
     () =>
       tasks?.reduce((acc: TaskChartDataItem[], task) => {

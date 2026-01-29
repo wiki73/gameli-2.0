@@ -22,15 +22,18 @@ export const authApi: AuthApiType = {
       if (error) throw error;
       return data;
     },
-    getMany: async () => {
-      const { data, error } = await supabase
+    getMany: async ({ page, limit }) => {
+      const from = (page - 1) * limit;
+      const to = from + limit - 1;
+      const { data, error, count } = await supabase
         .from('users')
-        .select('*')
+        .select('*', { count: 'exact' })
         .filter('exp', 'gt', 0)
-        .order('exp', { ascending: false });
+        .order('exp', { ascending: false })
+        .range(from, to);
 
       if (error) throw error;
-      return data as User[];
+      return { data: data as User[], total: count ?? 0 };
     },
     update: async ({ userId, data }) => {
       if (!userId) {

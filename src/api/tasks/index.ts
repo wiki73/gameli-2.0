@@ -3,19 +3,26 @@ import { type TasksApiType } from './types';
 import type { TaskWithCategory, TaskWithDate } from './types';
 
 export const taskApi: TasksApiType = {
-  getMany: async ({ userId, day_id }) => {
+  getMany: async ({ userId, day_id, page, limit }) => {
     if (!userId) throw new Error('getTasks: userId is required');
 
     let query = supabase
       .from('tasks')
-      .select(`*, day:day_lists (date)`)
+      .select(`*, day:day_lists (date)`, { count: 'exact' })
+      .order('is_done', { ascending: true })
       .eq('user_id', userId);
+
+    if (page && limit) {
+      const from = (page - 1) * limit;
+      const to = from + limit - 1;
+      query.range(from, to);
+    }
 
     if (day_id) {
       query = query.eq('day_id', day_id);
     }
 
-    const { data, error } = await query.order('date', {
+    const { data, error, count } = await query.order('date', {
       referencedTable: 'day_lists',
       ascending: true,
     });
@@ -24,7 +31,10 @@ export const taskApi: TasksApiType = {
       throw error;
     }
 
-    return data as TaskWithDate[];
+    return {
+      data: data as TaskWithDate[],
+      total: count ?? 0,
+    };
   },
   getOne: async ({ id }) => {
     const { data, error } = await supabase

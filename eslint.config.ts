@@ -34,7 +34,6 @@ export default defineConfig([
   {
     files: ['./src/**/*.{ts,tsx}'],
     languageOptions: {
-      ...eslintReact.configs.recommended.languageOptions,
       globals: {
         ...globals.browser,
         ...globals.node,
@@ -82,7 +81,8 @@ export default defineConfig([
     files: ['./src/**/*.{js,jsx,ts,tsx}'],
     plugins: {
       react: fixupPluginRules(eslintReact),
-      'react-hooks': eslintReactHooks,
+      // @ts-expect-error - fixupPluginRules is not compatible with react-hooks
+      'react-hooks': fixupPluginRules(eslintReactHooks),
       'react-refresh': eslintReactRefresh,
       prettier: prettierPlugin,
       import: fixupPluginRules(eslintImport),

@@ -13,13 +13,23 @@ type Props = {
   task: Task;
   selectedDay: Day;
   isBlocked: boolean;
+  tasksPage: number;
+  categoriesPage: number;
 };
 
-export const TaskItem = ({ task, selectedDay, isBlocked }: Props) => {
+export const TaskItem = ({
+  task,
+  selectedDay,
+  isBlocked,
+  tasksPage,
+  categoriesPage,
+}: Props) => {
   const navigate = useNavigate();
 
   const handleGoTask = () => {
-    navigate(ROUTES.TASK.replace(':taskId', task.id));
+    navigate(
+      `${ROUTES.TASK.replace(':taskId', task.id)}?tasksPage=${String(tasksPage)}&categoriesPage=${String(categoriesPage)}`,
+    );
   };
   return (
     <Card
@@ -49,6 +59,7 @@ export const TaskItem = ({ task, selectedDay, isBlocked }: Props) => {
             </Button>
             <TaskCreateEditDialog
               modeForm='EDIT'
+              page={tasksPage}
               selectedDay={selectedDay}
               task={task}
             />
@@ -57,6 +68,7 @@ export const TaskItem = ({ task, selectedDay, isBlocked }: Props) => {
         <TaskDeleteDialog
           dayId={selectedDay?.id}
           id={task.id}
+          tasksPage={tasksPage}
         />
       </CardContent>
     </Card>

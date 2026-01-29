@@ -18,9 +18,10 @@ import { api } from '@/api/api';
 type Props = {
   id: string;
   dayId?: string;
+  tasksPage: number;
 };
 
-export const TaskDeleteDialog = ({ id, dayId }: Props) => {
+export const TaskDeleteDialog = ({ id, dayId, tasksPage }: Props) => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
@@ -38,7 +39,11 @@ export const TaskDeleteDialog = ({ id, dayId }: Props) => {
       queryClient.invalidateQueries({
         queryKey: getQueryKey({
           type: QUERY_KEY_TYPES.TASKS,
-          payload: { userId: user?.id ?? '', dayId: dayId ?? '' },
+          payload: {
+            userId: user?.id ?? '',
+            dayId: dayId ?? '',
+            page: tasksPage,
+          },
         }),
         exact: false,
       });

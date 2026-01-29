@@ -1,14 +1,11 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter } from 'react-router';
-import { Router } from '@/components/router';
-import { UserLayout } from '@/components/layout/user-layout';
-import { AuthProvider } from '@/contexts/auth/provider';
-import { QueryProvider } from '@/contexts/query/provider';
+import { RouterProvider } from 'react-router';
+import { router } from '@/components/router';
 import { setupOnlineSync } from './contexts/query/persist';
+import { ThemeProvider } from './contexts/theme/theme-provider';
 import '@fontsource/inter/latin';
 import './index.css';
-import { ThemeProvider } from './contexts/theme/theme-provider';
 
 setupOnlineSync();
 
@@ -20,15 +17,10 @@ root.render(
       defaultTheme='light'
       storageKey='vite-ui-theme'
     >
-      <BrowserRouter unstable_useTransitions>
-        <QueryProvider>
-          <AuthProvider>
-            <UserLayout>
-              <Router />
-            </UserLayout>
-          </AuthProvider>
-        </QueryProvider>
-      </BrowserRouter>
+      <RouterProvider
+        router={router}
+        unstable_useTransitions
+      />
     </ThemeProvider>
   </StrictMode>,
 );

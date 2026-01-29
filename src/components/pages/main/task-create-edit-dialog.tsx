@@ -46,6 +46,7 @@ type Props = {
   selectedDay?: Day;
   modeForm?: 'CREATE' | 'EDIT';
   task?: Task;
+  page: number;
 };
 
 const MIN_TITLE_LENGTH = 3;
@@ -69,6 +70,7 @@ export const TaskCreateEditDialog = ({
   selectedDay,
   modeForm = 'CREATE',
   task,
+  page,
 }: Props) => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
@@ -96,12 +98,15 @@ export const TaskCreateEditDialog = ({
       form.reset();
     }
   };
-  const { data: categories, isPending } = useQuery({
+  const { data: { data: categories = [] } = {}, isPending } = useQuery({
     queryKey: getQueryKey({
       type: QUERY_KEY_TYPES.CATEGORIES,
-      payload: { userId: user?.id ?? '' },
+      payload: { userId: user?.id ?? '', page: 'all' },
     }),
-    queryFn: () => api.categories.getMany({ userId: user?.id ?? '' }),
+    queryFn: () =>
+      api.categories.getMany({
+        userId: user?.id ?? '',
+      }),
     enabled: !!user?.id,
     staleTime: 0,
     refetchOnMount: 'always',
@@ -128,7 +133,11 @@ export const TaskCreateEditDialog = ({
       queryClient.invalidateQueries({
         queryKey: getQueryKey({
           type: QUERY_KEY_TYPES.TASKS,
-          payload: { userId: user?.id ?? '', dayId: selectedDay?.id ?? '' },
+          payload: {
+            userId: user?.id ?? '',
+            dayId: selectedDay?.id ?? '',
+            page,
+          },
         }),
       });
       setOpen(false);
@@ -161,7 +170,11 @@ export const TaskCreateEditDialog = ({
       queryClient.invalidateQueries({
         queryKey: getQueryKey({
           type: QUERY_KEY_TYPES.TASKS,
-          payload: { userId: user?.id ?? '', dayId: selectedDay?.id ?? '' },
+          payload: {
+            userId: user?.id ?? '',
+            dayId: selectedDay?.id ?? '',
+            page,
+          },
         }),
       });
       setOpen(false);

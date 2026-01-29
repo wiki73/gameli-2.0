@@ -2,15 +2,8 @@ import type { Category } from './api/categories/types';
 import type { Task } from './api/tasks/types';
 import type { User } from './api/auth/types';
 
-const getEnv = <K extends keyof ImportMetaEnv>(key: K): ImportMetaEnv[K] => {
-  const value = import.meta.env[key];
-
-  if (!value) {
-    throw new Error(`Missing env variable: ${String(key)}`);
-  }
-
-  return value;
-};
+const getEnv = <K extends keyof ImportMetaEnv>(key: K): ImportMetaEnv[K] =>
+  import.meta.env[key];
 
 export const supabaseConfig = {
   url: getEnv('VITE_SUPABASE_URL'),
@@ -24,6 +17,7 @@ export const ROUTES = {
   DASHBOARD: '/dashboard',
   TASK: '/task/:taskId',
   LEADERBOARD: '/leaderboard',
+  HABITS: '/habits',
 } as const;
 
 export const QUERY_KEY_TYPES = {
@@ -36,12 +30,13 @@ export const QUERY_KEY_TYPES = {
   USERS: 'users',
   DAYS: 'days',
   SESSION: 'session',
+  UNKNOWN: 'unknown',
 } as const;
 
 export type QueryKey =
   | {
       type: typeof QUERY_KEY_TYPES.TASKS;
-      payload: { userId: string; dayId: string };
+      payload: { userId: string; dayId: string; page: number };
     }
   | {
       type: typeof QUERY_KEY_TYPES.TASK;
@@ -53,7 +48,7 @@ export type QueryKey =
     }
   | {
       type: typeof QUERY_KEY_TYPES.CATEGORIES;
-      payload: { userId: string };
+      payload: { userId: string; page: number | 'all' };
     }
   | {
       type: typeof QUERY_KEY_TYPES.CATEGORY;
@@ -65,7 +60,7 @@ export type QueryKey =
     }
   | {
       type: typeof QUERY_KEY_TYPES.USERS;
-      payload: object;
+      payload: { page: number };
     }
   | {
       type: typeof QUERY_KEY_TYPES.DAYS;
@@ -74,30 +69,43 @@ export type QueryKey =
   | {
       type: typeof QUERY_KEY_TYPES.SESSION;
       payload: object;
+    }
+  | {
+      type: typeof QUERY_KEY_TYPES.UNKNOWN;
+      payload: object;
     };
 
 export const getQueryKey = (key: QueryKey): string[] => {
   switch (key.type) {
     case QUERY_KEY_TYPES.TASKS:
-      return [QUERY_KEY_TYPES.TASKS, key.payload.userId, key.payload.dayId];
+      return [
+        QUERY_KEY_TYPES.TASKS,
+        key.payload.userId,
+        key.payload.dayId,
+        String(key.payload.page),
+      ];
     case QUERY_KEY_TYPES.TASK:
       return [QUERY_KEY_TYPES.TASK, key.payload.taskId];
     case QUERY_KEY_TYPES.USER_TASKS:
       return [QUERY_KEY_TYPES.USER_TASKS, key.payload.userId];
     case QUERY_KEY_TYPES.CATEGORIES:
-      return [QUERY_KEY_TYPES.CATEGORIES, key.payload.userId];
+      return [
+        QUERY_KEY_TYPES.CATEGORIES,
+        key.payload.userId,
+        String(key.payload.page),
+      ];
     case QUERY_KEY_TYPES.CATEGORY:
       return [QUERY_KEY_TYPES.CATEGORY, key.payload.categoryId];
     case QUERY_KEY_TYPES.USER:
       return [QUERY_KEY_TYPES.USER];
     case QUERY_KEY_TYPES.USERS:
-      return [QUERY_KEY_TYPES.USERS];
+      return [QUERY_KEY_TYPES.USERS, String(key.payload.page)];
     case QUERY_KEY_TYPES.DAYS:
       return [QUERY_KEY_TYPES.DAYS, key.payload.userId];
     case QUERY_KEY_TYPES.SESSION:
       return [QUERY_KEY_TYPES.SESSION];
     default:
-      throw new Error('Invalid query key type');
+      return [QUERY_KEY_TYPES.UNKNOWN];
   }
 };
 
@@ -111,17 +119,37 @@ export const TIME = {
 } as const;
 
 export const LEVELS = {
-  LOW: 10,
-  MEDIUM: 20,
-  HIGH: 30,
-  VERY_HIGH: 40,
+  L3: 3,
+  L7: 7,
+  L10: 10,
+  L15: 15,
+  L20: 20,
+  L25: 25,
+  L30: 30,
+  L35: 35,
+  L40: 40,
+  L45: 45,
+} as const;
+
+const envNumber = (value: unknown, fallback: number): number => {
+  const num = Number(value);
+  return Number.isFinite(num) ? num : fallback;
+};
+
+const EXPERIENCE_DEFAULT = {
+  VERY_LOW: 200,
+  LOW: 300,
+  MEDIUM: 500,
+  HIGH: 750,
+  VERY_HIGH: 1000,
 } as const;
 
 export const EXPERIENCE = {
-  LOW: 100,
-  MEDIUM: 200,
-  HIGH: 300,
-  VERY_HIGH: 400,
+  VERY_LOW: envNumber(getEnv('EXP_VERY_LOW'), EXPERIENCE_DEFAULT.VERY_LOW),
+  LOW: envNumber(getEnv('EXP_LOW'), EXPERIENCE_DEFAULT.LOW),
+  MEDIUM: envNumber(getEnv('EXP_MEDIUM'), EXPERIENCE_DEFAULT.MEDIUM),
+  HIGH: envNumber(getEnv('EXP_HIGH'), EXPERIENCE_DEFAULT.HIGH),
+  VERY_HIGH: envNumber(getEnv('EXP_VERY_HIGH'), EXPERIENCE_DEFAULT.VERY_HIGH),
 } as const;
 
 export const TIME_INTERVALS = {
@@ -145,22 +173,34 @@ export const EXPERIENCE_CALCULATION_RATIO = 100;
 export const HUNDRED_PERCENT = 100;
 
 export const LEVEL_THRESHOLDS = [
-  { level: LEVELS.LOW, expPerLevel: EXPERIENCE.LOW },
-  { level: LEVELS.MEDIUM, expPerLevel: EXPERIENCE.MEDIUM },
-  { level: LEVELS.HIGH, expPerLevel: EXPERIENCE.HIGH },
+  { level: LEVELS.L3, expPerLevel: EXPERIENCE.VERY_LOW },
+  { level: LEVELS.L7, expPerLevel: EXPERIENCE.LOW },
+  { level: LEVELS.L10, expPerLevel: EXPERIENCE.LOW },
+  { level: LEVELS.L15, expPerLevel: EXPERIENCE.MEDIUM },
+  { level: LEVELS.L20, expPerLevel: EXPERIENCE.MEDIUM },
+  { level: LEVELS.L25, expPerLevel: EXPERIENCE.MEDIUM },
+  { level: LEVELS.L30, expPerLevel: EXPERIENCE.HIGH },
+  { level: LEVELS.L35, expPerLevel: EXPERIENCE.HIGH },
+  { level: LEVELS.L40, expPerLevel: EXPERIENCE.VERY_HIGH },
   { level: Infinity, expPerLevel: EXPERIENCE.VERY_HIGH },
 ] as const;
 
 const ACCUMULATED_EXP: number[] = [];
 let acc = 0;
-for (let i = 0; i < LEVEL_THRESHOLDS.length; i++) {
+
+for (const [i, current] of LEVEL_THRESHOLDS.entries()) {
+  const prev = i > 0 ? LEVEL_THRESHOLDS[i - 1] : undefined;
+
   ACCUMULATED_EXP[i] = acc;
+
   const delta =
     i === 0
-      ? LEVEL_THRESHOLDS[i].level
-      : (LEVEL_THRESHOLDS[i]?.level ?? LEVELS.VERY_HIGH) -
-        (LEVEL_THRESHOLDS[i - 1]?.level ?? LEVELS.HIGH);
-  acc += delta * (LEVEL_THRESHOLDS[i]?.expPerLevel ?? EXPERIENCE.VERY_HIGH);
+      ? current.level
+      : current.level === Infinity
+        ? 0
+        : current.level - (prev?.level ?? 0);
+
+  acc += delta * current.expPerLevel;
 }
 
 export const PROGRESS_BAR_ANIMATION_DURATIONS = {
@@ -168,27 +208,44 @@ export const PROGRESS_BAR_ANIMATION_DURATIONS = {
   LONG: 2.8,
 } as const;
 
+export const PAGE_SIZES = {
+  [QUERY_KEY_TYPES.USERS]: 10,
+  [QUERY_KEY_TYPES.CATEGORIES]: 10,
+  [QUERY_KEY_TYPES.TASKS]: 10,
+} as const;
+
 /**
  * Function for getting color css variable by subject level to use in styles.
  * @param level subject (User or Category) Level
  * @returns css color variable
  */
-export const getColorBySubjectLevel = (level?: number) => {
-  if (!level) return '--level-low';
-  if (level < LEVELS.LOW) return '--level-low';
-  if (level < LEVELS.MEDIUM) return '--level-medium';
-  if (level < LEVELS.HIGH) return '--level-high';
-  return '--level-very-high';
+export const getColorBySubjectLevel = (level = 0): string => {
+  if (level < LEVELS.L7) return '--level-3';
+  if (level < LEVELS.L10) return '--level-7';
+  if (level < LEVELS.L15) return '--level-10';
+  if (level < LEVELS.L20) return '--level-15';
+  if (level < LEVELS.L25) return '--level-20';
+  if (level < LEVELS.L30) return '--level-25';
+  if (level < LEVELS.L35) return '--level-30';
+  if (level < LEVELS.L40) return '--level-35';
+  if (level < LEVELS.L45) return '--level-40';
+  return '--level-45';
 };
 
 export const getExperienceByLevel = (level: number): number => {
   if (level <= 0) return 0;
 
   for (let i = 0; i < LEVEL_THRESHOLDS.length; i++) {
-    const { level: thresholdLevel, expPerLevel } =
-      LEVEL_THRESHOLDS[i] ?? LEVEL_THRESHOLDS[0];
-    const prevLevel =
-      i === 0 ? 0 : (LEVEL_THRESHOLDS[i - 1]?.level ?? LEVELS.HIGH);
+    const current = LEVEL_THRESHOLDS[i];
+    if (!current) continue;
+
+    const prev = i > 0 ? LEVEL_THRESHOLDS[i - 1] : undefined;
+
+    const thresholdLevel =
+      current.level === Infinity ? Number.MAX_SAFE_INTEGER : current.level;
+    const prevLevel = prev ? prev.level : 0;
+
+    const expPerLevel = current.expPerLevel ?? 0;
     const prevExp = ACCUMULATED_EXP[i] ?? 0;
 
     if (level < thresholdLevel) {
@@ -196,35 +253,46 @@ export const getExperienceByLevel = (level: number): number => {
     }
   }
 
-  const last = LEVEL_THRESHOLDS[LEVEL_THRESHOLDS.length - 1];
-  const lastExp = ACCUMULATED_EXP[ACCUMULATED_EXP.length - 1] ?? 0;
-  return (
-    lastExp +
-    (level - LEVELS.HIGH) * (last?.expPerLevel ?? EXPERIENCE.VERY_HIGH)
-  );
+  // Если уровень выше всех
+  const lastIndex = LEVEL_THRESHOLDS.length - 1;
+  const lastExp = ACCUMULATED_EXP[lastIndex] ?? 0;
+  const lastExpPerLevel = LEVEL_THRESHOLDS[lastIndex]?.expPerLevel ?? 0;
+
+  return lastExp + (level - LEVELS.L45) * lastExpPerLevel;
 };
 
 export const getLevelByExperience = (experience: number): number => {
-  if (!experience || experience <= 0) return 1;
+  if (experience <= 0) return 1;
 
   for (let i = 0; i < LEVEL_THRESHOLDS.length; i++) {
-    const { level: thresholdLevel, expPerLevel } =
-      LEVEL_THRESHOLDS[i] ?? LEVEL_THRESHOLDS[0];
-    const prevLevel =
-      i === 0 ? 0 : (LEVEL_THRESHOLDS[i - 1]?.level ?? LEVELS.HIGH);
+    const current = LEVEL_THRESHOLDS[i];
+    if (!current) continue;
+
+    const prev = i > 0 ? LEVEL_THRESHOLDS[i - 1] : undefined;
+
+    const thresholdLevel =
+      current.level === Infinity ? Number.MAX_SAFE_INTEGER : current.level;
+    const prevLevel = prev ? prev.level : 0;
+
+    const expPerLevel = current.expPerLevel ?? 0;
     const prevExp = ACCUMULATED_EXP[i] ?? 0;
 
-    if (experience < prevExp + (thresholdLevel - prevLevel) * expPerLevel) {
-      return Math.floor(prevLevel + (experience - prevExp) / expPerLevel);
+    const blockExp = (thresholdLevel - prevLevel) * expPerLevel;
+
+    if (experience < prevExp + blockExp) {
+      return Math.max(
+        1,
+        Math.floor(prevLevel + (experience - prevExp) / expPerLevel),
+      );
     }
   }
 
-  const last = LEVEL_THRESHOLDS[LEVEL_THRESHOLDS.length - 1];
-  const lastExp = ACCUMULATED_EXP[ACCUMULATED_EXP.length - 1] ?? 0;
-  return (
-    (last?.level ?? LEVELS.VERY_HIGH) +
-    (experience - lastExp) / (last?.expPerLevel ?? EXPERIENCE.VERY_HIGH)
-  );
+  const lastIndex = LEVEL_THRESHOLDS.length - 1;
+  const lastLevel = LEVELS.L45;
+  const lastExp = ACCUMULATED_EXP[lastIndex] ?? 0;
+  const lastExpPerLevel = LEVEL_THRESHOLDS[lastIndex]?.expPerLevel ?? 0;
+
+  return lastLevel + (experience - lastExp) / lastExpPerLevel;
 };
 
 /**

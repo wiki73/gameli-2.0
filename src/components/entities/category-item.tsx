@@ -18,13 +18,20 @@ import { ProgressBar } from '../pages/task/progress-bar';
 type Props = {
   category: Category;
   dayId?: string;
+  tasksPage: number;
+  categoriesPage: number;
 };
 
-export const CategoryItem = ({ category, dayId }: Props) => (
+export const CategoryItem = ({
+  category,
+  dayId,
+  tasksPage,
+  categoriesPage,
+}: Props) => (
   <Card
     className='flex flex-col justify-between'
     style={{
-      boxShadow: `0px 0px 12px var(${getColorBySubjectLevel(category.level)})`,
+      boxShadow: `0px 0px 15px var(${getColorBySubjectLevel(category.level)})`,
     }}
   >
     <CardHeader>
@@ -47,13 +54,16 @@ export const CategoryItem = ({ category, dayId }: Props) => (
       )}
       <div className='flex items-center gap-2'>
         <CategoryCreateEditDialog
+          categoriesPage={categoriesPage}
           category={category}
           modeForm='EDIT'
         />
 
         <CategoryDeleteDialog
+          categoriesPage={categoriesPage}
           dayId={dayId}
           id={category.id}
+          tasksPage={tasksPage}
         />
       </div>
     </CardContent>

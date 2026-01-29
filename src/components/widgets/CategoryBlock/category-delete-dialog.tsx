@@ -18,9 +18,16 @@ import { useAuth } from '@/contexts/auth';
 type Props = {
   id: string;
   dayId?: string;
+  tasksPage: number;
+  categoriesPage: number;
 };
 
-export const CategoryDeleteDialog = ({ id, dayId }: Props) => {
+export const CategoryDeleteDialog = ({
+  id,
+  dayId,
+  tasksPage,
+  categoriesPage,
+}: Props) => {
   const queryClient = useQueryClient();
   const { user } = useAuth();
 
@@ -40,13 +47,17 @@ export const CategoryDeleteDialog = ({ id, dayId }: Props) => {
       queryClient.invalidateQueries({
         queryKey: getQueryKey({
           type: QUERY_KEY_TYPES.CATEGORIES,
-          payload: { userId: user?.id ?? '' },
+          payload: { userId: user?.id ?? '', page: categoriesPage },
         }),
       });
       queryClient.invalidateQueries({
         queryKey: getQueryKey({
           type: QUERY_KEY_TYPES.TASKS,
-          payload: { userId: user?.id ?? '', dayId: dayId ?? '' },
+          payload: {
+            userId: user?.id ?? '',
+            dayId: dayId ?? '',
+            page: tasksPage,
+          },
         }),
       });
       handleClose();
