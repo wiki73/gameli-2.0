@@ -3,6 +3,7 @@ export const ROUTES = {
   AUTH: '/auth',
   PROFILE: '/profile',
   DASHBOARD: '/dashboard',
+  CATEGORY_CREATE: '/category-create',
   TASK: '/task/:taskId',
   LEADERBOARD: '/leaderboard',
   HABITS: '/habits',

@@ -24,7 +24,6 @@
     "pre-commit": "lint-staged"
   },
   "dependencies": {
-    "@e/prisma-adapter": "^2.11.1",
     "@fontsource/inter": "^5.2.8",
     "@hookform/resolvers": "^5.2.2",
     "@prisma/adapter-pg": "^7.3.0",

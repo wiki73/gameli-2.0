@@ -1,23 +1,13 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
 import { signOut, useSession } from '@/lib/auth-client';
 
 export default function DashboardPage() {
-  const router = useRouter();
-  const { data: session, isPending } = useSession();
+  const { data: session } = useSession();
 
-  useEffect(() => {
-    if (!isPending && !session?.user) {
-      router.push('/sign-in');
-    }
-  }, [isPending, session, router]);
-
-  if (isPending)
-    return <p className='mt-8 text-center text-white'>Loading...</p>;
-  if (!session?.user)
-    return <p className='mt-8 text-center text-white'>Redirecting...</p>;
+  if (!session) {
+    return null;
+  }
 
   const { user } = session;
 

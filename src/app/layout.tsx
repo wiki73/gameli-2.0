@@ -31,7 +31,7 @@ export default function RootLayout({
           disableTransitionOnChange
           enableSystem
         >
-          <div className='flex w-full max-w-3xl flex-col items-center gap-4'>
+          <div className='flex h-full w-full max-w-3xl flex-col items-center gap-4'>
             <Header />
             {children}
           </div>
