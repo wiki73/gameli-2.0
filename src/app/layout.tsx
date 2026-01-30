@@ -3,6 +3,7 @@ import { Geist } from 'next/font/google';
 import '@/styles/globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Header } from '@/components/header';
+import { Toaster } from '@/components/ui/sonner';
 
 export const metadata: Metadata = {
   title: 'Gameli',
@@ -35,6 +36,7 @@ export default function RootLayout({
             <Header />
             {children}
           </div>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

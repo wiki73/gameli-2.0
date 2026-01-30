@@ -10115,7 +10115,7 @@ export namespace Prisma {
   }
 
   export type DayCreateInput = {
-    id: string
+    id?: string
     date: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -10124,7 +10124,7 @@ export namespace Prisma {
   }
 
   export type DayUncheckedCreateInput = {
-    id: string
+    id?: string
     date: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -10151,7 +10151,7 @@ export namespace Prisma {
   }
 
   export type DayCreateManyInput = {
-    id: string
+    id?: string
     date: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -10174,7 +10174,7 @@ export namespace Prisma {
   }
 
   export type TaskCreateInput = {
-    id: string
+    id?: string
     name: string
     isComplete: boolean
     createdAt?: Date | string
@@ -10185,7 +10185,7 @@ export namespace Prisma {
   }
 
   export type TaskUncheckedCreateInput = {
-    id: string
+    id?: string
     name: string
     isComplete: boolean
     createdAt?: Date | string
@@ -10218,7 +10218,7 @@ export namespace Prisma {
   }
 
   export type TaskCreateManyInput = {
-    id: string
+    id?: string
     name: string
     isComplete: boolean
     createdAt?: Date | string
@@ -10248,7 +10248,7 @@ export namespace Prisma {
   }
 
   export type CategoryCreateInput = {
-    id: string
+    id?: string
     name: string
     description?: string | null
     ratio: number
@@ -10261,7 +10261,7 @@ export namespace Prisma {
   }
 
   export type CategoryUncheckedCreateInput = {
-    id: string
+    id?: string
     name: string
     description?: string | null
     ratio: number
@@ -10300,7 +10300,7 @@ export namespace Prisma {
   }
 
   export type CategoryCreateManyInput = {
-    id: string
+    id?: string
     name: string
     description?: string | null
     ratio: number
@@ -10335,7 +10335,7 @@ export namespace Prisma {
   }
 
   export type UserCreateInput = {
-    id: string
+    id?: string
     name: string
     email: string
     emailVerified: boolean
@@ -10350,7 +10350,7 @@ export namespace Prisma {
   }
 
   export type UserUncheckedCreateInput = {
-    id: string
+    id?: string
     name: string
     email: string
     emailVerified: boolean
@@ -10395,7 +10395,7 @@ export namespace Prisma {
   }
 
   export type UserCreateManyInput = {
-    id: string
+    id?: string
     name: string
     email: string
     emailVerified: boolean
@@ -10425,7 +10425,7 @@ export namespace Prisma {
   }
 
   export type SessionCreateInput = {
-    id: string
+    id?: string
     expiresAt: Date | string
     token: string
     createdAt: Date | string
@@ -10436,7 +10436,7 @@ export namespace Prisma {
   }
 
   export type SessionUncheckedCreateInput = {
-    id: string
+    id?: string
     expiresAt: Date | string
     token: string
     createdAt: Date | string
@@ -10469,7 +10469,7 @@ export namespace Prisma {
   }
 
   export type SessionCreateManyInput = {
-    id: string
+    id?: string
     expiresAt: Date | string
     token: string
     createdAt: Date | string
@@ -10501,7 +10501,7 @@ export namespace Prisma {
   }
 
   export type AccountCreateInput = {
-    id: string
+    id?: string
     accountId: string
     providerId: string
     accessToken?: string | null
@@ -10517,7 +10517,7 @@ export namespace Prisma {
   }
 
   export type AccountUncheckedCreateInput = {
-    id: string
+    id?: string
     accountId: string
     providerId: string
     userId: string
@@ -10565,7 +10565,7 @@ export namespace Prisma {
   }
 
   export type AccountCreateManyInput = {
-    id: string
+    id?: string
     accountId: string
     providerId: string
     userId: string
@@ -10612,7 +10612,7 @@ export namespace Prisma {
   }
 
   export type VerificationCreateInput = {
-    id: string
+    id?: string
     identifier: string
     value: string
     expiresAt: Date | string
@@ -10621,7 +10621,7 @@ export namespace Prisma {
   }
 
   export type VerificationUncheckedCreateInput = {
-    id: string
+    id?: string
     identifier: string
     value: string
     expiresAt: Date | string
@@ -10648,7 +10648,7 @@ export namespace Prisma {
   }
 
   export type VerificationCreateManyInput = {
-    id: string
+    id?: string
     identifier: string
     value: string
     expiresAt: Date | string
@@ -11738,7 +11738,7 @@ export namespace Prisma {
   }
 
   export type UserCreateWithoutDaysInput = {
-    id: string
+    id?: string
     name: string
     email: string
     emailVerified: boolean
@@ -11752,7 +11752,7 @@ export namespace Prisma {
   }
 
   export type UserUncheckedCreateWithoutDaysInput = {
-    id: string
+    id?: string
     name: string
     email: string
     emailVerified: boolean
@@ -11771,7 +11771,7 @@ export namespace Prisma {
   }
 
   export type TaskCreateWithoutDayInput = {
-    id: string
+    id?: string
     name: string
     isComplete: boolean
     createdAt?: Date | string
@@ -11781,7 +11781,7 @@ export namespace Prisma {
   }
 
   export type TaskUncheckedCreateWithoutDayInput = {
-    id: string
+    id?: string
     name: string
     isComplete: boolean
     createdAt?: Date | string
@@ -11870,7 +11870,7 @@ export namespace Prisma {
   }
 
   export type UserCreateWithoutTasksInput = {
-    id: string
+    id?: string
     name: string
     email: string
     emailVerified: boolean
@@ -11884,7 +11884,7 @@ export namespace Prisma {
   }
 
   export type UserUncheckedCreateWithoutTasksInput = {
-    id: string
+    id?: string
     name: string
     email: string
     emailVerified: boolean
@@ -11903,7 +11903,7 @@ export namespace Prisma {
   }
 
   export type CategoryCreateWithoutTasksInput = {
-    id: string
+    id?: string
     name: string
     description?: string | null
     ratio: number
@@ -11915,7 +11915,7 @@ export namespace Prisma {
   }
 
   export type CategoryUncheckedCreateWithoutTasksInput = {
-    id: string
+    id?: string
     name: string
     description?: string | null
     ratio: number
@@ -11932,7 +11932,7 @@ export namespace Prisma {
   }
 
   export type DayCreateWithoutTasksInput = {
-    id: string
+    id?: string
     date: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -11940,7 +11940,7 @@ export namespace Prisma {
   }
 
   export type DayUncheckedCreateWithoutTasksInput = {
-    id: string
+    id?: string
     date: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -12054,7 +12054,7 @@ export namespace Prisma {
   }
 
   export type UserCreateWithoutCategoriesInput = {
-    id: string
+    id?: string
     name: string
     email: string
     emailVerified: boolean
@@ -12068,7 +12068,7 @@ export namespace Prisma {
   }
 
   export type UserUncheckedCreateWithoutCategoriesInput = {
-    id: string
+    id?: string
     name: string
     email: string
     emailVerified: boolean
@@ -12087,7 +12087,7 @@ export namespace Prisma {
   }
 
   export type TaskCreateWithoutCategoryInput = {
-    id: string
+    id?: string
     name: string
     isComplete: boolean
     createdAt?: Date | string
@@ -12097,7 +12097,7 @@ export namespace Prisma {
   }
 
   export type TaskUncheckedCreateWithoutCategoryInput = {
-    id: string
+    id?: string
     name: string
     isComplete: boolean
     createdAt?: Date | string
@@ -12172,7 +12172,7 @@ export namespace Prisma {
   }
 
   export type SessionCreateWithoutUserInput = {
-    id: string
+    id?: string
     expiresAt: Date | string
     token: string
     createdAt: Date | string
@@ -12182,7 +12182,7 @@ export namespace Prisma {
   }
 
   export type SessionUncheckedCreateWithoutUserInput = {
-    id: string
+    id?: string
     expiresAt: Date | string
     token: string
     createdAt: Date | string
@@ -12202,7 +12202,7 @@ export namespace Prisma {
   }
 
   export type AccountCreateWithoutUserInput = {
-    id: string
+    id?: string
     accountId: string
     providerId: string
     accessToken?: string | null
@@ -12217,7 +12217,7 @@ export namespace Prisma {
   }
 
   export type AccountUncheckedCreateWithoutUserInput = {
-    id: string
+    id?: string
     accountId: string
     providerId: string
     accessToken?: string | null
@@ -12242,7 +12242,7 @@ export namespace Prisma {
   }
 
   export type CategoryCreateWithoutUserInput = {
-    id: string
+    id?: string
     name: string
     description?: string | null
     ratio: number
@@ -12254,7 +12254,7 @@ export namespace Prisma {
   }
 
   export type CategoryUncheckedCreateWithoutUserInput = {
-    id: string
+    id?: string
     name: string
     description?: string | null
     ratio: number
@@ -12276,7 +12276,7 @@ export namespace Prisma {
   }
 
   export type TaskCreateWithoutUserInput = {
-    id: string
+    id?: string
     name: string
     isComplete: boolean
     createdAt?: Date | string
@@ -12286,7 +12286,7 @@ export namespace Prisma {
   }
 
   export type TaskUncheckedCreateWithoutUserInput = {
-    id: string
+    id?: string
     name: string
     isComplete: boolean
     createdAt?: Date | string
@@ -12306,7 +12306,7 @@ export namespace Prisma {
   }
 
   export type DayCreateWithoutUserInput = {
-    id: string
+    id?: string
     date: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -12314,7 +12314,7 @@ export namespace Prisma {
   }
 
   export type DayUncheckedCreateWithoutUserInput = {
-    id: string
+    id?: string
     date: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -12471,7 +12471,7 @@ export namespace Prisma {
   }
 
   export type UserCreateWithoutSessionsInput = {
-    id: string
+    id?: string
     name: string
     email: string
     emailVerified: boolean
@@ -12485,7 +12485,7 @@ export namespace Prisma {
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
-    id: string
+    id?: string
     name: string
     email: string
     emailVerified: boolean
@@ -12543,7 +12543,7 @@ export namespace Prisma {
   }
 
   export type UserCreateWithoutAccountsInput = {
-    id: string
+    id?: string
     name: string
     email: string
     emailVerified: boolean
@@ -12557,7 +12557,7 @@ export namespace Prisma {
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
-    id: string
+    id?: string
     name: string
     email: string
     emailVerified: boolean
@@ -12615,7 +12615,7 @@ export namespace Prisma {
   }
 
   export type TaskCreateManyDayInput = {
-    id: string
+    id?: string
     name: string
     isComplete: boolean
     createdAt?: Date | string
@@ -12655,7 +12655,7 @@ export namespace Prisma {
   }
 
   export type TaskCreateManyCategoryInput = {
-    id: string
+    id?: string
     name: string
     isComplete: boolean
     createdAt?: Date | string
@@ -12695,7 +12695,7 @@ export namespace Prisma {
   }
 
   export type SessionCreateManyUserInput = {
-    id: string
+    id?: string
     expiresAt: Date | string
     token: string
     createdAt: Date | string
@@ -12705,7 +12705,7 @@ export namespace Prisma {
   }
 
   export type AccountCreateManyUserInput = {
-    id: string
+    id?: string
     accountId: string
     providerId: string
     accessToken?: string | null
@@ -12720,7 +12720,7 @@ export namespace Prisma {
   }
 
   export type CategoryCreateManyUserInput = {
-    id: string
+    id?: string
     name: string
     description?: string | null
     ratio: number
@@ -12731,7 +12731,7 @@ export namespace Prisma {
   }
 
   export type TaskCreateManyUserInput = {
-    id: string
+    id?: string
     name: string
     isComplete: boolean
     createdAt?: Date | string
@@ -12741,7 +12741,7 @@ export namespace Prisma {
   }
 
   export type DayCreateManyUserInput = {
-    id: string
+    id?: string
     date: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string

@@ -5,6 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from '../ui/card';
+import { CategoriesList } from './categories-list';
 import { CategoryCreateEditDialog } from './category-create-edit-dialog';
 import type { Category } from '../../../generated/prisma';
 
@@ -38,7 +39,8 @@ export const CategoriesBlock = ({ categories }: Props) => (
         {getDescription({ hasCategories: !!categories.length })}
       </CardDescription>
     </CardHeader>
-    <CardContent>
+    <CardContent className='flex flex-col gap-4'>
+      <CategoriesList categories={categories} />
       <CategoryCreateEditDialog />
     </CardContent>
   </Card>

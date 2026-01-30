@@ -1,4 +1,4 @@
-import { CategoriesBlock } from '@/components/widgets/categories-block';
+import { CategoriesBlock } from '@/components/categories/categories-block';
 import { TasksBlock } from '@/components/widgets/tasks-block';
 import prisma from '@/server/db';
 
