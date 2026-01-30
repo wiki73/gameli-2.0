@@ -11,6 +11,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { habitApi } from '@/api/habits';
 import type { HabitWithEntries } from '@/api/habits/types';
+import { HabitCreateEditDialog } from './habits-create-edit-dialog';
 
 const TOTAL_HABITS = 21;
 const HABITS_PER_ROW = 7;
@@ -20,10 +21,18 @@ const PERCENT_DIVISOR = 100;
 type Props = {
   habit: HabitWithEntries;
   onDelete?: () => void;
+  onSuccessMessage?: (message: string) => void;
+  onError?: (errorMessage: string) => void;
   userId: string;
 };
 
-export const HabitCard = ({ habit, onDelete, userId }: Props) => {
+export const HabitCard = ({
+  habit,
+  onDelete,
+  onSuccessMessage,
+  onError,
+  userId,
+}: Props) => {
   const queryClient = useQueryClient();
   const [loadingDays, setLoadingDays] = useState<Record<number, boolean>>({});
   const [error, setError] = useState<string | null>(null);
@@ -97,6 +106,18 @@ export const HabitCard = ({ habit, onDelete, userId }: Props) => {
     },
   });
 
+  const deleteMutation = useMutation({
+    mutationFn: async () => habitApi.delete({ id: habit.id, userId }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['habits', userId] });
+      onSuccessMessage?.('Привычка удалена');
+    },
+    onError: err => {
+      const errorMessage = err instanceof Error ? err.message : String(err);
+      onError?.(`Не удалось удалить привычку: ${errorMessage}`);
+    },
+  });
+
   const habitsArray = Array.from({ length: TOTAL_HABITS }, (_, i) => i + 1);
 
   const habitRows = [];
@@ -119,6 +140,14 @@ export const HabitCard = ({ habit, onDelete, userId }: Props) => {
     }
   };
 
+  const handleDelete = () => {
+    if (onDelete) {
+      onDelete();
+    } else {
+      deleteMutation.mutate();
+    }
+  };
+
   const completedCount = habit.entries.filter(entry => entry.completed).length;
   const completionPercentage = Math.round(
     (completedCount / TOTAL_HABITS) * PERCENT_DIVISOR,
@@ -133,15 +162,20 @@ export const HabitCard = ({ habit, onDelete, userId }: Props) => {
             <CardDescription>{habit.description}</CardDescription>
           )}
         </div>
-        {onDelete && (
+        <div className='flex gap-2'>
+          <HabitCreateEditDialog
+            habit={habit}
+            modeForm='EDIT'
+          />
           <Button
-            onClick={onDelete}
+            disabled={deleteMutation.isPending}
+            onClick={handleDelete}
             size='sm'
             variant='destructive'
           >
-            Удалить
+            {deleteMutation.isPending ? 'Удаление...' : 'Удалить'}
           </Button>
-        )}
+        </div>
       </CardHeader>
 
       <CardContent>
