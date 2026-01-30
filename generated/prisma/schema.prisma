@@ -7,26 +7,11 @@ datasource db {
   provider = "postgresql"
 }
 
-model Day {
-  id String @id @default(cuid())
-
-  date DateTime
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String
-
-  tasks Task[]
-
-  @@map("day")
-}
-
 model Task {
-  id         String  @id @default(cuid())
+  id         String    @id @default(cuid())
   name       String
   isComplete Boolean
+  date       DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -35,8 +20,6 @@ model Task {
   userId     String
   category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId String
-  day        Day      @relation(fields: [dayId], references: [id], onDelete: Cascade)
-  dayId      String
 
   @@map("task")
 }
@@ -71,7 +54,6 @@ model User {
   accounts      Account[]
   categories    Category[]
   tasks         Task[]
-  days          Day[]
 
   @@unique([email])
   @@map("user")

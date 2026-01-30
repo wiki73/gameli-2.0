@@ -120,23 +120,15 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.DayScalarFieldEnum = {
-  id: 'id',
-  date: 'date',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  userId: 'userId'
-};
-
 exports.Prisma.TaskScalarFieldEnum = {
   id: 'id',
   name: 'name',
   isComplete: 'isComplete',
+  date: 'date',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   userId: 'userId',
-  categoryId: 'categoryId',
-  dayId: 'dayId'
+  categoryId: 'categoryId'
 };
 
 exports.Prisma.CategoryScalarFieldEnum = {
@@ -214,7 +206,6 @@ exports.Prisma.NullsOrder = {
 
 
 exports.Prisma.ModelName = {
-  Day: 'Day',
   Task: 'Task',
   Category: 'Category',
   User: 'User',

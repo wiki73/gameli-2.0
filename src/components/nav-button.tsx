@@ -11,7 +11,7 @@ type Props = {
 export const NavButton = ({ label, href, icon, className }: Props) => (
   <Link
     className={cn(
-      'bg-background flex aspect-square items-center justify-center gap-1 rounded-full p-2 px-4 md:aspect-auto md:rounded-3xl',
+      'bg-background flex aspect-square items-center justify-center gap-1 rounded-full p-2 px-4 md:aspect-auto',
       className,
     )}
     href={href}

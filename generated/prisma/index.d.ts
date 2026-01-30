@@ -14,11 +14,6 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
 
 
 /**
- * Model Day
- * 
- */
-export type Day = $Result.DefaultSelection<Prisma.$DayPayload>
-/**
  * Model Task
  * 
  */
@@ -56,8 +51,8 @@ export type Verification = $Result.DefaultSelection<Prisma.$VerificationPayload>
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Days
- * const days = await prisma.day.findMany()
+ * // Fetch zero or more Tasks
+ * const tasks = await prisma.task.findMany()
  * ```
  *
  *
@@ -77,8 +72,8 @@ export class PrismaClient<
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Days
-   * const days = await prisma.day.findMany()
+   * // Fetch zero or more Tasks
+   * const tasks = await prisma.task.findMany()
    * ```
    *
    *
@@ -167,16 +162,6 @@ export class PrismaClient<
   }>>
 
       /**
-   * `prisma.day`: Exposes CRUD operations for the **Day** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Days
-    * const days = await prisma.day.findMany()
-    * ```
-    */
-  get day(): Prisma.DayDelegate<ExtArgs, ClientOptions>;
-
-  /**
    * `prisma.task`: Exposes CRUD operations for the **Task** model.
     * Example usage:
     * ```ts
@@ -669,7 +654,6 @@ export namespace Prisma {
 
 
   export const ModelName: {
-    Day: 'Day',
     Task: 'Task',
     Category: 'Category',
     User: 'User',
@@ -691,84 +675,10 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "day" | "task" | "category" | "user" | "session" | "account" | "verification"
+      modelProps: "task" | "category" | "user" | "session" | "account" | "verification"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
-      Day: {
-        payload: Prisma.$DayPayload<ExtArgs>
-        fields: Prisma.DayFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.DayFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DayPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.DayFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DayPayload>
-          }
-          findFirst: {
-            args: Prisma.DayFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DayPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.DayFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DayPayload>
-          }
-          findMany: {
-            args: Prisma.DayFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DayPayload>[]
-          }
-          create: {
-            args: Prisma.DayCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DayPayload>
-          }
-          createMany: {
-            args: Prisma.DayCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.DayCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DayPayload>[]
-          }
-          delete: {
-            args: Prisma.DayDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DayPayload>
-          }
-          update: {
-            args: Prisma.DayUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DayPayload>
-          }
-          deleteMany: {
-            args: Prisma.DayDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.DayUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.DayUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DayPayload>[]
-          }
-          upsert: {
-            args: Prisma.DayUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$DayPayload>
-          }
-          aggregate: {
-            args: Prisma.DayAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateDay>
-          }
-          groupBy: {
-            args: Prisma.DayGroupByArgs<ExtArgs>
-            result: $Utils.Optional<DayGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.DayCountArgs<ExtArgs>
-            result: $Utils.Optional<DayCountAggregateOutputType> | number
-          }
-        }
-      }
       Task: {
         payload: Prisma.$TaskPayload<ExtArgs>
         fields: Prisma.TaskFieldRefs
@@ -1321,7 +1231,6 @@ export namespace Prisma {
     comments?: runtime.SqlCommenterPlugin[]
   }
   export type GlobalOmitConfig = {
-    day?: DayOmit
     task?: TaskOmit
     category?: CategoryOmit
     user?: UserOmit
@@ -1404,37 +1313,6 @@ export namespace Prisma {
 
 
   /**
-   * Count Type DayCountOutputType
-   */
-
-  export type DayCountOutputType = {
-    tasks: number
-  }
-
-  export type DayCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    tasks?: boolean | DayCountOutputTypeCountTasksArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * DayCountOutputType without action
-   */
-  export type DayCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the DayCountOutputType
-     */
-    select?: DayCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * DayCountOutputType without action
-   */
-  export type DayCountOutputTypeCountTasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: TaskWhereInput
-  }
-
-
-  /**
    * Count Type CategoryCountOutputType
    */
 
@@ -1474,7 +1352,6 @@ export namespace Prisma {
     accounts: number
     categories: number
     tasks: number
-    days: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1482,7 +1359,6 @@ export namespace Prisma {
     accounts?: boolean | UserCountOutputTypeCountAccountsArgs
     categories?: boolean | UserCountOutputTypeCountCategoriesArgs
     tasks?: boolean | UserCountOutputTypeCountTasksArgs
-    days?: boolean | UserCountOutputTypeCountDaysArgs
   }
 
   // Custom InputTypes
@@ -1524,1105 +1400,10 @@ export namespace Prisma {
     where?: TaskWhereInput
   }
 
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountDaysArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: DayWhereInput
-  }
-
 
   /**
    * Models
    */
-
-  /**
-   * Model Day
-   */
-
-  export type AggregateDay = {
-    _count: DayCountAggregateOutputType | null
-    _min: DayMinAggregateOutputType | null
-    _max: DayMaxAggregateOutputType | null
-  }
-
-  export type DayMinAggregateOutputType = {
-    id: string | null
-    date: Date | null
-    createdAt: Date | null
-    updatedAt: Date | null
-    userId: string | null
-  }
-
-  export type DayMaxAggregateOutputType = {
-    id: string | null
-    date: Date | null
-    createdAt: Date | null
-    updatedAt: Date | null
-    userId: string | null
-  }
-
-  export type DayCountAggregateOutputType = {
-    id: number
-    date: number
-    createdAt: number
-    updatedAt: number
-    userId: number
-    _all: number
-  }
-
-
-  export type DayMinAggregateInputType = {
-    id?: true
-    date?: true
-    createdAt?: true
-    updatedAt?: true
-    userId?: true
-  }
-
-  export type DayMaxAggregateInputType = {
-    id?: true
-    date?: true
-    createdAt?: true
-    updatedAt?: true
-    userId?: true
-  }
-
-  export type DayCountAggregateInputType = {
-    id?: true
-    date?: true
-    createdAt?: true
-    updatedAt?: true
-    userId?: true
-    _all?: true
-  }
-
-  export type DayAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Day to aggregate.
-     */
-    where?: DayWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Days to fetch.
-     */
-    orderBy?: DayOrderByWithRelationInput | DayOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: DayWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Days from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Days.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Days
-    **/
-    _count?: true | DayCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: DayMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: DayMaxAggregateInputType
-  }
-
-  export type GetDayAggregateType<T extends DayAggregateArgs> = {
-        [P in keyof T & keyof AggregateDay]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateDay[P]>
-      : GetScalarType<T[P], AggregateDay[P]>
-  }
-
-
-
-
-  export type DayGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: DayWhereInput
-    orderBy?: DayOrderByWithAggregationInput | DayOrderByWithAggregationInput[]
-    by: DayScalarFieldEnum[] | DayScalarFieldEnum
-    having?: DayScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: DayCountAggregateInputType | true
-    _min?: DayMinAggregateInputType
-    _max?: DayMaxAggregateInputType
-  }
-
-  export type DayGroupByOutputType = {
-    id: string
-    date: Date
-    createdAt: Date
-    updatedAt: Date
-    userId: string
-    _count: DayCountAggregateOutputType | null
-    _min: DayMinAggregateOutputType | null
-    _max: DayMaxAggregateOutputType | null
-  }
-
-  type GetDayGroupByPayload<T extends DayGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<DayGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof DayGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], DayGroupByOutputType[P]>
-            : GetScalarType<T[P], DayGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type DaySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    date?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    userId?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    tasks?: boolean | Day$tasksArgs<ExtArgs>
-    _count?: boolean | DayCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["day"]>
-
-  export type DaySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    date?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    userId?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["day"]>
-
-  export type DaySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    date?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    userId?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["day"]>
-
-  export type DaySelectScalar = {
-    id?: boolean
-    date?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    userId?: boolean
-  }
-
-  export type DayOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "date" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["day"]>
-  export type DayInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    tasks?: boolean | Day$tasksArgs<ExtArgs>
-    _count?: boolean | DayCountOutputTypeDefaultArgs<ExtArgs>
-  }
-  export type DayIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
-  }
-  export type DayIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
-  }
-
-  export type $DayPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Day"
-    objects: {
-      user: Prisma.$UserPayload<ExtArgs>
-      tasks: Prisma.$TaskPayload<ExtArgs>[]
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      date: Date
-      createdAt: Date
-      updatedAt: Date
-      userId: string
-    }, ExtArgs["result"]["day"]>
-    composites: {}
-  }
-
-  type DayGetPayload<S extends boolean | null | undefined | DayDefaultArgs> = $Result.GetResult<Prisma.$DayPayload, S>
-
-  type DayCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<DayFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: DayCountAggregateInputType | true
-    }
-
-  export interface DayDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Day'], meta: { name: 'Day' } }
-    /**
-     * Find zero or one Day that matches the filter.
-     * @param {DayFindUniqueArgs} args - Arguments to find a Day
-     * @example
-     * // Get one Day
-     * const day = await prisma.day.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends DayFindUniqueArgs>(args: SelectSubset<T, DayFindUniqueArgs<ExtArgs>>): Prisma__DayClient<$Result.GetResult<Prisma.$DayPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Day that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {DayFindUniqueOrThrowArgs} args - Arguments to find a Day
-     * @example
-     * // Get one Day
-     * const day = await prisma.day.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends DayFindUniqueOrThrowArgs>(args: SelectSubset<T, DayFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DayClient<$Result.GetResult<Prisma.$DayPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Day that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {DayFindFirstArgs} args - Arguments to find a Day
-     * @example
-     * // Get one Day
-     * const day = await prisma.day.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends DayFindFirstArgs>(args?: SelectSubset<T, DayFindFirstArgs<ExtArgs>>): Prisma__DayClient<$Result.GetResult<Prisma.$DayPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Day that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {DayFindFirstOrThrowArgs} args - Arguments to find a Day
-     * @example
-     * // Get one Day
-     * const day = await prisma.day.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends DayFindFirstOrThrowArgs>(args?: SelectSubset<T, DayFindFirstOrThrowArgs<ExtArgs>>): Prisma__DayClient<$Result.GetResult<Prisma.$DayPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Days that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {DayFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Days
-     * const days = await prisma.day.findMany()
-     * 
-     * // Get first 10 Days
-     * const days = await prisma.day.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const dayWithIdOnly = await prisma.day.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends DayFindManyArgs>(args?: SelectSubset<T, DayFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DayPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Day.
-     * @param {DayCreateArgs} args - Arguments to create a Day.
-     * @example
-     * // Create one Day
-     * const Day = await prisma.day.create({
-     *   data: {
-     *     // ... data to create a Day
-     *   }
-     * })
-     * 
-     */
-    create<T extends DayCreateArgs>(args: SelectSubset<T, DayCreateArgs<ExtArgs>>): Prisma__DayClient<$Result.GetResult<Prisma.$DayPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Days.
-     * @param {DayCreateManyArgs} args - Arguments to create many Days.
-     * @example
-     * // Create many Days
-     * const day = await prisma.day.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends DayCreateManyArgs>(args?: SelectSubset<T, DayCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Days and returns the data saved in the database.
-     * @param {DayCreateManyAndReturnArgs} args - Arguments to create many Days.
-     * @example
-     * // Create many Days
-     * const day = await prisma.day.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Days and only return the `id`
-     * const dayWithIdOnly = await prisma.day.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends DayCreateManyAndReturnArgs>(args?: SelectSubset<T, DayCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DayPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a Day.
-     * @param {DayDeleteArgs} args - Arguments to delete one Day.
-     * @example
-     * // Delete one Day
-     * const Day = await prisma.day.delete({
-     *   where: {
-     *     // ... filter to delete one Day
-     *   }
-     * })
-     * 
-     */
-    delete<T extends DayDeleteArgs>(args: SelectSubset<T, DayDeleteArgs<ExtArgs>>): Prisma__DayClient<$Result.GetResult<Prisma.$DayPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Day.
-     * @param {DayUpdateArgs} args - Arguments to update one Day.
-     * @example
-     * // Update one Day
-     * const day = await prisma.day.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends DayUpdateArgs>(args: SelectSubset<T, DayUpdateArgs<ExtArgs>>): Prisma__DayClient<$Result.GetResult<Prisma.$DayPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Days.
-     * @param {DayDeleteManyArgs} args - Arguments to filter Days to delete.
-     * @example
-     * // Delete a few Days
-     * const { count } = await prisma.day.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends DayDeleteManyArgs>(args?: SelectSubset<T, DayDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Days.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {DayUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Days
-     * const day = await prisma.day.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends DayUpdateManyArgs>(args: SelectSubset<T, DayUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Days and returns the data updated in the database.
-     * @param {DayUpdateManyAndReturnArgs} args - Arguments to update many Days.
-     * @example
-     * // Update many Days
-     * const day = await prisma.day.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Days and only return the `id`
-     * const dayWithIdOnly = await prisma.day.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends DayUpdateManyAndReturnArgs>(args: SelectSubset<T, DayUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DayPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one Day.
-     * @param {DayUpsertArgs} args - Arguments to update or create a Day.
-     * @example
-     * // Update or create a Day
-     * const day = await prisma.day.upsert({
-     *   create: {
-     *     // ... data to create a Day
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Day we want to update
-     *   }
-     * })
-     */
-    upsert<T extends DayUpsertArgs>(args: SelectSubset<T, DayUpsertArgs<ExtArgs>>): Prisma__DayClient<$Result.GetResult<Prisma.$DayPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Days.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {DayCountArgs} args - Arguments to filter Days to count.
-     * @example
-     * // Count the number of Days
-     * const count = await prisma.day.count({
-     *   where: {
-     *     // ... the filter for the Days we want to count
-     *   }
-     * })
-    **/
-    count<T extends DayCountArgs>(
-      args?: Subset<T, DayCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], DayCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Day.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {DayAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends DayAggregateArgs>(args: Subset<T, DayAggregateArgs>): Prisma.PrismaPromise<GetDayAggregateType<T>>
-
-    /**
-     * Group by Day.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {DayGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends DayGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: DayGroupByArgs['orderBy'] }
-        : { orderBy?: DayGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, DayGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDayGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Day model
-   */
-  readonly fields: DayFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Day.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__DayClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    tasks<T extends Day$tasksArgs<ExtArgs> = {}>(args?: Subset<T, Day$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Day model
-   */
-  interface DayFieldRefs {
-    readonly id: FieldRef<"Day", 'String'>
-    readonly date: FieldRef<"Day", 'DateTime'>
-    readonly createdAt: FieldRef<"Day", 'DateTime'>
-    readonly updatedAt: FieldRef<"Day", 'DateTime'>
-    readonly userId: FieldRef<"Day", 'String'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Day findUnique
-   */
-  export type DayFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Day
-     */
-    select?: DaySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Day
-     */
-    omit?: DayOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DayInclude<ExtArgs> | null
-    /**
-     * Filter, which Day to fetch.
-     */
-    where: DayWhereUniqueInput
-  }
-
-  /**
-   * Day findUniqueOrThrow
-   */
-  export type DayFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Day
-     */
-    select?: DaySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Day
-     */
-    omit?: DayOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DayInclude<ExtArgs> | null
-    /**
-     * Filter, which Day to fetch.
-     */
-    where: DayWhereUniqueInput
-  }
-
-  /**
-   * Day findFirst
-   */
-  export type DayFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Day
-     */
-    select?: DaySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Day
-     */
-    omit?: DayOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DayInclude<ExtArgs> | null
-    /**
-     * Filter, which Day to fetch.
-     */
-    where?: DayWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Days to fetch.
-     */
-    orderBy?: DayOrderByWithRelationInput | DayOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Days.
-     */
-    cursor?: DayWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Days from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Days.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Days.
-     */
-    distinct?: DayScalarFieldEnum | DayScalarFieldEnum[]
-  }
-
-  /**
-   * Day findFirstOrThrow
-   */
-  export type DayFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Day
-     */
-    select?: DaySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Day
-     */
-    omit?: DayOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DayInclude<ExtArgs> | null
-    /**
-     * Filter, which Day to fetch.
-     */
-    where?: DayWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Days to fetch.
-     */
-    orderBy?: DayOrderByWithRelationInput | DayOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Days.
-     */
-    cursor?: DayWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Days from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Days.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Days.
-     */
-    distinct?: DayScalarFieldEnum | DayScalarFieldEnum[]
-  }
-
-  /**
-   * Day findMany
-   */
-  export type DayFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Day
-     */
-    select?: DaySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Day
-     */
-    omit?: DayOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DayInclude<ExtArgs> | null
-    /**
-     * Filter, which Days to fetch.
-     */
-    where?: DayWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Days to fetch.
-     */
-    orderBy?: DayOrderByWithRelationInput | DayOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Days.
-     */
-    cursor?: DayWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Days from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Days.
-     */
-    skip?: number
-    distinct?: DayScalarFieldEnum | DayScalarFieldEnum[]
-  }
-
-  /**
-   * Day create
-   */
-  export type DayCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Day
-     */
-    select?: DaySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Day
-     */
-    omit?: DayOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DayInclude<ExtArgs> | null
-    /**
-     * The data needed to create a Day.
-     */
-    data: XOR<DayCreateInput, DayUncheckedCreateInput>
-  }
-
-  /**
-   * Day createMany
-   */
-  export type DayCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Days.
-     */
-    data: DayCreateManyInput | DayCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Day createManyAndReturn
-   */
-  export type DayCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Day
-     */
-    select?: DaySelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Day
-     */
-    omit?: DayOmit<ExtArgs> | null
-    /**
-     * The data used to create many Days.
-     */
-    data: DayCreateManyInput | DayCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DayIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * Day update
-   */
-  export type DayUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Day
-     */
-    select?: DaySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Day
-     */
-    omit?: DayOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DayInclude<ExtArgs> | null
-    /**
-     * The data needed to update a Day.
-     */
-    data: XOR<DayUpdateInput, DayUncheckedUpdateInput>
-    /**
-     * Choose, which Day to update.
-     */
-    where: DayWhereUniqueInput
-  }
-
-  /**
-   * Day updateMany
-   */
-  export type DayUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Days.
-     */
-    data: XOR<DayUpdateManyMutationInput, DayUncheckedUpdateManyInput>
-    /**
-     * Filter which Days to update
-     */
-    where?: DayWhereInput
-    /**
-     * Limit how many Days to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Day updateManyAndReturn
-   */
-  export type DayUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Day
-     */
-    select?: DaySelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Day
-     */
-    omit?: DayOmit<ExtArgs> | null
-    /**
-     * The data used to update Days.
-     */
-    data: XOR<DayUpdateManyMutationInput, DayUncheckedUpdateManyInput>
-    /**
-     * Filter which Days to update
-     */
-    where?: DayWhereInput
-    /**
-     * Limit how many Days to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DayIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * Day upsert
-   */
-  export type DayUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Day
-     */
-    select?: DaySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Day
-     */
-    omit?: DayOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DayInclude<ExtArgs> | null
-    /**
-     * The filter to search for the Day to update in case it exists.
-     */
-    where: DayWhereUniqueInput
-    /**
-     * In case the Day found by the `where` argument doesn't exist, create a new Day with this data.
-     */
-    create: XOR<DayCreateInput, DayUncheckedCreateInput>
-    /**
-     * In case the Day was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<DayUpdateInput, DayUncheckedUpdateInput>
-  }
-
-  /**
-   * Day delete
-   */
-  export type DayDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Day
-     */
-    select?: DaySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Day
-     */
-    omit?: DayOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DayInclude<ExtArgs> | null
-    /**
-     * Filter which Day to delete.
-     */
-    where: DayWhereUniqueInput
-  }
-
-  /**
-   * Day deleteMany
-   */
-  export type DayDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Days to delete
-     */
-    where?: DayWhereInput
-    /**
-     * Limit how many Days to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * Day.tasks
-   */
-  export type Day$tasksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Task
-     */
-    select?: TaskSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Task
-     */
-    omit?: TaskOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TaskInclude<ExtArgs> | null
-    where?: TaskWhereInput
-    orderBy?: TaskOrderByWithRelationInput | TaskOrderByWithRelationInput[]
-    cursor?: TaskWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: TaskScalarFieldEnum | TaskScalarFieldEnum[]
-  }
-
-  /**
-   * Day without action
-   */
-  export type DayDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Day
-     */
-    select?: DaySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Day
-     */
-    omit?: DayOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DayInclude<ExtArgs> | null
-  }
-
 
   /**
    * Model Task
@@ -2638,33 +1419,33 @@ export namespace Prisma {
     id: string | null
     name: string | null
     isComplete: boolean | null
+    date: Date | null
     createdAt: Date | null
     updatedAt: Date | null
     userId: string | null
     categoryId: string | null
-    dayId: string | null
   }
 
   export type TaskMaxAggregateOutputType = {
     id: string | null
     name: string | null
     isComplete: boolean | null
+    date: Date | null
     createdAt: Date | null
     updatedAt: Date | null
     userId: string | null
     categoryId: string | null
-    dayId: string | null
   }
 
   export type TaskCountAggregateOutputType = {
     id: number
     name: number
     isComplete: number
+    date: number
     createdAt: number
     updatedAt: number
     userId: number
     categoryId: number
-    dayId: number
     _all: number
   }
 
@@ -2673,33 +1454,33 @@ export namespace Prisma {
     id?: true
     name?: true
     isComplete?: true
+    date?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
     categoryId?: true
-    dayId?: true
   }
 
   export type TaskMaxAggregateInputType = {
     id?: true
     name?: true
     isComplete?: true
+    date?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
     categoryId?: true
-    dayId?: true
   }
 
   export type TaskCountAggregateInputType = {
     id?: true
     name?: true
     isComplete?: true
+    date?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
     categoryId?: true
-    dayId?: true
     _all?: true
   }
 
@@ -2779,11 +1560,11 @@ export namespace Prisma {
     id: string
     name: string
     isComplete: boolean
+    date: Date | null
     createdAt: Date
     updatedAt: Date
     userId: string
     categoryId: string
-    dayId: string
     _count: TaskCountAggregateOutputType | null
     _min: TaskMinAggregateOutputType | null
     _max: TaskMaxAggregateOutputType | null
@@ -2807,70 +1588,64 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     isComplete?: boolean
+    date?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
     categoryId?: boolean
-    dayId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
-    day?: boolean | DayDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["task"]>
 
   export type TaskSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
     isComplete?: boolean
+    date?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
     categoryId?: boolean
-    dayId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
-    day?: boolean | DayDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["task"]>
 
   export type TaskSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
     isComplete?: boolean
+    date?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
     categoryId?: boolean
-    dayId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
-    day?: boolean | DayDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["task"]>
 
   export type TaskSelectScalar = {
     id?: boolean
     name?: boolean
     isComplete?: boolean
+    date?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
     categoryId?: boolean
-    dayId?: boolean
   }
 
-  export type TaskOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "isComplete" | "createdAt" | "updatedAt" | "userId" | "categoryId" | "dayId", ExtArgs["result"]["task"]>
+  export type TaskOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "isComplete" | "date" | "createdAt" | "updatedAt" | "userId" | "categoryId", ExtArgs["result"]["task"]>
   export type TaskInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
-    day?: boolean | DayDefaultArgs<ExtArgs>
   }
   export type TaskIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
-    day?: boolean | DayDefaultArgs<ExtArgs>
   }
   export type TaskIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
-    day?: boolean | DayDefaultArgs<ExtArgs>
   }
 
   export type $TaskPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2878,17 +1653,16 @@ export namespace Prisma {
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
       category: Prisma.$CategoryPayload<ExtArgs>
-      day: Prisma.$DayPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
       isComplete: boolean
+      date: Date | null
       createdAt: Date
       updatedAt: Date
       userId: string
       categoryId: string
-      dayId: string
     }, ExtArgs["result"]["task"]>
     composites: {}
   }
@@ -3285,7 +2059,6 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     category<T extends CategoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CategoryDefaultArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    day<T extends DayDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DayDefaultArgs<ExtArgs>>): Prisma__DayClient<$Result.GetResult<Prisma.$DayPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3318,11 +2091,11 @@ export namespace Prisma {
     readonly id: FieldRef<"Task", 'String'>
     readonly name: FieldRef<"Task", 'String'>
     readonly isComplete: FieldRef<"Task", 'Boolean'>
+    readonly date: FieldRef<"Task", 'DateTime'>
     readonly createdAt: FieldRef<"Task", 'DateTime'>
     readonly updatedAt: FieldRef<"Task", 'DateTime'>
     readonly userId: FieldRef<"Task", 'String'>
     readonly categoryId: FieldRef<"Task", 'String'>
-    readonly dayId: FieldRef<"Task", 'String'>
   }
     
 
@@ -5103,7 +3876,6 @@ export namespace Prisma {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     categories?: boolean | User$categoriesArgs<ExtArgs>
     tasks?: boolean | User$tasksArgs<ExtArgs>
-    days?: boolean | User$daysArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -5143,7 +3915,6 @@ export namespace Prisma {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     categories?: boolean | User$categoriesArgs<ExtArgs>
     tasks?: boolean | User$tasksArgs<ExtArgs>
-    days?: boolean | User$daysArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -5156,7 +3927,6 @@ export namespace Prisma {
       accounts: Prisma.$AccountPayload<ExtArgs>[]
       categories: Prisma.$CategoryPayload<ExtArgs>[]
       tasks: Prisma.$TaskPayload<ExtArgs>[]
-      days: Prisma.$DayPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5564,7 +4334,6 @@ export namespace Prisma {
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     categories<T extends User$categoriesArgs<ExtArgs> = {}>(args?: Subset<T, User$categoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tasks<T extends User$tasksArgs<ExtArgs> = {}>(args?: Subset<T, User$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    days<T extends User$daysArgs<ExtArgs> = {}>(args?: Subset<T, User$daysArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DayPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6082,30 +4851,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TaskScalarFieldEnum | TaskScalarFieldEnum[]
-  }
-
-  /**
-   * User.days
-   */
-  export type User$daysArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Day
-     */
-    select?: DaySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Day
-     */
-    omit?: DayOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DayInclude<ExtArgs> | null
-    where?: DayWhereInput
-    orderBy?: DayOrderByWithRelationInput | DayOrderByWithRelationInput[]
-    cursor?: DayWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: DayScalarFieldEnum | DayScalarFieldEnum[]
   }
 
   /**
@@ -9408,26 +8153,15 @@ export namespace Prisma {
   export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-  export const DayScalarFieldEnum: {
-    id: 'id',
-    date: 'date',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
-    userId: 'userId'
-  };
-
-  export type DayScalarFieldEnum = (typeof DayScalarFieldEnum)[keyof typeof DayScalarFieldEnum]
-
-
   export const TaskScalarFieldEnum: {
     id: 'id',
     name: 'name',
     isComplete: 'isComplete',
+    date: 'date',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     userId: 'userId',
-    categoryId: 'categoryId',
-    dayId: 'dayId'
+    categoryId: 'categoryId'
   };
 
   export type TaskScalarFieldEnum = (typeof TaskScalarFieldEnum)[keyof typeof TaskScalarFieldEnum]
@@ -9550,6 +8284,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -9560,13 +8301,6 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -9601,64 +8335,6 @@ export namespace Prisma {
    */
 
 
-  export type DayWhereInput = {
-    AND?: DayWhereInput | DayWhereInput[]
-    OR?: DayWhereInput[]
-    NOT?: DayWhereInput | DayWhereInput[]
-    id?: StringFilter<"Day"> | string
-    date?: DateTimeFilter<"Day"> | Date | string
-    createdAt?: DateTimeFilter<"Day"> | Date | string
-    updatedAt?: DateTimeFilter<"Day"> | Date | string
-    userId?: StringFilter<"Day"> | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    tasks?: TaskListRelationFilter
-  }
-
-  export type DayOrderByWithRelationInput = {
-    id?: SortOrder
-    date?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    userId?: SortOrder
-    user?: UserOrderByWithRelationInput
-    tasks?: TaskOrderByRelationAggregateInput
-  }
-
-  export type DayWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    AND?: DayWhereInput | DayWhereInput[]
-    OR?: DayWhereInput[]
-    NOT?: DayWhereInput | DayWhereInput[]
-    date?: DateTimeFilter<"Day"> | Date | string
-    createdAt?: DateTimeFilter<"Day"> | Date | string
-    updatedAt?: DateTimeFilter<"Day"> | Date | string
-    userId?: StringFilter<"Day"> | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    tasks?: TaskListRelationFilter
-  }, "id">
-
-  export type DayOrderByWithAggregationInput = {
-    id?: SortOrder
-    date?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    userId?: SortOrder
-    _count?: DayCountOrderByAggregateInput
-    _max?: DayMaxOrderByAggregateInput
-    _min?: DayMinOrderByAggregateInput
-  }
-
-  export type DayScalarWhereWithAggregatesInput = {
-    AND?: DayScalarWhereWithAggregatesInput | DayScalarWhereWithAggregatesInput[]
-    OR?: DayScalarWhereWithAggregatesInput[]
-    NOT?: DayScalarWhereWithAggregatesInput | DayScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Day"> | string
-    date?: DateTimeWithAggregatesFilter<"Day"> | Date | string
-    createdAt?: DateTimeWithAggregatesFilter<"Day"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"Day"> | Date | string
-    userId?: StringWithAggregatesFilter<"Day"> | string
-  }
-
   export type TaskWhereInput = {
     AND?: TaskWhereInput | TaskWhereInput[]
     OR?: TaskWhereInput[]
@@ -9666,28 +8342,26 @@ export namespace Prisma {
     id?: StringFilter<"Task"> | string
     name?: StringFilter<"Task"> | string
     isComplete?: BoolFilter<"Task"> | boolean
+    date?: DateTimeNullableFilter<"Task"> | Date | string | null
     createdAt?: DateTimeFilter<"Task"> | Date | string
     updatedAt?: DateTimeFilter<"Task"> | Date | string
     userId?: StringFilter<"Task"> | string
     categoryId?: StringFilter<"Task"> | string
-    dayId?: StringFilter<"Task"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
-    day?: XOR<DayScalarRelationFilter, DayWhereInput>
   }
 
   export type TaskOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
     isComplete?: SortOrder
+    date?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
     categoryId?: SortOrder
-    dayId?: SortOrder
     user?: UserOrderByWithRelationInput
     category?: CategoryOrderByWithRelationInput
-    day?: DayOrderByWithRelationInput
   }
 
   export type TaskWhereUniqueInput = Prisma.AtLeast<{
@@ -9697,25 +8371,24 @@ export namespace Prisma {
     NOT?: TaskWhereInput | TaskWhereInput[]
     name?: StringFilter<"Task"> | string
     isComplete?: BoolFilter<"Task"> | boolean
+    date?: DateTimeNullableFilter<"Task"> | Date | string | null
     createdAt?: DateTimeFilter<"Task"> | Date | string
     updatedAt?: DateTimeFilter<"Task"> | Date | string
     userId?: StringFilter<"Task"> | string
     categoryId?: StringFilter<"Task"> | string
-    dayId?: StringFilter<"Task"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
-    day?: XOR<DayScalarRelationFilter, DayWhereInput>
   }, "id">
 
   export type TaskOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
     isComplete?: SortOrder
+    date?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
     categoryId?: SortOrder
-    dayId?: SortOrder
     _count?: TaskCountOrderByAggregateInput
     _max?: TaskMaxOrderByAggregateInput
     _min?: TaskMinOrderByAggregateInput
@@ -9728,11 +8401,11 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Task"> | string
     name?: StringWithAggregatesFilter<"Task"> | string
     isComplete?: BoolWithAggregatesFilter<"Task"> | boolean
+    date?: DateTimeNullableWithAggregatesFilter<"Task"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Task"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Task"> | Date | string
     userId?: StringWithAggregatesFilter<"Task"> | string
     categoryId?: StringWithAggregatesFilter<"Task"> | string
-    dayId?: StringWithAggregatesFilter<"Task"> | string
   }
 
   export type CategoryWhereInput = {
@@ -9830,7 +8503,6 @@ export namespace Prisma {
     accounts?: AccountListRelationFilter
     categories?: CategoryListRelationFilter
     tasks?: TaskListRelationFilter
-    days?: DayListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -9845,7 +8517,6 @@ export namespace Prisma {
     accounts?: AccountOrderByRelationAggregateInput
     categories?: CategoryOrderByRelationAggregateInput
     tasks?: TaskOrderByRelationAggregateInput
-    days?: DayOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -9863,7 +8534,6 @@ export namespace Prisma {
     accounts?: AccountListRelationFilter
     categories?: CategoryListRelationFilter
     tasks?: TaskListRelationFilter
-    days?: DayListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -10114,124 +8784,66 @@ export namespace Prisma {
     updatedAt?: DateTimeNullableWithAggregatesFilter<"Verification"> | Date | string | null
   }
 
-  export type DayCreateInput = {
-    id?: string
-    date: Date | string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutDaysInput
-    tasks?: TaskCreateNestedManyWithoutDayInput
-  }
-
-  export type DayUncheckedCreateInput = {
-    id?: string
-    date: Date | string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    userId: string
-    tasks?: TaskUncheckedCreateNestedManyWithoutDayInput
-  }
-
-  export type DayUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutDaysNestedInput
-    tasks?: TaskUpdateManyWithoutDayNestedInput
-  }
-
-  export type DayUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userId?: StringFieldUpdateOperationsInput | string
-    tasks?: TaskUncheckedUpdateManyWithoutDayNestedInput
-  }
-
-  export type DayCreateManyInput = {
-    id?: string
-    date: Date | string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    userId: string
-  }
-
-  export type DayUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type DayUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userId?: StringFieldUpdateOperationsInput | string
-  }
-
   export type TaskCreateInput = {
     id?: string
     name: string
     isComplete: boolean
+    date?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutTasksInput
     category: CategoryCreateNestedOneWithoutTasksInput
-    day: DayCreateNestedOneWithoutTasksInput
   }
 
   export type TaskUncheckedCreateInput = {
     id?: string
     name: string
     isComplete: boolean
+    date?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
     categoryId: string
-    dayId: string
   }
 
   export type TaskUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     isComplete?: BoolFieldUpdateOperationsInput | boolean
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutTasksNestedInput
     category?: CategoryUpdateOneRequiredWithoutTasksNestedInput
-    day?: DayUpdateOneRequiredWithoutTasksNestedInput
   }
 
   export type TaskUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     isComplete?: BoolFieldUpdateOperationsInput | boolean
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
-    dayId?: StringFieldUpdateOperationsInput | string
   }
 
   export type TaskCreateManyInput = {
     id?: string
     name: string
     isComplete: boolean
+    date?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
     categoryId: string
-    dayId: string
   }
 
   export type TaskUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     isComplete?: BoolFieldUpdateOperationsInput | boolean
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10240,11 +8852,11 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     isComplete?: BoolFieldUpdateOperationsInput | boolean
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
-    dayId?: StringFieldUpdateOperationsInput | string
   }
 
   export type CategoryCreateInput = {
@@ -10346,7 +8958,6 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
-    days?: DayCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -10361,7 +8972,6 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
-    days?: DayUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -10376,7 +8986,6 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
-    days?: DayUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -10391,7 +9000,6 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
-    days?: DayUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -10689,6 +9297,22 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -10705,38 +9329,47 @@ export namespace Prisma {
     isNot?: UserWhereInput
   }
 
-  export type TaskListRelationFilter = {
-    every?: TaskWhereInput
-    some?: TaskWhereInput
-    none?: TaskWhereInput
+  export type CategoryScalarRelationFilter = {
+    is?: CategoryWhereInput
+    isNot?: CategoryWhereInput
   }
 
-  export type TaskOrderByRelationAggregateInput = {
-    _count?: SortOrder
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
   }
 
-  export type DayCountOrderByAggregateInput = {
+  export type TaskCountOrderByAggregateInput = {
     id?: SortOrder
+    name?: SortOrder
+    isComplete?: SortOrder
     date?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
+    categoryId?: SortOrder
   }
 
-  export type DayMaxOrderByAggregateInput = {
+  export type TaskMaxOrderByAggregateInput = {
     id?: SortOrder
+    name?: SortOrder
+    isComplete?: SortOrder
     date?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
+    categoryId?: SortOrder
   }
 
-  export type DayMinOrderByAggregateInput = {
+  export type TaskMinOrderByAggregateInput = {
     id?: SortOrder
+    name?: SortOrder
+    isComplete?: SortOrder
     date?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
+    categoryId?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -10757,6 +9390,28 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -10769,62 +9424,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type CategoryScalarRelationFilter = {
-    is?: CategoryWhereInput
-    isNot?: CategoryWhereInput
-  }
-
-  export type DayScalarRelationFilter = {
-    is?: DayWhereInput
-    isNot?: DayWhereInput
-  }
-
-  export type TaskCountOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    isComplete?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    userId?: SortOrder
-    categoryId?: SortOrder
-    dayId?: SortOrder
-  }
-
-  export type TaskMaxOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    isComplete?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    userId?: SortOrder
-    categoryId?: SortOrder
-    dayId?: SortOrder
-  }
-
-  export type TaskMinOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    isComplete?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    userId?: SortOrder
-    categoryId?: SortOrder
-    dayId?: SortOrder
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type StringNullableFilter<$PrismaModel = never> = {
@@ -10853,9 +9452,14 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
+  export type TaskListRelationFilter = {
+    every?: TaskWhereInput
+    some?: TaskWhereInput
+    none?: TaskWhereInput
+  }
+
+  export type TaskOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type CategoryCountOrderByAggregateInput = {
@@ -10958,12 +9562,6 @@ export namespace Prisma {
     none?: CategoryWhereInput
   }
 
-  export type DayListRelationFilter = {
-    every?: DayWhereInput
-    some?: DayWhereInput
-    none?: DayWhereInput
-  }
-
   export type SessionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -10973,10 +9571,6 @@ export namespace Prisma {
   }
 
   export type CategoryOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type DayOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -11043,17 +9637,6 @@ export namespace Prisma {
     userId?: SortOrder
   }
 
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type AccountCountOrderByAggregateInput = {
     id?: SortOrder
     accountId?: SortOrder
@@ -11102,20 +9685,6 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
-  }
-
   export type VerificationCountOrderByAggregateInput = {
     id?: SortOrder
     identifier?: SortOrder
@@ -11143,70 +9712,6 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type UserCreateNestedOneWithoutDaysInput = {
-    create?: XOR<UserCreateWithoutDaysInput, UserUncheckedCreateWithoutDaysInput>
-    connectOrCreate?: UserCreateOrConnectWithoutDaysInput
-    connect?: UserWhereUniqueInput
-  }
-
-  export type TaskCreateNestedManyWithoutDayInput = {
-    create?: XOR<TaskCreateWithoutDayInput, TaskUncheckedCreateWithoutDayInput> | TaskCreateWithoutDayInput[] | TaskUncheckedCreateWithoutDayInput[]
-    connectOrCreate?: TaskCreateOrConnectWithoutDayInput | TaskCreateOrConnectWithoutDayInput[]
-    createMany?: TaskCreateManyDayInputEnvelope
-    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
-  }
-
-  export type TaskUncheckedCreateNestedManyWithoutDayInput = {
-    create?: XOR<TaskCreateWithoutDayInput, TaskUncheckedCreateWithoutDayInput> | TaskCreateWithoutDayInput[] | TaskUncheckedCreateWithoutDayInput[]
-    connectOrCreate?: TaskCreateOrConnectWithoutDayInput | TaskCreateOrConnectWithoutDayInput[]
-    createMany?: TaskCreateManyDayInputEnvelope
-    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
-  }
-
-  export type StringFieldUpdateOperationsInput = {
-    set?: string
-  }
-
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
-  }
-
-  export type UserUpdateOneRequiredWithoutDaysNestedInput = {
-    create?: XOR<UserCreateWithoutDaysInput, UserUncheckedCreateWithoutDaysInput>
-    connectOrCreate?: UserCreateOrConnectWithoutDaysInput
-    upsert?: UserUpsertWithoutDaysInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDaysInput, UserUpdateWithoutDaysInput>, UserUncheckedUpdateWithoutDaysInput>
-  }
-
-  export type TaskUpdateManyWithoutDayNestedInput = {
-    create?: XOR<TaskCreateWithoutDayInput, TaskUncheckedCreateWithoutDayInput> | TaskCreateWithoutDayInput[] | TaskUncheckedCreateWithoutDayInput[]
-    connectOrCreate?: TaskCreateOrConnectWithoutDayInput | TaskCreateOrConnectWithoutDayInput[]
-    upsert?: TaskUpsertWithWhereUniqueWithoutDayInput | TaskUpsertWithWhereUniqueWithoutDayInput[]
-    createMany?: TaskCreateManyDayInputEnvelope
-    set?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
-    disconnect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
-    delete?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
-    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
-    update?: TaskUpdateWithWhereUniqueWithoutDayInput | TaskUpdateWithWhereUniqueWithoutDayInput[]
-    updateMany?: TaskUpdateManyWithWhereWithoutDayInput | TaskUpdateManyWithWhereWithoutDayInput[]
-    deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
-  }
-
-  export type TaskUncheckedUpdateManyWithoutDayNestedInput = {
-    create?: XOR<TaskCreateWithoutDayInput, TaskUncheckedCreateWithoutDayInput> | TaskCreateWithoutDayInput[] | TaskUncheckedCreateWithoutDayInput[]
-    connectOrCreate?: TaskCreateOrConnectWithoutDayInput | TaskCreateOrConnectWithoutDayInput[]
-    upsert?: TaskUpsertWithWhereUniqueWithoutDayInput | TaskUpsertWithWhereUniqueWithoutDayInput[]
-    createMany?: TaskCreateManyDayInputEnvelope
-    set?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
-    disconnect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
-    delete?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
-    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
-    update?: TaskUpdateWithWhereUniqueWithoutDayInput | TaskUpdateWithWhereUniqueWithoutDayInput[]
-    updateMany?: TaskUpdateManyWithWhereWithoutDayInput | TaskUpdateManyWithWhereWithoutDayInput[]
-    deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
-  }
-
   export type UserCreateNestedOneWithoutTasksInput = {
     create?: XOR<UserCreateWithoutTasksInput, UserUncheckedCreateWithoutTasksInput>
     connectOrCreate?: UserCreateOrConnectWithoutTasksInput
@@ -11219,14 +9724,20 @@ export namespace Prisma {
     connect?: CategoryWhereUniqueInput
   }
 
-  export type DayCreateNestedOneWithoutTasksInput = {
-    create?: XOR<DayCreateWithoutTasksInput, DayUncheckedCreateWithoutTasksInput>
-    connectOrCreate?: DayCreateOrConnectWithoutTasksInput
-    connect?: DayWhereUniqueInput
+  export type StringFieldUpdateOperationsInput = {
+    set?: string
   }
 
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
   }
 
   export type UserUpdateOneRequiredWithoutTasksNestedInput = {
@@ -11243,14 +9754,6 @@ export namespace Prisma {
     upsert?: CategoryUpsertWithoutTasksInput
     connect?: CategoryWhereUniqueInput
     update?: XOR<XOR<CategoryUpdateToOneWithWhereWithoutTasksInput, CategoryUpdateWithoutTasksInput>, CategoryUncheckedUpdateWithoutTasksInput>
-  }
-
-  export type DayUpdateOneRequiredWithoutTasksNestedInput = {
-    create?: XOR<DayCreateWithoutTasksInput, DayUncheckedCreateWithoutTasksInput>
-    connectOrCreate?: DayCreateOrConnectWithoutTasksInput
-    upsert?: DayUpsertWithoutTasksInput
-    connect?: DayWhereUniqueInput
-    update?: XOR<XOR<DayUpdateToOneWithWhereWithoutTasksInput, DayUpdateWithoutTasksInput>, DayUncheckedUpdateWithoutTasksInput>
   }
 
   export type UserCreateNestedOneWithoutCategoriesInput = {
@@ -11349,13 +9852,6 @@ export namespace Prisma {
     connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
   }
 
-  export type DayCreateNestedManyWithoutUserInput = {
-    create?: XOR<DayCreateWithoutUserInput, DayUncheckedCreateWithoutUserInput> | DayCreateWithoutUserInput[] | DayUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: DayCreateOrConnectWithoutUserInput | DayCreateOrConnectWithoutUserInput[]
-    createMany?: DayCreateManyUserInputEnvelope
-    connect?: DayWhereUniqueInput | DayWhereUniqueInput[]
-  }
-
   export type SessionUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -11382,13 +9878,6 @@ export namespace Prisma {
     connectOrCreate?: TaskCreateOrConnectWithoutUserInput | TaskCreateOrConnectWithoutUserInput[]
     createMany?: TaskCreateManyUserInputEnvelope
     connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
-  }
-
-  export type DayUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<DayCreateWithoutUserInput, DayUncheckedCreateWithoutUserInput> | DayCreateWithoutUserInput[] | DayUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: DayCreateOrConnectWithoutUserInput | DayCreateOrConnectWithoutUserInput[]
-    createMany?: DayCreateManyUserInputEnvelope
-    connect?: DayWhereUniqueInput | DayWhereUniqueInput[]
   }
 
   export type SessionUpdateManyWithoutUserNestedInput = {
@@ -11447,20 +9936,6 @@ export namespace Prisma {
     deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
   }
 
-  export type DayUpdateManyWithoutUserNestedInput = {
-    create?: XOR<DayCreateWithoutUserInput, DayUncheckedCreateWithoutUserInput> | DayCreateWithoutUserInput[] | DayUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: DayCreateOrConnectWithoutUserInput | DayCreateOrConnectWithoutUserInput[]
-    upsert?: DayUpsertWithWhereUniqueWithoutUserInput | DayUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: DayCreateManyUserInputEnvelope
-    set?: DayWhereUniqueInput | DayWhereUniqueInput[]
-    disconnect?: DayWhereUniqueInput | DayWhereUniqueInput[]
-    delete?: DayWhereUniqueInput | DayWhereUniqueInput[]
-    connect?: DayWhereUniqueInput | DayWhereUniqueInput[]
-    update?: DayUpdateWithWhereUniqueWithoutUserInput | DayUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: DayUpdateManyWithWhereWithoutUserInput | DayUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: DayScalarWhereInput | DayScalarWhereInput[]
-  }
-
   export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -11517,20 +9992,6 @@ export namespace Prisma {
     deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
   }
 
-  export type DayUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<DayCreateWithoutUserInput, DayUncheckedCreateWithoutUserInput> | DayCreateWithoutUserInput[] | DayUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: DayCreateOrConnectWithoutUserInput | DayCreateOrConnectWithoutUserInput[]
-    upsert?: DayUpsertWithWhereUniqueWithoutUserInput | DayUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: DayCreateManyUserInputEnvelope
-    set?: DayWhereUniqueInput | DayWhereUniqueInput[]
-    disconnect?: DayWhereUniqueInput | DayWhereUniqueInput[]
-    delete?: DayWhereUniqueInput | DayWhereUniqueInput[]
-    connect?: DayWhereUniqueInput | DayWhereUniqueInput[]
-    update?: DayUpdateWithWhereUniqueWithoutUserInput | DayUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: DayUpdateManyWithWhereWithoutUserInput | DayUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: DayScalarWhereInput | DayScalarWhereInput[]
-  }
-
   export type UserCreateNestedOneWithoutSessionsInput = {
     create?: XOR<UserCreateWithoutSessionsInput, UserUncheckedCreateWithoutSessionsInput>
     connectOrCreate?: UserCreateOrConnectWithoutSessionsInput
@@ -11549,10 +10010,6 @@ export namespace Prisma {
     create?: XOR<UserCreateWithoutAccountsInput, UserUncheckedCreateWithoutAccountsInput>
     connectOrCreate?: UserCreateOrConnectWithoutAccountsInput
     connect?: UserWhereUniqueInput
-  }
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
   }
 
   export type UserUpdateOneRequiredWithoutAccountsNestedInput = {
@@ -11575,6 +10032,22 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringFilter<$PrismaModel> | string
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -11616,6 +10089,39 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -11628,19 +10134,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedStringNullableFilter<$PrismaModel = never> = {
@@ -11674,17 +10167,6 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -11712,163 +10194,6 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
-  }
-
-  export type UserCreateWithoutDaysInput = {
-    id?: string
-    name: string
-    email: string
-    emailVerified: boolean
-    image?: string | null
-    createdAt: Date | string
-    updatedAt: Date | string
-    sessions?: SessionCreateNestedManyWithoutUserInput
-    accounts?: AccountCreateNestedManyWithoutUserInput
-    categories?: CategoryCreateNestedManyWithoutUserInput
-    tasks?: TaskCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutDaysInput = {
-    id?: string
-    name: string
-    email: string
-    emailVerified: boolean
-    image?: string | null
-    createdAt: Date | string
-    updatedAt: Date | string
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
-    tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutDaysInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutDaysInput, UserUncheckedCreateWithoutDaysInput>
-  }
-
-  export type TaskCreateWithoutDayInput = {
-    id?: string
-    name: string
-    isComplete: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutTasksInput
-    category: CategoryCreateNestedOneWithoutTasksInput
-  }
-
-  export type TaskUncheckedCreateWithoutDayInput = {
-    id?: string
-    name: string
-    isComplete: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    userId: string
-    categoryId: string
-  }
-
-  export type TaskCreateOrConnectWithoutDayInput = {
-    where: TaskWhereUniqueInput
-    create: XOR<TaskCreateWithoutDayInput, TaskUncheckedCreateWithoutDayInput>
-  }
-
-  export type TaskCreateManyDayInputEnvelope = {
-    data: TaskCreateManyDayInput | TaskCreateManyDayInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type UserUpsertWithoutDaysInput = {
-    update: XOR<UserUpdateWithoutDaysInput, UserUncheckedUpdateWithoutDaysInput>
-    create: XOR<UserCreateWithoutDaysInput, UserUncheckedCreateWithoutDaysInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutDaysInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutDaysInput, UserUncheckedUpdateWithoutDaysInput>
-  }
-
-  export type UserUpdateWithoutDaysInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: BoolFieldUpdateOperationsInput | boolean
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    sessions?: SessionUpdateManyWithoutUserNestedInput
-    accounts?: AccountUpdateManyWithoutUserNestedInput
-    categories?: CategoryUpdateManyWithoutUserNestedInput
-    tasks?: TaskUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutDaysInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: BoolFieldUpdateOperationsInput | boolean
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
-    tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type TaskUpsertWithWhereUniqueWithoutDayInput = {
-    where: TaskWhereUniqueInput
-    update: XOR<TaskUpdateWithoutDayInput, TaskUncheckedUpdateWithoutDayInput>
-    create: XOR<TaskCreateWithoutDayInput, TaskUncheckedCreateWithoutDayInput>
-  }
-
-  export type TaskUpdateWithWhereUniqueWithoutDayInput = {
-    where: TaskWhereUniqueInput
-    data: XOR<TaskUpdateWithoutDayInput, TaskUncheckedUpdateWithoutDayInput>
-  }
-
-  export type TaskUpdateManyWithWhereWithoutDayInput = {
-    where: TaskScalarWhereInput
-    data: XOR<TaskUpdateManyMutationInput, TaskUncheckedUpdateManyWithoutDayInput>
-  }
-
-  export type TaskScalarWhereInput = {
-    AND?: TaskScalarWhereInput | TaskScalarWhereInput[]
-    OR?: TaskScalarWhereInput[]
-    NOT?: TaskScalarWhereInput | TaskScalarWhereInput[]
-    id?: StringFilter<"Task"> | string
-    name?: StringFilter<"Task"> | string
-    isComplete?: BoolFilter<"Task"> | boolean
-    createdAt?: DateTimeFilter<"Task"> | Date | string
-    updatedAt?: DateTimeFilter<"Task"> | Date | string
-    userId?: StringFilter<"Task"> | string
-    categoryId?: StringFilter<"Task"> | string
-    dayId?: StringFilter<"Task"> | string
-  }
-
   export type UserCreateWithoutTasksInput = {
     id?: string
     name: string
@@ -11880,7 +10205,6 @@ export namespace Prisma {
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
-    days?: DayCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTasksInput = {
@@ -11894,7 +10218,6 @@ export namespace Prisma {
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
-    days?: DayUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTasksInput = {
@@ -11931,27 +10254,6 @@ export namespace Prisma {
     create: XOR<CategoryCreateWithoutTasksInput, CategoryUncheckedCreateWithoutTasksInput>
   }
 
-  export type DayCreateWithoutTasksInput = {
-    id?: string
-    date: Date | string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutDaysInput
-  }
-
-  export type DayUncheckedCreateWithoutTasksInput = {
-    id?: string
-    date: Date | string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    userId: string
-  }
-
-  export type DayCreateOrConnectWithoutTasksInput = {
-    where: DayWhereUniqueInput
-    create: XOR<DayCreateWithoutTasksInput, DayUncheckedCreateWithoutTasksInput>
-  }
-
   export type UserUpsertWithoutTasksInput = {
     update: XOR<UserUpdateWithoutTasksInput, UserUncheckedUpdateWithoutTasksInput>
     create: XOR<UserCreateWithoutTasksInput, UserUncheckedCreateWithoutTasksInput>
@@ -11974,7 +10276,6 @@ export namespace Prisma {
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
-    days?: DayUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTasksInput = {
@@ -11988,7 +10289,6 @@ export namespace Prisma {
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
-    days?: DayUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CategoryUpsertWithoutTasksInput = {
@@ -12026,33 +10326,6 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
   }
 
-  export type DayUpsertWithoutTasksInput = {
-    update: XOR<DayUpdateWithoutTasksInput, DayUncheckedUpdateWithoutTasksInput>
-    create: XOR<DayCreateWithoutTasksInput, DayUncheckedCreateWithoutTasksInput>
-    where?: DayWhereInput
-  }
-
-  export type DayUpdateToOneWithWhereWithoutTasksInput = {
-    where?: DayWhereInput
-    data: XOR<DayUpdateWithoutTasksInput, DayUncheckedUpdateWithoutTasksInput>
-  }
-
-  export type DayUpdateWithoutTasksInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutDaysNestedInput
-  }
-
-  export type DayUncheckedUpdateWithoutTasksInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userId?: StringFieldUpdateOperationsInput | string
-  }
-
   export type UserCreateWithoutCategoriesInput = {
     id?: string
     name: string
@@ -12064,7 +10337,6 @@ export namespace Prisma {
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
-    days?: DayCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCategoriesInput = {
@@ -12078,7 +10350,6 @@ export namespace Prisma {
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
-    days?: DayUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCategoriesInput = {
@@ -12090,20 +10361,20 @@ export namespace Prisma {
     id?: string
     name: string
     isComplete: boolean
+    date?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutTasksInput
-    day: DayCreateNestedOneWithoutTasksInput
   }
 
   export type TaskUncheckedCreateWithoutCategoryInput = {
     id?: string
     name: string
     isComplete: boolean
+    date?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
-    dayId: string
   }
 
   export type TaskCreateOrConnectWithoutCategoryInput = {
@@ -12138,7 +10409,6 @@ export namespace Prisma {
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
-    days?: DayUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCategoriesInput = {
@@ -12152,7 +10422,6 @@ export namespace Prisma {
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
-    days?: DayUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type TaskUpsertWithWhereUniqueWithoutCategoryInput = {
@@ -12169,6 +10438,20 @@ export namespace Prisma {
   export type TaskUpdateManyWithWhereWithoutCategoryInput = {
     where: TaskScalarWhereInput
     data: XOR<TaskUpdateManyMutationInput, TaskUncheckedUpdateManyWithoutCategoryInput>
+  }
+
+  export type TaskScalarWhereInput = {
+    AND?: TaskScalarWhereInput | TaskScalarWhereInput[]
+    OR?: TaskScalarWhereInput[]
+    NOT?: TaskScalarWhereInput | TaskScalarWhereInput[]
+    id?: StringFilter<"Task"> | string
+    name?: StringFilter<"Task"> | string
+    isComplete?: BoolFilter<"Task"> | boolean
+    date?: DateTimeNullableFilter<"Task"> | Date | string | null
+    createdAt?: DateTimeFilter<"Task"> | Date | string
+    updatedAt?: DateTimeFilter<"Task"> | Date | string
+    userId?: StringFilter<"Task"> | string
+    categoryId?: StringFilter<"Task"> | string
   }
 
   export type SessionCreateWithoutUserInput = {
@@ -12279,20 +10562,20 @@ export namespace Prisma {
     id?: string
     name: string
     isComplete: boolean
+    date?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     category: CategoryCreateNestedOneWithoutTasksInput
-    day: DayCreateNestedOneWithoutTasksInput
   }
 
   export type TaskUncheckedCreateWithoutUserInput = {
     id?: string
     name: string
     isComplete: boolean
+    date?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     categoryId: string
-    dayId: string
   }
 
   export type TaskCreateOrConnectWithoutUserInput = {
@@ -12302,32 +10585,6 @@ export namespace Prisma {
 
   export type TaskCreateManyUserInputEnvelope = {
     data: TaskCreateManyUserInput | TaskCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type DayCreateWithoutUserInput = {
-    id?: string
-    date: Date | string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    tasks?: TaskCreateNestedManyWithoutDayInput
-  }
-
-  export type DayUncheckedCreateWithoutUserInput = {
-    id?: string
-    date: Date | string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    tasks?: TaskUncheckedCreateNestedManyWithoutDayInput
-  }
-
-  export type DayCreateOrConnectWithoutUserInput = {
-    where: DayWhereUniqueInput
-    create: XOR<DayCreateWithoutUserInput, DayUncheckedCreateWithoutUserInput>
-  }
-
-  export type DayCreateManyUserInputEnvelope = {
-    data: DayCreateManyUserInput | DayCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -12443,33 +10700,6 @@ export namespace Prisma {
     data: XOR<TaskUpdateManyMutationInput, TaskUncheckedUpdateManyWithoutUserInput>
   }
 
-  export type DayUpsertWithWhereUniqueWithoutUserInput = {
-    where: DayWhereUniqueInput
-    update: XOR<DayUpdateWithoutUserInput, DayUncheckedUpdateWithoutUserInput>
-    create: XOR<DayCreateWithoutUserInput, DayUncheckedCreateWithoutUserInput>
-  }
-
-  export type DayUpdateWithWhereUniqueWithoutUserInput = {
-    where: DayWhereUniqueInput
-    data: XOR<DayUpdateWithoutUserInput, DayUncheckedUpdateWithoutUserInput>
-  }
-
-  export type DayUpdateManyWithWhereWithoutUserInput = {
-    where: DayScalarWhereInput
-    data: XOR<DayUpdateManyMutationInput, DayUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type DayScalarWhereInput = {
-    AND?: DayScalarWhereInput | DayScalarWhereInput[]
-    OR?: DayScalarWhereInput[]
-    NOT?: DayScalarWhereInput | DayScalarWhereInput[]
-    id?: StringFilter<"Day"> | string
-    date?: DateTimeFilter<"Day"> | Date | string
-    createdAt?: DateTimeFilter<"Day"> | Date | string
-    updatedAt?: DateTimeFilter<"Day"> | Date | string
-    userId?: StringFilter<"Day"> | string
-  }
-
   export type UserCreateWithoutSessionsInput = {
     id?: string
     name: string
@@ -12481,7 +10711,6 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
-    days?: DayCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -12495,7 +10724,6 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
-    days?: DayUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -12525,7 +10753,6 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
-    days?: DayUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -12539,7 +10766,6 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
-    days?: DayUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -12553,7 +10779,6 @@ export namespace Prisma {
     sessions?: SessionCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
-    days?: DayCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -12567,7 +10792,6 @@ export namespace Prisma {
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
-    days?: DayUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -12597,7 +10821,6 @@ export namespace Prisma {
     sessions?: SessionUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
-    days?: DayUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -12611,87 +10834,46 @@ export namespace Prisma {
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
-    days?: DayUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type TaskCreateManyDayInput = {
-    id?: string
-    name: string
-    isComplete: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    userId: string
-    categoryId: string
-  }
-
-  export type TaskUpdateWithoutDayInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    isComplete?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutTasksNestedInput
-    category?: CategoryUpdateOneRequiredWithoutTasksNestedInput
-  }
-
-  export type TaskUncheckedUpdateWithoutDayInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    isComplete?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userId?: StringFieldUpdateOperationsInput | string
-    categoryId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type TaskUncheckedUpdateManyWithoutDayInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    isComplete?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userId?: StringFieldUpdateOperationsInput | string
-    categoryId?: StringFieldUpdateOperationsInput | string
   }
 
   export type TaskCreateManyCategoryInput = {
     id?: string
     name: string
     isComplete: boolean
+    date?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
-    dayId: string
   }
 
   export type TaskUpdateWithoutCategoryInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     isComplete?: BoolFieldUpdateOperationsInput | boolean
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutTasksNestedInput
-    day?: DayUpdateOneRequiredWithoutTasksNestedInput
   }
 
   export type TaskUncheckedUpdateWithoutCategoryInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     isComplete?: BoolFieldUpdateOperationsInput | boolean
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
-    dayId?: StringFieldUpdateOperationsInput | string
   }
 
   export type TaskUncheckedUpdateManyWithoutCategoryInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     isComplete?: BoolFieldUpdateOperationsInput | boolean
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
-    dayId?: StringFieldUpdateOperationsInput | string
   }
 
   export type SessionCreateManyUserInput = {
@@ -12734,17 +10916,10 @@ export namespace Prisma {
     id?: string
     name: string
     isComplete: boolean
+    date?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     categoryId: string
-    dayId: string
-  }
-
-  export type DayCreateManyUserInput = {
-    id?: string
-    date: Date | string
-    createdAt?: Date | string
-    updatedAt?: Date | string
   }
 
   export type SessionUpdateWithoutUserInput = {
@@ -12861,53 +11036,30 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     isComplete?: BoolFieldUpdateOperationsInput | boolean
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     category?: CategoryUpdateOneRequiredWithoutTasksNestedInput
-    day?: DayUpdateOneRequiredWithoutTasksNestedInput
   }
 
   export type TaskUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     isComplete?: BoolFieldUpdateOperationsInput | boolean
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: StringFieldUpdateOperationsInput | string
-    dayId?: StringFieldUpdateOperationsInput | string
   }
 
   export type TaskUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     isComplete?: BoolFieldUpdateOperationsInput | boolean
+    date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: StringFieldUpdateOperationsInput | string
-    dayId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type DayUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    tasks?: TaskUpdateManyWithoutDayNestedInput
-  }
-
-  export type DayUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    tasks?: TaskUncheckedUpdateManyWithoutDayNestedInput
-  }
-
-  export type DayUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

@@ -39,7 +39,7 @@ const LINKS: Link[] = [
 ];
 
 export const Header = () => (
-  <header className='bg-card border-border fixed inset-x-4 bottom-4 z-50 flex w-full flex-row justify-between rounded-full border p-2 md:relative md:inset-x-0 md:bottom-0'>
+  <header className='bg-card border-border fixed inset-x-2 bottom-4 z-50 flex flex-row justify-between rounded-xl border p-2 md:relative md:inset-x-0 md:bottom-0 md:w-full'>
     <nav className='flex gap-1'>
       {LINKS.map(link => (
         <NavButton
