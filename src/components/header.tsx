@@ -5,7 +5,7 @@ import {
   StarIcon,
 } from '@radix-ui/react-icons';
 import { PenBoxIcon } from 'lucide-react';
-import { ROUTES } from '@/consts';
+import { ROUTES } from '@/src/consts';
 import { NavButton } from './nav-button';
 import { ModeToggle } from './ui/mode-toggle';
 

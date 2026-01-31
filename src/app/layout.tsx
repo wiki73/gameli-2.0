@@ -1,9 +1,9 @@
 import { type Metadata } from 'next';
 import { Geist } from 'next/font/google';
-import '@/styles/globals.css';
-import { ThemeProvider } from '@/components/theme-provider';
-import { Header } from '@/components/header';
-import { Toaster } from '@/components/ui/sonner';
+import { ThemeProvider } from '@components/theme-provider';
+import { Header } from '@components/header';
+import { Toaster } from '@ui/sonner';
+import '@styles/globals.css';
 
 export const metadata: Metadata = {
   title: 'Gameli',

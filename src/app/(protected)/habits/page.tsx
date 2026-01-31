@@ -1,5 +1,5 @@
 import { ComingSoon } from '@components/coming-soon';
 
-export default function DashboardPage() {
+export default function HabitsPage() {
   return <ComingSoon />;
 }

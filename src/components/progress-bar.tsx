@@ -3,7 +3,7 @@ import {
   getExperienceByLevel,
   HUNDRED_PERCENT,
   PROGRESS_BAR_ANIMATION_DURATIONS,
-} from '@/consts';
+} from '@/src/consts';
 
 export type AnimationDuration =
   (typeof PROGRESS_BAR_ANIMATION_DURATIONS)[keyof typeof PROGRESS_BAR_ANIMATION_DURATIONS];

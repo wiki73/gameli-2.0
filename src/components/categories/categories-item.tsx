@@ -5,12 +5,8 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import {
-  getColorBySubjectLevel,
-  PROGRESS_BAR_ANIMATION_DURATIONS,
-  ROUTES,
-} from '@/consts';
+} from '@ui/card';
+import { PROGRESS_BAR_ANIMATION_DURATIONS, ROUTES } from '@/src/consts';
 import { ProgressBar } from '../progress-bar';
 import type { Category } from '../../../generated/prisma';
 
@@ -20,12 +16,7 @@ type Props = {
 
 export const CategoryItem = ({ category }: Props) => (
   <Link href={ROUTES.CATEGORY.replace(':categoryId', category.id)}>
-    <Card
-      className='flex flex-col justify-between'
-      style={{
-        boxShadow: `0px 0px 15px var(${getColorBySubjectLevel(category.level)})`,
-      }}
-    >
+    <Card className='flex flex-col justify-between'>
       <CardHeader>
         <CardTitle className='line-clamp-2'>{category.name}</CardTitle>
         <CardDescription className='line-clamp-3'>

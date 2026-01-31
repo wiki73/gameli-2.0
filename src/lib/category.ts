@@ -1,5 +1,5 @@
 import z from 'zod';
-import { MAX_CATEGORY_RATIO, MIN_CATEGORY_RATIO } from '@/consts';
+import { MAX_CATEGORY_RATIO, MIN_CATEGORY_RATIO } from '@/src/consts';
 
 const MIN_NAME_LENGTH = 3;
 const MAX_NAME_LENGTH = 50;

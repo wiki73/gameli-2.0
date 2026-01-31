@@ -1,5 +1,5 @@
-import { CategoriesBlock } from '@/components/categories/categories-block';
-import prisma from '@/server/db';
+import { CategoriesBlock } from '@components/categories/categories-block';
+import prisma from '@server/db';
 
 export default async function Home() {
   const [categories] = await Promise.all([

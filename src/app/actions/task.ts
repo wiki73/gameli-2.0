@@ -5,35 +5,39 @@ import { headers } from 'next/headers';
 import { auth } from '@server/auth';
 import prisma from '@server/db';
 import { ROUTES } from '@/src/consts';
-import type { CategoryFormType } from '@lib/category';
+import type { TaskFormType } from '@/src/lib/task';
 
-export const createCategory = async ({ data }: { data: CategoryFormType }) => {
+export const createTask = async ({
+  data,
+  categoryId,
+}: {
+  data: TaskFormType;
+  categoryId: string;
+}) => {
   const session = await auth.api.getSession({ headers: await headers() });
 
   if (!session?.user?.id) {
     throw new Error('Unauthorized');
   }
-  const response = await prisma.category.create({
-    data: { ...data, level: 1, experience: 0, userId: session.user.id },
+  const response = await prisma.task.create({
+    data: { ...data, userId: session.user.id, categoryId },
   });
   revalidatePath(ROUTES.MAIN);
 
   return response;
 };
 
-export const updateCategory = async ({
+export const updateTask = async ({
   id,
   data,
 }: {
   id: string;
-  data: CategoryFormType;
+  data: TaskFormType;
 }) => {
-  const response = await prisma.category.update({
+  const response = await prisma.task.update({
     where: { id },
     data: {
       name: data.name,
-      description: data.description,
-      ratio: data.ratio,
     },
   });
 
@@ -42,7 +46,7 @@ export const updateCategory = async ({
   return response;
 };
 
-export const deleteCategory = async ({ id }: { id: string }) => {
+export const deleteTask = async ({ id }: { id: string }) => {
   const response = await prisma.category.delete({
     where: { id },
   });

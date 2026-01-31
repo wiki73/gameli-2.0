@@ -4,10 +4,10 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '../ui/card';
+} from '@ui/card';
+import type { Category } from '@/generated/prisma';
 import { CategoriesList } from './categories-list';
 import { CategoryCreateEditDialog } from './category-create-edit-dialog';
-import type { Category } from '../../../generated/prisma';
 
 const getTitle = ({ hasCategories }: { hasCategories: boolean }) => {
   switch (true) {

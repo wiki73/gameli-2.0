@@ -10,7 +10,7 @@ datasource db {
 model Task {
   id         String    @id @default(cuid())
   name       String
-  isComplete Boolean
+  isComplete Boolean   @default(false)
   date       DateTime?
 
   createdAt DateTime @default(now())

@@ -8,10 +8,11 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from '@ui/dialog';
 import {
   Form,
   FormControl,
@@ -20,15 +21,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Button } from '@/components/ui/button';
+} from '@ui/form';
+import { Button } from '@ui/button';
+import { createCategory, updateCategory } from '@app/actions/category';
 import {
   DEFAUL_CATEGORY_RATIO,
   MAX_CATEGORY_RATIO,
   MIN_CATEGORY_RATIO,
-} from '@/consts';
-import { categoryFormSchema, type CategoryFormType } from '@/lib/category';
-import { createCategory, updateCategory } from '@/app/actions/category';
+} from '@/src/consts';
+import { categoryFormSchema, type CategoryFormType } from '@/src/lib/category';
 import { Input } from '../ui/input';
 import { Slider } from '../ui/slider';
 import { Spinner } from '../ui/spinner';
@@ -123,91 +124,108 @@ export const CategoryCreateEditDialog = ({
         <DialogHeader>
           <DialogTitle>{TEXTS[mode].TITLE}</DialogTitle>
           <DialogDescription>{TEXTS[mode].DESCRIPTION}</DialogDescription>
-          <Form {...form}>
-            <form
-              className='flex flex-col gap-4'
-              onSubmit={form.handleSubmit(handleSubmit)}
+        </DialogHeader>
+        <Form {...form}>
+          <form
+            className='flex flex-col gap-4'
+            onSubmit={form.handleSubmit(handleSubmit)}
+          >
+            <FormField
+              control={form.control}
+              name='name'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Название</FormLabel>
+                  <FormControl>
+                    <Input
+                      autoComplete='title'
+                      disabled={isPending}
+                      id='name'
+                      placeholder='Название категории'
+                      type='text'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='description'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Описание</FormLabel>
+                  <FormControl>
+                    <Input
+                      autoComplete='description'
+                      disabled={isPending}
+                      id='description'
+                      placeholder='Описание категории'
+                      type='text'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name='ratio'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Коэффициент сложности</FormLabel>
+                  <FormControl>
+                    <Slider
+                      defaultValue={[DEFAUL_CATEGORY_RATIO]}
+                      disabled={isPending}
+                      itemType='number'
+                      max={MAX_CATEGORY_RATIO}
+                      min={MIN_CATEGORY_RATIO}
+                      onValueChange={value => {
+                        field.onChange(value?.[0]);
+                      }}
+                      step={1}
+                      value={[field.value]}
+                    />
+                  </FormControl>
+                  <FormLabel className='text-muted-foreground flex w-full items-start justify-between text-center'>
+                    <span className='w-min text-left whitespace-pre-wrap'>
+                      Очень легко
+                    </span>
+                    <span>Легко</span>
+                    <span>Средне</span>
+                    <span>Сложно</span>
+                    <span className='w-min text-right whitespace-pre-wrap'>
+                      Очень сложно
+                    </span>
+                  </FormLabel>
+                  <FormDescription />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <p
+              className='text-destructive text-sm'
+              data-slot='form-message'
             >
-              <FormField
-                control={form.control}
-                name='name'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Название</FormLabel>
-                    <FormControl>
-                      <Input
-                        autoComplete='title'
-                        disabled={isPending}
-                        id='name'
-                        placeholder='Название категории'
-                        type='text'
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormDescription />
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='description'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Описание</FormLabel>
-                    <FormControl>
-                      <Input
-                        autoComplete='description'
-                        disabled={isPending}
-                        id='description'
-                        placeholder='Описание категории'
-                        type='text'
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormDescription />
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name='ratio'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Коэффициент сложности</FormLabel>
-                    <FormControl>
-                      <Slider
-                        defaultValue={[DEFAUL_CATEGORY_RATIO]}
-                        disabled={isPending}
-                        itemType='number'
-                        max={MAX_CATEGORY_RATIO}
-                        min={MIN_CATEGORY_RATIO}
-                        onValueChange={value => {
-                          field.onChange(value?.[0]);
-                        }}
-                        step={1}
-                        value={[field.value]}
-                      />
-                    </FormControl>
-                    <FormLabel className='text-muted-foreground flex w-full items-start justify-between text-center'>
-                      <span className='w-min text-left whitespace-pre-wrap'>
-                        Очень легко
-                      </span>
-                      <span>Легко</span>
-                      <span>Средне</span>
-                      <span>Сложно</span>
-                      <span className='w-min text-right whitespace-pre-wrap'>
-                        Очень сложно
-                      </span>
-                    </FormLabel>
-                    <FormDescription />
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
+              {form.formState.errors.root?.message}
+            </p>
+            <DialogFooter>
+              <Button
+                onClick={() => {
+                  form.reset();
+                  setOpen(false);
+                }}
+                type='button'
+                variant='secondary'
+              >
+                Отменить
+              </Button>
               <Button
                 disabled={isButtonDisabled}
                 type='submit'
@@ -215,9 +233,9 @@ export const CategoryCreateEditDialog = ({
                 {isPending && <Spinner />}
                 {TEXTS[mode].SUBMIT_BUTTON}
               </Button>
-            </form>
-          </Form>
-        </DialogHeader>
+            </DialogFooter>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   );

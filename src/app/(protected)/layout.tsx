@@ -2,8 +2,8 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { Spinner } from '@/components/ui/spinner';
-import { useSession } from '@/lib/auth-client';
+import { Spinner } from '@ui/spinner';
+import { useSession } from '@lib/auth-client';
 
 export default function RootLayout({
   children,

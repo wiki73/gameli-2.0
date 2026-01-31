@@ -28,11 +28,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     /* Bundled projects */
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "ES2022"
-    ],
+    "lib": ["dom", "dom.iterable", "ES2022"],
     "noEmit": true,
     "module": "ESNext",
     "moduleResolution": "Bundler",
@@ -45,18 +41,15 @@
     "incremental": true,
     /* Path Aliases */
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./*"],
+      "@components/*": ["./src/components/*"],
+      "@lib/*": ["./src/lib/*"],
+      "@ui/*": ["./src/components/ui/*"],
+      "@app/*": ["./src/app/*"],
+      "@server/*": ["./src/server/*"],
+      "@styles/*": ["./src/styles/*"]
     }
   },
-  "include": [
-    "src",
-    ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "generated"
-  ]
+  "include": ["src", ".next/types/**/*.ts", ".next/dev/types/**/*.ts"],
+  "exclude": ["node_modules", "generated"]
 }

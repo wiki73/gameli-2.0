@@ -10,10 +10,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Spinner } from '@/components/ui/spinner';
-import { deleteCategory } from '@/app/actions/category';
+} from '@ui/dialog';
+import { Button } from '@ui/button';
+import { Spinner } from '@ui/spinner';
+import { deleteCategory } from '@app/actions/category';
 
 type Props = {
   id: string;

@@ -8787,7 +8787,7 @@ export namespace Prisma {
   export type TaskCreateInput = {
     id?: string
     name: string
-    isComplete: boolean
+    isComplete?: boolean
     date?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -8798,7 +8798,7 @@ export namespace Prisma {
   export type TaskUncheckedCreateInput = {
     id?: string
     name: string
-    isComplete: boolean
+    isComplete?: boolean
     date?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -8831,7 +8831,7 @@ export namespace Prisma {
   export type TaskCreateManyInput = {
     id?: string
     name: string
-    isComplete: boolean
+    isComplete?: boolean
     date?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -10360,7 +10360,7 @@ export namespace Prisma {
   export type TaskCreateWithoutCategoryInput = {
     id?: string
     name: string
-    isComplete: boolean
+    isComplete?: boolean
     date?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -10370,7 +10370,7 @@ export namespace Prisma {
   export type TaskUncheckedCreateWithoutCategoryInput = {
     id?: string
     name: string
-    isComplete: boolean
+    isComplete?: boolean
     date?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -10561,7 +10561,7 @@ export namespace Prisma {
   export type TaskCreateWithoutUserInput = {
     id?: string
     name: string
-    isComplete: boolean
+    isComplete?: boolean
     date?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -10571,7 +10571,7 @@ export namespace Prisma {
   export type TaskUncheckedCreateWithoutUserInput = {
     id?: string
     name: string
-    isComplete: boolean
+    isComplete?: boolean
     date?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -10839,7 +10839,7 @@ export namespace Prisma {
   export type TaskCreateManyCategoryInput = {
     id?: string
     name: string
-    isComplete: boolean
+    isComplete?: boolean
     date?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -10915,7 +10915,7 @@ export namespace Prisma {
   export type TaskCreateManyUserInput = {
     id?: string
     name: string
-    isComplete: boolean
+    isComplete?: boolean
     date?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string

@@ -1,6 +1,6 @@
-import { cn } from '@/lib/utils';
+import type { Category } from '@/generated/prisma';
+import { cn } from '@/src/lib/utils';
 import { CategoryItem } from './categories-item';
-import type { Category } from '../../../generated/prisma';
 
 type Props = {
   categories: Category[];
