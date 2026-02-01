@@ -30,6 +30,14 @@ export const HabitsPage = () => {
 
   const habits = habitsData?.data || [];
 
+  const totalUserXp = habits.reduce(
+    (sum, habit) => sum + (habit.total_xp || 0),
+    0,
+  );
+  const totalHabits = habits.length;
+  const totalStreak =
+    habits.length > 0 ? Math.max(...habits.map(h => h.current_streak || 0)) : 0;
+
   if (!userId) {
     return <div className='p-8 text-center'>Пожалуйста, авторизуйтесь</div>;
   }
@@ -47,48 +55,74 @@ export const HabitsPage = () => {
   }
 
   return (
-    <Card>
-      <CardHeader className='flex flex-row items-center justify-between'>
-        <CardTitle className='pt-4 pl-4 text-4xl'>Привычки</CardTitle>
-        <HabitCreateEditDialog modeForm='CREATE' />
-      </CardHeader>
+    <div className='space-y-6'>
+      <Card>
+        <CardHeader className='flex flex-row items-center justify-between'>
+          <CardTitle className='pt-4 pl-4 text-4xl'>Привычки</CardTitle>
+          <HabitCreateEditDialog modeForm='CREATE' />
+        </CardHeader>
+        <CardContent>
+          <div className='flex flex-wrap gap-4 mb-6 p-4 bg-muted/50 rounded-lg'>
+            <div className='text-center p-3 bg-primary/10 rounded-lg min-w-[120px]'>
+              <div className='text-2xl font-bold text-primary'>
+                {totalHabits}
+              </div>
+              <div className='text-sm text-muted-foreground'>Привычек</div>
+            </div>
 
-      <CardContent>
-        {error && (
-          <div className='mb-4 p-3 bg-red-50 text-red-700 rounded-md'>
-            {error}
-          </div>
-        )}
+            <div className='text-center p-3 bg-amber-50 rounded-lg min-w-[120px]'>
+              <div className='text-2xl font-bold text-amber-700'>
+                {totalStreak}
+              </div>
+              <div className='text-sm text-muted-foreground'>Лучший стрик</div>
+            </div>
 
-        {successMessage && (
-          <div className='mb-4 p-3 bg-green-50 text-green-700 rounded-md'>
-            {successMessage}
+            <div className='text-center p-3 bg-blue-50 rounded-lg min-w-[120px]'>
+              <div className='text-2xl font-bold text-blue-700'>
+                {totalUserXp}
+              </div>
+              <div className='text-sm text-muted-foreground'>Общий XP</div>
+            </div>
           </div>
-        )}
 
-        {habits.length === 0 ? (
-          <div className='text-center p-8 text-muted-foreground'>
-            У вас пока нет привычек. Создайте первую!
-          </div>
-        ) : (
-          habits.map(habit => (
-            <HabitCard
-              habit={habit}
-              key={habit.id}
-              onError={errorMessage => {
-                setError(errorMessage);
-              }}
-              onSuccessMessage={message => {
-                setSuccessMessage(message);
-                setTimeout(() => {
-                  setSuccessMessage(null);
-                }, SUCCESS_MESSAGE_TIMEOUT);
-              }}
-              userId={userId}
-            />
-          ))
-        )}
-      </CardContent>
-    </Card>
+          {error && (
+            <div className='mb-4 p-3 bg-red-50 text-red-700 rounded-md'>
+              {error}
+            </div>
+          )}
+
+          {successMessage && (
+            <div className='mb-4 p-3 bg-green-50 text-green-700 rounded-md'>
+              {successMessage}
+            </div>
+          )}
+
+          {habits.length === 0 ? (
+            <div className='text-center p-8 text-muted-foreground'>
+              У вас пока нет привычек. Создайте первую!
+            </div>
+          ) : (
+            <div className='space-y-6'>
+              {habits.map(habit => (
+                <HabitCard
+                  habit={habit}
+                  key={habit.id}
+                  onError={errorMessage => {
+                    setError(errorMessage);
+                  }}
+                  onSuccessMessage={message => {
+                    setSuccessMessage(message);
+                    setTimeout(() => {
+                      setSuccessMessage(null);
+                    }, SUCCESS_MESSAGE_TIMEOUT);
+                  }}
+                  userId={userId}
+                />
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    </div>
   );
 };
