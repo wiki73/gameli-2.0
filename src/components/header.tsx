@@ -1,11 +1,5 @@
-import {
-  CalendarIcon,
-  DashboardIcon,
-  PersonIcon,
-  StarIcon,
-} from '@radix-ui/react-icons';
-import { PenBoxIcon } from 'lucide-react';
-import { ROUTES } from '@/src/consts';
+import { CalendarIcon, PersonIcon } from '@radix-ui/react-icons';
+import { ROUTES } from '../consts';
 import { NavButton } from './nav-button';
 import { ModeToggle } from './ui/mode-toggle';
 
@@ -17,30 +11,20 @@ type Link = {
 
 const LINKS: Link[] = [
   {
-    label: 'Статистика',
-    href: ROUTES.DASHBOARD,
-    icon: <DashboardIcon className='size-4' />,
-  },
-  {
     label: 'Планирование',
     href: ROUTES.MAIN,
     icon: <CalendarIcon className='size-4' />,
   },
   {
-    label: 'Таблица лидеров',
-    href: ROUTES.LEADERBOARD,
-    icon: <StarIcon className='size-4' />,
-  },
-  {
-    label: 'Привычки',
-    href: ROUTES.HABITS,
-    icon: <PenBoxIcon className='size-4' />,
+    label: 'Календарь',
+    href: ROUTES.CALENDAR,
+    icon: <CalendarIcon className='size-4' />,
   },
 ];
 
 export const Header = () => (
-  <header className='bg-card border-border fixed inset-x-2 bottom-4 z-50 flex flex-row justify-between rounded-xl border p-2 md:relative md:inset-x-0 md:bottom-0 md:w-full'>
-    <nav className='flex gap-1'>
+  <header className='bg-card border-border fixed inset-x-2 bottom-4 z-50 flex h-fit max-w-3xl flex-row justify-between rounded-xl border px-4 py-2 md:relative md:inset-x-0 md:bottom-0 md:w-full'>
+    <nav className='flex items-center gap-2'>
       {LINKS.map(link => (
         <NavButton
           key={link.href}
@@ -48,13 +32,13 @@ export const Header = () => (
         />
       ))}
     </nav>
-    <div className='flex gap-1'>
+    <div className='flex items-center gap-2'>
       <NavButton
-        className='rounded-full md:aspect-square'
+        className='aspect-square h-12 w-12 p-4'
         href={ROUTES.PROFILE}
-        icon={<PersonIcon />}
+        icon={<PersonIcon className='h-full w-full' />}
       />
-      <ModeToggle className='aspect-square h-full rounded-full p-6' />
+      <ModeToggle className='aspect-square h-12 w-12 p-4' />
     </div>
   </header>
 );

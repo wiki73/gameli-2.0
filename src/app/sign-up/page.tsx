@@ -1,70 +1,140 @@
 'use client';
 
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { signUp } from '@lib/auth-client';
+import { signUp, signUpFormSchema } from '@lib/auth-client';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@ui/card';
+import { type SubmitHandler, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@ui/form';
+import { Input } from '@ui/input';
+import { Button } from '@ui/button';
+import { ROUTES } from '@/src/consts';
+import type { SignUpFormType } from '@lib/auth-client';
 
-export default function SignUpPage() {
+export default function SignInPage() {
   const router = useRouter();
-  const [error, setError] = useState<string | null>(null);
 
-  async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setError(null);
+  const form = useForm<SignUpFormType>({
+    resolver: zodResolver(signUpFormSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+    mode: 'onChange',
+  });
 
-    const formData = new FormData(e.currentTarget);
+  const { handleSubmit, control, setError } = form;
 
-    const res = await signUp.email({
-      name: formData.get('name') as string,
-      email: formData.get('email') as string,
-      password: formData.get('password') as string,
-    });
+  const handleToSignInClick = () => {
+    router.push(ROUTES.SIGN_IN);
+  };
+
+  const onSubmit: SubmitHandler<SignUpFormType> = async data => {
+    const res = await signUp.email(data);
 
     if (res.error) {
-      setError(res.error.message || 'Something went wrong.');
+      setError('root', {
+        message: res.error.message || 'Something went wrong.',
+      });
     } else {
-      router.push('/dashboard');
+      router.push(ROUTES.MAIN);
     }
-  }
+  };
 
   return (
-    <main className='mx-auto max-w-md space-y-4 p-6 text-white'>
-      <h1 className='text-2xl font-bold'>Sign Up</h1>
-
-      {error && <p className='text-red-500'>{error}</p>}
-
+    <Form {...form}>
       <form
-        className='space-y-4'
-        onSubmit={handleSubmit}
+        className='fixed inset-0 flex items-center justify-center'
+        onSubmit={handleSubmit(onSubmit)}
       >
-        <input
-          className='w-full rounded-md border border-neutral-700 bg-neutral-900 px-3 py-2'
-          name='name'
-          placeholder='Full Name'
-          required
-        />
-        <input
-          className='w-full rounded-md border border-neutral-700 bg-neutral-900 px-3 py-2'
-          name='email'
-          placeholder='Email'
-          required
-          type='email'
-        />
-        <input
-          className='w-full rounded-md border border-neutral-700 bg-neutral-900 px-3 py-2'
-          minLength={3}
-          name='password'
-          placeholder='Password'
-          required
-          type='password'
-        />
-        <button
-          className='w-full rounded-md bg-white px-4 py-2 font-medium text-black hover:bg-gray-200'
-          type='submit'
-        >
-          Create Account
-        </button>
+        <Card className='w-full max-w-xl'>
+          <CardHeader>
+            <CardTitle>Регистрация</CardTitle>
+            <CardDescription>
+              Введите имя, логин и пароль чтобы войти
+            </CardDescription>
+          </CardHeader>
+          <CardContent className='flex flex-col gap-4'>
+            <FormField
+              control={control}
+              name='name'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Имя</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder='Имя'
+                    />
+                  </FormControl>
+                  <FormDescription />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name='email'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Почта</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder='Почта'
+                      type='email'
+                    />
+                  </FormControl>
+                  <FormDescription />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name='password'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Почта</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder='Пароль'
+                      type='password'
+                    />
+                  </FormControl>
+                  <FormDescription />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </CardContent>
+          <CardFooter>
+            <Button>Зарегестрироваться</Button>
+            <Button
+              onClick={handleToSignInClick}
+              variant='link'
+            >
+              Войти
+            </Button>
+          </CardFooter>
+        </Card>
       </form>
-    </main>
+    </Form>
   );
 }

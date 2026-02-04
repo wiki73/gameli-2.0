@@ -7,6 +7,9 @@ export const ROUTES = {
   TASK: '/task/:taskId',
   LEADERBOARD: '/leaderboard',
   HABITS: '/habits',
+  CALENDAR: '/calendar',
+  SIGN_IN: '/sign-in',
+  SIGN_UP: '/sign-up',
 } as const;
 
 export const QUERY_KEY_TYPES = {
@@ -21,6 +24,19 @@ export const QUERY_KEY_TYPES = {
   SESSION: 'session',
   UNKNOWN: 'unknown',
 } as const;
+
+export const WEEK_DAYS = [
+  { label: 'Понедельник', value: 1 },
+  { label: 'Вторник', value: 2 },
+  { label: 'Среда', value: 3 },
+  { label: 'Четверг', value: 4 },
+  { label: 'Пятница', value: 5 },
+  { label: 'Суббота', value: 6 },
+];
+
+export const NAME_MIN_LENGTH = 3;
+export const PASSWORD_MIN_LENGTH = 3;
+export const PASSWORD_MAX_LENGTH = 25;
 
 export type QueryKey =
   | {
@@ -101,6 +117,7 @@ export const getQueryKey = (key: QueryKey): string[] => {
 export const TIME = {
   SECONDS_IN_MINUTE: 60,
   MINUTE_IN_HOUR: 60,
+  HOURS_IN_DAY: 24,
   SECOND: 1000,
   MINUTE: 60_000,
   HOUR: 3_600_000,

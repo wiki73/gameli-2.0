@@ -40,13 +40,15 @@ type EditProps = {
 };
 
 type Props = (CreateProps | EditProps) & {
-  categoryId: string;
+  categoryId?: string;
+  date?: Date;
 };
 
 export const TaskCreateEditDialog = ({
   mode = 'CREATE',
   task: { name, id } = {},
   categoryId,
+  date,
 }: Props) => {
   const [open, setOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
@@ -56,7 +58,7 @@ export const TaskCreateEditDialog = ({
     defaultValues: {
       name: name ?? '',
     },
-    mode: 'onChange',
+    mode: 'onBlur',
   });
 
   const { handleSubmit } = form;
@@ -67,14 +69,14 @@ export const TaskCreateEditDialog = ({
         if (mode === 'EDIT' && id) {
           await updateTask({ id, data });
         } else {
-          await createTask({ data, categoryId });
+          await createTask({ data, categoryId, date });
         }
 
         form.reset();
         setOpen(false);
-        toast.success('Категория сохранена');
+        toast.success('Задача сохранена');
       } catch (e: unknown) {
-        toast.error('Ошибка сохранения категории', {
+        toast.error('Ошибка сохранения задачи', {
           description: e instanceof Error ? e.message : '',
         });
       }

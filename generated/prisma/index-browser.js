@@ -123,8 +123,10 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 exports.Prisma.TaskScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  isComplete: 'isComplete',
+  status: 'status',
+  timeSpent: 'timeSpent',
   date: 'date',
+  startedAt: 'startedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   userId: 'userId',
@@ -203,7 +205,12 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
+exports.TaskStatus = exports.$Enums.TaskStatus = {
+  CREATED: 'CREATED',
+  IN_PROGRESS: 'IN_PROGRESS',
+  PAUSED: 'PAUSED',
+  COMPLETED: 'COMPLETED'
+};
 
 exports.Prisma.ModelName = {
   Task: 'Task',

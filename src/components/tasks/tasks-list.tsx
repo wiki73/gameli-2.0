@@ -1,13 +1,19 @@
 import type { Task } from '@/generated/prisma';
+import { ScrollArea } from '../ui/scroll-area';
+import { TaskItem } from './task';
 
 type Props = {
   tasks: Task[];
 };
 
 export const TasksList = ({ tasks }: Props) => (
-  <ul>
-    {tasks.map(task => (
-      <li key={task.id}>{task.name}</li>
-    ))}
-  </ul>
+  <ScrollArea className='h-full'>
+    <ul className='flex h-full max-h-36 w-full flex-col gap-4'>
+      {tasks.map(task => (
+        <ul key={task.id}>
+          <TaskItem task={task} />
+        </ul>
+      ))}
+    </ul>
+  </ScrollArea>
 );

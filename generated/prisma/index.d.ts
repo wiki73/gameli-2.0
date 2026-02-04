@@ -45,6 +45,25 @@ export type Account = $Result.DefaultSelection<Prisma.$AccountPayload>
 export type Verification = $Result.DefaultSelection<Prisma.$VerificationPayload>
 
 /**
+ * Enums
+ */
+export namespace $Enums {
+  export const TaskStatus: {
+  CREATED: 'CREATED',
+  IN_PROGRESS: 'IN_PROGRESS',
+  PAUSED: 'PAUSED',
+  COMPLETED: 'COMPLETED'
+};
+
+export type TaskStatus = (typeof TaskStatus)[keyof typeof TaskStatus]
+
+}
+
+export type TaskStatus = $Enums.TaskStatus
+
+export const TaskStatus: typeof $Enums.TaskStatus
+
+/**
  * ##  Prisma Client ʲˢ
  *
  * Type-safe database client for TypeScript & Node.js
@@ -1411,15 +1430,27 @@ export namespace Prisma {
 
   export type AggregateTask = {
     _count: TaskCountAggregateOutputType | null
+    _avg: TaskAvgAggregateOutputType | null
+    _sum: TaskSumAggregateOutputType | null
     _min: TaskMinAggregateOutputType | null
     _max: TaskMaxAggregateOutputType | null
+  }
+
+  export type TaskAvgAggregateOutputType = {
+    timeSpent: number | null
+  }
+
+  export type TaskSumAggregateOutputType = {
+    timeSpent: number | null
   }
 
   export type TaskMinAggregateOutputType = {
     id: string | null
     name: string | null
-    isComplete: boolean | null
+    status: $Enums.TaskStatus | null
+    timeSpent: number | null
     date: Date | null
+    startedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
     userId: string | null
@@ -1429,8 +1460,10 @@ export namespace Prisma {
   export type TaskMaxAggregateOutputType = {
     id: string | null
     name: string | null
-    isComplete: boolean | null
+    status: $Enums.TaskStatus | null
+    timeSpent: number | null
     date: Date | null
+    startedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
     userId: string | null
@@ -1440,8 +1473,10 @@ export namespace Prisma {
   export type TaskCountAggregateOutputType = {
     id: number
     name: number
-    isComplete: number
+    status: number
+    timeSpent: number
     date: number
+    startedAt: number
     createdAt: number
     updatedAt: number
     userId: number
@@ -1450,11 +1485,21 @@ export namespace Prisma {
   }
 
 
+  export type TaskAvgAggregateInputType = {
+    timeSpent?: true
+  }
+
+  export type TaskSumAggregateInputType = {
+    timeSpent?: true
+  }
+
   export type TaskMinAggregateInputType = {
     id?: true
     name?: true
-    isComplete?: true
+    status?: true
+    timeSpent?: true
     date?: true
+    startedAt?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
@@ -1464,8 +1509,10 @@ export namespace Prisma {
   export type TaskMaxAggregateInputType = {
     id?: true
     name?: true
-    isComplete?: true
+    status?: true
+    timeSpent?: true
     date?: true
+    startedAt?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
@@ -1475,8 +1522,10 @@ export namespace Prisma {
   export type TaskCountAggregateInputType = {
     id?: true
     name?: true
-    isComplete?: true
+    status?: true
+    timeSpent?: true
     date?: true
+    startedAt?: true
     createdAt?: true
     updatedAt?: true
     userId?: true
@@ -1522,6 +1571,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: TaskAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TaskSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: TaskMinAggregateInputType
@@ -1552,6 +1613,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: TaskCountAggregateInputType | true
+    _avg?: TaskAvgAggregateInputType
+    _sum?: TaskSumAggregateInputType
     _min?: TaskMinAggregateInputType
     _max?: TaskMaxAggregateInputType
   }
@@ -1559,13 +1622,17 @@ export namespace Prisma {
   export type TaskGroupByOutputType = {
     id: string
     name: string
-    isComplete: boolean
+    status: $Enums.TaskStatus
+    timeSpent: number | null
     date: Date | null
+    startedAt: Date | null
     createdAt: Date
     updatedAt: Date
     userId: string
-    categoryId: string
+    categoryId: string | null
     _count: TaskCountAggregateOutputType | null
+    _avg: TaskAvgAggregateOutputType | null
+    _sum: TaskSumAggregateOutputType | null
     _min: TaskMinAggregateOutputType | null
     _max: TaskMaxAggregateOutputType | null
   }
@@ -1587,82 +1654,92 @@ export namespace Prisma {
   export type TaskSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
-    isComplete?: boolean
+    status?: boolean
+    timeSpent?: boolean
     date?: boolean
+    startedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
     categoryId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-    category?: boolean | CategoryDefaultArgs<ExtArgs>
+    category?: boolean | Task$categoryArgs<ExtArgs>
   }, ExtArgs["result"]["task"]>
 
   export type TaskSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
-    isComplete?: boolean
+    status?: boolean
+    timeSpent?: boolean
     date?: boolean
+    startedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
     categoryId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-    category?: boolean | CategoryDefaultArgs<ExtArgs>
+    category?: boolean | Task$categoryArgs<ExtArgs>
   }, ExtArgs["result"]["task"]>
 
   export type TaskSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
-    isComplete?: boolean
+    status?: boolean
+    timeSpent?: boolean
     date?: boolean
+    startedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
     categoryId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-    category?: boolean | CategoryDefaultArgs<ExtArgs>
+    category?: boolean | Task$categoryArgs<ExtArgs>
   }, ExtArgs["result"]["task"]>
 
   export type TaskSelectScalar = {
     id?: boolean
     name?: boolean
-    isComplete?: boolean
+    status?: boolean
+    timeSpent?: boolean
     date?: boolean
+    startedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
     categoryId?: boolean
   }
 
-  export type TaskOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "isComplete" | "date" | "createdAt" | "updatedAt" | "userId" | "categoryId", ExtArgs["result"]["task"]>
+  export type TaskOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "status" | "timeSpent" | "date" | "startedAt" | "createdAt" | "updatedAt" | "userId" | "categoryId", ExtArgs["result"]["task"]>
   export type TaskInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
-    category?: boolean | CategoryDefaultArgs<ExtArgs>
+    category?: boolean | Task$categoryArgs<ExtArgs>
   }
   export type TaskIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
-    category?: boolean | CategoryDefaultArgs<ExtArgs>
+    category?: boolean | Task$categoryArgs<ExtArgs>
   }
   export type TaskIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
-    category?: boolean | CategoryDefaultArgs<ExtArgs>
+    category?: boolean | Task$categoryArgs<ExtArgs>
   }
 
   export type $TaskPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Task"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
-      category: Prisma.$CategoryPayload<ExtArgs>
+      category: Prisma.$CategoryPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
-      isComplete: boolean
+      status: $Enums.TaskStatus
+      timeSpent: number | null
       date: Date | null
+      startedAt: Date | null
       createdAt: Date
       updatedAt: Date
       userId: string
-      categoryId: string
+      categoryId: string | null
     }, ExtArgs["result"]["task"]>
     composites: {}
   }
@@ -2058,7 +2135,7 @@ export namespace Prisma {
   export interface Prisma__TaskClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    category<T extends CategoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CategoryDefaultArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    category<T extends Task$categoryArgs<ExtArgs> = {}>(args?: Subset<T, Task$categoryArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2090,8 +2167,10 @@ export namespace Prisma {
   interface TaskFieldRefs {
     readonly id: FieldRef<"Task", 'String'>
     readonly name: FieldRef<"Task", 'String'>
-    readonly isComplete: FieldRef<"Task", 'Boolean'>
+    readonly status: FieldRef<"Task", 'TaskStatus'>
+    readonly timeSpent: FieldRef<"Task", 'Int'>
     readonly date: FieldRef<"Task", 'DateTime'>
+    readonly startedAt: FieldRef<"Task", 'DateTime'>
     readonly createdAt: FieldRef<"Task", 'DateTime'>
     readonly updatedAt: FieldRef<"Task", 'DateTime'>
     readonly userId: FieldRef<"Task", 'String'>
@@ -2489,6 +2568,25 @@ export namespace Prisma {
      * Limit how many Tasks to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Task.category
+   */
+  export type Task$categoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Category
+     */
+    select?: CategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Category
+     */
+    omit?: CategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CategoryInclude<ExtArgs> | null
+    where?: CategoryWhereInput
   }
 
   /**
@@ -8156,8 +8254,10 @@ export namespace Prisma {
   export const TaskScalarFieldEnum: {
     id: 'id',
     name: 'name',
-    isComplete: 'isComplete',
+    status: 'status',
+    timeSpent: 'timeSpent',
     date: 'date',
+    startedAt: 'startedAt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     userId: 'userId',
@@ -8284,9 +8384,30 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Boolean'
+   * Reference to a field of type 'TaskStatus'
    */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+  export type EnumTaskStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TaskStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'TaskStatus[]'
+   */
+  export type ListEnumTaskStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TaskStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 
@@ -8305,16 +8426,9 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Int'
+   * Reference to a field of type 'Boolean'
    */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int[]'
-   */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -8341,25 +8455,29 @@ export namespace Prisma {
     NOT?: TaskWhereInput | TaskWhereInput[]
     id?: StringFilter<"Task"> | string
     name?: StringFilter<"Task"> | string
-    isComplete?: BoolFilter<"Task"> | boolean
+    status?: EnumTaskStatusFilter<"Task"> | $Enums.TaskStatus
+    timeSpent?: IntNullableFilter<"Task"> | number | null
     date?: DateTimeNullableFilter<"Task"> | Date | string | null
+    startedAt?: DateTimeNullableFilter<"Task"> | Date | string | null
     createdAt?: DateTimeFilter<"Task"> | Date | string
     updatedAt?: DateTimeFilter<"Task"> | Date | string
     userId?: StringFilter<"Task"> | string
-    categoryId?: StringFilter<"Task"> | string
+    categoryId?: StringNullableFilter<"Task"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
+    category?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
   }
 
   export type TaskOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
-    isComplete?: SortOrder
+    status?: SortOrder
+    timeSpent?: SortOrderInput | SortOrder
     date?: SortOrderInput | SortOrder
+    startedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
-    categoryId?: SortOrder
+    categoryId?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
     category?: CategoryOrderByWithRelationInput
   }
@@ -8370,28 +8488,34 @@ export namespace Prisma {
     OR?: TaskWhereInput[]
     NOT?: TaskWhereInput | TaskWhereInput[]
     name?: StringFilter<"Task"> | string
-    isComplete?: BoolFilter<"Task"> | boolean
+    status?: EnumTaskStatusFilter<"Task"> | $Enums.TaskStatus
+    timeSpent?: IntNullableFilter<"Task"> | number | null
     date?: DateTimeNullableFilter<"Task"> | Date | string | null
+    startedAt?: DateTimeNullableFilter<"Task"> | Date | string | null
     createdAt?: DateTimeFilter<"Task"> | Date | string
     updatedAt?: DateTimeFilter<"Task"> | Date | string
     userId?: StringFilter<"Task"> | string
-    categoryId?: StringFilter<"Task"> | string
+    categoryId?: StringNullableFilter<"Task"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
+    category?: XOR<CategoryNullableScalarRelationFilter, CategoryWhereInput> | null
   }, "id">
 
   export type TaskOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
-    isComplete?: SortOrder
+    status?: SortOrder
+    timeSpent?: SortOrderInput | SortOrder
     date?: SortOrderInput | SortOrder
+    startedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
-    categoryId?: SortOrder
+    categoryId?: SortOrderInput | SortOrder
     _count?: TaskCountOrderByAggregateInput
+    _avg?: TaskAvgOrderByAggregateInput
     _max?: TaskMaxOrderByAggregateInput
     _min?: TaskMinOrderByAggregateInput
+    _sum?: TaskSumOrderByAggregateInput
   }
 
   export type TaskScalarWhereWithAggregatesInput = {
@@ -8400,12 +8524,14 @@ export namespace Prisma {
     NOT?: TaskScalarWhereWithAggregatesInput | TaskScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Task"> | string
     name?: StringWithAggregatesFilter<"Task"> | string
-    isComplete?: BoolWithAggregatesFilter<"Task"> | boolean
+    status?: EnumTaskStatusWithAggregatesFilter<"Task"> | $Enums.TaskStatus
+    timeSpent?: IntNullableWithAggregatesFilter<"Task"> | number | null
     date?: DateTimeNullableWithAggregatesFilter<"Task"> | Date | string | null
+    startedAt?: DateTimeNullableWithAggregatesFilter<"Task"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Task"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Task"> | Date | string
     userId?: StringWithAggregatesFilter<"Task"> | string
-    categoryId?: StringWithAggregatesFilter<"Task"> | string
+    categoryId?: StringNullableWithAggregatesFilter<"Task"> | string | null
   }
 
   export type CategoryWhereInput = {
@@ -8787,63 +8913,75 @@ export namespace Prisma {
   export type TaskCreateInput = {
     id?: string
     name: string
-    isComplete?: boolean
+    status?: $Enums.TaskStatus
+    timeSpent?: number | null
     date?: Date | string | null
+    startedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutTasksInput
-    category: CategoryCreateNestedOneWithoutTasksInput
+    category?: CategoryCreateNestedOneWithoutTasksInput
   }
 
   export type TaskUncheckedCreateInput = {
     id?: string
     name: string
-    isComplete?: boolean
+    status?: $Enums.TaskStatus
+    timeSpent?: number | null
     date?: Date | string | null
+    startedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
-    categoryId: string
+    categoryId?: string | null
   }
 
   export type TaskUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    isComplete?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+    timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutTasksNestedInput
-    category?: CategoryUpdateOneRequiredWithoutTasksNestedInput
+    category?: CategoryUpdateOneWithoutTasksNestedInput
   }
 
   export type TaskUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    isComplete?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+    timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
-    categoryId?: StringFieldUpdateOperationsInput | string
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TaskCreateManyInput = {
     id?: string
     name: string
-    isComplete?: boolean
+    status?: $Enums.TaskStatus
+    timeSpent?: number | null
     date?: Date | string | null
+    startedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
-    categoryId: string
+    categoryId?: string | null
   }
 
   export type TaskUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    isComplete?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+    timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8851,12 +8989,14 @@ export namespace Prisma {
   export type TaskUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    isComplete?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+    timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
-    categoryId?: StringFieldUpdateOperationsInput | string
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CategoryCreateInput = {
@@ -9297,9 +9437,22 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
+  export type EnumTaskStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.TaskStatus | EnumTaskStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TaskStatus[] | ListEnumTaskStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TaskStatus[] | ListEnumTaskStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumTaskStatusFilter<$PrismaModel> | $Enums.TaskStatus
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type DateTimeNullableFilter<$PrismaModel = never> = {
@@ -9324,14 +9477,29 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
   }
 
-  export type CategoryScalarRelationFilter = {
-    is?: CategoryWhereInput
-    isNot?: CategoryWhereInput
+  export type CategoryNullableScalarRelationFilter = {
+    is?: CategoryWhereInput | null
+    isNot?: CategoryWhereInput | null
   }
 
   export type SortOrderInput = {
@@ -9342,19 +9510,27 @@ export namespace Prisma {
   export type TaskCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
-    isComplete?: SortOrder
+    status?: SortOrder
+    timeSpent?: SortOrder
     date?: SortOrder
+    startedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
     categoryId?: SortOrder
   }
 
+  export type TaskAvgOrderByAggregateInput = {
+    timeSpent?: SortOrder
+  }
+
   export type TaskMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
-    isComplete?: SortOrder
+    status?: SortOrder
+    timeSpent?: SortOrder
     date?: SortOrder
+    startedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
@@ -9364,12 +9540,18 @@ export namespace Prisma {
   export type TaskMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
-    isComplete?: SortOrder
+    status?: SortOrder
+    timeSpent?: SortOrder
     date?: SortOrder
+    startedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
     categoryId?: SortOrder
+  }
+
+  export type TaskSumOrderByAggregateInput = {
+    timeSpent?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -9390,12 +9572,30 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+  export type EnumTaskStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TaskStatus | EnumTaskStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TaskStatus[] | ListEnumTaskStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TaskStatus[] | ListEnumTaskStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumTaskStatusWithAggregatesFilter<$PrismaModel> | $Enums.TaskStatus
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
+    _min?: NestedEnumTaskStatusFilter<$PrismaModel>
+    _max?: NestedEnumTaskStatusFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -9426,7 +9626,7 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type StringNullableFilter<$PrismaModel = never> = {
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -9438,7 +9638,10 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     mode?: QueryMode
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -9510,24 +9713,6 @@ export namespace Prisma {
     experience?: SortOrder
   }
 
-  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -9542,6 +9727,11 @@ export namespace Prisma {
     _sum?: NestedIntFilter<$PrismaModel>
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type SessionListRelationFilter = {
@@ -9602,6 +9792,14 @@ export namespace Prisma {
     image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type SessionCountOrderByAggregateInput = {
@@ -9728,8 +9926,16 @@ export namespace Prisma {
     set?: string
   }
 
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
+  export type EnumTaskStatusFieldUpdateOperationsInput = {
+    set?: $Enums.TaskStatus
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -9748,12 +9954,18 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTasksInput, UserUpdateWithoutTasksInput>, UserUncheckedUpdateWithoutTasksInput>
   }
 
-  export type CategoryUpdateOneRequiredWithoutTasksNestedInput = {
+  export type CategoryUpdateOneWithoutTasksNestedInput = {
     create?: XOR<CategoryCreateWithoutTasksInput, CategoryUncheckedCreateWithoutTasksInput>
     connectOrCreate?: CategoryCreateOrConnectWithoutTasksInput
     upsert?: CategoryUpsertWithoutTasksInput
+    disconnect?: CategoryWhereInput | boolean
+    delete?: CategoryWhereInput | boolean
     connect?: CategoryWhereUniqueInput
     update?: XOR<XOR<CategoryUpdateToOneWithWhereWithoutTasksInput, CategoryUpdateWithoutTasksInput>, CategoryUncheckedUpdateWithoutTasksInput>
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
   }
 
   export type UserCreateNestedOneWithoutCategoriesInput = {
@@ -9774,10 +9986,6 @@ export namespace Prisma {
     connectOrCreate?: TaskCreateOrConnectWithoutCategoryInput | TaskCreateOrConnectWithoutCategoryInput[]
     createMany?: TaskCreateManyCategoryInputEnvelope
     connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
-  }
-
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -9878,6 +10086,10 @@ export namespace Prisma {
     connectOrCreate?: TaskCreateOrConnectWithoutUserInput | TaskCreateOrConnectWithoutUserInput[]
     createMany?: TaskCreateManyUserInputEnvelope
     connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type SessionUpdateManyWithoutUserNestedInput = {
@@ -10034,9 +10246,22 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
+  export type NestedEnumTaskStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.TaskStatus | EnumTaskStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TaskStatus[] | ListEnumTaskStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TaskStatus[] | ListEnumTaskStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumTaskStatusFilter<$PrismaModel> | $Enums.TaskStatus
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
@@ -10059,6 +10284,20 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
@@ -10089,12 +10328,41 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+  export type NestedEnumTaskStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TaskStatus | EnumTaskStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TaskStatus[] | ListEnumTaskStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TaskStatus[] | ListEnumTaskStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumTaskStatusWithAggregatesFilter<$PrismaModel> | $Enums.TaskStatus
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
+    _min?: NestedEnumTaskStatusFilter<$PrismaModel>
+    _max?: NestedEnumTaskStatusFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -10111,17 +10379,6 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -10134,20 +10391,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type NestedStringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -10192,6 +10435,19 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type UserCreateWithoutTasksInput = {
@@ -10360,8 +10616,10 @@ export namespace Prisma {
   export type TaskCreateWithoutCategoryInput = {
     id?: string
     name: string
-    isComplete?: boolean
+    status?: $Enums.TaskStatus
+    timeSpent?: number | null
     date?: Date | string | null
+    startedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutTasksInput
@@ -10370,8 +10628,10 @@ export namespace Prisma {
   export type TaskUncheckedCreateWithoutCategoryInput = {
     id?: string
     name: string
-    isComplete?: boolean
+    status?: $Enums.TaskStatus
+    timeSpent?: number | null
     date?: Date | string | null
+    startedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
@@ -10446,12 +10706,14 @@ export namespace Prisma {
     NOT?: TaskScalarWhereInput | TaskScalarWhereInput[]
     id?: StringFilter<"Task"> | string
     name?: StringFilter<"Task"> | string
-    isComplete?: BoolFilter<"Task"> | boolean
+    status?: EnumTaskStatusFilter<"Task"> | $Enums.TaskStatus
+    timeSpent?: IntNullableFilter<"Task"> | number | null
     date?: DateTimeNullableFilter<"Task"> | Date | string | null
+    startedAt?: DateTimeNullableFilter<"Task"> | Date | string | null
     createdAt?: DateTimeFilter<"Task"> | Date | string
     updatedAt?: DateTimeFilter<"Task"> | Date | string
     userId?: StringFilter<"Task"> | string
-    categoryId?: StringFilter<"Task"> | string
+    categoryId?: StringNullableFilter<"Task"> | string | null
   }
 
   export type SessionCreateWithoutUserInput = {
@@ -10561,21 +10823,25 @@ export namespace Prisma {
   export type TaskCreateWithoutUserInput = {
     id?: string
     name: string
-    isComplete?: boolean
+    status?: $Enums.TaskStatus
+    timeSpent?: number | null
     date?: Date | string | null
+    startedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    category: CategoryCreateNestedOneWithoutTasksInput
+    category?: CategoryCreateNestedOneWithoutTasksInput
   }
 
   export type TaskUncheckedCreateWithoutUserInput = {
     id?: string
     name: string
-    isComplete?: boolean
+    status?: $Enums.TaskStatus
+    timeSpent?: number | null
     date?: Date | string | null
+    startedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    categoryId: string
+    categoryId?: string | null
   }
 
   export type TaskCreateOrConnectWithoutUserInput = {
@@ -10839,8 +11105,10 @@ export namespace Prisma {
   export type TaskCreateManyCategoryInput = {
     id?: string
     name: string
-    isComplete?: boolean
+    status?: $Enums.TaskStatus
+    timeSpent?: number | null
     date?: Date | string | null
+    startedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
@@ -10849,8 +11117,10 @@ export namespace Prisma {
   export type TaskUpdateWithoutCategoryInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    isComplete?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+    timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutTasksNestedInput
@@ -10859,8 +11129,10 @@ export namespace Prisma {
   export type TaskUncheckedUpdateWithoutCategoryInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    isComplete?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+    timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
@@ -10869,8 +11141,10 @@ export namespace Prisma {
   export type TaskUncheckedUpdateManyWithoutCategoryInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    isComplete?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+    timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
@@ -10915,11 +11189,13 @@ export namespace Prisma {
   export type TaskCreateManyUserInput = {
     id?: string
     name: string
-    isComplete?: boolean
+    status?: $Enums.TaskStatus
+    timeSpent?: number | null
     date?: Date | string | null
+    startedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    categoryId: string
+    categoryId?: string | null
   }
 
   export type SessionUpdateWithoutUserInput = {
@@ -11035,31 +11311,37 @@ export namespace Prisma {
   export type TaskUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    isComplete?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+    timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    category?: CategoryUpdateOneRequiredWithoutTasksNestedInput
+    category?: CategoryUpdateOneWithoutTasksNestedInput
   }
 
   export type TaskUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    isComplete?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+    timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    categoryId?: StringFieldUpdateOperationsInput | string
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TaskUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    isComplete?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
+    timeSpent?: NullableIntFieldUpdateOperationsInput | number | null
     date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    categoryId?: StringFieldUpdateOperationsInput | string
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 

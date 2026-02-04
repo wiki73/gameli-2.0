@@ -25,14 +25,14 @@ export default function RootLayout({
       lang='ru'
       suppressHydrationWarning
     >
-      <body className='flex h-full min-h-dvh w-full flex-col items-center p-4'>
+      <body className='flex h-full min-h-dvh w-full flex-col items-center'>
         <ThemeProvider
           attribute='class'
           defaultTheme='system'
           disableTransitionOnChange
           enableSystem
         >
-          <div className='flex h-full w-full max-w-3xl flex-col items-center gap-4'>
+          <div className='flex h-full min-h-dvh w-full flex-col items-center gap-4 p-4 pb-24 md:pb-4'>
             <Header />
             {children}
           </div>
