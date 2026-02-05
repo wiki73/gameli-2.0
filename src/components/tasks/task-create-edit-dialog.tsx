@@ -140,6 +140,27 @@ export const TaskCreateEditDialog = ({
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name='description'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Дополнительная информация</FormLabel>
+                  <FormControl>
+                    <Input
+                      autoComplete='description'
+                      disabled={isPending}
+                      id='description'
+                      placeholder='Описание задачи'
+                      type='text'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <p
               className='text-destructive text-sm'
               data-slot='form-message'

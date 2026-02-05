@@ -38,9 +38,7 @@ export const updateTask = async ({
 }) => {
   const response = await prisma.task.update({
     where: { id },
-    data: {
-      name: data.name,
-    },
+    data,
   });
 
   revalidatePath(ROUTES.CALENDAR);

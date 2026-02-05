@@ -3,7 +3,13 @@ import Link from 'next/link';
 import type { Task } from '@/generated/prisma';
 import { cn } from '@/src/lib/utils';
 import { ROUTES } from '@/src/consts';
-import { Item, ItemHeader, ItemTitle } from '../ui/item';
+import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemHeader,
+  ItemTitle,
+} from '../ui/item';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,11 +28,11 @@ type Props = {
 export const TaskItem = ({ task }: Props) => (
   <Item
     className={cn(
-      'border-border bg-secondary border',
+      'border-border bg-secondary flex flex-row flex-nowrap border',
       task.status === 'COMPLETED' && 'bg-muted opacity-50',
     )}
   >
-    <ItemHeader>
+    <ItemHeader className='flex flex-col items-start'>
       <ItemTitle
         className={cn(
           task.status === 'COMPLETED' && 'text-muted-foreground line-through',
@@ -34,6 +40,9 @@ export const TaskItem = ({ task }: Props) => (
       >
         {task.name}
       </ItemTitle>
+      <ItemDescription>{task.description}</ItemDescription>
+    </ItemHeader>
+    <ItemContent className='flex'>
       {task.status === 'COMPLETED' && <CheckIcon className='size-6' />}
       {task.status !== 'COMPLETED' && (
         <DropdownMenu>
@@ -61,6 +70,6 @@ export const TaskItem = ({ task }: Props) => (
           </DropdownMenuContent>
         </DropdownMenu>
       )}
-    </ItemHeader>
+    </ItemContent>
   </Item>
 );

@@ -4,7 +4,8 @@ import { TIME } from '../consts';
 import dayjs from './dayjs';
 
 const MIN_NAME_LENGTH = 3;
-const MAX_NAME_LENGTH = 50;
+const MAX_NAME_LENGTH = 150;
+const MAX_DESCRIPTION_LENGTH = 500;
 
 export const taskFormSchema = z.object({
   name: z
@@ -17,6 +18,13 @@ export const taskFormSchema = z.object({
       MAX_NAME_LENGTH,
       `Название должно содержать не более ${String(MAX_NAME_LENGTH)} символов`,
     ),
+  description: z
+    .string()
+    .max(
+      MAX_DESCRIPTION_LENGTH,
+      `Описание должно содержать не более ${String(MAX_DESCRIPTION_LENGTH)} символов`,
+    )
+    .optional(),
 });
 
 export type TaskFormType = z.infer<typeof taskFormSchema>;
