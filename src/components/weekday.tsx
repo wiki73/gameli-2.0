@@ -34,7 +34,7 @@ export const Weekday = ({ title, tasks, date, isToday = false }: Props) => {
   return (
     <Card
       className={cn(
-        'w-full flex-1 gap-2',
+        'w-full flex-1 gap-2 border-card ring-card ring-1',
         isToday && 'border-primary ring-primary ring-1',
       )}
     >

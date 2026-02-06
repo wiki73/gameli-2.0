@@ -1,4 +1,5 @@
 import { headers } from 'next/headers';
+import Link from 'next/link';
 import {
   Tabs,
   TabsContent,
@@ -30,18 +31,23 @@ const tabs: Record<'day' | 'week' | 'month', TabType> = {
   },
 };
 
-export default async function CalendarPage() {
+export default async function CalendarPage({
+  searchParams: { tab },
+}: {
+  searchParams: { tab: 'day' | 'week' | 'month' };
+}) {
   const session = await auth.api.getSession({ headers: await headers() });
 
-  const startOfWeek = dayjs().startOf('isoWeek').toDate();
-  const endOfWeek = dayjs().endOf('isoWeek').toDate();
+  const unit = tab === 'week' ? 'isoWeek' : tab; // dayjs использует 'day', 'week', 'month'
+  const startDate = dayjs().startOf(unit).toDate();
+  const endDate = dayjs().endOf(unit).toDate();
 
   const tasks = await prisma.task.findMany({
     where: {
       userId: session?.user.id,
       date: {
-        gte: startOfWeek,
-        lte: endOfWeek,
+        gte: startDate,
+        lte: endDate,
       },
     },
     orderBy: {
@@ -53,16 +59,16 @@ export default async function CalendarPage() {
     <div className='flex h-full w-full flex-[1_1_auto] flex-col'>
       <Tabs
         className='h-full flex-[1_1_auto]'
-        defaultValue='week'
+        value={tab}
       >
         <TabsList>
           {Object.values(tabs).map(({ label, value }) => (
             <TabsTrigger
-              disabled={value !== 'week'}
+              asChild
               key={value}
               value={value}
             >
-              {label}
+              <Link href={`?tab=${value}`}>{label}</Link>
             </TabsTrigger>
           ))}
         </TabsList>
