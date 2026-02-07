@@ -192,6 +192,33 @@ exports.Prisma.VerificationScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.HabitScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  total_xp: 'total_xp',
+  current_streak: 'current_streak',
+  best_streak: 'best_streak',
+  multiplier: 'multiplier',
+  base_xp: 'base_xp',
+  last_completed_day: 'last_completed_day'
+};
+
+exports.Prisma.HabitEntryScalarFieldEnum = {
+  id: 'id',
+  habit_id: 'habit_id',
+  user_id: 'user_id',
+  day_number: 'day_number',
+  completed: 'completed',
+  completed_at: 'completed_at',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  xp_earned: 'xp_earned'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -219,7 +246,9 @@ exports.Prisma.ModelName = {
   User: 'User',
   Session: 'Session',
   Account: 'Account',
-  Verification: 'Verification'
+  Verification: 'Verification',
+  Habit: 'Habit',
+  HabitEntry: 'HabitEntry'
 };
 
 /**
