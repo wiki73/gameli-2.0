@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { headers } from 'next/headers';
 import { auth } from '@server/auth';
 import prisma from '@server/db';
-import { ROUTES } from '@/src/consts';
+import { getLevelByExperience, ROUTES } from '@/src/consts';
 import type { HabitFormType } from '@/src/lib/habit';
 
 const STREAK_MULTIPLIER_STEP = 0.1;
@@ -128,6 +128,25 @@ export const updateHabitEntry = async ({
         },
       });
 
+      // Добавляем опыт пользователю. не файт что это дожно быть в этом файле
+      const user = await prisma.user.findUnique({
+        where: { id: userId },
+        select: { experience: true, level: true },
+      });
+
+      if (user) {
+        const newExperience = user.experience + xpEarned;
+        const newLevel = getLevelByExperience(newExperience);
+
+        await prisma.user.update({
+          where: { id: userId },
+          data: {
+            experience: newExperience,
+            level: newLevel,
+          },
+        });
+      }
+
       const today = new Date().getDate();
       if (habit.last_completed_day === today - 1) {
         const newStreak = habit.current_streak + 1;
@@ -173,12 +192,31 @@ export const updateHabitEntry = async ({
           where: { id: entry.id },
           data: { xp_earned: 0 },
         });
+
+        // Вычитаем опыт у пользователя. тоже не всё тут долно быть
+        const user = await prisma.user.findUnique({
+          where: { id: userId },
+          select: { experience: true, level: true },
+        });
+
+        if (user) {
+          const newExperience = Math.max(0, user.experience - xpToRemove);
+          const newLevel = getLevelByExperience(newExperience);
+
+          await prisma.user.update({
+            where: { id: userId },
+            data: {
+              experience: newExperience,
+              level: newLevel,
+            },
+          });
+        }
       }
     }
-  }
 
-  revalidatePath(ROUTES.HABITS);
-  return updatedEntry;
+    revalidatePath(ROUTES.HABITS);
+    return updatedEntry;
+  }
 };
 
 export const getHabitsWithEntries = async (userId: string) =>

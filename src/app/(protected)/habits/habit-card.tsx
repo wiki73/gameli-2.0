@@ -214,8 +214,6 @@ export const HabitCard = ({
             </TableBody>
           </Table>
         </div>
-
-        {/* ... остальной код UI без изменений ... */}
       </CardContent>
     </Card>
   );
