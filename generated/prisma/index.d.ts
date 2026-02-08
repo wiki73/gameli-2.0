@@ -1554,6 +1554,7 @@ export namespace Prisma {
     categories: number
     tasks: number
     habits: number
+    habitEntries: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1562,6 +1563,7 @@ export namespace Prisma {
     categories?: boolean | UserCountOutputTypeCountCategoriesArgs
     tasks?: boolean | UserCountOutputTypeCountTasksArgs
     habits?: boolean | UserCountOutputTypeCountHabitsArgs
+    habitEntries?: boolean | UserCountOutputTypeCountHabitEntriesArgs
   }
 
   // Custom InputTypes
@@ -1608,6 +1610,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountHabitsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: HabitWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountHabitEntriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: HabitEntryWhereInput
   }
 
 
@@ -4264,6 +4273,7 @@ export namespace Prisma {
     categories?: boolean | User$categoriesArgs<ExtArgs>
     tasks?: boolean | User$tasksArgs<ExtArgs>
     habits?: boolean | User$habitsArgs<ExtArgs>
+    habitEntries?: boolean | User$habitEntriesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -4310,6 +4320,7 @@ export namespace Prisma {
     categories?: boolean | User$categoriesArgs<ExtArgs>
     tasks?: boolean | User$tasksArgs<ExtArgs>
     habits?: boolean | User$habitsArgs<ExtArgs>
+    habitEntries?: boolean | User$habitEntriesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -4323,6 +4334,7 @@ export namespace Prisma {
       categories: Prisma.$CategoryPayload<ExtArgs>[]
       tasks: Prisma.$TaskPayload<ExtArgs>[]
       habits: Prisma.$HabitPayload<ExtArgs>[]
+      habitEntries: Prisma.$HabitEntryPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4733,6 +4745,7 @@ export namespace Prisma {
     categories<T extends User$categoriesArgs<ExtArgs> = {}>(args?: Subset<T, User$categoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tasks<T extends User$tasksArgs<ExtArgs> = {}>(args?: Subset<T, User$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     habits<T extends User$habitsArgs<ExtArgs> = {}>(args?: Subset<T, User$habitsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HabitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    habitEntries<T extends User$habitEntriesArgs<ExtArgs> = {}>(args?: Subset<T, User$habitEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HabitEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5276,6 +5289,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: HabitScalarFieldEnum | HabitScalarFieldEnum[]
+  }
+
+  /**
+   * User.habitEntries
+   */
+  export type User$habitEntriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HabitEntry
+     */
+    select?: HabitEntrySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HabitEntry
+     */
+    omit?: HabitEntryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HabitEntryInclude<ExtArgs> | null
+    where?: HabitEntryWhereInput
+    orderBy?: HabitEntryOrderByWithRelationInput | HabitEntryOrderByWithRelationInput[]
+    cursor?: HabitEntryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: HabitEntryScalarFieldEnum | HabitEntryScalarFieldEnum[]
   }
 
   /**
@@ -8577,131 +8614,131 @@ export namespace Prisma {
   }
 
   export type HabitAvgAggregateOutputType = {
-    total_xp: number | null
-    current_streak: number | null
-    best_streak: number | null
+    totalXp: number | null
+    currentStreak: number | null
+    bestStreak: number | null
     multiplier: number | null
-    base_xp: number | null
-    last_completed_day: number | null
+    baseXp: number | null
+    lastCompletedDay: number | null
   }
 
   export type HabitSumAggregateOutputType = {
-    total_xp: number | null
-    current_streak: number | null
-    best_streak: number | null
+    totalXp: number | null
+    currentStreak: number | null
+    bestStreak: number | null
     multiplier: number | null
-    base_xp: number | null
-    last_completed_day: number | null
+    baseXp: number | null
+    lastCompletedDay: number | null
   }
 
   export type HabitMinAggregateOutputType = {
     id: string | null
     title: string | null
     description: string | null
+    totalXp: number | null
+    currentStreak: number | null
+    bestStreak: number | null
+    multiplier: number | null
+    baseXp: number | null
+    lastCompletedDay: number | null
     userId: string | null
     createdAt: Date | null
     updatedAt: Date | null
-    total_xp: number | null
-    current_streak: number | null
-    best_streak: number | null
-    multiplier: number | null
-    base_xp: number | null
-    last_completed_day: number | null
   }
 
   export type HabitMaxAggregateOutputType = {
     id: string | null
     title: string | null
     description: string | null
+    totalXp: number | null
+    currentStreak: number | null
+    bestStreak: number | null
+    multiplier: number | null
+    baseXp: number | null
+    lastCompletedDay: number | null
     userId: string | null
     createdAt: Date | null
     updatedAt: Date | null
-    total_xp: number | null
-    current_streak: number | null
-    best_streak: number | null
-    multiplier: number | null
-    base_xp: number | null
-    last_completed_day: number | null
   }
 
   export type HabitCountAggregateOutputType = {
     id: number
     title: number
     description: number
+    totalXp: number
+    currentStreak: number
+    bestStreak: number
+    multiplier: number
+    baseXp: number
+    lastCompletedDay: number
     userId: number
     createdAt: number
     updatedAt: number
-    total_xp: number
-    current_streak: number
-    best_streak: number
-    multiplier: number
-    base_xp: number
-    last_completed_day: number
     _all: number
   }
 
 
   export type HabitAvgAggregateInputType = {
-    total_xp?: true
-    current_streak?: true
-    best_streak?: true
+    totalXp?: true
+    currentStreak?: true
+    bestStreak?: true
     multiplier?: true
-    base_xp?: true
-    last_completed_day?: true
+    baseXp?: true
+    lastCompletedDay?: true
   }
 
   export type HabitSumAggregateInputType = {
-    total_xp?: true
-    current_streak?: true
-    best_streak?: true
+    totalXp?: true
+    currentStreak?: true
+    bestStreak?: true
     multiplier?: true
-    base_xp?: true
-    last_completed_day?: true
+    baseXp?: true
+    lastCompletedDay?: true
   }
 
   export type HabitMinAggregateInputType = {
     id?: true
     title?: true
     description?: true
+    totalXp?: true
+    currentStreak?: true
+    bestStreak?: true
+    multiplier?: true
+    baseXp?: true
+    lastCompletedDay?: true
     userId?: true
     createdAt?: true
     updatedAt?: true
-    total_xp?: true
-    current_streak?: true
-    best_streak?: true
-    multiplier?: true
-    base_xp?: true
-    last_completed_day?: true
   }
 
   export type HabitMaxAggregateInputType = {
     id?: true
     title?: true
     description?: true
+    totalXp?: true
+    currentStreak?: true
+    bestStreak?: true
+    multiplier?: true
+    baseXp?: true
+    lastCompletedDay?: true
     userId?: true
     createdAt?: true
     updatedAt?: true
-    total_xp?: true
-    current_streak?: true
-    best_streak?: true
-    multiplier?: true
-    base_xp?: true
-    last_completed_day?: true
   }
 
   export type HabitCountAggregateInputType = {
     id?: true
     title?: true
     description?: true
+    totalXp?: true
+    currentStreak?: true
+    bestStreak?: true
+    multiplier?: true
+    baseXp?: true
+    lastCompletedDay?: true
     userId?: true
     createdAt?: true
     updatedAt?: true
-    total_xp?: true
-    current_streak?: true
-    best_streak?: true
-    multiplier?: true
-    base_xp?: true
-    last_completed_day?: true
     _all?: true
   }
 
@@ -8794,16 +8831,16 @@ export namespace Prisma {
   export type HabitGroupByOutputType = {
     id: string
     title: string
-    description: string
+    description: string | null
+    totalXp: number
+    currentStreak: number
+    bestStreak: number
+    multiplier: number
+    baseXp: number
+    lastCompletedDay: number
     userId: string
     createdAt: Date
     updatedAt: Date
-    total_xp: number
-    current_streak: number
-    best_streak: number
-    multiplier: number
-    base_xp: number
-    last_completed_day: number
     _count: HabitCountAggregateOutputType | null
     _avg: HabitAvgAggregateOutputType | null
     _sum: HabitSumAggregateOutputType | null
@@ -8829,15 +8866,15 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     description?: boolean
+    totalXp?: boolean
+    currentStreak?: boolean
+    bestStreak?: boolean
+    multiplier?: boolean
+    baseXp?: boolean
+    lastCompletedDay?: boolean
     userId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    total_xp?: boolean
-    current_streak?: boolean
-    best_streak?: boolean
-    multiplier?: boolean
-    base_xp?: boolean
-    last_completed_day?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     entries?: boolean | Habit$entriesArgs<ExtArgs>
     _count?: boolean | HabitCountOutputTypeDefaultArgs<ExtArgs>
@@ -8847,15 +8884,15 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     description?: boolean
+    totalXp?: boolean
+    currentStreak?: boolean
+    bestStreak?: boolean
+    multiplier?: boolean
+    baseXp?: boolean
+    lastCompletedDay?: boolean
     userId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    total_xp?: boolean
-    current_streak?: boolean
-    best_streak?: boolean
-    multiplier?: boolean
-    base_xp?: boolean
-    last_completed_day?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["habit"]>
 
@@ -8863,15 +8900,15 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     description?: boolean
+    totalXp?: boolean
+    currentStreak?: boolean
+    bestStreak?: boolean
+    multiplier?: boolean
+    baseXp?: boolean
+    lastCompletedDay?: boolean
     userId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    total_xp?: boolean
-    current_streak?: boolean
-    best_streak?: boolean
-    multiplier?: boolean
-    base_xp?: boolean
-    last_completed_day?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["habit"]>
 
@@ -8879,18 +8916,18 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     description?: boolean
+    totalXp?: boolean
+    currentStreak?: boolean
+    bestStreak?: boolean
+    multiplier?: boolean
+    baseXp?: boolean
+    lastCompletedDay?: boolean
     userId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    total_xp?: boolean
-    current_streak?: boolean
-    best_streak?: boolean
-    multiplier?: boolean
-    base_xp?: boolean
-    last_completed_day?: boolean
   }
 
-  export type HabitOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "userId" | "createdAt" | "updatedAt" | "total_xp" | "current_streak" | "best_streak" | "multiplier" | "base_xp" | "last_completed_day", ExtArgs["result"]["habit"]>
+  export type HabitOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "totalXp" | "currentStreak" | "bestStreak" | "multiplier" | "baseXp" | "lastCompletedDay" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["habit"]>
   export type HabitInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     entries?: boolean | Habit$entriesArgs<ExtArgs>
@@ -8912,16 +8949,16 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       title: string
-      description: string
+      description: string | null
+      totalXp: number
+      currentStreak: number
+      bestStreak: number
+      multiplier: number
+      baseXp: number
+      lastCompletedDay: number
       userId: string
       createdAt: Date
       updatedAt: Date
-      total_xp: number
-      current_streak: number
-      best_streak: number
-      multiplier: number
-      base_xp: number
-      last_completed_day: number
     }, ExtArgs["result"]["habit"]>
     composites: {}
   }
@@ -9350,15 +9387,15 @@ export namespace Prisma {
     readonly id: FieldRef<"Habit", 'String'>
     readonly title: FieldRef<"Habit", 'String'>
     readonly description: FieldRef<"Habit", 'String'>
+    readonly totalXp: FieldRef<"Habit", 'Float'>
+    readonly currentStreak: FieldRef<"Habit", 'Int'>
+    readonly bestStreak: FieldRef<"Habit", 'Int'>
+    readonly multiplier: FieldRef<"Habit", 'Float'>
+    readonly baseXp: FieldRef<"Habit", 'Int'>
+    readonly lastCompletedDay: FieldRef<"Habit", 'Int'>
     readonly userId: FieldRef<"Habit", 'String'>
     readonly createdAt: FieldRef<"Habit", 'DateTime'>
     readonly updatedAt: FieldRef<"Habit", 'DateTime'>
-    readonly total_xp: FieldRef<"Habit", 'Float'>
-    readonly current_streak: FieldRef<"Habit", 'Int'>
-    readonly best_streak: FieldRef<"Habit", 'Int'>
-    readonly multiplier: FieldRef<"Habit", 'Float'>
-    readonly base_xp: FieldRef<"Habit", 'Int'>
-    readonly last_completed_day: FieldRef<"Habit", 'Int'>
   }
     
 
@@ -9810,97 +9847,91 @@ export namespace Prisma {
   }
 
   export type HabitEntryAvgAggregateOutputType = {
-    day_number: number | null
-    xp_earned: number | null
+    dayNumber: number | null
+    xpEarned: number | null
   }
 
   export type HabitEntrySumAggregateOutputType = {
-    day_number: number | null
-    xp_earned: number | null
+    dayNumber: number | null
+    xpEarned: number | null
   }
 
   export type HabitEntryMinAggregateOutputType = {
     id: string | null
-    habit_id: string | null
-    user_id: string | null
-    day_number: number | null
-    completed: boolean | null
-    completed_at: string | null
-    created_at: Date | null
-    updated_at: Date | null
-    xp_earned: number | null
+    dayNumber: number | null
+    xpEarned: number | null
+    userId: string | null
+    habitId: string | null
+    completedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type HabitEntryMaxAggregateOutputType = {
     id: string | null
-    habit_id: string | null
-    user_id: string | null
-    day_number: number | null
-    completed: boolean | null
-    completed_at: string | null
-    created_at: Date | null
-    updated_at: Date | null
-    xp_earned: number | null
+    dayNumber: number | null
+    xpEarned: number | null
+    userId: string | null
+    habitId: string | null
+    completedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type HabitEntryCountAggregateOutputType = {
     id: number
-    habit_id: number
-    user_id: number
-    day_number: number
-    completed: number
-    completed_at: number
-    created_at: number
-    updated_at: number
-    xp_earned: number
+    dayNumber: number
+    xpEarned: number
+    userId: number
+    habitId: number
+    completedAt: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
 
   export type HabitEntryAvgAggregateInputType = {
-    day_number?: true
-    xp_earned?: true
+    dayNumber?: true
+    xpEarned?: true
   }
 
   export type HabitEntrySumAggregateInputType = {
-    day_number?: true
-    xp_earned?: true
+    dayNumber?: true
+    xpEarned?: true
   }
 
   export type HabitEntryMinAggregateInputType = {
     id?: true
-    habit_id?: true
-    user_id?: true
-    day_number?: true
-    completed?: true
-    completed_at?: true
-    created_at?: true
-    updated_at?: true
-    xp_earned?: true
+    dayNumber?: true
+    xpEarned?: true
+    userId?: true
+    habitId?: true
+    completedAt?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type HabitEntryMaxAggregateInputType = {
     id?: true
-    habit_id?: true
-    user_id?: true
-    day_number?: true
-    completed?: true
-    completed_at?: true
-    created_at?: true
-    updated_at?: true
-    xp_earned?: true
+    dayNumber?: true
+    xpEarned?: true
+    userId?: true
+    habitId?: true
+    completedAt?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type HabitEntryCountAggregateInputType = {
     id?: true
-    habit_id?: true
-    user_id?: true
-    day_number?: true
-    completed?: true
-    completed_at?: true
-    created_at?: true
-    updated_at?: true
-    xp_earned?: true
+    dayNumber?: true
+    xpEarned?: true
+    userId?: true
+    habitId?: true
+    completedAt?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -9992,14 +10023,13 @@ export namespace Prisma {
 
   export type HabitEntryGroupByOutputType = {
     id: string
-    habit_id: string
-    user_id: string
-    day_number: number
-    completed: boolean
-    completed_at: string | null
-    created_at: Date
-    updated_at: Date
-    xp_earned: number
+    dayNumber: number
+    xpEarned: number
+    userId: string
+    habitId: string
+    completedAt: Date | null
+    createdAt: Date
+    updatedAt: Date
     _count: HabitEntryCountAggregateOutputType | null
     _avg: HabitEntryAvgAggregateOutputType | null
     _sum: HabitEntrySumAggregateOutputType | null
@@ -10023,81 +10053,83 @@ export namespace Prisma {
 
   export type HabitEntrySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    habit_id?: boolean
-    user_id?: boolean
-    day_number?: boolean
-    completed?: boolean
-    completed_at?: boolean
-    created_at?: boolean
-    updated_at?: boolean
-    xp_earned?: boolean
+    dayNumber?: boolean
+    xpEarned?: boolean
+    userId?: boolean
+    habitId?: boolean
+    completedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
     habit?: boolean | HabitDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["habitEntry"]>
 
   export type HabitEntrySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    habit_id?: boolean
-    user_id?: boolean
-    day_number?: boolean
-    completed?: boolean
-    completed_at?: boolean
-    created_at?: boolean
-    updated_at?: boolean
-    xp_earned?: boolean
+    dayNumber?: boolean
+    xpEarned?: boolean
+    userId?: boolean
+    habitId?: boolean
+    completedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
     habit?: boolean | HabitDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["habitEntry"]>
 
   export type HabitEntrySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    habit_id?: boolean
-    user_id?: boolean
-    day_number?: boolean
-    completed?: boolean
-    completed_at?: boolean
-    created_at?: boolean
-    updated_at?: boolean
-    xp_earned?: boolean
+    dayNumber?: boolean
+    xpEarned?: boolean
+    userId?: boolean
+    habitId?: boolean
+    completedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
     habit?: boolean | HabitDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["habitEntry"]>
 
   export type HabitEntrySelectScalar = {
     id?: boolean
-    habit_id?: boolean
-    user_id?: boolean
-    day_number?: boolean
-    completed?: boolean
-    completed_at?: boolean
-    created_at?: boolean
-    updated_at?: boolean
-    xp_earned?: boolean
+    dayNumber?: boolean
+    xpEarned?: boolean
+    userId?: boolean
+    habitId?: boolean
+    completedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type HabitEntryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "habit_id" | "user_id" | "day_number" | "completed" | "completed_at" | "created_at" | "updated_at" | "xp_earned", ExtArgs["result"]["habitEntry"]>
+  export type HabitEntryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "dayNumber" | "xpEarned" | "userId" | "habitId" | "completedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["habitEntry"]>
   export type HabitEntryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
     habit?: boolean | HabitDefaultArgs<ExtArgs>
   }
   export type HabitEntryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
     habit?: boolean | HabitDefaultArgs<ExtArgs>
   }
   export type HabitEntryIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
     habit?: boolean | HabitDefaultArgs<ExtArgs>
   }
 
   export type $HabitEntryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "HabitEntry"
     objects: {
+      user: Prisma.$UserPayload<ExtArgs>
       habit: Prisma.$HabitPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      habit_id: string
-      user_id: string
-      day_number: number
-      completed: boolean
-      completed_at: string | null
-      created_at: Date
-      updated_at: Date
-      xp_earned: number
+      dayNumber: number
+      xpEarned: number
+      userId: string
+      habitId: string
+      completedAt: Date | null
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["habitEntry"]>
     composites: {}
   }
@@ -10492,6 +10524,7 @@ export namespace Prisma {
    */
   export interface Prisma__HabitEntryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     habit<T extends HabitDefaultArgs<ExtArgs> = {}>(args?: Subset<T, HabitDefaultArgs<ExtArgs>>): Prisma__HabitClient<$Result.GetResult<Prisma.$HabitPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -10523,14 +10556,13 @@ export namespace Prisma {
    */
   interface HabitEntryFieldRefs {
     readonly id: FieldRef<"HabitEntry", 'String'>
-    readonly habit_id: FieldRef<"HabitEntry", 'String'>
-    readonly user_id: FieldRef<"HabitEntry", 'String'>
-    readonly day_number: FieldRef<"HabitEntry", 'Int'>
-    readonly completed: FieldRef<"HabitEntry", 'Boolean'>
-    readonly completed_at: FieldRef<"HabitEntry", 'String'>
-    readonly created_at: FieldRef<"HabitEntry", 'DateTime'>
-    readonly updated_at: FieldRef<"HabitEntry", 'DateTime'>
-    readonly xp_earned: FieldRef<"HabitEntry", 'Float'>
+    readonly dayNumber: FieldRef<"HabitEntry", 'Int'>
+    readonly xpEarned: FieldRef<"HabitEntry", 'Float'>
+    readonly userId: FieldRef<"HabitEntry", 'String'>
+    readonly habitId: FieldRef<"HabitEntry", 'String'>
+    readonly completedAt: FieldRef<"HabitEntry", 'DateTime'>
+    readonly createdAt: FieldRef<"HabitEntry", 'DateTime'>
+    readonly updatedAt: FieldRef<"HabitEntry", 'DateTime'>
   }
     
 
@@ -11055,15 +11087,15 @@ export namespace Prisma {
     id: 'id',
     title: 'title',
     description: 'description',
+    totalXp: 'totalXp',
+    currentStreak: 'currentStreak',
+    bestStreak: 'bestStreak',
+    multiplier: 'multiplier',
+    baseXp: 'baseXp',
+    lastCompletedDay: 'lastCompletedDay',
     userId: 'userId',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
-    total_xp: 'total_xp',
-    current_streak: 'current_streak',
-    best_streak: 'best_streak',
-    multiplier: 'multiplier',
-    base_xp: 'base_xp',
-    last_completed_day: 'last_completed_day'
+    updatedAt: 'updatedAt'
   };
 
   export type HabitScalarFieldEnum = (typeof HabitScalarFieldEnum)[keyof typeof HabitScalarFieldEnum]
@@ -11071,14 +11103,13 @@ export namespace Prisma {
 
   export const HabitEntryScalarFieldEnum: {
     id: 'id',
-    habit_id: 'habit_id',
-    user_id: 'user_id',
-    day_number: 'day_number',
-    completed: 'completed',
-    completed_at: 'completed_at',
-    created_at: 'created_at',
-    updated_at: 'updated_at',
-    xp_earned: 'xp_earned'
+    dayNumber: 'dayNumber',
+    xpEarned: 'xpEarned',
+    userId: 'userId',
+    habitId: 'habitId',
+    completedAt: 'completedAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type HabitEntryScalarFieldEnum = (typeof HabitEntryScalarFieldEnum)[keyof typeof HabitEntryScalarFieldEnum]
@@ -11381,6 +11412,7 @@ export namespace Prisma {
     categories?: CategoryListRelationFilter
     tasks?: TaskListRelationFilter
     habits?: HabitListRelationFilter
+    habitEntries?: HabitEntryListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -11398,6 +11430,7 @@ export namespace Prisma {
     categories?: CategoryOrderByRelationAggregateInput
     tasks?: TaskOrderByRelationAggregateInput
     habits?: HabitOrderByRelationAggregateInput
+    habitEntries?: HabitEntryOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -11418,6 +11451,7 @@ export namespace Prisma {
     categories?: CategoryListRelationFilter
     tasks?: TaskListRelationFilter
     habits?: HabitListRelationFilter
+    habitEntries?: HabitEntryListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -11680,16 +11714,16 @@ export namespace Prisma {
     NOT?: HabitWhereInput | HabitWhereInput[]
     id?: StringFilter<"Habit"> | string
     title?: StringFilter<"Habit"> | string
-    description?: StringFilter<"Habit"> | string
+    description?: StringNullableFilter<"Habit"> | string | null
+    totalXp?: FloatFilter<"Habit"> | number
+    currentStreak?: IntFilter<"Habit"> | number
+    bestStreak?: IntFilter<"Habit"> | number
+    multiplier?: FloatFilter<"Habit"> | number
+    baseXp?: IntFilter<"Habit"> | number
+    lastCompletedDay?: IntFilter<"Habit"> | number
     userId?: StringFilter<"Habit"> | string
     createdAt?: DateTimeFilter<"Habit"> | Date | string
     updatedAt?: DateTimeFilter<"Habit"> | Date | string
-    total_xp?: FloatFilter<"Habit"> | number
-    current_streak?: IntFilter<"Habit"> | number
-    best_streak?: IntFilter<"Habit"> | number
-    multiplier?: FloatFilter<"Habit"> | number
-    base_xp?: IntFilter<"Habit"> | number
-    last_completed_day?: IntFilter<"Habit"> | number
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     entries?: HabitEntryListRelationFilter
   }
@@ -11697,16 +11731,16 @@ export namespace Prisma {
   export type HabitOrderByWithRelationInput = {
     id?: SortOrder
     title?: SortOrder
-    description?: SortOrder
+    description?: SortOrderInput | SortOrder
+    totalXp?: SortOrder
+    currentStreak?: SortOrder
+    bestStreak?: SortOrder
+    multiplier?: SortOrder
+    baseXp?: SortOrder
+    lastCompletedDay?: SortOrder
     userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    total_xp?: SortOrder
-    current_streak?: SortOrder
-    best_streak?: SortOrder
-    multiplier?: SortOrder
-    base_xp?: SortOrder
-    last_completed_day?: SortOrder
     user?: UserOrderByWithRelationInput
     entries?: HabitEntryOrderByRelationAggregateInput
   }
@@ -11717,16 +11751,16 @@ export namespace Prisma {
     OR?: HabitWhereInput[]
     NOT?: HabitWhereInput | HabitWhereInput[]
     title?: StringFilter<"Habit"> | string
-    description?: StringFilter<"Habit"> | string
+    description?: StringNullableFilter<"Habit"> | string | null
+    totalXp?: FloatFilter<"Habit"> | number
+    currentStreak?: IntFilter<"Habit"> | number
+    bestStreak?: IntFilter<"Habit"> | number
+    multiplier?: FloatFilter<"Habit"> | number
+    baseXp?: IntFilter<"Habit"> | number
+    lastCompletedDay?: IntFilter<"Habit"> | number
     userId?: StringFilter<"Habit"> | string
     createdAt?: DateTimeFilter<"Habit"> | Date | string
     updatedAt?: DateTimeFilter<"Habit"> | Date | string
-    total_xp?: FloatFilter<"Habit"> | number
-    current_streak?: IntFilter<"Habit"> | number
-    best_streak?: IntFilter<"Habit"> | number
-    multiplier?: FloatFilter<"Habit"> | number
-    base_xp?: IntFilter<"Habit"> | number
-    last_completed_day?: IntFilter<"Habit"> | number
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     entries?: HabitEntryListRelationFilter
   }, "id">
@@ -11734,16 +11768,16 @@ export namespace Prisma {
   export type HabitOrderByWithAggregationInput = {
     id?: SortOrder
     title?: SortOrder
-    description?: SortOrder
+    description?: SortOrderInput | SortOrder
+    totalXp?: SortOrder
+    currentStreak?: SortOrder
+    bestStreak?: SortOrder
+    multiplier?: SortOrder
+    baseXp?: SortOrder
+    lastCompletedDay?: SortOrder
     userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    total_xp?: SortOrder
-    current_streak?: SortOrder
-    best_streak?: SortOrder
-    multiplier?: SortOrder
-    base_xp?: SortOrder
-    last_completed_day?: SortOrder
     _count?: HabitCountOrderByAggregateInput
     _avg?: HabitAvgOrderByAggregateInput
     _max?: HabitMaxOrderByAggregateInput
@@ -11757,16 +11791,16 @@ export namespace Prisma {
     NOT?: HabitScalarWhereWithAggregatesInput | HabitScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Habit"> | string
     title?: StringWithAggregatesFilter<"Habit"> | string
-    description?: StringWithAggregatesFilter<"Habit"> | string
+    description?: StringNullableWithAggregatesFilter<"Habit"> | string | null
+    totalXp?: FloatWithAggregatesFilter<"Habit"> | number
+    currentStreak?: IntWithAggregatesFilter<"Habit"> | number
+    bestStreak?: IntWithAggregatesFilter<"Habit"> | number
+    multiplier?: FloatWithAggregatesFilter<"Habit"> | number
+    baseXp?: IntWithAggregatesFilter<"Habit"> | number
+    lastCompletedDay?: IntWithAggregatesFilter<"Habit"> | number
     userId?: StringWithAggregatesFilter<"Habit"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Habit"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Habit"> | Date | string
-    total_xp?: FloatWithAggregatesFilter<"Habit"> | number
-    current_streak?: IntWithAggregatesFilter<"Habit"> | number
-    best_streak?: IntWithAggregatesFilter<"Habit"> | number
-    multiplier?: FloatWithAggregatesFilter<"Habit"> | number
-    base_xp?: IntWithAggregatesFilter<"Habit"> | number
-    last_completed_day?: IntWithAggregatesFilter<"Habit"> | number
   }
 
   export type HabitEntryWhereInput = {
@@ -11774,57 +11808,56 @@ export namespace Prisma {
     OR?: HabitEntryWhereInput[]
     NOT?: HabitEntryWhereInput | HabitEntryWhereInput[]
     id?: StringFilter<"HabitEntry"> | string
-    habit_id?: StringFilter<"HabitEntry"> | string
-    user_id?: StringFilter<"HabitEntry"> | string
-    day_number?: IntFilter<"HabitEntry"> | number
-    completed?: BoolFilter<"HabitEntry"> | boolean
-    completed_at?: StringNullableFilter<"HabitEntry"> | string | null
-    created_at?: DateTimeFilter<"HabitEntry"> | Date | string
-    updated_at?: DateTimeFilter<"HabitEntry"> | Date | string
-    xp_earned?: FloatFilter<"HabitEntry"> | number
+    dayNumber?: IntFilter<"HabitEntry"> | number
+    xpEarned?: FloatFilter<"HabitEntry"> | number
+    userId?: StringFilter<"HabitEntry"> | string
+    habitId?: StringFilter<"HabitEntry"> | string
+    completedAt?: DateTimeNullableFilter<"HabitEntry"> | Date | string | null
+    createdAt?: DateTimeFilter<"HabitEntry"> | Date | string
+    updatedAt?: DateTimeFilter<"HabitEntry"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     habit?: XOR<HabitScalarRelationFilter, HabitWhereInput>
   }
 
   export type HabitEntryOrderByWithRelationInput = {
     id?: SortOrder
-    habit_id?: SortOrder
-    user_id?: SortOrder
-    day_number?: SortOrder
-    completed?: SortOrder
-    completed_at?: SortOrderInput | SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    xp_earned?: SortOrder
+    dayNumber?: SortOrder
+    xpEarned?: SortOrder
+    userId?: SortOrder
+    habitId?: SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
     habit?: HabitOrderByWithRelationInput
   }
 
   export type HabitEntryWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    habit_id_day_number?: HabitEntryHabit_idDay_numberCompoundUniqueInput
+    habitId_dayNumber?: HabitEntryHabitIdDayNumberCompoundUniqueInput
     AND?: HabitEntryWhereInput | HabitEntryWhereInput[]
     OR?: HabitEntryWhereInput[]
     NOT?: HabitEntryWhereInput | HabitEntryWhereInput[]
-    habit_id?: StringFilter<"HabitEntry"> | string
-    user_id?: StringFilter<"HabitEntry"> | string
-    day_number?: IntFilter<"HabitEntry"> | number
-    completed?: BoolFilter<"HabitEntry"> | boolean
-    completed_at?: StringNullableFilter<"HabitEntry"> | string | null
-    created_at?: DateTimeFilter<"HabitEntry"> | Date | string
-    updated_at?: DateTimeFilter<"HabitEntry"> | Date | string
-    xp_earned?: FloatFilter<"HabitEntry"> | number
+    dayNumber?: IntFilter<"HabitEntry"> | number
+    xpEarned?: FloatFilter<"HabitEntry"> | number
+    userId?: StringFilter<"HabitEntry"> | string
+    habitId?: StringFilter<"HabitEntry"> | string
+    completedAt?: DateTimeNullableFilter<"HabitEntry"> | Date | string | null
+    createdAt?: DateTimeFilter<"HabitEntry"> | Date | string
+    updatedAt?: DateTimeFilter<"HabitEntry"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     habit?: XOR<HabitScalarRelationFilter, HabitWhereInput>
-  }, "id" | "habit_id_day_number">
+  }, "id" | "habitId_dayNumber">
 
   export type HabitEntryOrderByWithAggregationInput = {
     id?: SortOrder
-    habit_id?: SortOrder
-    user_id?: SortOrder
-    day_number?: SortOrder
-    completed?: SortOrder
-    completed_at?: SortOrderInput | SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    xp_earned?: SortOrder
+    dayNumber?: SortOrder
+    xpEarned?: SortOrder
+    userId?: SortOrder
+    habitId?: SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: HabitEntryCountOrderByAggregateInput
     _avg?: HabitEntryAvgOrderByAggregateInput
     _max?: HabitEntryMaxOrderByAggregateInput
@@ -11837,14 +11870,13 @@ export namespace Prisma {
     OR?: HabitEntryScalarWhereWithAggregatesInput[]
     NOT?: HabitEntryScalarWhereWithAggregatesInput | HabitEntryScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"HabitEntry"> | string
-    habit_id?: StringWithAggregatesFilter<"HabitEntry"> | string
-    user_id?: StringWithAggregatesFilter<"HabitEntry"> | string
-    day_number?: IntWithAggregatesFilter<"HabitEntry"> | number
-    completed?: BoolWithAggregatesFilter<"HabitEntry"> | boolean
-    completed_at?: StringNullableWithAggregatesFilter<"HabitEntry"> | string | null
-    created_at?: DateTimeWithAggregatesFilter<"HabitEntry"> | Date | string
-    updated_at?: DateTimeWithAggregatesFilter<"HabitEntry"> | Date | string
-    xp_earned?: FloatWithAggregatesFilter<"HabitEntry"> | number
+    dayNumber?: IntWithAggregatesFilter<"HabitEntry"> | number
+    xpEarned?: FloatWithAggregatesFilter<"HabitEntry"> | number
+    userId?: StringWithAggregatesFilter<"HabitEntry"> | string
+    habitId?: StringWithAggregatesFilter<"HabitEntry"> | string
+    completedAt?: DateTimeNullableWithAggregatesFilter<"HabitEntry"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"HabitEntry"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"HabitEntry"> | Date | string
   }
 
   export type TaskCreateInput = {
@@ -12045,6 +12077,7 @@ export namespace Prisma {
     categories?: CategoryCreateNestedManyWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
     habits?: HabitCreateNestedManyWithoutUserInput
+    habitEntries?: HabitEntryCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -12062,6 +12095,7 @@ export namespace Prisma {
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
     habits?: HabitUncheckedCreateNestedManyWithoutUserInput
+    habitEntries?: HabitEntryUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -12079,6 +12113,7 @@ export namespace Prisma {
     categories?: CategoryUpdateManyWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
     habits?: HabitUpdateManyWithoutUserNestedInput
+    habitEntries?: HabitEntryUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -12096,6 +12131,7 @@ export namespace Prisma {
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
     habits?: HabitUncheckedUpdateManyWithoutUserNestedInput
+    habitEntries?: HabitEntryUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -12387,15 +12423,15 @@ export namespace Prisma {
   export type HabitCreateInput = {
     id?: string
     title: string
-    description: string
+    description?: string | null
+    totalXp?: number
+    currentStreak?: number
+    bestStreak?: number
+    multiplier?: number
+    baseXp?: number
+    lastCompletedDay?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    total_xp: number
-    current_streak: number
-    best_streak: number
-    multiplier: number
-    base_xp: number
-    last_completed_day: number
     user: UserCreateNestedOneWithoutHabitsInput
     entries?: HabitEntryCreateNestedManyWithoutHabitInput
   }
@@ -12403,31 +12439,31 @@ export namespace Prisma {
   export type HabitUncheckedCreateInput = {
     id?: string
     title: string
-    description: string
+    description?: string | null
+    totalXp?: number
+    currentStreak?: number
+    bestStreak?: number
+    multiplier?: number
+    baseXp?: number
+    lastCompletedDay?: number
     userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    total_xp: number
-    current_streak: number
-    best_streak: number
-    multiplier: number
-    base_xp: number
-    last_completed_day: number
     entries?: HabitEntryUncheckedCreateNestedManyWithoutHabitInput
   }
 
   export type HabitUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    totalXp?: FloatFieldUpdateOperationsInput | number
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    bestStreak?: IntFieldUpdateOperationsInput | number
+    multiplier?: FloatFieldUpdateOperationsInput | number
+    baseXp?: IntFieldUpdateOperationsInput | number
+    lastCompletedDay?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    total_xp?: FloatFieldUpdateOperationsInput | number
-    current_streak?: IntFieldUpdateOperationsInput | number
-    best_streak?: IntFieldUpdateOperationsInput | number
-    multiplier?: FloatFieldUpdateOperationsInput | number
-    base_xp?: IntFieldUpdateOperationsInput | number
-    last_completed_day?: IntFieldUpdateOperationsInput | number
     user?: UserUpdateOneRequiredWithoutHabitsNestedInput
     entries?: HabitEntryUpdateManyWithoutHabitNestedInput
   }
@@ -12435,144 +12471,136 @@ export namespace Prisma {
   export type HabitUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    totalXp?: FloatFieldUpdateOperationsInput | number
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    bestStreak?: IntFieldUpdateOperationsInput | number
+    multiplier?: FloatFieldUpdateOperationsInput | number
+    baseXp?: IntFieldUpdateOperationsInput | number
+    lastCompletedDay?: IntFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    total_xp?: FloatFieldUpdateOperationsInput | number
-    current_streak?: IntFieldUpdateOperationsInput | number
-    best_streak?: IntFieldUpdateOperationsInput | number
-    multiplier?: FloatFieldUpdateOperationsInput | number
-    base_xp?: IntFieldUpdateOperationsInput | number
-    last_completed_day?: IntFieldUpdateOperationsInput | number
     entries?: HabitEntryUncheckedUpdateManyWithoutHabitNestedInput
   }
 
   export type HabitCreateManyInput = {
     id?: string
     title: string
-    description: string
+    description?: string | null
+    totalXp?: number
+    currentStreak?: number
+    bestStreak?: number
+    multiplier?: number
+    baseXp?: number
+    lastCompletedDay?: number
     userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    total_xp: number
-    current_streak: number
-    best_streak: number
-    multiplier: number
-    base_xp: number
-    last_completed_day: number
   }
 
   export type HabitUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    totalXp?: FloatFieldUpdateOperationsInput | number
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    bestStreak?: IntFieldUpdateOperationsInput | number
+    multiplier?: FloatFieldUpdateOperationsInput | number
+    baseXp?: IntFieldUpdateOperationsInput | number
+    lastCompletedDay?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    total_xp?: FloatFieldUpdateOperationsInput | number
-    current_streak?: IntFieldUpdateOperationsInput | number
-    best_streak?: IntFieldUpdateOperationsInput | number
-    multiplier?: FloatFieldUpdateOperationsInput | number
-    base_xp?: IntFieldUpdateOperationsInput | number
-    last_completed_day?: IntFieldUpdateOperationsInput | number
   }
 
   export type HabitUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    totalXp?: FloatFieldUpdateOperationsInput | number
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    bestStreak?: IntFieldUpdateOperationsInput | number
+    multiplier?: FloatFieldUpdateOperationsInput | number
+    baseXp?: IntFieldUpdateOperationsInput | number
+    lastCompletedDay?: IntFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    total_xp?: FloatFieldUpdateOperationsInput | number
-    current_streak?: IntFieldUpdateOperationsInput | number
-    best_streak?: IntFieldUpdateOperationsInput | number
-    multiplier?: FloatFieldUpdateOperationsInput | number
-    base_xp?: IntFieldUpdateOperationsInput | number
-    last_completed_day?: IntFieldUpdateOperationsInput | number
   }
 
   export type HabitEntryCreateInput = {
     id?: string
-    user_id: string
-    day_number: number
-    completed?: boolean
-    completed_at?: string | null
-    created_at?: Date | string
-    updated_at?: Date | string
-    xp_earned?: number
+    dayNumber: number
+    xpEarned?: number
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutHabitEntriesInput
     habit: HabitCreateNestedOneWithoutEntriesInput
   }
 
   export type HabitEntryUncheckedCreateInput = {
     id?: string
-    habit_id: string
-    user_id: string
-    day_number: number
-    completed?: boolean
-    completed_at?: string | null
-    created_at?: Date | string
-    updated_at?: Date | string
-    xp_earned?: number
+    dayNumber: number
+    xpEarned?: number
+    userId: string
+    habitId: string
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type HabitEntryUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    user_id?: StringFieldUpdateOperationsInput | string
-    day_number?: IntFieldUpdateOperationsInput | number
-    completed?: BoolFieldUpdateOperationsInput | boolean
-    completed_at?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    xp_earned?: FloatFieldUpdateOperationsInput | number
+    dayNumber?: IntFieldUpdateOperationsInput | number
+    xpEarned?: FloatFieldUpdateOperationsInput | number
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutHabitEntriesNestedInput
     habit?: HabitUpdateOneRequiredWithoutEntriesNestedInput
   }
 
   export type HabitEntryUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    habit_id?: StringFieldUpdateOperationsInput | string
-    user_id?: StringFieldUpdateOperationsInput | string
-    day_number?: IntFieldUpdateOperationsInput | number
-    completed?: BoolFieldUpdateOperationsInput | boolean
-    completed_at?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    xp_earned?: FloatFieldUpdateOperationsInput | number
+    dayNumber?: IntFieldUpdateOperationsInput | number
+    xpEarned?: FloatFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
+    habitId?: StringFieldUpdateOperationsInput | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type HabitEntryCreateManyInput = {
     id?: string
-    habit_id: string
-    user_id: string
-    day_number: number
-    completed?: boolean
-    completed_at?: string | null
-    created_at?: Date | string
-    updated_at?: Date | string
-    xp_earned?: number
+    dayNumber: number
+    xpEarned?: number
+    userId: string
+    habitId: string
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type HabitEntryUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    user_id?: StringFieldUpdateOperationsInput | string
-    day_number?: IntFieldUpdateOperationsInput | number
-    completed?: BoolFieldUpdateOperationsInput | boolean
-    completed_at?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    xp_earned?: FloatFieldUpdateOperationsInput | number
+    dayNumber?: IntFieldUpdateOperationsInput | number
+    xpEarned?: FloatFieldUpdateOperationsInput | number
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type HabitEntryUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    habit_id?: StringFieldUpdateOperationsInput | string
-    user_id?: StringFieldUpdateOperationsInput | string
-    day_number?: IntFieldUpdateOperationsInput | number
-    completed?: BoolFieldUpdateOperationsInput | boolean
-    completed_at?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    xp_earned?: FloatFieldUpdateOperationsInput | number
+    dayNumber?: IntFieldUpdateOperationsInput | number
+    xpEarned?: FloatFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
+    habitId?: StringFieldUpdateOperationsInput | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -12914,6 +12942,12 @@ export namespace Prisma {
     none?: HabitWhereInput
   }
 
+  export type HabitEntryListRelationFilter = {
+    every?: HabitEntryWhereInput
+    some?: HabitEntryWhereInput
+    none?: HabitEntryWhereInput
+  }
+
   export type SessionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -12927,6 +12961,10 @@ export namespace Prisma {
   }
 
   export type HabitOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type HabitEntryOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -13103,77 +13141,67 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type HabitEntryListRelationFilter = {
-    every?: HabitEntryWhereInput
-    some?: HabitEntryWhereInput
-    none?: HabitEntryWhereInput
-  }
-
-  export type HabitEntryOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type HabitCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
+    totalXp?: SortOrder
+    currentStreak?: SortOrder
+    bestStreak?: SortOrder
+    multiplier?: SortOrder
+    baseXp?: SortOrder
+    lastCompletedDay?: SortOrder
     userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    total_xp?: SortOrder
-    current_streak?: SortOrder
-    best_streak?: SortOrder
-    multiplier?: SortOrder
-    base_xp?: SortOrder
-    last_completed_day?: SortOrder
   }
 
   export type HabitAvgOrderByAggregateInput = {
-    total_xp?: SortOrder
-    current_streak?: SortOrder
-    best_streak?: SortOrder
+    totalXp?: SortOrder
+    currentStreak?: SortOrder
+    bestStreak?: SortOrder
     multiplier?: SortOrder
-    base_xp?: SortOrder
-    last_completed_day?: SortOrder
+    baseXp?: SortOrder
+    lastCompletedDay?: SortOrder
   }
 
   export type HabitMaxOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
+    totalXp?: SortOrder
+    currentStreak?: SortOrder
+    bestStreak?: SortOrder
+    multiplier?: SortOrder
+    baseXp?: SortOrder
+    lastCompletedDay?: SortOrder
     userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    total_xp?: SortOrder
-    current_streak?: SortOrder
-    best_streak?: SortOrder
-    multiplier?: SortOrder
-    base_xp?: SortOrder
-    last_completed_day?: SortOrder
   }
 
   export type HabitMinOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
+    totalXp?: SortOrder
+    currentStreak?: SortOrder
+    bestStreak?: SortOrder
+    multiplier?: SortOrder
+    baseXp?: SortOrder
+    lastCompletedDay?: SortOrder
     userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    total_xp?: SortOrder
-    current_streak?: SortOrder
-    best_streak?: SortOrder
-    multiplier?: SortOrder
-    base_xp?: SortOrder
-    last_completed_day?: SortOrder
   }
 
   export type HabitSumOrderByAggregateInput = {
-    total_xp?: SortOrder
-    current_streak?: SortOrder
-    best_streak?: SortOrder
+    totalXp?: SortOrder
+    currentStreak?: SortOrder
+    bestStreak?: SortOrder
     multiplier?: SortOrder
-    base_xp?: SortOrder
-    last_completed_day?: SortOrder
+    baseXp?: SortOrder
+    lastCompletedDay?: SortOrder
   }
 
   export type FloatWithAggregatesFilter<$PrismaModel = never> = {
@@ -13197,55 +13225,52 @@ export namespace Prisma {
     isNot?: HabitWhereInput
   }
 
-  export type HabitEntryHabit_idDay_numberCompoundUniqueInput = {
-    habit_id: string
-    day_number: number
+  export type HabitEntryHabitIdDayNumberCompoundUniqueInput = {
+    habitId: string
+    dayNumber: number
   }
 
   export type HabitEntryCountOrderByAggregateInput = {
     id?: SortOrder
-    habit_id?: SortOrder
-    user_id?: SortOrder
-    day_number?: SortOrder
-    completed?: SortOrder
-    completed_at?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    xp_earned?: SortOrder
+    dayNumber?: SortOrder
+    xpEarned?: SortOrder
+    userId?: SortOrder
+    habitId?: SortOrder
+    completedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type HabitEntryAvgOrderByAggregateInput = {
-    day_number?: SortOrder
-    xp_earned?: SortOrder
+    dayNumber?: SortOrder
+    xpEarned?: SortOrder
   }
 
   export type HabitEntryMaxOrderByAggregateInput = {
     id?: SortOrder
-    habit_id?: SortOrder
-    user_id?: SortOrder
-    day_number?: SortOrder
-    completed?: SortOrder
-    completed_at?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    xp_earned?: SortOrder
+    dayNumber?: SortOrder
+    xpEarned?: SortOrder
+    userId?: SortOrder
+    habitId?: SortOrder
+    completedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type HabitEntryMinOrderByAggregateInput = {
     id?: SortOrder
-    habit_id?: SortOrder
-    user_id?: SortOrder
-    day_number?: SortOrder
-    completed?: SortOrder
-    completed_at?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
-    xp_earned?: SortOrder
+    dayNumber?: SortOrder
+    xpEarned?: SortOrder
+    userId?: SortOrder
+    habitId?: SortOrder
+    completedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type HabitEntrySumOrderByAggregateInput = {
-    day_number?: SortOrder
-    xp_earned?: SortOrder
+    dayNumber?: SortOrder
+    xpEarned?: SortOrder
   }
 
   export type UserCreateNestedOneWithoutTasksInput = {
@@ -13405,6 +13430,13 @@ export namespace Prisma {
     connect?: HabitWhereUniqueInput | HabitWhereUniqueInput[]
   }
 
+  export type HabitEntryCreateNestedManyWithoutUserInput = {
+    create?: XOR<HabitEntryCreateWithoutUserInput, HabitEntryUncheckedCreateWithoutUserInput> | HabitEntryCreateWithoutUserInput[] | HabitEntryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: HabitEntryCreateOrConnectWithoutUserInput | HabitEntryCreateOrConnectWithoutUserInput[]
+    createMany?: HabitEntryCreateManyUserInputEnvelope
+    connect?: HabitEntryWhereUniqueInput | HabitEntryWhereUniqueInput[]
+  }
+
   export type SessionUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -13438,6 +13470,13 @@ export namespace Prisma {
     connectOrCreate?: HabitCreateOrConnectWithoutUserInput | HabitCreateOrConnectWithoutUserInput[]
     createMany?: HabitCreateManyUserInputEnvelope
     connect?: HabitWhereUniqueInput | HabitWhereUniqueInput[]
+  }
+
+  export type HabitEntryUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<HabitEntryCreateWithoutUserInput, HabitEntryUncheckedCreateWithoutUserInput> | HabitEntryCreateWithoutUserInput[] | HabitEntryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: HabitEntryCreateOrConnectWithoutUserInput | HabitEntryCreateOrConnectWithoutUserInput[]
+    createMany?: HabitEntryCreateManyUserInputEnvelope
+    connect?: HabitEntryWhereUniqueInput | HabitEntryWhereUniqueInput[]
   }
 
   export type BoolFieldUpdateOperationsInput = {
@@ -13514,6 +13553,20 @@ export namespace Prisma {
     deleteMany?: HabitScalarWhereInput | HabitScalarWhereInput[]
   }
 
+  export type HabitEntryUpdateManyWithoutUserNestedInput = {
+    create?: XOR<HabitEntryCreateWithoutUserInput, HabitEntryUncheckedCreateWithoutUserInput> | HabitEntryCreateWithoutUserInput[] | HabitEntryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: HabitEntryCreateOrConnectWithoutUserInput | HabitEntryCreateOrConnectWithoutUserInput[]
+    upsert?: HabitEntryUpsertWithWhereUniqueWithoutUserInput | HabitEntryUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: HabitEntryCreateManyUserInputEnvelope
+    set?: HabitEntryWhereUniqueInput | HabitEntryWhereUniqueInput[]
+    disconnect?: HabitEntryWhereUniqueInput | HabitEntryWhereUniqueInput[]
+    delete?: HabitEntryWhereUniqueInput | HabitEntryWhereUniqueInput[]
+    connect?: HabitEntryWhereUniqueInput | HabitEntryWhereUniqueInput[]
+    update?: HabitEntryUpdateWithWhereUniqueWithoutUserInput | HabitEntryUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: HabitEntryUpdateManyWithWhereWithoutUserInput | HabitEntryUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: HabitEntryScalarWhereInput | HabitEntryScalarWhereInput[]
+  }
+
   export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -13582,6 +13635,20 @@ export namespace Prisma {
     update?: HabitUpdateWithWhereUniqueWithoutUserInput | HabitUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: HabitUpdateManyWithWhereWithoutUserInput | HabitUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: HabitScalarWhereInput | HabitScalarWhereInput[]
+  }
+
+  export type HabitEntryUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<HabitEntryCreateWithoutUserInput, HabitEntryUncheckedCreateWithoutUserInput> | HabitEntryCreateWithoutUserInput[] | HabitEntryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: HabitEntryCreateOrConnectWithoutUserInput | HabitEntryCreateOrConnectWithoutUserInput[]
+    upsert?: HabitEntryUpsertWithWhereUniqueWithoutUserInput | HabitEntryUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: HabitEntryCreateManyUserInputEnvelope
+    set?: HabitEntryWhereUniqueInput | HabitEntryWhereUniqueInput[]
+    disconnect?: HabitEntryWhereUniqueInput | HabitEntryWhereUniqueInput[]
+    delete?: HabitEntryWhereUniqueInput | HabitEntryWhereUniqueInput[]
+    connect?: HabitEntryWhereUniqueInput | HabitEntryWhereUniqueInput[]
+    update?: HabitEntryUpdateWithWhereUniqueWithoutUserInput | HabitEntryUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: HabitEntryUpdateManyWithWhereWithoutUserInput | HabitEntryUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: HabitEntryScalarWhereInput | HabitEntryScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutSessionsInput = {
@@ -13676,10 +13743,24 @@ export namespace Prisma {
     deleteMany?: HabitEntryScalarWhereInput | HabitEntryScalarWhereInput[]
   }
 
+  export type UserCreateNestedOneWithoutHabitEntriesInput = {
+    create?: XOR<UserCreateWithoutHabitEntriesInput, UserUncheckedCreateWithoutHabitEntriesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutHabitEntriesInput
+    connect?: UserWhereUniqueInput
+  }
+
   export type HabitCreateNestedOneWithoutEntriesInput = {
     create?: XOR<HabitCreateWithoutEntriesInput, HabitUncheckedCreateWithoutEntriesInput>
     connectOrCreate?: HabitCreateOrConnectWithoutEntriesInput
     connect?: HabitWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutHabitEntriesNestedInput = {
+    create?: XOR<UserCreateWithoutHabitEntriesInput, UserUncheckedCreateWithoutHabitEntriesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutHabitEntriesInput
+    upsert?: UserUpsertWithoutHabitEntriesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutHabitEntriesInput, UserUpdateWithoutHabitEntriesInput>, UserUncheckedUpdateWithoutHabitEntriesInput>
   }
 
   export type HabitUpdateOneRequiredWithoutEntriesNestedInput = {
@@ -13938,6 +14019,7 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
     habits?: HabitCreateNestedManyWithoutUserInput
+    habitEntries?: HabitEntryCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTasksInput = {
@@ -13954,6 +14036,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     habits?: HabitUncheckedCreateNestedManyWithoutUserInput
+    habitEntries?: HabitEntryUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTasksInput = {
@@ -14015,6 +14098,7 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
     habits?: HabitUpdateManyWithoutUserNestedInput
+    habitEntries?: HabitEntryUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTasksInput = {
@@ -14031,6 +14115,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     habits?: HabitUncheckedUpdateManyWithoutUserNestedInput
+    habitEntries?: HabitEntryUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CategoryUpsertWithoutTasksInput = {
@@ -14082,6 +14167,7 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
     habits?: HabitCreateNestedManyWithoutUserInput
+    habitEntries?: HabitEntryCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCategoriesInput = {
@@ -14098,6 +14184,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
     habits?: HabitUncheckedCreateNestedManyWithoutUserInput
+    habitEntries?: HabitEntryUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCategoriesInput = {
@@ -14166,6 +14253,7 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
     habits?: HabitUpdateManyWithoutUserNestedInput
+    habitEntries?: HabitEntryUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCategoriesInput = {
@@ -14182,6 +14270,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
     habits?: HabitUncheckedUpdateManyWithoutUserNestedInput
+    habitEntries?: HabitEntryUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type TaskUpsertWithWhereUniqueWithoutCategoryInput = {
@@ -14360,30 +14449,30 @@ export namespace Prisma {
   export type HabitCreateWithoutUserInput = {
     id?: string
     title: string
-    description: string
+    description?: string | null
+    totalXp?: number
+    currentStreak?: number
+    bestStreak?: number
+    multiplier?: number
+    baseXp?: number
+    lastCompletedDay?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    total_xp: number
-    current_streak: number
-    best_streak: number
-    multiplier: number
-    base_xp: number
-    last_completed_day: number
     entries?: HabitEntryCreateNestedManyWithoutHabitInput
   }
 
   export type HabitUncheckedCreateWithoutUserInput = {
     id?: string
     title: string
-    description: string
+    description?: string | null
+    totalXp?: number
+    currentStreak?: number
+    bestStreak?: number
+    multiplier?: number
+    baseXp?: number
+    lastCompletedDay?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    total_xp: number
-    current_streak: number
-    best_streak: number
-    multiplier: number
-    base_xp: number
-    last_completed_day: number
     entries?: HabitEntryUncheckedCreateNestedManyWithoutHabitInput
   }
 
@@ -14394,6 +14483,36 @@ export namespace Prisma {
 
   export type HabitCreateManyUserInputEnvelope = {
     data: HabitCreateManyUserInput | HabitCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type HabitEntryCreateWithoutUserInput = {
+    id?: string
+    dayNumber: number
+    xpEarned?: number
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    habit: HabitCreateNestedOneWithoutEntriesInput
+  }
+
+  export type HabitEntryUncheckedCreateWithoutUserInput = {
+    id?: string
+    dayNumber: number
+    xpEarned?: number
+    habitId: string
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type HabitEntryCreateOrConnectWithoutUserInput = {
+    where: HabitEntryWhereUniqueInput
+    create: XOR<HabitEntryCreateWithoutUserInput, HabitEntryUncheckedCreateWithoutUserInput>
+  }
+
+  export type HabitEntryCreateManyUserInputEnvelope = {
+    data: HabitEntryCreateManyUserInput | HabitEntryCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -14531,16 +14650,46 @@ export namespace Prisma {
     NOT?: HabitScalarWhereInput | HabitScalarWhereInput[]
     id?: StringFilter<"Habit"> | string
     title?: StringFilter<"Habit"> | string
-    description?: StringFilter<"Habit"> | string
+    description?: StringNullableFilter<"Habit"> | string | null
+    totalXp?: FloatFilter<"Habit"> | number
+    currentStreak?: IntFilter<"Habit"> | number
+    bestStreak?: IntFilter<"Habit"> | number
+    multiplier?: FloatFilter<"Habit"> | number
+    baseXp?: IntFilter<"Habit"> | number
+    lastCompletedDay?: IntFilter<"Habit"> | number
     userId?: StringFilter<"Habit"> | string
     createdAt?: DateTimeFilter<"Habit"> | Date | string
     updatedAt?: DateTimeFilter<"Habit"> | Date | string
-    total_xp?: FloatFilter<"Habit"> | number
-    current_streak?: IntFilter<"Habit"> | number
-    best_streak?: IntFilter<"Habit"> | number
-    multiplier?: FloatFilter<"Habit"> | number
-    base_xp?: IntFilter<"Habit"> | number
-    last_completed_day?: IntFilter<"Habit"> | number
+  }
+
+  export type HabitEntryUpsertWithWhereUniqueWithoutUserInput = {
+    where: HabitEntryWhereUniqueInput
+    update: XOR<HabitEntryUpdateWithoutUserInput, HabitEntryUncheckedUpdateWithoutUserInput>
+    create: XOR<HabitEntryCreateWithoutUserInput, HabitEntryUncheckedCreateWithoutUserInput>
+  }
+
+  export type HabitEntryUpdateWithWhereUniqueWithoutUserInput = {
+    where: HabitEntryWhereUniqueInput
+    data: XOR<HabitEntryUpdateWithoutUserInput, HabitEntryUncheckedUpdateWithoutUserInput>
+  }
+
+  export type HabitEntryUpdateManyWithWhereWithoutUserInput = {
+    where: HabitEntryScalarWhereInput
+    data: XOR<HabitEntryUpdateManyMutationInput, HabitEntryUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type HabitEntryScalarWhereInput = {
+    AND?: HabitEntryScalarWhereInput | HabitEntryScalarWhereInput[]
+    OR?: HabitEntryScalarWhereInput[]
+    NOT?: HabitEntryScalarWhereInput | HabitEntryScalarWhereInput[]
+    id?: StringFilter<"HabitEntry"> | string
+    dayNumber?: IntFilter<"HabitEntry"> | number
+    xpEarned?: FloatFilter<"HabitEntry"> | number
+    userId?: StringFilter<"HabitEntry"> | string
+    habitId?: StringFilter<"HabitEntry"> | string
+    completedAt?: DateTimeNullableFilter<"HabitEntry"> | Date | string | null
+    createdAt?: DateTimeFilter<"HabitEntry"> | Date | string
+    updatedAt?: DateTimeFilter<"HabitEntry"> | Date | string
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -14557,6 +14706,7 @@ export namespace Prisma {
     categories?: CategoryCreateNestedManyWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
     habits?: HabitCreateNestedManyWithoutUserInput
+    habitEntries?: HabitEntryCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -14573,6 +14723,7 @@ export namespace Prisma {
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
     habits?: HabitUncheckedCreateNestedManyWithoutUserInput
+    habitEntries?: HabitEntryUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -14605,6 +14756,7 @@ export namespace Prisma {
     categories?: CategoryUpdateManyWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
     habits?: HabitUpdateManyWithoutUserNestedInput
+    habitEntries?: HabitEntryUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -14621,6 +14773,7 @@ export namespace Prisma {
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
     habits?: HabitUncheckedUpdateManyWithoutUserNestedInput
+    habitEntries?: HabitEntryUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -14637,6 +14790,7 @@ export namespace Prisma {
     categories?: CategoryCreateNestedManyWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
     habits?: HabitCreateNestedManyWithoutUserInput
+    habitEntries?: HabitEntryCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -14653,6 +14807,7 @@ export namespace Prisma {
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
     habits?: HabitUncheckedCreateNestedManyWithoutUserInput
+    habitEntries?: HabitEntryUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -14685,6 +14840,7 @@ export namespace Prisma {
     categories?: CategoryUpdateManyWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
     habits?: HabitUpdateManyWithoutUserNestedInput
+    habitEntries?: HabitEntryUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -14701,6 +14857,7 @@ export namespace Prisma {
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
     habits?: HabitUncheckedUpdateManyWithoutUserNestedInput
+    habitEntries?: HabitEntryUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutHabitsInput = {
@@ -14717,6 +14874,7 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
+    habitEntries?: HabitEntryCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutHabitsInput = {
@@ -14733,6 +14891,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    habitEntries?: HabitEntryUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutHabitsInput = {
@@ -14742,24 +14901,22 @@ export namespace Prisma {
 
   export type HabitEntryCreateWithoutHabitInput = {
     id?: string
-    user_id: string
-    day_number: number
-    completed?: boolean
-    completed_at?: string | null
-    created_at?: Date | string
-    updated_at?: Date | string
-    xp_earned?: number
+    dayNumber: number
+    xpEarned?: number
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutHabitEntriesInput
   }
 
   export type HabitEntryUncheckedCreateWithoutHabitInput = {
     id?: string
-    user_id: string
-    day_number: number
-    completed?: boolean
-    completed_at?: string | null
-    created_at?: Date | string
-    updated_at?: Date | string
-    xp_earned?: number
+    dayNumber: number
+    xpEarned?: number
+    userId: string
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type HabitEntryCreateOrConnectWithoutHabitInput = {
@@ -14797,6 +14954,7 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
+    habitEntries?: HabitEntryUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutHabitsInput = {
@@ -14813,6 +14971,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    habitEntries?: HabitEntryUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type HabitEntryUpsertWithWhereUniqueWithoutHabitInput = {
@@ -14831,54 +14990,123 @@ export namespace Prisma {
     data: XOR<HabitEntryUpdateManyMutationInput, HabitEntryUncheckedUpdateManyWithoutHabitInput>
   }
 
-  export type HabitEntryScalarWhereInput = {
-    AND?: HabitEntryScalarWhereInput | HabitEntryScalarWhereInput[]
-    OR?: HabitEntryScalarWhereInput[]
-    NOT?: HabitEntryScalarWhereInput | HabitEntryScalarWhereInput[]
-    id?: StringFilter<"HabitEntry"> | string
-    habit_id?: StringFilter<"HabitEntry"> | string
-    user_id?: StringFilter<"HabitEntry"> | string
-    day_number?: IntFilter<"HabitEntry"> | number
-    completed?: BoolFilter<"HabitEntry"> | boolean
-    completed_at?: StringNullableFilter<"HabitEntry"> | string | null
-    created_at?: DateTimeFilter<"HabitEntry"> | Date | string
-    updated_at?: DateTimeFilter<"HabitEntry"> | Date | string
-    xp_earned?: FloatFilter<"HabitEntry"> | number
+  export type UserCreateWithoutHabitEntriesInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    experience?: number
+    level?: number
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    categories?: CategoryCreateNestedManyWithoutUserInput
+    tasks?: TaskCreateNestedManyWithoutUserInput
+    habits?: HabitCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutHabitEntriesInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    experience?: number
+    level?: number
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    habits?: HabitUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutHabitEntriesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutHabitEntriesInput, UserUncheckedCreateWithoutHabitEntriesInput>
   }
 
   export type HabitCreateWithoutEntriesInput = {
     id?: string
     title: string
-    description: string
+    description?: string | null
+    totalXp?: number
+    currentStreak?: number
+    bestStreak?: number
+    multiplier?: number
+    baseXp?: number
+    lastCompletedDay?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    total_xp: number
-    current_streak: number
-    best_streak: number
-    multiplier: number
-    base_xp: number
-    last_completed_day: number
     user: UserCreateNestedOneWithoutHabitsInput
   }
 
   export type HabitUncheckedCreateWithoutEntriesInput = {
     id?: string
     title: string
-    description: string
+    description?: string | null
+    totalXp?: number
+    currentStreak?: number
+    bestStreak?: number
+    multiplier?: number
+    baseXp?: number
+    lastCompletedDay?: number
     userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    total_xp: number
-    current_streak: number
-    best_streak: number
-    multiplier: number
-    base_xp: number
-    last_completed_day: number
   }
 
   export type HabitCreateOrConnectWithoutEntriesInput = {
     where: HabitWhereUniqueInput
     create: XOR<HabitCreateWithoutEntriesInput, HabitUncheckedCreateWithoutEntriesInput>
+  }
+
+  export type UserUpsertWithoutHabitEntriesInput = {
+    update: XOR<UserUpdateWithoutHabitEntriesInput, UserUncheckedUpdateWithoutHabitEntriesInput>
+    create: XOR<UserCreateWithoutHabitEntriesInput, UserUncheckedCreateWithoutHabitEntriesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutHabitEntriesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutHabitEntriesInput, UserUncheckedUpdateWithoutHabitEntriesInput>
+  }
+
+  export type UserUpdateWithoutHabitEntriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    experience?: IntFieldUpdateOperationsInput | number
+    level?: IntFieldUpdateOperationsInput | number
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    categories?: CategoryUpdateManyWithoutUserNestedInput
+    tasks?: TaskUpdateManyWithoutUserNestedInput
+    habits?: HabitUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutHabitEntriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    experience?: IntFieldUpdateOperationsInput | number
+    level?: IntFieldUpdateOperationsInput | number
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    habits?: HabitUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type HabitUpsertWithoutEntriesInput = {
@@ -14895,31 +15123,31 @@ export namespace Prisma {
   export type HabitUpdateWithoutEntriesInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    totalXp?: FloatFieldUpdateOperationsInput | number
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    bestStreak?: IntFieldUpdateOperationsInput | number
+    multiplier?: FloatFieldUpdateOperationsInput | number
+    baseXp?: IntFieldUpdateOperationsInput | number
+    lastCompletedDay?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    total_xp?: FloatFieldUpdateOperationsInput | number
-    current_streak?: IntFieldUpdateOperationsInput | number
-    best_streak?: IntFieldUpdateOperationsInput | number
-    multiplier?: FloatFieldUpdateOperationsInput | number
-    base_xp?: IntFieldUpdateOperationsInput | number
-    last_completed_day?: IntFieldUpdateOperationsInput | number
     user?: UserUpdateOneRequiredWithoutHabitsNestedInput
   }
 
   export type HabitUncheckedUpdateWithoutEntriesInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    totalXp?: FloatFieldUpdateOperationsInput | number
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    bestStreak?: IntFieldUpdateOperationsInput | number
+    multiplier?: FloatFieldUpdateOperationsInput | number
+    baseXp?: IntFieldUpdateOperationsInput | number
+    lastCompletedDay?: IntFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    total_xp?: FloatFieldUpdateOperationsInput | number
-    current_streak?: IntFieldUpdateOperationsInput | number
-    best_streak?: IntFieldUpdateOperationsInput | number
-    multiplier?: FloatFieldUpdateOperationsInput | number
-    base_xp?: IntFieldUpdateOperationsInput | number
-    last_completed_day?: IntFieldUpdateOperationsInput | number
   }
 
   export type TaskCreateManyCategoryInput = {
@@ -15026,15 +15254,25 @@ export namespace Prisma {
   export type HabitCreateManyUserInput = {
     id?: string
     title: string
-    description: string
+    description?: string | null
+    totalXp?: number
+    currentStreak?: number
+    bestStreak?: number
+    multiplier?: number
+    baseXp?: number
+    lastCompletedDay?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    total_xp: number
-    current_streak: number
-    best_streak: number
-    multiplier: number
-    base_xp: number
-    last_completed_day: number
+  }
+
+  export type HabitEntryCreateManyUserInput = {
+    id?: string
+    dayNumber: number
+    xpEarned?: number
+    habitId: string
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type SessionUpdateWithoutUserInput = {
@@ -15189,89 +15427,115 @@ export namespace Prisma {
   export type HabitUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    totalXp?: FloatFieldUpdateOperationsInput | number
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    bestStreak?: IntFieldUpdateOperationsInput | number
+    multiplier?: FloatFieldUpdateOperationsInput | number
+    baseXp?: IntFieldUpdateOperationsInput | number
+    lastCompletedDay?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    total_xp?: FloatFieldUpdateOperationsInput | number
-    current_streak?: IntFieldUpdateOperationsInput | number
-    best_streak?: IntFieldUpdateOperationsInput | number
-    multiplier?: FloatFieldUpdateOperationsInput | number
-    base_xp?: IntFieldUpdateOperationsInput | number
-    last_completed_day?: IntFieldUpdateOperationsInput | number
     entries?: HabitEntryUpdateManyWithoutHabitNestedInput
   }
 
   export type HabitUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    totalXp?: FloatFieldUpdateOperationsInput | number
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    bestStreak?: IntFieldUpdateOperationsInput | number
+    multiplier?: FloatFieldUpdateOperationsInput | number
+    baseXp?: IntFieldUpdateOperationsInput | number
+    lastCompletedDay?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    total_xp?: FloatFieldUpdateOperationsInput | number
-    current_streak?: IntFieldUpdateOperationsInput | number
-    best_streak?: IntFieldUpdateOperationsInput | number
-    multiplier?: FloatFieldUpdateOperationsInput | number
-    base_xp?: IntFieldUpdateOperationsInput | number
-    last_completed_day?: IntFieldUpdateOperationsInput | number
     entries?: HabitEntryUncheckedUpdateManyWithoutHabitNestedInput
   }
 
   export type HabitUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    totalXp?: FloatFieldUpdateOperationsInput | number
+    currentStreak?: IntFieldUpdateOperationsInput | number
+    bestStreak?: IntFieldUpdateOperationsInput | number
+    multiplier?: FloatFieldUpdateOperationsInput | number
+    baseXp?: IntFieldUpdateOperationsInput | number
+    lastCompletedDay?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    total_xp?: FloatFieldUpdateOperationsInput | number
-    current_streak?: IntFieldUpdateOperationsInput | number
-    best_streak?: IntFieldUpdateOperationsInput | number
-    multiplier?: FloatFieldUpdateOperationsInput | number
-    base_xp?: IntFieldUpdateOperationsInput | number
-    last_completed_day?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type HabitEntryUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dayNumber?: IntFieldUpdateOperationsInput | number
+    xpEarned?: FloatFieldUpdateOperationsInput | number
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    habit?: HabitUpdateOneRequiredWithoutEntriesNestedInput
+  }
+
+  export type HabitEntryUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dayNumber?: IntFieldUpdateOperationsInput | number
+    xpEarned?: FloatFieldUpdateOperationsInput | number
+    habitId?: StringFieldUpdateOperationsInput | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HabitEntryUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dayNumber?: IntFieldUpdateOperationsInput | number
+    xpEarned?: FloatFieldUpdateOperationsInput | number
+    habitId?: StringFieldUpdateOperationsInput | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type HabitEntryCreateManyHabitInput = {
     id?: string
-    user_id: string
-    day_number: number
-    completed?: boolean
-    completed_at?: string | null
-    created_at?: Date | string
-    updated_at?: Date | string
-    xp_earned?: number
+    dayNumber: number
+    xpEarned?: number
+    userId: string
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type HabitEntryUpdateWithoutHabitInput = {
     id?: StringFieldUpdateOperationsInput | string
-    user_id?: StringFieldUpdateOperationsInput | string
-    day_number?: IntFieldUpdateOperationsInput | number
-    completed?: BoolFieldUpdateOperationsInput | boolean
-    completed_at?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    xp_earned?: FloatFieldUpdateOperationsInput | number
+    dayNumber?: IntFieldUpdateOperationsInput | number
+    xpEarned?: FloatFieldUpdateOperationsInput | number
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutHabitEntriesNestedInput
   }
 
   export type HabitEntryUncheckedUpdateWithoutHabitInput = {
     id?: StringFieldUpdateOperationsInput | string
-    user_id?: StringFieldUpdateOperationsInput | string
-    day_number?: IntFieldUpdateOperationsInput | number
-    completed?: BoolFieldUpdateOperationsInput | boolean
-    completed_at?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    xp_earned?: FloatFieldUpdateOperationsInput | number
+    dayNumber?: IntFieldUpdateOperationsInput | number
+    xpEarned?: FloatFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type HabitEntryUncheckedUpdateManyWithoutHabitInput = {
     id?: StringFieldUpdateOperationsInput | string
-    user_id?: StringFieldUpdateOperationsInput | string
-    day_number?: IntFieldUpdateOperationsInput | number
-    completed?: BoolFieldUpdateOperationsInput | boolean
-    completed_at?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    xp_earned?: FloatFieldUpdateOperationsInput | number
+    dayNumber?: IntFieldUpdateOperationsInput | number
+    xpEarned?: FloatFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

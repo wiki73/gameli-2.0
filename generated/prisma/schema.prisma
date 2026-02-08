@@ -64,11 +64,12 @@ model User {
   experience Int @default(0)
   level      Int @default(1)
 
-  sessions   Session[]
-  accounts   Account[]
-  categories Category[]
-  tasks      Task[]
-  habits     Habit[]
+  sessions     Session[]
+  accounts     Account[]
+  categories   Category[]
+  tasks        Task[]
+  habits       Habit[]
+  habitEntries HabitEntry[]
 
   @@unique([email])
   @@map("user")
@@ -120,38 +121,41 @@ model Verification {
 }
 
 model Habit {
-  id          String       @id @default(cuid())
-  title       String
-  description String
-  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId      String
-  entries     HabitEntry[]
+  id               String  @id @default(cuid())
+  title            String
+  description      String?
+  totalXp          Float   @default(0)
+  currentStreak    Int     @default(0)
+  bestStreak       Int     @default(0)
+  multiplier       Float   @default(1)
+  baseXp           Int     @default(10)
+  lastCompletedDay Int     @default(0)
+
+  user    User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  String
+  entries HabitEntry[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  total_xp           Float
-  current_streak     Int
-  best_streak        Int
-  multiplier         Float
-  base_xp            Int
-  last_completed_day Int
 
   @@map("habit")
 }
 
 model HabitEntry {
-  id           String   @id @default(cuid())
-  habit        Habit    @relation(fields: [habit_id], references: [id], onDelete: Cascade)
-  habit_id     String
-  user_id      String
-  day_number   Int
-  completed    Boolean  @default(false)
-  completed_at String?
-  created_at   DateTime @default(now())
-  updated_at   DateTime @updatedAt
-  xp_earned    Float    @default(0)
+  id        String @id @default(cuid())
+  dayNumber Int
+  xpEarned  Float  @default(0)
 
-  @@unique([habit_id, day_number])
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  habit   Habit  @relation(fields: [habitId], references: [id], onDelete: Cascade)
+  habitId String
+
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([habitId, dayNumber])
   @@map("habitEntry")
 }

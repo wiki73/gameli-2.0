@@ -198,27 +198,26 @@ exports.Prisma.HabitScalarFieldEnum = {
   id: 'id',
   title: 'title',
   description: 'description',
+  totalXp: 'totalXp',
+  currentStreak: 'currentStreak',
+  bestStreak: 'bestStreak',
+  multiplier: 'multiplier',
+  baseXp: 'baseXp',
+  lastCompletedDay: 'lastCompletedDay',
   userId: 'userId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  total_xp: 'total_xp',
-  current_streak: 'current_streak',
-  best_streak: 'best_streak',
-  multiplier: 'multiplier',
-  base_xp: 'base_xp',
-  last_completed_day: 'last_completed_day'
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.HabitEntryScalarFieldEnum = {
   id: 'id',
-  habit_id: 'habit_id',
-  user_id: 'user_id',
-  day_number: 'day_number',
-  completed: 'completed',
-  completed_at: 'completed_at',
-  created_at: 'created_at',
-  updated_at: 'updated_at',
-  xp_earned: 'xp_earned'
+  dayNumber: 'dayNumber',
+  xpEarned: 'xpEarned',
+  userId: 'userId',
+  habitId: 'habitId',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {

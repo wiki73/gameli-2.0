@@ -71,6 +71,7 @@ export const HabitCard = ({
     } finally {
       setLoadingDays(prev => ({ ...prev, [dayNumber]: false }));
     }
+    
   };
 
   const handleDelete = async () => {
@@ -162,10 +163,10 @@ export const HabitCard = ({
                 <TableRow key={`row-${String(row[0])}`}>
                   {row.map(dayNumber => {
                     const entry = habit.entries.find(
-                      e => e.day_number === dayNumber,
+                      e => e.dayNumber === dayNumber,
                     );
                     const isLoading = loadingDays[dayNumber];
-                    const xpEarned = entry?.xp_earned || 0;
+                    const xpEarned = entry?.dayNumber || 0;
 
                     return (
                       <TableCell
@@ -179,9 +180,9 @@ export const HabitCard = ({
 
                           <div className='relative'>
                             <Checkbox
-                              checked={entry?.completed || false}
+                              checked={!!entry?.completedAt}
                               className={`h-9 w-9 border-2 ${
-                                entry?.completed
+                                !!entry?.completedAt
                                   ? 'border-primary bg-primary'
                                   : 'border-gray-300'
                               }`}
@@ -191,16 +192,16 @@ export const HabitCard = ({
                               }}
                             />
 
-                            {entry?.completed && xpEarned > 0 && (
+                            {!!entry?.completedAt && xpEarned > 0 && (
                               <div className='absolute -top-2 -right-2 h-5 w-5 rounded-full bg-blue-500 text-xs text-white'>
                                 {xpEarned}
                               </div>
                             )}
                           </div>
 
-                          {entry?.completed_at && (
+                          {!!entry?.completedAt && (
                             <div className='text-xs text-gray-500'>
-                              {new Date(entry.completed_at).toLocaleDateString(
+                              {new Date(entry.completedAt).toLocaleDateString(
                                 'ru-RU',
                               )}
                             </div>

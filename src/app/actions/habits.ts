@@ -21,26 +21,16 @@ export const createHabit = async ({ data }: { data: HabitFormType }) => {
     data: {
       ...data,
       userId: session.user.id,
-      total_xp: 0,
-      current_streak: 0,
-      best_streak: 0,
-      multiplier: 1.0,
-      base_xp: 10, // мб потом поменяю
-      last_completed_day: 0,
     },
   });
 
-  const entriesData = Array.from({ length: 21 }, (_, i) => ({
-    habit_id: habit.id,
-    user_id: session.user.id,
-    day_number: i + 1,
-    completed: false,
-    completed_at: null,
-    xp_earned: 0,
-  }));
-
   await prisma.habitEntry.createMany({
-    data: entriesData,
+    data: Array.from({ length: 21 }, (_, i) => ({
+      habitId: habit.id,
+      userId: session.user.id,
+      dayNumber: i + 1,
+      xpEarned: 0,
+    })),
   });
 
   revalidatePath(ROUTES.HABITS);
@@ -64,10 +54,6 @@ export const updateHabit = async ({
 };
 
 export const deleteHabit = async ({ id }: { id: string }) => {
-  await prisma.habitEntry.deleteMany({
-    where: { habit_id: id },
-  });
-
   const response = await prisma.habit.delete({
     where: { id },
   });
@@ -89,9 +75,9 @@ export const updateHabitEntry = async ({
 }) => {
   const entry = await prisma.habitEntry.findFirst({
     where: {
-      habit_id: habitId,
-      day_number: dayNumber,
-      user_id: userId,
+      habitId: habitId,
+      dayNumber: dayNumber,
+      userId: userId,
     },
   });
 
@@ -102,11 +88,11 @@ export const updateHabitEntry = async ({
   const updatedEntry = await prisma.habitEntry.update({
     where: { id: entry.id },
     data: {
-      completed,
-      completed_at: completed ? new Date().toISOString() : null,
-      updated_at: new Date().toISOString(),
+      completedAt: completed ? new Date() : undefined,
     },
   });
+
+  let xpEarned = 0;
 
   if (completed) {
     const habit = await prisma.habit.findUnique({
@@ -114,21 +100,20 @@ export const updateHabitEntry = async ({
     });
 
     if (habit) {
-      const xpEarned = Math.round(habit.base_xp * habit.multiplier);
+      xpEarned = Math.round(habit.baseXp * habit.multiplier);
 
       await prisma.habitEntry.update({
         where: { id: entry.id },
-        data: { xp_earned: xpEarned },
+        data: { xpEarned },
       });
 
       await prisma.habit.update({
         where: { id: habitId },
         data: {
-          total_xp: habit.total_xp + xpEarned,
+          totalXp: habit.totalXp + xpEarned,
         },
       });
 
-      // Добавляем опыт пользователю. не файт что это дожно быть в этом файле
       const user = await prisma.user.findUnique({
         where: { id: userId },
         select: { experience: true, level: true },
@@ -148,14 +133,14 @@ export const updateHabitEntry = async ({
       }
 
       const today = new Date().getDate();
-      if (habit.last_completed_day === today - 1) {
-        const newStreak = habit.current_streak + 1;
+      if (habit.lastCompletedDay === today - 1) {
+        const newStreak = habit.currentStreak + 1;
         await prisma.habit.update({
           where: { id: habitId },
           data: {
-            current_streak: newStreak,
-            best_streak: Math.max(habit.best_streak, newStreak),
-            last_completed_day: today,
+            currentStreak: newStreak,
+            bestStreak: Math.max(habit.bestStreak, newStreak),
+            lastCompletedDay: today,
             multiplier: Math.min(
               habit.multiplier + STREAK_MULTIPLIER_STEP,
               MAX_MULTIPLIER,
@@ -166,15 +151,15 @@ export const updateHabitEntry = async ({
         await prisma.habit.update({
           where: { id: habitId },
           data: {
-            current_streak: 1,
-            last_completed_day: today,
+            currentStreak: 1,
+            lastCompletedDay: today,
             multiplier: 1.1,
           },
         });
       }
     }
   } else {
-    const xpToRemove = entry.xp_earned || 0;
+    const xpToRemove = entry.xpEarned || 0;
     if (xpToRemove > 0) {
       const habit = await prisma.habit.findUnique({
         where: { id: habitId },
@@ -184,16 +169,15 @@ export const updateHabitEntry = async ({
         await prisma.habit.update({
           where: { id: habitId },
           data: {
-            total_xp: Math.max(0, habit.total_xp - xpToRemove),
+            totalXp: Math.max(0, habit.totalXp - xpToRemove),
           },
         });
 
         await prisma.habitEntry.update({
           where: { id: entry.id },
-          data: { xp_earned: 0 },
+          data: { xpEarned: 0 },
         });
 
-        // Вычитаем опыт у пользователя. тоже не всё тут долно быть
         const user = await prisma.user.findUnique({
           where: { id: userId },
           select: { experience: true, level: true },
@@ -213,10 +197,11 @@ export const updateHabitEntry = async ({
         }
       }
     }
-
-    revalidatePath(ROUTES.HABITS);
-    return updatedEntry;
   }
+
+  revalidatePath(ROUTES.HABITS);
+
+  return { ...updatedEntry, xp_earned: xpEarned };
 };
 
 export const getHabitsWithEntries = async (userId: string) =>
@@ -224,7 +209,7 @@ export const getHabitsWithEntries = async (userId: string) =>
     where: { userId },
     include: {
       entries: {
-        orderBy: { day_number: 'asc' },
+        orderBy: { dayNumber: 'asc' },
       },
     },
     orderBy: { updatedAt: 'desc' },
