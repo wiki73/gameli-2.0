@@ -23,10 +23,10 @@ export const signUpFormSchema = z.object({
   password: z
     .string()
     .min(PASSWORD_MIN_LENGTH, {
-      error: 'Пароль должен содержать не менее 3 символов',
+      error: `Пароль должен содержать не менее ${String(PASSWORD_MIN_LENGTH)} символов`,
     })
     .max(PASSWORD_MAX_LENGTH, {
-      error: 'Пароль должен содержать не более 25 символов',
+      error: `Пароль должен содержать не более ${String(PASSWORD_MAX_LENGTH)} символов`,
     })
     .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/, {
       error:

@@ -6,7 +6,7 @@ import {
   CardTitle,
 } from '@/src/components/ui/card';
 import { auth } from '@/src/server/auth';
-import { getHabitsWithEntries } from '../../actions/habits';
+import { getHabitsWithEntries } from '@/src/app/actions/habits';
 import { HabitCreateEditDialog } from './habits-create-edit-dialog';
 import { HabitCard } from './habit-card';
 

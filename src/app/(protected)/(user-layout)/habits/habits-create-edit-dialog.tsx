@@ -30,7 +30,7 @@ import {
   TITLE_MIN_LENGTH,
 } from '@/src/lib/habit';
 import type { Habit } from '@/generated/prisma';
-import { createHabit, updateHabit } from '../../actions/habits';
+import { createHabit, updateHabit } from '@/src/app/actions/habits';
 
 type Props = {
   modeForm?: 'CREATE' | 'EDIT';

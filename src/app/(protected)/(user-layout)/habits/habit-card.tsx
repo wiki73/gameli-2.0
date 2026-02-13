@@ -16,7 +16,7 @@ import {
   TableRow,
 } from '@/src/components/ui/table';
 import type { Habit, HabitEntry } from '@/generated/prisma';
-import { deleteHabit, updateHabitEntry } from '../../actions/habits';
+import { deleteHabit, updateHabitEntry } from '@/src/app/actions/habits';
 import { HabitCreateEditDialog } from './habits-create-edit-dialog';
 import { HabitXpStats } from './habit-xp-stats';
 

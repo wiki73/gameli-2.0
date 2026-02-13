@@ -1,7 +1,6 @@
 import { type Metadata } from 'next';
 import { Geist } from 'next/font/google';
 import { ThemeProvider } from '@components/theme-provider';
-import { Header } from '@components/header';
 import { Toaster } from '@ui/sonner';
 import '@styles/globals.css';
 
@@ -33,7 +32,6 @@ export default function RootLayout({
           enableSystem
         >
           <div className='flex h-full min-h-dvh w-full flex-col items-center gap-4 p-4 pb-24 md:pb-4'>
-            <Header />
             {children}
           </div>
           <Toaster />

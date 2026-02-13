@@ -23,38 +23,62 @@ import {
 } from '@ui/form';
 import { Input } from '@ui/input';
 import { Button } from '@ui/button';
+import { useTransition } from 'react';
+import Image from 'next/image';
 import { ROUTES } from '@/src/consts';
 import type { SignUpFormType } from '@lib/auth-client';
 
-export default function SignInPage() {
+const USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL =
+  'USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL';
+
+export default function SignUpPage() {
+  const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
   const form = useForm<SignUpFormType>({
     resolver: zodResolver(signUpFormSchema),
     defaultValues: {
+      name: '',
       email: '',
       password: '',
     },
-    mode: 'onChange',
+    mode: 'onTouched',
   });
 
-  const { handleSubmit, control, setError } = form;
+  const { handleSubmit, control, setError, clearErrors } = form;
 
   const handleToSignInClick = () => {
     router.push(ROUTES.SIGN_IN);
   };
 
-  const onSubmit: SubmitHandler<SignUpFormType> = async data => {
-    const res = await signUp.email(data);
-
-    if (res.error) {
-      setError('root', {
-        message: res.error.message || 'Something went wrong.',
-      });
-    } else {
-      router.push(ROUTES.MAIN);
-    }
+  const onSubmit: SubmitHandler<SignUpFormType> = data => {
+    startTransition(async () => {
+      try {
+        const res = await signUp.email(data);
+        if (res.error) {
+          if (res.error.code === USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL) {
+            setError('root', {
+              message: 'Пользователь с таким логином уже существует',
+            });
+          } else {
+            setError('root', {
+              message: res.error.message || 'Что-то пошло не так',
+            });
+          }
+        } else {
+          router.push(ROUTES.MAIN);
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          setError('root', {
+            message: error.message || 'Что-то пошло не так',
+          });
+        }
+      }
+    });
   };
+
+  const isButtonDisabled = !form.formState.isValid || isPending;
 
   return (
     <Form {...form}>
@@ -62,6 +86,13 @@ export default function SignInPage() {
         className='fixed inset-0 flex items-center justify-center'
         onSubmit={handleSubmit(onSubmit)}
       >
+        <Image
+          alt='Gameli logo'
+          className='fixed top-8 left-8'
+          height={64}
+          src='/icon1.png'
+          width={64}
+        />
         <Card className='w-full max-w-xl'>
           <CardHeader>
             <CardTitle>Регистрация</CardTitle>
@@ -69,7 +100,7 @@ export default function SignInPage() {
               Введите имя, логин и пароль чтобы войти
             </CardDescription>
           </CardHeader>
-          <CardContent className='flex flex-col gap-4'>
+          <CardContent className='flex flex-col gap-1'>
             <FormField
               control={control}
               name='name'
@@ -79,6 +110,10 @@ export default function SignInPage() {
                   <FormControl>
                     <Input
                       {...field}
+                      onChange={e => {
+                        clearErrors();
+                        field.onChange(e);
+                      }}
                       placeholder='Имя'
                     />
                   </FormControl>
@@ -96,6 +131,10 @@ export default function SignInPage() {
                   <FormControl>
                     <Input
                       {...field}
+                      onChange={e => {
+                        clearErrors();
+                        field.onChange(e);
+                      }}
                       placeholder='Почта'
                       type='email'
                     />
@@ -110,10 +149,14 @@ export default function SignInPage() {
               name='password'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Почта</FormLabel>
+                  <FormLabel>Пароль</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
+                      onChange={e => {
+                        clearErrors();
+                        field.onChange(e);
+                      }}
                       placeholder='Пароль'
                       type='password'
                     />
@@ -123,9 +166,12 @@ export default function SignInPage() {
                 </FormItem>
               )}
             />
+            <p className='text-destructive'>
+              {form.formState.errors.root?.message}
+            </p>
           </CardContent>
           <CardFooter>
-            <Button>Зарегестрироваться</Button>
+            <Button disabled={isButtonDisabled}>Зарегестрироваться</Button>
             <Button
               onClick={handleToSignInClick}
               variant='link'
