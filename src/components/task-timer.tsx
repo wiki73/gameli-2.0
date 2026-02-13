@@ -1,11 +1,23 @@
 'use client';
 
-import { useEffect, useMemo, useState, useTransition } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useTransition,
+} from 'react';
 import { toast } from 'sonner';
 import { LapTimerIcon } from '@radix-ui/react-icons';
+import Link from 'next/link';
 import type { Task } from '@/generated/prisma';
-import { TIME } from '../consts';
-import { pauseTimerTask, startTimerTask } from '../app/actions/task';
+import { ROUTES, TIME } from '../consts';
+import {
+  completeTimerTask,
+  pauseTimerTask,
+  startTimerTask,
+} from '../app/actions/task';
 import {
   Card,
   CardContent,
@@ -14,25 +26,120 @@ import {
   CardTitle,
 } from './ui/card';
 import { Button } from './ui/button';
+import { ProgressBar } from './progress-bar';
 
 type Props = {
   task: Task;
 };
 
 const POSITION = 2;
+const MAX_HOURS = 24;
+const MAX_TIME_SECONDS =
+  MAX_HOURS * TIME.MINUTE_IN_HOUR * TIME.SECONDS_IN_MINUTE;
 
 export const TaskTimer = ({ task }: Props) => {
   const [isPending, startTransition] = useTransition();
   const [currentTask, setCurrentTask] = useState(task);
-  const [time, setTime] = useState(0);
+
+  type BarData = {
+    currentExp: number | undefined;
+    addExperience: number | undefined;
+    level: number | undefined;
+    categoryName: string | undefined;
+  };
+
+  const [dataForBar, setDataForBar] = useState<BarData>({
+    currentExp: undefined,
+    addExperience: undefined,
+    level: undefined,
+    categoryName: undefined,
+  });
+
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const [time, setTime] = useState(() => {
+    const validateTimeLocal = (timeValue: number): number => {
+      if (timeValue < 0) return 0;
+      if (timeValue > MAX_TIME_SECONDS) return MAX_TIME_SECONDS;
+      return timeValue;
+    };
+
+    if (task.status === 'IN_PROGRESS' && task.startedAt) {
+      const initialTime = Math.floor(
+        (new Date().getTime() - new Date(task.startedAt).getTime()) /
+          TIME.SECOND,
+      );
+      return validateTimeLocal(initialTime);
+    } else if (task.timeSpent) {
+      return validateTimeLocal(task.timeSpent);
+    }
+    return 0;
+  });
+
+  const validateTime = (timeValue: number): number => {
+    if (timeValue < 0) return 0;
+    if (timeValue > MAX_TIME_SECONDS) return MAX_TIME_SECONDS;
+    return timeValue;
+  };
+
+  const stopTimer = useCallback(() => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+  }, []);
+
+  const startTimer = useCallback(() => {
+    stopTimer();
+    timerRef.current = setInterval(() => {
+      setTime(prev => validateTime(prev + 1));
+    }, TIME.SECOND);
+  }, [stopTimer]);
+
+  useEffect(() => {
+    stopTimer();
+    if (currentTask.status === 'IN_PROGRESS') {
+      startTimer();
+    }
+    return () => {
+      stopTimer();
+    };
+  }, [currentTask.status, startTimer, stopTimer]);
 
   const handlePrimaryButton = () => {
     startTransition(async () => {
       try {
         if (currentTask.status === 'CREATED') {
           await startTimerTask({ id: task.id });
+          setCurrentTask(prev => ({
+            ...prev,
+            status: 'IN_PROGRESS' as const,
+            startedAt: new Date(),
+          }));
+          setTime(0);
+          toast.success('Задача начата');
+        } else if (
+          currentTask.status === 'IN_PROGRESS' ||
+          currentTask.status === 'PAUSED'
+        ) {
+          stopTimer();
+          const { currentExp, addExperience, level, categoryName } =
+            await completeTimerTask({
+              task: task,
+              timeSpent: time,
+            });
+          setDataForBar({
+            currentExp: currentExp,
+            addExperience: addExperience,
+            level: level,
+            categoryName: categoryName,
+          });
+          setCurrentTask(prev => ({
+            ...prev,
+            status: 'COMPLETED' as const,
+          }));
+          toast.success('Задача завершена');
         }
-        toast.success('Задача сохранена');
       } catch (e: unknown) {
         toast.error('Ошибка сохранения задачи', {
           description: e instanceof Error ? e.message : '',
@@ -44,11 +151,33 @@ export const TaskTimer = ({ task }: Props) => {
   const handleSecondaryButton = () => {
     startTransition(async () => {
       try {
+        const newStatus =
+          currentTask.status === 'PAUSED' ? 'IN_PROGRESS' : 'PAUSED';
+
+        if (newStatus === 'PAUSED') {
+          stopTimer();
+        } else {
+          startTimer();
+        }
+
         setCurrentTask(prev => ({
           ...prev,
-          status: prev.status === 'PAUSED' ? 'CREATED' : 'PAUSED',
+          status: newStatus as
+            | 'IN_PROGRESS'
+            | 'PAUSED'
+            | 'COMPLETED'
+            | 'CREATED',
         }));
-        await pauseTimerTask({ id: task.id, timeSpent: time });
+
+        await pauseTimerTask({
+          id: task.id,
+          timeSpent: time,
+          status: newStatus,
+        });
+
+        toast.success(
+          newStatus === 'IN_PROGRESS' ? 'Задача продолжена' : 'Задача на паузе',
+        );
       } catch (e: unknown) {
         toast.error('Ошибка сохранения задачи', {
           description: e instanceof Error ? e.message : '',
@@ -57,61 +186,115 @@ export const TaskTimer = ({ task }: Props) => {
     });
   };
 
-  useEffect(() => {
-    if (currentTask.status !== 'IN_PROGRESS') return;
-
-    const timerInterval = setInterval(() => {
-      setTime(
+  const [hours, minutes, seconds] = useMemo(() => {
+    const validatedTime = validateTime(time);
+    return [
+      String(
         Math.floor(
-          (new Date().getTime() - (task.startedAt ?? new Date()).getTime()) /
-            TIME.SECOND,
+          validatedTime / (TIME.SECONDS_IN_MINUTE * TIME.MINUTE_IN_HOUR),
         ),
-      );
-    }, TIME.SECOND);
+      ).padStart(POSITION, '0'),
+      String(
+        Math.floor(
+          (validatedTime / TIME.SECONDS_IN_MINUTE) % TIME.MINUTE_IN_HOUR,
+        ),
+      ).padStart(POSITION, '0'),
+      String(validatedTime % TIME.SECONDS_IN_MINUTE).padStart(POSITION, '0'),
+    ] as const;
+  }, [time]);
 
-    return () => {
-      clearInterval(timerInterval);
-    };
-  });
+  const getStatusColor = () => {
+    switch (currentTask.status) {
+      case 'IN_PROGRESS':
+        return 'border-4 border-green-500';
+      case 'PAUSED':
+        return 'border-4 border-yellow-500';
+      case 'COMPLETED':
+        return 'border-4 border-blue-500';
+      default:
+        return '';
+    }
+  };
 
-  const [hours, minutes, seconds] = useMemo(
-    () =>
-      [
-        String(
-          Math.floor(time / (TIME.SECONDS_IN_MINUTE * TIME.MINUTE_IN_HOUR)),
-        ).padStart(POSITION, '0'),
-        String(
-          Math.floor((time / TIME.SECONDS_IN_MINUTE) % TIME.MINUTE_IN_HOUR),
-        ).padStart(POSITION, '0'),
-        String(time % TIME.SECONDS_IN_MINUTE).padStart(POSITION, '0'),
-      ] as const,
-    [time],
-  );
+  const getStatusText = () => {
+    switch (currentTask.status) {
+      case 'IN_PROGRESS':
+        return 'В работе';
+      case 'PAUSED':
+        return 'На паузе';
+      case 'COMPLETED':
+        return 'Завершена';
+      case 'CREATED':
+        return 'Создана';
+      default:
+        return '';
+    }
+  };
 
   return (
-    <Card className='w-full max-w-3xl'>
+    <Card className={`w-full max-w-3xl ${getStatusColor()}`}>
       <CardHeader>
-        <CardTitle>{currentTask.name}</CardTitle>
+        <div className='flex items-center justify-between'>
+          <CardTitle className='text-4xl'>{currentTask.name}</CardTitle>
+          <div className='flex items-center gap-2'>
+            <div
+              className={`h-3 w-3 rounded-full ${
+                currentTask.status === 'IN_PROGRESS'
+                  ? 'animate-pulse bg-green-500'
+                  : currentTask.status === 'PAUSED'
+                    ? 'bg-yellow-500'
+                    : currentTask.status === 'COMPLETED'
+                      ? 'bg-blue-500'
+                      : 'bg-gray-300'
+              }`}
+            />
+            <span className='text-sm text-gray-600'>{getStatusText()}</span>
+          </div>
+        </div>
       </CardHeader>
+
       <CardContent className='flex flex-col items-center justify-center gap-8'>
         <LapTimerIcon className='size-16' />
-        <span className='text-2xl tabular-nums'>
-          {hours} : {minutes} : {seconds}
+        <span className='mb-10 font-mono text-5xl tabular-nums'>
+          {hours}:{minutes}:{seconds}
         </span>
+        {currentTask.status === 'COMPLETED' && !!dataForBar.level && (
+          <ProgressBar
+            addedExperience={dataForBar.addExperience}
+            categoryLevel={dataForBar.level}
+            categoryName={dataForBar.categoryName}
+            currentExperience={dataForBar.currentExp}
+          />
+        )}
       </CardContent>
+
       <CardFooter className='flex items-center justify-center gap-4'>
-        <Button
-          disabled={isPending}
-          onClick={handlePrimaryButton}
-        >
-          {currentTask.status === 'CREATED' ? 'Начать' : 'Завершить'}
-        </Button>
-        <Button
-          onClick={handleSecondaryButton}
-          variant='secondary'
-        >
-          {currentTask.status === 'PAUSED' ? 'Продолжить' : 'Пауза'}
-        </Button>
+        {currentTask.status !== 'COMPLETED' ? (
+          <Button
+            disabled={isPending}
+            onClick={handlePrimaryButton}
+          >
+            {currentTask.status === 'CREATED' ? 'Начать' : 'Завершить'}
+          </Button>
+        ) : (
+          <Link
+            className='rounded-xl bg-gray-200 p-3'
+            href={ROUTES.CALENDAR}
+          >
+            К планированию
+          </Link>
+        )}
+
+        {currentTask.status !== 'CREATED' &&
+          currentTask.status !== 'COMPLETED' && (
+            <Button
+              disabled={isPending}
+              onClick={handleSecondaryButton}
+              variant='secondary'
+            >
+              {currentTask.status === 'PAUSED' ? 'Продолжить' : 'Пауза'}
+            </Button>
+          )}
       </CardFooter>
     </Card>
   );

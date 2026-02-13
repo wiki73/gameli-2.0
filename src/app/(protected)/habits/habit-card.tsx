@@ -71,7 +71,6 @@ export const HabitCard = ({
     } finally {
       setLoadingDays(prev => ({ ...prev, [dayNumber]: false }));
     }
-    
   };
 
   const handleDelete = async () => {
