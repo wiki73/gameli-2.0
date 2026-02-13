@@ -29,7 +29,12 @@ export const createTask = async ({
     throw new Error('Unauthorized');
   }
   const response = await prisma.task.create({
-    data: { ...data, userId: session.user.id, categoryId, date },
+    data: {
+      ...data,
+      userId: session.user.id,
+      categoryId: categoryId || null,
+      date,
+    },
   });
   revalidatePath(ROUTES.CALENDAR);
 
@@ -45,11 +50,14 @@ export const updateTask = async ({
 }) => {
   const response = await prisma.task.update({
     where: { id },
-    data,
+    data: {
+      name: data.name,
+      description: data.description,
+      categoryId: data.categoryId || null,
+    },
   });
 
   revalidatePath(ROUTES.CALENDAR);
-
   return response;
 };
 

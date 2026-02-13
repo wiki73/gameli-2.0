@@ -24,7 +24,7 @@ export const CategoryItem = ({ category }: Props) => (
         </CardDescription>
       </CardHeader>
       <CardContent className='flex items-center justify-between gap-4'>
-        <p className='whitespace-nowrap'>Lvl. {category.level}</p>
+        {/* <p className='whitespace-nowrap'>Lvl. {category.level}</p> */}
         {category.experience > 0 && (
           <ProgressBar
             addedExperience={0}

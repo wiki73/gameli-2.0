@@ -1,3 +1,4 @@
+'use client';
 import { motion } from 'framer-motion';
 import {
   getExperienceByLevel,
@@ -29,7 +30,7 @@ export const ProgressBar = ({
   const safeCurrentExperience = currentExperience ?? DEFAULT_VALUE;
   const safeAddedExperience = addedExperience ?? DEFAULT_VALUE;
   const safeCategoryLevel = Math.max(categoryLevel ?? DEFAULT_LEVEL, 1);
-  const safeCategoryName = categoryName ?? 'Без категории';
+  const safeCategoryName = categoryName ?? '';
 
   const currentLevelExp = getExperienceByLevel(safeCategoryLevel);
   const initialExp = Math.max(safeCurrentExperience - currentLevelExp, 0);

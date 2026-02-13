@@ -25,6 +25,7 @@ export const taskFormSchema = z.object({
       `Описание должно содержать не более ${String(MAX_DESCRIPTION_LENGTH)} символов`,
     )
     .optional(),
+  categoryId: z.string().optional(),
 });
 
 export type TaskFormType = z.infer<typeof taskFormSchema>;
