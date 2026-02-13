@@ -13,7 +13,7 @@ type Props = {
 
 export const NavButton = ({ label, href, icon, className }: Props) => {
   const pathname = usePathname();
-  const isActive = pathname === href;
+  const isActive = pathname.split('?')[0] === href.split('?')[0];
 
   return (
     <Link

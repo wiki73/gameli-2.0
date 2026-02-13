@@ -1,4 +1,4 @@
-import { CalendarIcon, Pencil1Icon, PersonIcon } from '@radix-ui/react-icons';
+import { CalendarIcon, DashboardIcon, Pencil1Icon, PersonIcon } from '@radix-ui/react-icons';
 import { ROUTES } from '../consts';
 import { NavButton } from './nav-button';
 import { ModeToggle } from './ui/mode-toggle';
@@ -12,7 +12,7 @@ type Link = {
 const LINKS: Link[] = [
   {
     label: 'Календарь',
-    href: ROUTES.MAIN,
+    href: `${ROUTES.MAIN}?tab=week`,
     icon: <CalendarIcon className='size-4' />,
   },
   {
@@ -20,6 +20,11 @@ const LINKS: Link[] = [
     href: ROUTES.HABITS,
     icon: <Pencil1Icon className='size-4' />,
   },
+  {
+    label: 'Статистика',
+    href: ROUTES.DASHBOARD,
+    icon: <DashboardIcon className='size-4' />,
+  }
 ];
 
 export const Header = () => (

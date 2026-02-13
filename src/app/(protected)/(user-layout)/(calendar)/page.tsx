@@ -32,10 +32,12 @@ const tabs: Record<'day' | 'week' | 'month', TabType> = {
 };
 
 export default async function CalendarPage({
-  searchParams: { tab },
+  searchParams,
 }: {
-  searchParams: { tab: 'day' | 'week' | 'month' };
+  searchParams: Promise<{ tab: 'day' | 'week' | 'month' }>;
 }) {
+  const { tab } = await searchParams;
+
   const session = await auth.api.getSession({ headers: await headers() });
 
   const unit = tab === 'week' ? 'isoWeek' : tab; // dayjs использует 'day', 'week', 'month'

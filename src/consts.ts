@@ -1,3 +1,5 @@
+import type { ChartConfig } from "./components/ui/chart";
+
 export const ROUTES = {
   MAIN: '/',
   AUTH: '/auth',
@@ -335,3 +337,34 @@ export const getExperience = (time: number, categoryRatio?: number): number => {
       EXPERIENCE_CALCULATION_RATIO,
   );
 };
+
+export const chartConfig = {
+  total: {
+    label: 'Всего',
+    theme: {
+      light: 'var(--chart-light-3)',
+      dark: 'var(--chart-dark-1)',
+    },
+  },
+  completed: {
+    label: 'Выполнено',
+    theme: {
+      light: 'var(--chart-light-2)',
+      dark: 'var(--chart-dark-2)',
+    },
+  },
+  level: {
+    label: 'Уровень',
+    theme: {
+      light: 'var(--chart-light-3)',
+      dark: 'var(--chart-dark-1)',
+    },
+  },
+  experience: {
+    label: 'Опыт',
+    theme: {
+      light: 'var(--chart-light-2)',
+      dark: 'var(--chart-dark-2)',
+    },
+  },
+} satisfies ChartConfig;

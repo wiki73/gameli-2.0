@@ -12,7 +12,7 @@ import {
   TIME,
 } from '@/src/consts';
 import type { TaskFormType } from '@/src/lib/task';
-import type { Task, TaskStatus } from '@/generated/prisma';
+import { type Task, TaskStatus } from '@/generated/prisma';
 
 export const createTask = async ({
   data,
@@ -36,7 +36,7 @@ export const createTask = async ({
       date,
     },
   });
-  revalidatePath(ROUTES.CALENDAR);
+  revalidatePath(ROUTES.MAIN);
 
   return response;
 };
@@ -57,7 +57,7 @@ export const updateTask = async ({
     },
   });
 
-  revalidatePath(ROUTES.CALENDAR);
+  revalidatePath(ROUTES.MAIN);
   return response;
 };
 
@@ -83,7 +83,7 @@ export const enterTimeTask = async ({
     where: { id },
     data: {
       timeSpent: minutes + hours * TIME.MINUTE_IN_HOUR,
-      status: 'COMPLETED',
+      status: TaskStatus.COMPLETED,
     },
   });
 
