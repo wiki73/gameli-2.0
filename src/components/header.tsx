@@ -1,5 +1,4 @@
-import { CalendarIcon, PersonIcon } from '@radix-ui/react-icons';
-import { CarIcon } from 'lucide-react';
+import { CalendarIcon, Pencil1Icon, PersonIcon } from '@radix-ui/react-icons';
 import { ROUTES } from '../consts';
 import { NavButton } from './nav-button';
 import { ModeToggle } from './ui/mode-toggle';
@@ -12,19 +11,14 @@ type Link = {
 
 const LINKS: Link[] = [
   {
-    label: 'Планирование',
-    href: ROUTES.MAIN,
-    icon: <CalendarIcon className='size-4' />,
-  },
-  {
     label: 'Календарь',
-    href: ROUTES.CALENDAR,
+    href: ROUTES.MAIN,
     icon: <CalendarIcon className='size-4' />,
   },
   {
     label: 'Привычки',
     href: ROUTES.HABITS,
-    icon: <CarIcon className='size-4' />,
+    icon: <Pencil1Icon className='size-4' />,
   },
 ];
 
