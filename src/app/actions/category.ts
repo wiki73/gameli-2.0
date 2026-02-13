@@ -17,7 +17,6 @@ export const createCategory = async ({ data }: { data: CategoryFormType }) => {
     data: { ...data, level: 1, experience: 0, userId: session.user.id },
   });
   revalidatePath(ROUTES.MAIN);
-
   return response;
 };
 
@@ -36,9 +35,7 @@ export const updateCategory = async ({
       ratio: data.ratio,
     },
   });
-
   revalidatePath(ROUTES.MAIN);
-
   return response;
 };
 
@@ -46,8 +43,50 @@ export const deleteCategory = async ({ id }: { id: string }) => {
   const response = await prisma.category.delete({
     where: { id },
   });
-
   revalidatePath(ROUTES.MAIN);
-
   return response;
+};
+
+export const getUserCategories = async () => {
+  const session = await auth.api.getSession({ headers: await headers() });
+
+  if (!session?.user?.id) {
+    throw new Error('Unauthorized');
+  }
+
+  const categories = await prisma.category.findMany({
+    where: { userId: session.user.id },
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      ratio: true,
+      level: true,
+      experience: true,
+    },
+    orderBy: { name: 'asc' },
+  });
+
+  return categories;
+};
+
+export const getCategoryById = async ({ id }: { id: string }) => {
+  const session = await auth.api.getSession({ headers: await headers() });
+
+  if (!session?.user?.id) {
+    throw new Error('Unauthorized');
+  }
+
+  const category = await prisma.category.findUnique({
+    where: {
+      id,
+      userId: session.user.id,
+    },
+  });
+
+  if (!category) {
+    throw new Error('Category not found');
+  }
+
+  return category;
 };

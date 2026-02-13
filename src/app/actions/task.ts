@@ -4,8 +4,15 @@ import { revalidatePath } from 'next/cache';
 import { headers } from 'next/headers';
 import { auth } from '@server/auth';
 import prisma from '@server/db';
-import { ROUTES, TIME } from '@/src/consts';
+import {
+  DEFAUL_CATEGORY_RATIO,
+  getExperience,
+  getLevelByExperience,
+  ROUTES,
+  TIME,
+} from '@/src/consts';
 import type { TaskFormType } from '@/src/lib/task';
+import type { Task, TaskStatus } from '@/generated/prisma';
 
 export const createTask = async ({
   data,
@@ -22,7 +29,12 @@ export const createTask = async ({
     throw new Error('Unauthorized');
   }
   const response = await prisma.task.create({
-    data: { ...data, userId: session.user.id, categoryId, date },
+    data: {
+      ...data,
+      userId: session.user.id,
+      categoryId: categoryId || null,
+      date,
+    },
   });
   revalidatePath(ROUTES.CALENDAR);
 
@@ -38,21 +50,23 @@ export const updateTask = async ({
 }) => {
   const response = await prisma.task.update({
     where: { id },
-    data,
+    data: {
+      name: data.name,
+      description: data.description,
+      categoryId: data.categoryId || null,
+    },
   });
 
   revalidatePath(ROUTES.CALENDAR);
-
   return response;
 };
 
 export const deleteTask = async ({ id }: { id: string }) => {
-  const response = await prisma.category.delete({
+  const response = await prisma.task.delete({
     where: { id },
   });
 
   revalidatePath(ROUTES.MAIN);
-
   return response;
 };
 
@@ -73,7 +87,7 @@ export const enterTimeTask = async ({
     },
   });
 
-  revalidatePath(ROUTES.CALENDAR);
+  revalidatePath(ROUTES.TASK);
 
   return response;
 };
@@ -88,7 +102,7 @@ export const startTimerTask = async ({ id }: { id: string }) => {
     },
   });
 
-  revalidatePath(ROUTES.CALENDAR);
+  revalidatePath(ROUTES.TASK);
 
   return response;
 };
@@ -96,19 +110,101 @@ export const startTimerTask = async ({ id }: { id: string }) => {
 export const pauseTimerTask = async ({
   id,
   timeSpent,
+  status,
 }: {
   id: string;
   timeSpent: number;
+  status: TaskStatus;
 }) => {
   const response = await prisma.task.update({
     where: { id },
     data: {
-      status: 'PAUSED',
+      status,
+      timeSpent,
+      ...(status === 'IN_PROGRESS' && { startedAt: new Date() }),
+    },
+  });
+
+  revalidatePath(ROUTES.TASK);
+  return response;
+};
+
+export const completeTimerTask = async ({
+  task,
+  timeSpent,
+}: {
+  task: Task;
+  timeSpent: number;
+}) => {
+  const ratio = task.categoryId
+    ? (
+        await prisma.category.findUnique({
+          where: { id: task.categoryId },
+        })
+      )?.ratio
+    : DEFAUL_CATEGORY_RATIO;
+
+  const experience = getExperience(timeSpent, ratio);
+
+  let currentExperience = undefined; // мб это фигня какаято
+  let categoryLevel = undefined; // мб это фигня какаято
+  let categoryName = undefined; // мб это фигня какаято
+
+  if (task.categoryId) {
+    const category = await prisma.category.findUnique({
+      where: { id: task.categoryId },
+      select: { experience: true, level: true, name: true },
+    });
+
+    currentExperience = category?.experience;
+    categoryLevel = category?.level;
+    categoryName = category?.name;
+
+    if (category && currentExperience) {
+      const newExperience = currentExperience + experience;
+      const newLevel = getLevelByExperience(newExperience);
+
+      await prisma.category.update({
+        where: { id: task.categoryId },
+        data: {
+          experience: newExperience,
+          level: newLevel,
+        },
+      });
+    }
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { id: task.userId },
+    select: { experience: true, level: true },
+  });
+
+  if (user) {
+    const newExperience = user.experience + experience;
+    const newLevel = getLevelByExperience(newExperience);
+
+    await prisma.user.update({
+      where: { id: task.userId },
+      data: {
+        experience: newExperience,
+        level: newLevel,
+      },
+    });
+  }
+
+  await prisma.task.update({
+    where: { id: task.id },
+    data: {
+      status: 'COMPLETED',
       timeSpent,
     },
   });
 
   revalidatePath(ROUTES.CALENDAR);
-
-  return response;
+  return {
+    currentExp: currentExperience,
+    addExperience: experience,
+    level: categoryLevel,
+    categoryName: categoryName,
+  };
 };

@@ -53,17 +53,23 @@ model Category {
 }
 
 model User {
-    id            String     @id @default(cuid())
+    id            String   @id @default(cuid())
     name          String
     email         String
     emailVerified Boolean
     image         String?
     createdAt     DateTime
     updatedAt     DateTime
-    sessions      Session[]
-    accounts      Account[]
-    categories    Category[]
-    tasks         Task[]
+
+    experience Int @default(0)
+    level      Int @default(1)
+
+    sessions     Session[]
+    accounts     Account[]
+    categories   Category[]
+    tasks        Task[]
+    habits       Habit[]
+    habitEntries HabitEntry[]
 
     @@unique([email])
     @@map("user")
@@ -112,4 +118,44 @@ model Verification {
     updatedAt  DateTime?
 
     @@map("verification")
+}
+
+model Habit {
+    id               String  @id @default(cuid())
+    title            String
+    description      String?
+    totalXp          Float   @default(0)
+    currentStreak    Int     @default(0)
+    bestStreak       Int     @default(0)
+    multiplier       Float   @default(1)
+    baseXp           Int     @default(10)
+    lastCompletedDay Int     @default(0)
+
+    user    User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId  String
+    entries HabitEntry[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("habit")
+}
+
+model HabitEntry {
+    id        String @id @default(cuid())
+    dayNumber Int
+    xpEarned  Float  @default(0)
+
+    userId String
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    habit   Habit  @relation(fields: [habitId], references: [id], onDelete: Cascade)
+    habitId String
+
+    completedAt DateTime?
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
+
+    @@unique([habitId, dayNumber])
+    @@map("habitEntry")
 }
