@@ -15,7 +15,7 @@ type Props = {
 };
 
 export const CategoryItem = ({ category }: Props) => (
-  <Link href={ROUTES.CATEGORY.replace(':categoryId', category.id)}>
+  <Link href={ROUTES.MAIN.replace(':categoryId', category.id)}>
     <Card className='flex flex-col justify-between'>
       <CardHeader>
         <CardTitle className='line-clamp-2'>{category.name}</CardTitle>

@@ -1,4 +1,10 @@
-import { CalendarIcon, DashboardIcon, Pencil1Icon, PersonIcon } from '@radix-ui/react-icons';
+import {
+  CalendarIcon,
+  DashboardIcon,
+  Pencil1Icon,
+  PersonIcon,
+} from '@radix-ui/react-icons';
+import { StarIcon } from 'lucide-react';
 import { ROUTES } from '../consts';
 import { NavButton } from './nav-button';
 import { ModeToggle } from './ui/mode-toggle';
@@ -24,7 +30,12 @@ const LINKS: Link[] = [
     label: 'Статистика',
     href: ROUTES.DASHBOARD,
     icon: <DashboardIcon className='size-4' />,
-  }
+  },
+  {
+    label: 'Лидеры',
+    href: ROUTES.LEADERBOARD,
+    icon: <StarIcon className='size-4' />,
+  },
 ];
 
 export const Header = () => (

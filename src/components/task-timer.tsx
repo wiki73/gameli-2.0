@@ -279,7 +279,7 @@ export const TaskTimer = ({ task }: Props) => {
         ) : (
           <Link
             className='rounded-xl bg-gray-200 p-3'
-            href={ROUTES.CALENDAR}
+            href={ROUTES.MAIN}
           >
             К планированию
           </Link>

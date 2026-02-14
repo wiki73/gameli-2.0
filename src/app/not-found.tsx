@@ -27,7 +27,7 @@ export default function NotFoundPage() {
           className='w-full'
           variant='secondary'
         >
-          <Link href={ROUTES.CALENDAR}>На главную</Link>
+          <Link href={ROUTES.MAIN}>На главную</Link>
         </Button>
       </EmptyContent>
     </Empty>

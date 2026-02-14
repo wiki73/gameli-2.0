@@ -200,7 +200,7 @@ export const completeTimerTask = async ({
     },
   });
 
-  revalidatePath(ROUTES.CALENDAR);
+  revalidatePath(ROUTES.MAIN);
   return {
     currentExp: currentExperience,
     addExperience: experience,
