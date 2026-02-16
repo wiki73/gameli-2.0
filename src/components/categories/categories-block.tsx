@@ -32,7 +32,7 @@ type Props = {
 };
 
 export const CategoriesBlock = ({ categories }: Props) => (
-  <Card className='w-full max-w-3xl'>
+  <Card className='w-full'>
     <CardHeader>
       <CardTitle>{getTitle({ hasCategories: !!categories.length })}</CardTitle>
       <CardDescription>

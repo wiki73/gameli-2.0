@@ -14,7 +14,7 @@ export default async function LeaderboardPage() {
   ]);
 
   return (
-    <div className='container mx-auto space-y-8 py-8'>
+    <div className='flex w-full max-w-3xl flex-col gap-2'>
       <DailyLeaders initialData={dailyLeadersData} />
       <LeaderBoard initialData={leaderboardData} />
     </div>

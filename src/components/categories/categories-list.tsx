@@ -10,7 +10,7 @@ export const CategoriesList = ({ categories }: Props) => (
   <div
     className={cn(
       'grid grid-cols-1 gap-4',
-      categories.length > 1 && 'md:grid-cols-2',
+      categories.length > 1 && 'md:grid-cols-3',
     )}
   >
     {categories.map(category => (
