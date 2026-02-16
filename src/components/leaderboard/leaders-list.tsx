@@ -38,7 +38,7 @@ export const LeaderList = ({ leaders }: Props) => (
           <TableCell className='flex items-center gap-2'>
             {user.image && (
               <img
-                alt={user.name}
+                alt={user.name || ''}
                 className='h-6 w-6 rounded-full'
                 src={user.image}
               />

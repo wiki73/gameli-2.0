@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "user" ADD COLUMN     "dailyExperience" INTEGER DEFAULT 0,
+ADD COLUMN     "lastDailyReset" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP;

@@ -136,6 +136,7 @@ export const completeTimerTask = async ({
   task: Task;
   timeSpent: number;
 }) => {
+  // Получаем коэффициент категории
   const ratio = task.categoryId
     ? (
         await prisma.category.findUnique({
@@ -144,12 +145,14 @@ export const completeTimerTask = async ({
       )?.ratio
     : DEFAUL_CATEGORY_RATIO;
 
+  // Рассчитываем полученный опыт
   const experience = getExperience(timeSpent, ratio);
 
-  let currentExperience = undefined; // мб это фигня какаято
-  let categoryLevel = undefined; // мб это фигня какаято
-  let categoryName = undefined; // мб это фигня какаято
+  let currentExperience = undefined;
+  let categoryLevel = undefined;
+  let categoryName = undefined;
 
+  // Обновляем категорию (если есть)
   if (task.categoryId) {
     const category = await prisma.category.findUnique({
       where: { id: task.categoryId },
@@ -160,7 +163,7 @@ export const completeTimerTask = async ({
     categoryLevel = category?.level;
     categoryName = category?.name;
 
-    if (category && currentExperience) {
+    if (category && currentExperience !== undefined) {
       const newExperience = currentExperience + experience;
       const newLevel = getLevelByExperience(newExperience);
 
@@ -174,24 +177,42 @@ export const completeTimerTask = async ({
     }
   }
 
+  // Обновляем пользователя с dailyExperience
   const user = await prisma.user.findUnique({
     where: { id: task.userId },
-    select: { experience: true, level: true },
+    select: {
+      experience: true,
+      level: true,
+      dailyExperience: true,
+      lastDailyReset: true,
+    },
   });
 
   if (user) {
     const newExperience = user.experience + experience;
     const newLevel = getLevelByExperience(newExperience);
 
+    // Проверяем, нужно ли сбросить dailyExperience
+    const today = new Date();
+    const lastReset = user.lastDailyReset || new Date(0);
+    const isNewDay = today.toDateString() !== lastReset.toDateString();
+
+    const newDailyExperience = isNewDay
+      ? experience
+      : (user.dailyExperience || 0) + experience;
+
     await prisma.user.update({
       where: { id: task.userId },
       data: {
         experience: newExperience,
         level: newLevel,
+        dailyExperience: newDailyExperience,
+        lastDailyReset: isNewDay ? today : user.lastDailyReset,
       },
     });
   }
 
+  // Завершаем задачу
   await prisma.task.update({
     where: { id: task.id },
     data: {
@@ -201,6 +222,7 @@ export const completeTimerTask = async ({
   });
 
   revalidatePath(ROUTES.MAIN);
+
   return {
     currentExp: currentExperience,
     addExperience: experience,

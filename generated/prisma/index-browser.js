@@ -155,7 +155,9 @@ exports.Prisma.UserScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   experience: 'experience',
-  level: 'level'
+  level: 'level',
+  dailyExperience: 'dailyExperience',
+  lastDailyReset: 'lastDailyReset'
 };
 
 exports.Prisma.SessionScalarFieldEnum = {

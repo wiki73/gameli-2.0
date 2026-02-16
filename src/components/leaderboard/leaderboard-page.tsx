@@ -34,10 +34,15 @@ type Props = {
 };
 
 export const LeaderBoard = ({ initialData }: Props) => {
+  const [isMounted, setIsMounted] = useState(false);
   const [page, setPage] = useState(1);
   const [isPending, startTransition] = useTransition();
   const [data, setData] = useState<LeaderboardData>(initialData);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     if (page === 1) return;
@@ -52,6 +57,16 @@ export const LeaderBoard = ({ initialData }: Props) => {
       }
     });
   }, [page]);
+
+  if (!isMounted) {
+    return (
+      <Card>
+        <CardContent className='flex min-h-[400px] items-center justify-center'>
+          <div className='text-center'>Загрузка таблицы лидеров...</div>
+        </CardContent>
+      </Card>
+    );
+  }
 
   const showPagination = data.totalPages > 1;
 

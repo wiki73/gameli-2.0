@@ -1,7 +1,6 @@
-import { Suspense } from 'react';
 import { LeaderBoard } from '@/src/components/leaderboard/leaderboard-page';
-import { Spinner } from '@/src/components/ui/spinner';
-import { getLeaderboard } from '@/src/app/actions/user';
+import { DailyLeaders } from '@/src/components/leaderboard/daily-leaders';
+import { getDailyLeaders, getLeaderboard } from '@/src/app/actions/user';
 
 export const metadata = {
   title: 'Таблица лидеров',
@@ -9,13 +8,15 @@ export const metadata = {
 };
 
 export default async function LeaderboardPage() {
-  const initialData = await getLeaderboard({ page: 1, limit: 10 });
+  const [leaderboardData, dailyLeadersData] = await Promise.all([
+    getLeaderboard({ page: 1, limit: 10 }),
+    getDailyLeaders({ limit: 5 }),
+  ]);
 
   return (
-    <div className='w-full max-w-3xl'>
-      <Suspense fallback={<Spinner />}>
-        <LeaderBoard initialData={initialData} />
-      </Suspense>
+    <div className='container mx-auto space-y-8 py-8'>
+      <DailyLeaders initialData={dailyLeadersData} />
+      <LeaderBoard initialData={leaderboardData} />
     </div>
   );
 }

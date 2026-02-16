@@ -4049,11 +4049,13 @@ export namespace Prisma {
   export type UserAvgAggregateOutputType = {
     experience: number | null
     level: number | null
+    dailyExperience: number | null
   }
 
   export type UserSumAggregateOutputType = {
     experience: number | null
     level: number | null
+    dailyExperience: number | null
   }
 
   export type UserMinAggregateOutputType = {
@@ -4066,6 +4068,8 @@ export namespace Prisma {
     updatedAt: Date | null
     experience: number | null
     level: number | null
+    dailyExperience: number | null
+    lastDailyReset: Date | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -4078,6 +4082,8 @@ export namespace Prisma {
     updatedAt: Date | null
     experience: number | null
     level: number | null
+    dailyExperience: number | null
+    lastDailyReset: Date | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -4090,6 +4096,8 @@ export namespace Prisma {
     updatedAt: number
     experience: number
     level: number
+    dailyExperience: number
+    lastDailyReset: number
     _all: number
   }
 
@@ -4097,11 +4105,13 @@ export namespace Prisma {
   export type UserAvgAggregateInputType = {
     experience?: true
     level?: true
+    dailyExperience?: true
   }
 
   export type UserSumAggregateInputType = {
     experience?: true
     level?: true
+    dailyExperience?: true
   }
 
   export type UserMinAggregateInputType = {
@@ -4114,6 +4124,8 @@ export namespace Prisma {
     updatedAt?: true
     experience?: true
     level?: true
+    dailyExperience?: true
+    lastDailyReset?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -4126,6 +4138,8 @@ export namespace Prisma {
     updatedAt?: true
     experience?: true
     level?: true
+    dailyExperience?: true
+    lastDailyReset?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -4138,6 +4152,8 @@ export namespace Prisma {
     updatedAt?: true
     experience?: true
     level?: true
+    dailyExperience?: true
+    lastDailyReset?: true
     _all?: true
   }
 
@@ -4237,6 +4253,8 @@ export namespace Prisma {
     updatedAt: Date
     experience: number
     level: number
+    dailyExperience: number | null
+    lastDailyReset: Date | null
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -4268,6 +4286,8 @@ export namespace Prisma {
     updatedAt?: boolean
     experience?: boolean
     level?: boolean
+    dailyExperience?: boolean
+    lastDailyReset?: boolean
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
     categories?: boolean | User$categoriesArgs<ExtArgs>
@@ -4287,6 +4307,8 @@ export namespace Prisma {
     updatedAt?: boolean
     experience?: boolean
     level?: boolean
+    dailyExperience?: boolean
+    lastDailyReset?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -4299,6 +4321,8 @@ export namespace Prisma {
     updatedAt?: boolean
     experience?: boolean
     level?: boolean
+    dailyExperience?: boolean
+    lastDailyReset?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -4311,9 +4335,11 @@ export namespace Prisma {
     updatedAt?: boolean
     experience?: boolean
     level?: boolean
+    dailyExperience?: boolean
+    lastDailyReset?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "experience" | "level", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "experience" | "level" | "dailyExperience" | "lastDailyReset", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
@@ -4346,6 +4372,8 @@ export namespace Prisma {
       updatedAt: Date
       experience: number
       level: number
+      dailyExperience: number | null
+      lastDailyReset: Date | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -4784,6 +4812,8 @@ export namespace Prisma {
     readonly updatedAt: FieldRef<"User", 'DateTime'>
     readonly experience: FieldRef<"User", 'Int'>
     readonly level: FieldRef<"User", 'Int'>
+    readonly dailyExperience: FieldRef<"User", 'Int'>
+    readonly lastDailyReset: FieldRef<"User", 'DateTime'>
   }
     
 
@@ -11032,7 +11062,9 @@ export namespace Prisma {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     experience: 'experience',
-    level: 'level'
+    level: 'level',
+    dailyExperience: 'dailyExperience',
+    lastDailyReset: 'lastDailyReset'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -11407,6 +11439,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     experience?: IntFilter<"User"> | number
     level?: IntFilter<"User"> | number
+    dailyExperience?: IntNullableFilter<"User"> | number | null
+    lastDailyReset?: DateTimeNullableFilter<"User"> | Date | string | null
     sessions?: SessionListRelationFilter
     accounts?: AccountListRelationFilter
     categories?: CategoryListRelationFilter
@@ -11425,6 +11459,8 @@ export namespace Prisma {
     updatedAt?: SortOrder
     experience?: SortOrder
     level?: SortOrder
+    dailyExperience?: SortOrderInput | SortOrder
+    lastDailyReset?: SortOrderInput | SortOrder
     sessions?: SessionOrderByRelationAggregateInput
     accounts?: AccountOrderByRelationAggregateInput
     categories?: CategoryOrderByRelationAggregateInput
@@ -11446,6 +11482,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     experience?: IntFilter<"User"> | number
     level?: IntFilter<"User"> | number
+    dailyExperience?: IntNullableFilter<"User"> | number | null
+    lastDailyReset?: DateTimeNullableFilter<"User"> | Date | string | null
     sessions?: SessionListRelationFilter
     accounts?: AccountListRelationFilter
     categories?: CategoryListRelationFilter
@@ -11464,6 +11502,8 @@ export namespace Prisma {
     updatedAt?: SortOrder
     experience?: SortOrder
     level?: SortOrder
+    dailyExperience?: SortOrderInput | SortOrder
+    lastDailyReset?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -11484,6 +11524,8 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     experience?: IntWithAggregatesFilter<"User"> | number
     level?: IntWithAggregatesFilter<"User"> | number
+    dailyExperience?: IntNullableWithAggregatesFilter<"User"> | number | null
+    lastDailyReset?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   }
 
   export type SessionWhereInput = {
@@ -12072,6 +12114,8 @@ export namespace Prisma {
     updatedAt: Date | string
     experience?: number
     level?: number
+    dailyExperience?: number | null
+    lastDailyReset?: Date | string | null
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
@@ -12090,6 +12134,8 @@ export namespace Prisma {
     updatedAt: Date | string
     experience?: number
     level?: number
+    dailyExperience?: number | null
+    lastDailyReset?: Date | string | null
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
@@ -12108,6 +12154,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     experience?: IntFieldUpdateOperationsInput | number
     level?: IntFieldUpdateOperationsInput | number
+    dailyExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    lastDailyReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
@@ -12126,6 +12174,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     experience?: IntFieldUpdateOperationsInput | number
     level?: IntFieldUpdateOperationsInput | number
+    dailyExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    lastDailyReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
@@ -12144,6 +12194,8 @@ export namespace Prisma {
     updatedAt: Date | string
     experience?: number
     level?: number
+    dailyExperience?: number | null
+    lastDailyReset?: Date | string | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -12156,6 +12208,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     experience?: IntFieldUpdateOperationsInput | number
     level?: IntFieldUpdateOperationsInput | number
+    dailyExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    lastDailyReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -12168,6 +12222,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     experience?: IntFieldUpdateOperationsInput | number
     level?: IntFieldUpdateOperationsInput | number
+    dailyExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    lastDailyReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type SessionCreateInput = {
@@ -12978,11 +13034,14 @@ export namespace Prisma {
     updatedAt?: SortOrder
     experience?: SortOrder
     level?: SortOrder
+    dailyExperience?: SortOrder
+    lastDailyReset?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
     experience?: SortOrder
     level?: SortOrder
+    dailyExperience?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -12995,6 +13054,8 @@ export namespace Prisma {
     updatedAt?: SortOrder
     experience?: SortOrder
     level?: SortOrder
+    dailyExperience?: SortOrder
+    lastDailyReset?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -13007,11 +13068,14 @@ export namespace Prisma {
     updatedAt?: SortOrder
     experience?: SortOrder
     level?: SortOrder
+    dailyExperience?: SortOrder
+    lastDailyReset?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
     experience?: SortOrder
     level?: SortOrder
+    dailyExperience?: SortOrder
   }
 
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -14015,6 +14079,8 @@ export namespace Prisma {
     updatedAt: Date | string
     experience?: number
     level?: number
+    dailyExperience?: number | null
+    lastDailyReset?: Date | string | null
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
@@ -14032,6 +14098,8 @@ export namespace Prisma {
     updatedAt: Date | string
     experience?: number
     level?: number
+    dailyExperience?: number | null
+    lastDailyReset?: Date | string | null
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
@@ -14094,6 +14162,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     experience?: IntFieldUpdateOperationsInput | number
     level?: IntFieldUpdateOperationsInput | number
+    dailyExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    lastDailyReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
@@ -14111,6 +14181,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     experience?: IntFieldUpdateOperationsInput | number
     level?: IntFieldUpdateOperationsInput | number
+    dailyExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    lastDailyReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
@@ -14163,6 +14235,8 @@ export namespace Prisma {
     updatedAt: Date | string
     experience?: number
     level?: number
+    dailyExperience?: number | null
+    lastDailyReset?: Date | string | null
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
@@ -14180,6 +14254,8 @@ export namespace Prisma {
     updatedAt: Date | string
     experience?: number
     level?: number
+    dailyExperience?: number | null
+    lastDailyReset?: Date | string | null
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
@@ -14249,6 +14325,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     experience?: IntFieldUpdateOperationsInput | number
     level?: IntFieldUpdateOperationsInput | number
+    dailyExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    lastDailyReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
@@ -14266,6 +14344,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     experience?: IntFieldUpdateOperationsInput | number
     level?: IntFieldUpdateOperationsInput | number
+    dailyExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    lastDailyReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
@@ -14702,6 +14782,8 @@ export namespace Prisma {
     updatedAt: Date | string
     experience?: number
     level?: number
+    dailyExperience?: number | null
+    lastDailyReset?: Date | string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
@@ -14719,6 +14801,8 @@ export namespace Prisma {
     updatedAt: Date | string
     experience?: number
     level?: number
+    dailyExperience?: number | null
+    lastDailyReset?: Date | string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
@@ -14752,6 +14836,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     experience?: IntFieldUpdateOperationsInput | number
     level?: IntFieldUpdateOperationsInput | number
+    dailyExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    lastDailyReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
@@ -14769,6 +14855,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     experience?: IntFieldUpdateOperationsInput | number
     level?: IntFieldUpdateOperationsInput | number
+    dailyExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    lastDailyReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
@@ -14786,6 +14874,8 @@ export namespace Prisma {
     updatedAt: Date | string
     experience?: number
     level?: number
+    dailyExperience?: number | null
+    lastDailyReset?: Date | string | null
     sessions?: SessionCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
@@ -14803,6 +14893,8 @@ export namespace Prisma {
     updatedAt: Date | string
     experience?: number
     level?: number
+    dailyExperience?: number | null
+    lastDailyReset?: Date | string | null
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
@@ -14836,6 +14928,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     experience?: IntFieldUpdateOperationsInput | number
     level?: IntFieldUpdateOperationsInput | number
+    dailyExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    lastDailyReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
@@ -14853,6 +14947,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     experience?: IntFieldUpdateOperationsInput | number
     level?: IntFieldUpdateOperationsInput | number
+    dailyExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    lastDailyReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
@@ -14870,6 +14966,8 @@ export namespace Prisma {
     updatedAt: Date | string
     experience?: number
     level?: number
+    dailyExperience?: number | null
+    lastDailyReset?: Date | string | null
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
@@ -14887,6 +14985,8 @@ export namespace Prisma {
     updatedAt: Date | string
     experience?: number
     level?: number
+    dailyExperience?: number | null
+    lastDailyReset?: Date | string | null
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
@@ -14950,6 +15050,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     experience?: IntFieldUpdateOperationsInput | number
     level?: IntFieldUpdateOperationsInput | number
+    dailyExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    lastDailyReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
@@ -14967,6 +15069,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     experience?: IntFieldUpdateOperationsInput | number
     level?: IntFieldUpdateOperationsInput | number
+    dailyExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    lastDailyReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
@@ -15000,6 +15104,8 @@ export namespace Prisma {
     updatedAt: Date | string
     experience?: number
     level?: number
+    dailyExperience?: number | null
+    lastDailyReset?: Date | string | null
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     categories?: CategoryCreateNestedManyWithoutUserInput
@@ -15017,6 +15123,8 @@ export namespace Prisma {
     updatedAt: Date | string
     experience?: number
     level?: number
+    dailyExperience?: number | null
+    lastDailyReset?: Date | string | null
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
@@ -15085,6 +15193,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     experience?: IntFieldUpdateOperationsInput | number
     level?: IntFieldUpdateOperationsInput | number
+    dailyExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    lastDailyReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     categories?: CategoryUpdateManyWithoutUserNestedInput
@@ -15102,6 +15212,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     experience?: IntFieldUpdateOperationsInput | number
     level?: IntFieldUpdateOperationsInput | number
+    dailyExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    lastDailyReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput

@@ -64,6 +64,9 @@ model User {
   experience Int @default(0)
   level      Int @default(1)
 
+  dailyExperience Int?      @default(0)
+  lastDailyReset  DateTime? @default(now())
+
   sessions     Session[]
   accounts     Account[]
   categories   Category[]
