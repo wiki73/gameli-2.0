@@ -6,7 +6,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from './ui/card';
@@ -38,13 +37,19 @@ export const Weekday = ({ title, tasks, date, isToday = false }: Props) => {
         isToday && 'border-primary ring-primary ring-1',
       )}
     >
-      <CardHeader>
+      <CardHeader className='flex justify-between'>
+        <div>
         <CardTitle>
           {title} {getFormattedDay(date)}
         </CardTitle>
         <CardDescription>Количество задач: {tasksQuantity}</CardDescription>
+        </div>
+        <TaskCreateEditDialog
+            date={date}
+            mode='CREATE'
+          />
       </CardHeader>
-      <CardContent className='h-full'>
+      <CardContent className='h-70'>
         {tasksQuantity ? (
           <TasksList tasks={tasks} />
         ) : (
@@ -67,14 +72,7 @@ export const Weekday = ({ title, tasks, date, isToday = false }: Props) => {
           </Empty>
         )}
       </CardContent>
-      {!!tasksQuantity && (
-        <CardFooter>
-          <TaskCreateEditDialog
-            date={date}
-            mode='CREATE'
-          />
-        </CardFooter>
-      )}
+    
     </Card>
   );
 };

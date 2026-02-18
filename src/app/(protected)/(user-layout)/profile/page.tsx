@@ -14,7 +14,7 @@ export default async function ProfilePage() {
   const { name, email, image } = session?.user ?? {};
 
   return (
-    <Card className='w-full max-w-2xl'>
+    <Card className='w-full max-w-3xl'>
       <CardHeader>
         <Avatar>
           <AvatarImage src={image ?? ''} />

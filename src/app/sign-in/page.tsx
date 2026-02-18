@@ -61,7 +61,7 @@ export default function SignInPage() {
         });
       }
     } else {
-      router.push(ROUTES.MAIN);
+      router.push(`${ROUTES.MAIN}?tab=week`);
     }
   };
 

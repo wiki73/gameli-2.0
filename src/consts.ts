@@ -170,7 +170,7 @@ export const TIME_INTERVAL_RATIOS = {
 } as const;
 
 export const MAX_CATEGORY_RATIO = 5;
-export const DEFAUL_CATEGORY_RATIO = 3;
+export const DEFAUL_CATEGORY_RATIO = 2.5;
 export const MIN_CATEGORY_RATIO = 1;
 export const EXPERIENCE_CALCULATION_RATIO = 100;
 export const HUNDRED_PERCENT = 100;
@@ -368,3 +368,10 @@ export const chartConfig = {
     },
   },
 } satisfies ChartConfig;
+
+export type BarData = {
+    currentExp: number | undefined;
+    addExperience: number | undefined;
+    level: number | undefined;
+    categoryName: string | undefined;
+  };

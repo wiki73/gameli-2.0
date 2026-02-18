@@ -222,6 +222,14 @@ exports.Prisma.HabitEntryScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.DailyStatScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  experience: 'experience',
+  date: 'date',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -251,7 +259,8 @@ exports.Prisma.ModelName = {
   Account: 'Account',
   Verification: 'Verification',
   Habit: 'Habit',
-  HabitEntry: 'HabitEntry'
+  HabitEntry: 'HabitEntry',
+  DailyStat: 'DailyStat'
 };
 
 /**

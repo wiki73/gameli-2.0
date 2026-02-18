@@ -13,6 +13,7 @@ import {
 } from '@/src/consts';
 import type { TaskFormType } from '@/src/lib/task';
 import { type Task, TaskStatus } from '@/generated/prisma';
+import { saveDailyStat } from './user';
 
 export const createTask = async ({
   data,
@@ -136,7 +137,6 @@ export const completeTimerTask = async ({
   task: Task;
   timeSpent: number;
 }) => {
-  // Получаем коэффициент категории
   const ratio = task.categoryId
     ? (
         await prisma.category.findUnique({
@@ -145,14 +145,12 @@ export const completeTimerTask = async ({
       )?.ratio
     : DEFAUL_CATEGORY_RATIO;
 
-  // Рассчитываем полученный опыт
   const experience = getExperience(timeSpent, ratio);
 
   let currentExperience = undefined;
   let categoryLevel = undefined;
   let categoryName = undefined;
 
-  // Обновляем категорию (если есть)
   if (task.categoryId) {
     const category = await prisma.category.findUnique({
       where: { id: task.categoryId },
@@ -177,10 +175,10 @@ export const completeTimerTask = async ({
     }
   }
 
-  // Обновляем пользователя с dailyExperience
   const user = await prisma.user.findUnique({
     where: { id: task.userId },
     select: {
+      id: true,
       experience: true,
       level: true,
       dailyExperience: true,
@@ -192,10 +190,20 @@ export const completeTimerTask = async ({
     const newExperience = user.experience + experience;
     const newLevel = getLevelByExperience(newExperience);
 
-    // Проверяем, нужно ли сбросить dailyExperience
     const today = new Date();
     const lastReset = user.lastDailyReset || new Date(0);
     const isNewDay = today.toDateString() !== lastReset.toDateString();
+
+    if (isNewDay && user.dailyExperience) {
+      const yesterday = new Date(lastReset);
+      yesterday.setHours(0, 0, 0, 0);
+
+      await saveDailyStat({
+        userId: user.id,
+        experience: user.dailyExperience,
+        date: yesterday,
+      });
+    }
 
     const newDailyExperience = isNewDay
       ? experience
@@ -212,7 +220,6 @@ export const completeTimerTask = async ({
     });
   }
 
-  // Завершаем задачу
   await prisma.task.update({
     where: { id: task.id },
     data: {

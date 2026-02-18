@@ -12,7 +12,7 @@ import { toast } from 'sonner';
 import { LapTimerIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import type { Task } from '@/generated/prisma';
-import { ROUTES, TIME } from '../consts';
+import { type BarData, ROUTES, TIME } from '../consts';
 import {
   completeTimerTask,
   pauseTimerTask,
@@ -40,13 +40,6 @@ const MAX_TIME_SECONDS =
 export const TaskTimer = ({ task }: Props) => {
   const [isPending, startTransition] = useTransition();
   const [currentTask, setCurrentTask] = useState(task);
-
-  type BarData = {
-    currentExp: number | undefined;
-    addExperience: number | undefined;
-    level: number | undefined;
-    categoryName: string | undefined;
-  };
 
   const [dataForBar, setDataForBar] = useState<BarData>({
     currentExp: undefined,
@@ -279,7 +272,7 @@ export const TaskTimer = ({ task }: Props) => {
         ) : (
           <Link
             className='rounded-xl bg-gray-200 p-3'
-            href={ROUTES.MAIN}
+            href={`${ROUTES.MAIN}?tab=week`}
           >
             К планированию
           </Link>

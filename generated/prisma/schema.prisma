@@ -73,6 +73,7 @@ model User {
   tasks        Task[]
   habits       Habit[]
   habitEntries HabitEntry[]
+  dailyStats   DailyStat[]
 
   @@unique([email])
   @@map("user")
@@ -161,4 +162,16 @@ model HabitEntry {
 
   @@unique([habitId, dayNumber])
   @@map("habitEntry")
+}
+
+model DailyStat {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  experience Int
+  date       DateTime
+  createdAt  DateTime @default(now())
+
+  @@unique([userId, date])
+  @@map("daily_stat")
 }

@@ -73,8 +73,8 @@ export default async function DashboardPage() {
   }, []);
 
   return (
-    <div>
-      <div className='mb-6 w-full'>
+    <div className='m-auto mb-6 w-7xl'>
+      <div className='m-auto mb-6 w-full'>
         <CategoriesBlock categories={categories} />
       </div>
 

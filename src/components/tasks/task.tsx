@@ -64,7 +64,7 @@ export const TaskItem = ({ task }: Props) => (
             <DropdownMenuGroup>
               <DropdownMenuLabel>Завершить</DropdownMenuLabel>
               <DropdownMenuItem asChild>
-                <TaskEnterTimeDialog taskId={task.id} />
+                <TaskEnterTimeDialog task={task} />
               </DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>

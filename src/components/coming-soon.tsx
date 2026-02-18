@@ -21,7 +21,7 @@ export const ComingSoon = () => (
           asChild
           variant='link'
         >
-          <Link href={ROUTES.MAIN}>На главную</Link>
+          <Link href={`${ROUTES.MAIN}?tab=week`}>На главную</Link>
         </Button>
       </CardFooter>
     </Card>

@@ -53,6 +53,11 @@ export type Habit = $Result.DefaultSelection<Prisma.$HabitPayload>
  * 
  */
 export type HabitEntry = $Result.DefaultSelection<Prisma.$HabitEntryPayload>
+/**
+ * Model DailyStat
+ * 
+ */
+export type DailyStat = $Result.DefaultSelection<Prisma.$DailyStatPayload>
 
 /**
  * Enums
@@ -269,6 +274,16 @@ export class PrismaClient<
     * ```
     */
   get habitEntry(): Prisma.HabitEntryDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.dailyStat`: Exposes CRUD operations for the **DailyStat** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DailyStats
+    * const dailyStats = await prisma.dailyStat.findMany()
+    * ```
+    */
+  get dailyStat(): Prisma.DailyStatDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -710,7 +725,8 @@ export namespace Prisma {
     Account: 'Account',
     Verification: 'Verification',
     Habit: 'Habit',
-    HabitEntry: 'HabitEntry'
+    HabitEntry: 'HabitEntry',
+    DailyStat: 'DailyStat'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -726,7 +742,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "task" | "category" | "user" | "session" | "account" | "verification" | "habit" | "habitEntry"
+      modelProps: "task" | "category" | "user" | "session" | "account" | "verification" | "habit" | "habitEntry" | "dailyStat"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1322,6 +1338,80 @@ export namespace Prisma {
           }
         }
       }
+      DailyStat: {
+        payload: Prisma.$DailyStatPayload<ExtArgs>
+        fields: Prisma.DailyStatFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DailyStatFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DailyStatPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DailyStatFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DailyStatPayload>
+          }
+          findFirst: {
+            args: Prisma.DailyStatFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DailyStatPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DailyStatFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DailyStatPayload>
+          }
+          findMany: {
+            args: Prisma.DailyStatFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DailyStatPayload>[]
+          }
+          create: {
+            args: Prisma.DailyStatCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DailyStatPayload>
+          }
+          createMany: {
+            args: Prisma.DailyStatCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DailyStatCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DailyStatPayload>[]
+          }
+          delete: {
+            args: Prisma.DailyStatDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DailyStatPayload>
+          }
+          update: {
+            args: Prisma.DailyStatUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DailyStatPayload>
+          }
+          deleteMany: {
+            args: Prisma.DailyStatDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DailyStatUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DailyStatUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DailyStatPayload>[]
+          }
+          upsert: {
+            args: Prisma.DailyStatUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DailyStatPayload>
+          }
+          aggregate: {
+            args: Prisma.DailyStatAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDailyStat>
+          }
+          groupBy: {
+            args: Prisma.DailyStatGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DailyStatGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DailyStatCountArgs<ExtArgs>
+            result: $Utils.Optional<DailyStatCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1438,6 +1528,7 @@ export namespace Prisma {
     verification?: VerificationOmit
     habit?: HabitOmit
     habitEntry?: HabitEntryOmit
+    dailyStat?: DailyStatOmit
   }
 
   /* Types for Logging */
@@ -1555,6 +1646,7 @@ export namespace Prisma {
     tasks: number
     habits: number
     habitEntries: number
+    dailyStats: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1564,6 +1656,7 @@ export namespace Prisma {
     tasks?: boolean | UserCountOutputTypeCountTasksArgs
     habits?: boolean | UserCountOutputTypeCountHabitsArgs
     habitEntries?: boolean | UserCountOutputTypeCountHabitEntriesArgs
+    dailyStats?: boolean | UserCountOutputTypeCountDailyStatsArgs
   }
 
   // Custom InputTypes
@@ -1617,6 +1710,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountHabitEntriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: HabitEntryWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountDailyStatsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DailyStatWhereInput
   }
 
 
@@ -4294,6 +4394,7 @@ export namespace Prisma {
     tasks?: boolean | User$tasksArgs<ExtArgs>
     habits?: boolean | User$habitsArgs<ExtArgs>
     habitEntries?: boolean | User$habitEntriesArgs<ExtArgs>
+    dailyStats?: boolean | User$dailyStatsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -4347,6 +4448,7 @@ export namespace Prisma {
     tasks?: boolean | User$tasksArgs<ExtArgs>
     habits?: boolean | User$habitsArgs<ExtArgs>
     habitEntries?: boolean | User$habitEntriesArgs<ExtArgs>
+    dailyStats?: boolean | User$dailyStatsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -4361,6 +4463,7 @@ export namespace Prisma {
       tasks: Prisma.$TaskPayload<ExtArgs>[]
       habits: Prisma.$HabitPayload<ExtArgs>[]
       habitEntries: Prisma.$HabitEntryPayload<ExtArgs>[]
+      dailyStats: Prisma.$DailyStatPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4774,6 +4877,7 @@ export namespace Prisma {
     tasks<T extends User$tasksArgs<ExtArgs> = {}>(args?: Subset<T, User$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     habits<T extends User$habitsArgs<ExtArgs> = {}>(args?: Subset<T, User$habitsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HabitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     habitEntries<T extends User$habitEntriesArgs<ExtArgs> = {}>(args?: Subset<T, User$habitEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HabitEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    dailyStats<T extends User$dailyStatsArgs<ExtArgs> = {}>(args?: Subset<T, User$dailyStatsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DailyStatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5343,6 +5447,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: HabitEntryScalarFieldEnum | HabitEntryScalarFieldEnum[]
+  }
+
+  /**
+   * User.dailyStats
+   */
+  export type User$dailyStatsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyStat
+     */
+    select?: DailyStatSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyStat
+     */
+    omit?: DailyStatOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyStatInclude<ExtArgs> | null
+    where?: DailyStatWhereInput
+    orderBy?: DailyStatOrderByWithRelationInput | DailyStatOrderByWithRelationInput[]
+    cursor?: DailyStatWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DailyStatScalarFieldEnum | DailyStatScalarFieldEnum[]
   }
 
   /**
@@ -11008,6 +11136,1098 @@ export namespace Prisma {
 
 
   /**
+   * Model DailyStat
+   */
+
+  export type AggregateDailyStat = {
+    _count: DailyStatCountAggregateOutputType | null
+    _avg: DailyStatAvgAggregateOutputType | null
+    _sum: DailyStatSumAggregateOutputType | null
+    _min: DailyStatMinAggregateOutputType | null
+    _max: DailyStatMaxAggregateOutputType | null
+  }
+
+  export type DailyStatAvgAggregateOutputType = {
+    experience: number | null
+  }
+
+  export type DailyStatSumAggregateOutputType = {
+    experience: number | null
+  }
+
+  export type DailyStatMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    experience: number | null
+    date: Date | null
+    createdAt: Date | null
+  }
+
+  export type DailyStatMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    experience: number | null
+    date: Date | null
+    createdAt: Date | null
+  }
+
+  export type DailyStatCountAggregateOutputType = {
+    id: number
+    userId: number
+    experience: number
+    date: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type DailyStatAvgAggregateInputType = {
+    experience?: true
+  }
+
+  export type DailyStatSumAggregateInputType = {
+    experience?: true
+  }
+
+  export type DailyStatMinAggregateInputType = {
+    id?: true
+    userId?: true
+    experience?: true
+    date?: true
+    createdAt?: true
+  }
+
+  export type DailyStatMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    experience?: true
+    date?: true
+    createdAt?: true
+  }
+
+  export type DailyStatCountAggregateInputType = {
+    id?: true
+    userId?: true
+    experience?: true
+    date?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type DailyStatAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DailyStat to aggregate.
+     */
+    where?: DailyStatWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DailyStats to fetch.
+     */
+    orderBy?: DailyStatOrderByWithRelationInput | DailyStatOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DailyStatWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DailyStats from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DailyStats.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DailyStats
+    **/
+    _count?: true | DailyStatCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: DailyStatAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: DailyStatSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DailyStatMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DailyStatMaxAggregateInputType
+  }
+
+  export type GetDailyStatAggregateType<T extends DailyStatAggregateArgs> = {
+        [P in keyof T & keyof AggregateDailyStat]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDailyStat[P]>
+      : GetScalarType<T[P], AggregateDailyStat[P]>
+  }
+
+
+
+
+  export type DailyStatGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DailyStatWhereInput
+    orderBy?: DailyStatOrderByWithAggregationInput | DailyStatOrderByWithAggregationInput[]
+    by: DailyStatScalarFieldEnum[] | DailyStatScalarFieldEnum
+    having?: DailyStatScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DailyStatCountAggregateInputType | true
+    _avg?: DailyStatAvgAggregateInputType
+    _sum?: DailyStatSumAggregateInputType
+    _min?: DailyStatMinAggregateInputType
+    _max?: DailyStatMaxAggregateInputType
+  }
+
+  export type DailyStatGroupByOutputType = {
+    id: string
+    userId: string
+    experience: number
+    date: Date
+    createdAt: Date
+    _count: DailyStatCountAggregateOutputType | null
+    _avg: DailyStatAvgAggregateOutputType | null
+    _sum: DailyStatSumAggregateOutputType | null
+    _min: DailyStatMinAggregateOutputType | null
+    _max: DailyStatMaxAggregateOutputType | null
+  }
+
+  type GetDailyStatGroupByPayload<T extends DailyStatGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DailyStatGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DailyStatGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DailyStatGroupByOutputType[P]>
+            : GetScalarType<T[P], DailyStatGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DailyStatSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    experience?: boolean
+    date?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dailyStat"]>
+
+  export type DailyStatSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    experience?: boolean
+    date?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dailyStat"]>
+
+  export type DailyStatSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    experience?: boolean
+    date?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dailyStat"]>
+
+  export type DailyStatSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    experience?: boolean
+    date?: boolean
+    createdAt?: boolean
+  }
+
+  export type DailyStatOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "experience" | "date" | "createdAt", ExtArgs["result"]["dailyStat"]>
+  export type DailyStatInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type DailyStatIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type DailyStatIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $DailyStatPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DailyStat"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      experience: number
+      date: Date
+      createdAt: Date
+    }, ExtArgs["result"]["dailyStat"]>
+    composites: {}
+  }
+
+  type DailyStatGetPayload<S extends boolean | null | undefined | DailyStatDefaultArgs> = $Result.GetResult<Prisma.$DailyStatPayload, S>
+
+  type DailyStatCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DailyStatFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DailyStatCountAggregateInputType | true
+    }
+
+  export interface DailyStatDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DailyStat'], meta: { name: 'DailyStat' } }
+    /**
+     * Find zero or one DailyStat that matches the filter.
+     * @param {DailyStatFindUniqueArgs} args - Arguments to find a DailyStat
+     * @example
+     * // Get one DailyStat
+     * const dailyStat = await prisma.dailyStat.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DailyStatFindUniqueArgs>(args: SelectSubset<T, DailyStatFindUniqueArgs<ExtArgs>>): Prisma__DailyStatClient<$Result.GetResult<Prisma.$DailyStatPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one DailyStat that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DailyStatFindUniqueOrThrowArgs} args - Arguments to find a DailyStat
+     * @example
+     * // Get one DailyStat
+     * const dailyStat = await prisma.dailyStat.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DailyStatFindUniqueOrThrowArgs>(args: SelectSubset<T, DailyStatFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DailyStatClient<$Result.GetResult<Prisma.$DailyStatPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DailyStat that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DailyStatFindFirstArgs} args - Arguments to find a DailyStat
+     * @example
+     * // Get one DailyStat
+     * const dailyStat = await prisma.dailyStat.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DailyStatFindFirstArgs>(args?: SelectSubset<T, DailyStatFindFirstArgs<ExtArgs>>): Prisma__DailyStatClient<$Result.GetResult<Prisma.$DailyStatPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DailyStat that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DailyStatFindFirstOrThrowArgs} args - Arguments to find a DailyStat
+     * @example
+     * // Get one DailyStat
+     * const dailyStat = await prisma.dailyStat.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DailyStatFindFirstOrThrowArgs>(args?: SelectSubset<T, DailyStatFindFirstOrThrowArgs<ExtArgs>>): Prisma__DailyStatClient<$Result.GetResult<Prisma.$DailyStatPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more DailyStats that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DailyStatFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DailyStats
+     * const dailyStats = await prisma.dailyStat.findMany()
+     * 
+     * // Get first 10 DailyStats
+     * const dailyStats = await prisma.dailyStat.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const dailyStatWithIdOnly = await prisma.dailyStat.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DailyStatFindManyArgs>(args?: SelectSubset<T, DailyStatFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DailyStatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a DailyStat.
+     * @param {DailyStatCreateArgs} args - Arguments to create a DailyStat.
+     * @example
+     * // Create one DailyStat
+     * const DailyStat = await prisma.dailyStat.create({
+     *   data: {
+     *     // ... data to create a DailyStat
+     *   }
+     * })
+     * 
+     */
+    create<T extends DailyStatCreateArgs>(args: SelectSubset<T, DailyStatCreateArgs<ExtArgs>>): Prisma__DailyStatClient<$Result.GetResult<Prisma.$DailyStatPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many DailyStats.
+     * @param {DailyStatCreateManyArgs} args - Arguments to create many DailyStats.
+     * @example
+     * // Create many DailyStats
+     * const dailyStat = await prisma.dailyStat.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DailyStatCreateManyArgs>(args?: SelectSubset<T, DailyStatCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many DailyStats and returns the data saved in the database.
+     * @param {DailyStatCreateManyAndReturnArgs} args - Arguments to create many DailyStats.
+     * @example
+     * // Create many DailyStats
+     * const dailyStat = await prisma.dailyStat.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many DailyStats and only return the `id`
+     * const dailyStatWithIdOnly = await prisma.dailyStat.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DailyStatCreateManyAndReturnArgs>(args?: SelectSubset<T, DailyStatCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DailyStatPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a DailyStat.
+     * @param {DailyStatDeleteArgs} args - Arguments to delete one DailyStat.
+     * @example
+     * // Delete one DailyStat
+     * const DailyStat = await prisma.dailyStat.delete({
+     *   where: {
+     *     // ... filter to delete one DailyStat
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DailyStatDeleteArgs>(args: SelectSubset<T, DailyStatDeleteArgs<ExtArgs>>): Prisma__DailyStatClient<$Result.GetResult<Prisma.$DailyStatPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one DailyStat.
+     * @param {DailyStatUpdateArgs} args - Arguments to update one DailyStat.
+     * @example
+     * // Update one DailyStat
+     * const dailyStat = await prisma.dailyStat.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DailyStatUpdateArgs>(args: SelectSubset<T, DailyStatUpdateArgs<ExtArgs>>): Prisma__DailyStatClient<$Result.GetResult<Prisma.$DailyStatPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more DailyStats.
+     * @param {DailyStatDeleteManyArgs} args - Arguments to filter DailyStats to delete.
+     * @example
+     * // Delete a few DailyStats
+     * const { count } = await prisma.dailyStat.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DailyStatDeleteManyArgs>(args?: SelectSubset<T, DailyStatDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DailyStats.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DailyStatUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DailyStats
+     * const dailyStat = await prisma.dailyStat.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DailyStatUpdateManyArgs>(args: SelectSubset<T, DailyStatUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DailyStats and returns the data updated in the database.
+     * @param {DailyStatUpdateManyAndReturnArgs} args - Arguments to update many DailyStats.
+     * @example
+     * // Update many DailyStats
+     * const dailyStat = await prisma.dailyStat.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more DailyStats and only return the `id`
+     * const dailyStatWithIdOnly = await prisma.dailyStat.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DailyStatUpdateManyAndReturnArgs>(args: SelectSubset<T, DailyStatUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DailyStatPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one DailyStat.
+     * @param {DailyStatUpsertArgs} args - Arguments to update or create a DailyStat.
+     * @example
+     * // Update or create a DailyStat
+     * const dailyStat = await prisma.dailyStat.upsert({
+     *   create: {
+     *     // ... data to create a DailyStat
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DailyStat we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DailyStatUpsertArgs>(args: SelectSubset<T, DailyStatUpsertArgs<ExtArgs>>): Prisma__DailyStatClient<$Result.GetResult<Prisma.$DailyStatPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of DailyStats.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DailyStatCountArgs} args - Arguments to filter DailyStats to count.
+     * @example
+     * // Count the number of DailyStats
+     * const count = await prisma.dailyStat.count({
+     *   where: {
+     *     // ... the filter for the DailyStats we want to count
+     *   }
+     * })
+    **/
+    count<T extends DailyStatCountArgs>(
+      args?: Subset<T, DailyStatCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DailyStatCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DailyStat.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DailyStatAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DailyStatAggregateArgs>(args: Subset<T, DailyStatAggregateArgs>): Prisma.PrismaPromise<GetDailyStatAggregateType<T>>
+
+    /**
+     * Group by DailyStat.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DailyStatGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DailyStatGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DailyStatGroupByArgs['orderBy'] }
+        : { orderBy?: DailyStatGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DailyStatGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDailyStatGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DailyStat model
+   */
+  readonly fields: DailyStatFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DailyStat.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DailyStatClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DailyStat model
+   */
+  interface DailyStatFieldRefs {
+    readonly id: FieldRef<"DailyStat", 'String'>
+    readonly userId: FieldRef<"DailyStat", 'String'>
+    readonly experience: FieldRef<"DailyStat", 'Int'>
+    readonly date: FieldRef<"DailyStat", 'DateTime'>
+    readonly createdAt: FieldRef<"DailyStat", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DailyStat findUnique
+   */
+  export type DailyStatFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyStat
+     */
+    select?: DailyStatSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyStat
+     */
+    omit?: DailyStatOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyStatInclude<ExtArgs> | null
+    /**
+     * Filter, which DailyStat to fetch.
+     */
+    where: DailyStatWhereUniqueInput
+  }
+
+  /**
+   * DailyStat findUniqueOrThrow
+   */
+  export type DailyStatFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyStat
+     */
+    select?: DailyStatSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyStat
+     */
+    omit?: DailyStatOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyStatInclude<ExtArgs> | null
+    /**
+     * Filter, which DailyStat to fetch.
+     */
+    where: DailyStatWhereUniqueInput
+  }
+
+  /**
+   * DailyStat findFirst
+   */
+  export type DailyStatFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyStat
+     */
+    select?: DailyStatSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyStat
+     */
+    omit?: DailyStatOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyStatInclude<ExtArgs> | null
+    /**
+     * Filter, which DailyStat to fetch.
+     */
+    where?: DailyStatWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DailyStats to fetch.
+     */
+    orderBy?: DailyStatOrderByWithRelationInput | DailyStatOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DailyStats.
+     */
+    cursor?: DailyStatWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DailyStats from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DailyStats.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DailyStats.
+     */
+    distinct?: DailyStatScalarFieldEnum | DailyStatScalarFieldEnum[]
+  }
+
+  /**
+   * DailyStat findFirstOrThrow
+   */
+  export type DailyStatFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyStat
+     */
+    select?: DailyStatSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyStat
+     */
+    omit?: DailyStatOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyStatInclude<ExtArgs> | null
+    /**
+     * Filter, which DailyStat to fetch.
+     */
+    where?: DailyStatWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DailyStats to fetch.
+     */
+    orderBy?: DailyStatOrderByWithRelationInput | DailyStatOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DailyStats.
+     */
+    cursor?: DailyStatWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DailyStats from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DailyStats.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DailyStats.
+     */
+    distinct?: DailyStatScalarFieldEnum | DailyStatScalarFieldEnum[]
+  }
+
+  /**
+   * DailyStat findMany
+   */
+  export type DailyStatFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyStat
+     */
+    select?: DailyStatSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyStat
+     */
+    omit?: DailyStatOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyStatInclude<ExtArgs> | null
+    /**
+     * Filter, which DailyStats to fetch.
+     */
+    where?: DailyStatWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DailyStats to fetch.
+     */
+    orderBy?: DailyStatOrderByWithRelationInput | DailyStatOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DailyStats.
+     */
+    cursor?: DailyStatWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DailyStats from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DailyStats.
+     */
+    skip?: number
+    distinct?: DailyStatScalarFieldEnum | DailyStatScalarFieldEnum[]
+  }
+
+  /**
+   * DailyStat create
+   */
+  export type DailyStatCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyStat
+     */
+    select?: DailyStatSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyStat
+     */
+    omit?: DailyStatOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyStatInclude<ExtArgs> | null
+    /**
+     * The data needed to create a DailyStat.
+     */
+    data: XOR<DailyStatCreateInput, DailyStatUncheckedCreateInput>
+  }
+
+  /**
+   * DailyStat createMany
+   */
+  export type DailyStatCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DailyStats.
+     */
+    data: DailyStatCreateManyInput | DailyStatCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DailyStat createManyAndReturn
+   */
+  export type DailyStatCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyStat
+     */
+    select?: DailyStatSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyStat
+     */
+    omit?: DailyStatOmit<ExtArgs> | null
+    /**
+     * The data used to create many DailyStats.
+     */
+    data: DailyStatCreateManyInput | DailyStatCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyStatIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DailyStat update
+   */
+  export type DailyStatUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyStat
+     */
+    select?: DailyStatSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyStat
+     */
+    omit?: DailyStatOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyStatInclude<ExtArgs> | null
+    /**
+     * The data needed to update a DailyStat.
+     */
+    data: XOR<DailyStatUpdateInput, DailyStatUncheckedUpdateInput>
+    /**
+     * Choose, which DailyStat to update.
+     */
+    where: DailyStatWhereUniqueInput
+  }
+
+  /**
+   * DailyStat updateMany
+   */
+  export type DailyStatUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DailyStats.
+     */
+    data: XOR<DailyStatUpdateManyMutationInput, DailyStatUncheckedUpdateManyInput>
+    /**
+     * Filter which DailyStats to update
+     */
+    where?: DailyStatWhereInput
+    /**
+     * Limit how many DailyStats to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DailyStat updateManyAndReturn
+   */
+  export type DailyStatUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyStat
+     */
+    select?: DailyStatSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyStat
+     */
+    omit?: DailyStatOmit<ExtArgs> | null
+    /**
+     * The data used to update DailyStats.
+     */
+    data: XOR<DailyStatUpdateManyMutationInput, DailyStatUncheckedUpdateManyInput>
+    /**
+     * Filter which DailyStats to update
+     */
+    where?: DailyStatWhereInput
+    /**
+     * Limit how many DailyStats to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyStatIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DailyStat upsert
+   */
+  export type DailyStatUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyStat
+     */
+    select?: DailyStatSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyStat
+     */
+    omit?: DailyStatOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyStatInclude<ExtArgs> | null
+    /**
+     * The filter to search for the DailyStat to update in case it exists.
+     */
+    where: DailyStatWhereUniqueInput
+    /**
+     * In case the DailyStat found by the `where` argument doesn't exist, create a new DailyStat with this data.
+     */
+    create: XOR<DailyStatCreateInput, DailyStatUncheckedCreateInput>
+    /**
+     * In case the DailyStat was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DailyStatUpdateInput, DailyStatUncheckedUpdateInput>
+  }
+
+  /**
+   * DailyStat delete
+   */
+  export type DailyStatDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyStat
+     */
+    select?: DailyStatSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyStat
+     */
+    omit?: DailyStatOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyStatInclude<ExtArgs> | null
+    /**
+     * Filter which DailyStat to delete.
+     */
+    where: DailyStatWhereUniqueInput
+  }
+
+  /**
+   * DailyStat deleteMany
+   */
+  export type DailyStatDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DailyStats to delete
+     */
+    where?: DailyStatWhereInput
+    /**
+     * Limit how many DailyStats to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * DailyStat without action
+   */
+  export type DailyStatDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyStat
+     */
+    select?: DailyStatSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyStat
+     */
+    omit?: DailyStatOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyStatInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -11145,6 +12365,17 @@ export namespace Prisma {
   };
 
   export type HabitEntryScalarFieldEnum = (typeof HabitEntryScalarFieldEnum)[keyof typeof HabitEntryScalarFieldEnum]
+
+
+  export const DailyStatScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    experience: 'experience',
+    date: 'date',
+    createdAt: 'createdAt'
+  };
+
+  export type DailyStatScalarFieldEnum = (typeof DailyStatScalarFieldEnum)[keyof typeof DailyStatScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -11447,6 +12678,7 @@ export namespace Prisma {
     tasks?: TaskListRelationFilter
     habits?: HabitListRelationFilter
     habitEntries?: HabitEntryListRelationFilter
+    dailyStats?: DailyStatListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -11467,6 +12699,7 @@ export namespace Prisma {
     tasks?: TaskOrderByRelationAggregateInput
     habits?: HabitOrderByRelationAggregateInput
     habitEntries?: HabitEntryOrderByRelationAggregateInput
+    dailyStats?: DailyStatOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -11490,6 +12723,7 @@ export namespace Prisma {
     tasks?: TaskListRelationFilter
     habits?: HabitListRelationFilter
     habitEntries?: HabitEntryListRelationFilter
+    dailyStats?: DailyStatListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -11921,6 +13155,64 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"HabitEntry"> | Date | string
   }
 
+  export type DailyStatWhereInput = {
+    AND?: DailyStatWhereInput | DailyStatWhereInput[]
+    OR?: DailyStatWhereInput[]
+    NOT?: DailyStatWhereInput | DailyStatWhereInput[]
+    id?: StringFilter<"DailyStat"> | string
+    userId?: StringFilter<"DailyStat"> | string
+    experience?: IntFilter<"DailyStat"> | number
+    date?: DateTimeFilter<"DailyStat"> | Date | string
+    createdAt?: DateTimeFilter<"DailyStat"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type DailyStatOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    experience?: SortOrder
+    date?: SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type DailyStatWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_date?: DailyStatUserIdDateCompoundUniqueInput
+    AND?: DailyStatWhereInput | DailyStatWhereInput[]
+    OR?: DailyStatWhereInput[]
+    NOT?: DailyStatWhereInput | DailyStatWhereInput[]
+    userId?: StringFilter<"DailyStat"> | string
+    experience?: IntFilter<"DailyStat"> | number
+    date?: DateTimeFilter<"DailyStat"> | Date | string
+    createdAt?: DateTimeFilter<"DailyStat"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "userId_date">
+
+  export type DailyStatOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    experience?: SortOrder
+    date?: SortOrder
+    createdAt?: SortOrder
+    _count?: DailyStatCountOrderByAggregateInput
+    _avg?: DailyStatAvgOrderByAggregateInput
+    _max?: DailyStatMaxOrderByAggregateInput
+    _min?: DailyStatMinOrderByAggregateInput
+    _sum?: DailyStatSumOrderByAggregateInput
+  }
+
+  export type DailyStatScalarWhereWithAggregatesInput = {
+    AND?: DailyStatScalarWhereWithAggregatesInput | DailyStatScalarWhereWithAggregatesInput[]
+    OR?: DailyStatScalarWhereWithAggregatesInput[]
+    NOT?: DailyStatScalarWhereWithAggregatesInput | DailyStatScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"DailyStat"> | string
+    userId?: StringWithAggregatesFilter<"DailyStat"> | string
+    experience?: IntWithAggregatesFilter<"DailyStat"> | number
+    date?: DateTimeWithAggregatesFilter<"DailyStat"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"DailyStat"> | Date | string
+  }
+
   export type TaskCreateInput = {
     id?: string
     name: string
@@ -12122,6 +13414,7 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutUserInput
     habits?: HabitCreateNestedManyWithoutUserInput
     habitEntries?: HabitEntryCreateNestedManyWithoutUserInput
+    dailyStats?: DailyStatCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -12142,6 +13435,7 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
     habits?: HabitUncheckedCreateNestedManyWithoutUserInput
     habitEntries?: HabitEntryUncheckedCreateNestedManyWithoutUserInput
+    dailyStats?: DailyStatUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -12162,6 +13456,7 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutUserNestedInput
     habits?: HabitUpdateManyWithoutUserNestedInput
     habitEntries?: HabitEntryUpdateManyWithoutUserNestedInput
+    dailyStats?: DailyStatUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -12182,6 +13477,7 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
     habits?: HabitUncheckedUpdateManyWithoutUserNestedInput
     habitEntries?: HabitEntryUncheckedUpdateManyWithoutUserNestedInput
+    dailyStats?: DailyStatUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -12659,6 +13955,61 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type DailyStatCreateInput = {
+    id?: string
+    experience: number
+    date: Date | string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutDailyStatsInput
+  }
+
+  export type DailyStatUncheckedCreateInput = {
+    id?: string
+    userId: string
+    experience: number
+    date: Date | string
+    createdAt?: Date | string
+  }
+
+  export type DailyStatUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    experience?: IntFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutDailyStatsNestedInput
+  }
+
+  export type DailyStatUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    experience?: IntFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DailyStatCreateManyInput = {
+    id?: string
+    userId: string
+    experience: number
+    date: Date | string
+    createdAt?: Date | string
+  }
+
+  export type DailyStatUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    experience?: IntFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DailyStatUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    experience?: IntFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -13004,6 +14355,12 @@ export namespace Prisma {
     none?: HabitEntryWhereInput
   }
 
+  export type DailyStatListRelationFilter = {
+    every?: DailyStatWhereInput
+    some?: DailyStatWhereInput
+    none?: DailyStatWhereInput
+  }
+
   export type SessionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -13021,6 +14378,10 @@ export namespace Prisma {
   }
 
   export type HabitEntryOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DailyStatOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -13337,6 +14698,43 @@ export namespace Prisma {
     xpEarned?: SortOrder
   }
 
+  export type DailyStatUserIdDateCompoundUniqueInput = {
+    userId: string
+    date: Date | string
+  }
+
+  export type DailyStatCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    experience?: SortOrder
+    date?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type DailyStatAvgOrderByAggregateInput = {
+    experience?: SortOrder
+  }
+
+  export type DailyStatMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    experience?: SortOrder
+    date?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type DailyStatMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    experience?: SortOrder
+    date?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type DailyStatSumOrderByAggregateInput = {
+    experience?: SortOrder
+  }
+
   export type UserCreateNestedOneWithoutTasksInput = {
     create?: XOR<UserCreateWithoutTasksInput, UserUncheckedCreateWithoutTasksInput>
     connectOrCreate?: UserCreateOrConnectWithoutTasksInput
@@ -13501,6 +14899,13 @@ export namespace Prisma {
     connect?: HabitEntryWhereUniqueInput | HabitEntryWhereUniqueInput[]
   }
 
+  export type DailyStatCreateNestedManyWithoutUserInput = {
+    create?: XOR<DailyStatCreateWithoutUserInput, DailyStatUncheckedCreateWithoutUserInput> | DailyStatCreateWithoutUserInput[] | DailyStatUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DailyStatCreateOrConnectWithoutUserInput | DailyStatCreateOrConnectWithoutUserInput[]
+    createMany?: DailyStatCreateManyUserInputEnvelope
+    connect?: DailyStatWhereUniqueInput | DailyStatWhereUniqueInput[]
+  }
+
   export type SessionUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -13541,6 +14946,13 @@ export namespace Prisma {
     connectOrCreate?: HabitEntryCreateOrConnectWithoutUserInput | HabitEntryCreateOrConnectWithoutUserInput[]
     createMany?: HabitEntryCreateManyUserInputEnvelope
     connect?: HabitEntryWhereUniqueInput | HabitEntryWhereUniqueInput[]
+  }
+
+  export type DailyStatUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<DailyStatCreateWithoutUserInput, DailyStatUncheckedCreateWithoutUserInput> | DailyStatCreateWithoutUserInput[] | DailyStatUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DailyStatCreateOrConnectWithoutUserInput | DailyStatCreateOrConnectWithoutUserInput[]
+    createMany?: DailyStatCreateManyUserInputEnvelope
+    connect?: DailyStatWhereUniqueInput | DailyStatWhereUniqueInput[]
   }
 
   export type BoolFieldUpdateOperationsInput = {
@@ -13631,6 +15043,20 @@ export namespace Prisma {
     deleteMany?: HabitEntryScalarWhereInput | HabitEntryScalarWhereInput[]
   }
 
+  export type DailyStatUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DailyStatCreateWithoutUserInput, DailyStatUncheckedCreateWithoutUserInput> | DailyStatCreateWithoutUserInput[] | DailyStatUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DailyStatCreateOrConnectWithoutUserInput | DailyStatCreateOrConnectWithoutUserInput[]
+    upsert?: DailyStatUpsertWithWhereUniqueWithoutUserInput | DailyStatUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DailyStatCreateManyUserInputEnvelope
+    set?: DailyStatWhereUniqueInput | DailyStatWhereUniqueInput[]
+    disconnect?: DailyStatWhereUniqueInput | DailyStatWhereUniqueInput[]
+    delete?: DailyStatWhereUniqueInput | DailyStatWhereUniqueInput[]
+    connect?: DailyStatWhereUniqueInput | DailyStatWhereUniqueInput[]
+    update?: DailyStatUpdateWithWhereUniqueWithoutUserInput | DailyStatUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DailyStatUpdateManyWithWhereWithoutUserInput | DailyStatUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DailyStatScalarWhereInput | DailyStatScalarWhereInput[]
+  }
+
   export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -13713,6 +15139,20 @@ export namespace Prisma {
     update?: HabitEntryUpdateWithWhereUniqueWithoutUserInput | HabitEntryUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: HabitEntryUpdateManyWithWhereWithoutUserInput | HabitEntryUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: HabitEntryScalarWhereInput | HabitEntryScalarWhereInput[]
+  }
+
+  export type DailyStatUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<DailyStatCreateWithoutUserInput, DailyStatUncheckedCreateWithoutUserInput> | DailyStatCreateWithoutUserInput[] | DailyStatUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: DailyStatCreateOrConnectWithoutUserInput | DailyStatCreateOrConnectWithoutUserInput[]
+    upsert?: DailyStatUpsertWithWhereUniqueWithoutUserInput | DailyStatUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: DailyStatCreateManyUserInputEnvelope
+    set?: DailyStatWhereUniqueInput | DailyStatWhereUniqueInput[]
+    disconnect?: DailyStatWhereUniqueInput | DailyStatWhereUniqueInput[]
+    delete?: DailyStatWhereUniqueInput | DailyStatWhereUniqueInput[]
+    connect?: DailyStatWhereUniqueInput | DailyStatWhereUniqueInput[]
+    update?: DailyStatUpdateWithWhereUniqueWithoutUserInput | DailyStatUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: DailyStatUpdateManyWithWhereWithoutUserInput | DailyStatUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: DailyStatScalarWhereInput | DailyStatScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutSessionsInput = {
@@ -13833,6 +15273,20 @@ export namespace Prisma {
     upsert?: HabitUpsertWithoutEntriesInput
     connect?: HabitWhereUniqueInput
     update?: XOR<XOR<HabitUpdateToOneWithWhereWithoutEntriesInput, HabitUpdateWithoutEntriesInput>, HabitUncheckedUpdateWithoutEntriesInput>
+  }
+
+  export type UserCreateNestedOneWithoutDailyStatsInput = {
+    create?: XOR<UserCreateWithoutDailyStatsInput, UserUncheckedCreateWithoutDailyStatsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDailyStatsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutDailyStatsNestedInput = {
+    create?: XOR<UserCreateWithoutDailyStatsInput, UserUncheckedCreateWithoutDailyStatsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDailyStatsInput
+    upsert?: UserUpsertWithoutDailyStatsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDailyStatsInput, UserUpdateWithoutDailyStatsInput>, UserUncheckedUpdateWithoutDailyStatsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -14086,6 +15540,7 @@ export namespace Prisma {
     categories?: CategoryCreateNestedManyWithoutUserInput
     habits?: HabitCreateNestedManyWithoutUserInput
     habitEntries?: HabitEntryCreateNestedManyWithoutUserInput
+    dailyStats?: DailyStatCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTasksInput = {
@@ -14105,6 +15560,7 @@ export namespace Prisma {
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     habits?: HabitUncheckedCreateNestedManyWithoutUserInput
     habitEntries?: HabitEntryUncheckedCreateNestedManyWithoutUserInput
+    dailyStats?: DailyStatUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTasksInput = {
@@ -14169,6 +15625,7 @@ export namespace Prisma {
     categories?: CategoryUpdateManyWithoutUserNestedInput
     habits?: HabitUpdateManyWithoutUserNestedInput
     habitEntries?: HabitEntryUpdateManyWithoutUserNestedInput
+    dailyStats?: DailyStatUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTasksInput = {
@@ -14188,6 +15645,7 @@ export namespace Prisma {
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     habits?: HabitUncheckedUpdateManyWithoutUserNestedInput
     habitEntries?: HabitEntryUncheckedUpdateManyWithoutUserNestedInput
+    dailyStats?: DailyStatUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CategoryUpsertWithoutTasksInput = {
@@ -14242,6 +15700,7 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutUserInput
     habits?: HabitCreateNestedManyWithoutUserInput
     habitEntries?: HabitEntryCreateNestedManyWithoutUserInput
+    dailyStats?: DailyStatCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCategoriesInput = {
@@ -14261,6 +15720,7 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
     habits?: HabitUncheckedCreateNestedManyWithoutUserInput
     habitEntries?: HabitEntryUncheckedCreateNestedManyWithoutUserInput
+    dailyStats?: DailyStatUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCategoriesInput = {
@@ -14332,6 +15792,7 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutUserNestedInput
     habits?: HabitUpdateManyWithoutUserNestedInput
     habitEntries?: HabitEntryUpdateManyWithoutUserNestedInput
+    dailyStats?: DailyStatUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCategoriesInput = {
@@ -14351,6 +15812,7 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
     habits?: HabitUncheckedUpdateManyWithoutUserNestedInput
     habitEntries?: HabitEntryUncheckedUpdateManyWithoutUserNestedInput
+    dailyStats?: DailyStatUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type TaskUpsertWithWhereUniqueWithoutCategoryInput = {
@@ -14596,6 +16058,30 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type DailyStatCreateWithoutUserInput = {
+    id?: string
+    experience: number
+    date: Date | string
+    createdAt?: Date | string
+  }
+
+  export type DailyStatUncheckedCreateWithoutUserInput = {
+    id?: string
+    experience: number
+    date: Date | string
+    createdAt?: Date | string
+  }
+
+  export type DailyStatCreateOrConnectWithoutUserInput = {
+    where: DailyStatWhereUniqueInput
+    create: XOR<DailyStatCreateWithoutUserInput, DailyStatUncheckedCreateWithoutUserInput>
+  }
+
+  export type DailyStatCreateManyUserInputEnvelope = {
+    data: DailyStatCreateManyUserInput | DailyStatCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type SessionUpsertWithWhereUniqueWithoutUserInput = {
     where: SessionWhereUniqueInput
     update: XOR<SessionUpdateWithoutUserInput, SessionUncheckedUpdateWithoutUserInput>
@@ -14772,6 +16258,33 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"HabitEntry"> | Date | string
   }
 
+  export type DailyStatUpsertWithWhereUniqueWithoutUserInput = {
+    where: DailyStatWhereUniqueInput
+    update: XOR<DailyStatUpdateWithoutUserInput, DailyStatUncheckedUpdateWithoutUserInput>
+    create: XOR<DailyStatCreateWithoutUserInput, DailyStatUncheckedCreateWithoutUserInput>
+  }
+
+  export type DailyStatUpdateWithWhereUniqueWithoutUserInput = {
+    where: DailyStatWhereUniqueInput
+    data: XOR<DailyStatUpdateWithoutUserInput, DailyStatUncheckedUpdateWithoutUserInput>
+  }
+
+  export type DailyStatUpdateManyWithWhereWithoutUserInput = {
+    where: DailyStatScalarWhereInput
+    data: XOR<DailyStatUpdateManyMutationInput, DailyStatUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type DailyStatScalarWhereInput = {
+    AND?: DailyStatScalarWhereInput | DailyStatScalarWhereInput[]
+    OR?: DailyStatScalarWhereInput[]
+    NOT?: DailyStatScalarWhereInput | DailyStatScalarWhereInput[]
+    id?: StringFilter<"DailyStat"> | string
+    userId?: StringFilter<"DailyStat"> | string
+    experience?: IntFilter<"DailyStat"> | number
+    date?: DateTimeFilter<"DailyStat"> | Date | string
+    createdAt?: DateTimeFilter<"DailyStat"> | Date | string
+  }
+
   export type UserCreateWithoutSessionsInput = {
     id?: string
     name: string
@@ -14789,6 +16302,7 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutUserInput
     habits?: HabitCreateNestedManyWithoutUserInput
     habitEntries?: HabitEntryCreateNestedManyWithoutUserInput
+    dailyStats?: DailyStatCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -14808,6 +16322,7 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
     habits?: HabitUncheckedCreateNestedManyWithoutUserInput
     habitEntries?: HabitEntryUncheckedCreateNestedManyWithoutUserInput
+    dailyStats?: DailyStatUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -14843,6 +16358,7 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutUserNestedInput
     habits?: HabitUpdateManyWithoutUserNestedInput
     habitEntries?: HabitEntryUpdateManyWithoutUserNestedInput
+    dailyStats?: DailyStatUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -14862,6 +16378,7 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
     habits?: HabitUncheckedUpdateManyWithoutUserNestedInput
     habitEntries?: HabitEntryUncheckedUpdateManyWithoutUserNestedInput
+    dailyStats?: DailyStatUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -14881,6 +16398,7 @@ export namespace Prisma {
     tasks?: TaskCreateNestedManyWithoutUserInput
     habits?: HabitCreateNestedManyWithoutUserInput
     habitEntries?: HabitEntryCreateNestedManyWithoutUserInput
+    dailyStats?: DailyStatCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -14900,6 +16418,7 @@ export namespace Prisma {
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
     habits?: HabitUncheckedCreateNestedManyWithoutUserInput
     habitEntries?: HabitEntryUncheckedCreateNestedManyWithoutUserInput
+    dailyStats?: DailyStatUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -14935,6 +16454,7 @@ export namespace Prisma {
     tasks?: TaskUpdateManyWithoutUserNestedInput
     habits?: HabitUpdateManyWithoutUserNestedInput
     habitEntries?: HabitEntryUpdateManyWithoutUserNestedInput
+    dailyStats?: DailyStatUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -14954,6 +16474,7 @@ export namespace Prisma {
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
     habits?: HabitUncheckedUpdateManyWithoutUserNestedInput
     habitEntries?: HabitEntryUncheckedUpdateManyWithoutUserNestedInput
+    dailyStats?: DailyStatUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutHabitsInput = {
@@ -14973,6 +16494,7 @@ export namespace Prisma {
     categories?: CategoryCreateNestedManyWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
     habitEntries?: HabitEntryCreateNestedManyWithoutUserInput
+    dailyStats?: DailyStatCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutHabitsInput = {
@@ -14992,6 +16514,7 @@ export namespace Prisma {
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
     habitEntries?: HabitEntryUncheckedCreateNestedManyWithoutUserInput
+    dailyStats?: DailyStatUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutHabitsInput = {
@@ -15057,6 +16580,7 @@ export namespace Prisma {
     categories?: CategoryUpdateManyWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
     habitEntries?: HabitEntryUpdateManyWithoutUserNestedInput
+    dailyStats?: DailyStatUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutHabitsInput = {
@@ -15076,6 +16600,7 @@ export namespace Prisma {
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
     habitEntries?: HabitEntryUncheckedUpdateManyWithoutUserNestedInput
+    dailyStats?: DailyStatUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type HabitEntryUpsertWithWhereUniqueWithoutHabitInput = {
@@ -15111,6 +16636,7 @@ export namespace Prisma {
     categories?: CategoryCreateNestedManyWithoutUserInput
     tasks?: TaskCreateNestedManyWithoutUserInput
     habits?: HabitCreateNestedManyWithoutUserInput
+    dailyStats?: DailyStatCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutHabitEntriesInput = {
@@ -15130,6 +16656,7 @@ export namespace Prisma {
     categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
     tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
     habits?: HabitUncheckedCreateNestedManyWithoutUserInput
+    dailyStats?: DailyStatUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutHabitEntriesInput = {
@@ -15200,6 +16727,7 @@ export namespace Prisma {
     categories?: CategoryUpdateManyWithoutUserNestedInput
     tasks?: TaskUpdateManyWithoutUserNestedInput
     habits?: HabitUpdateManyWithoutUserNestedInput
+    dailyStats?: DailyStatUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutHabitEntriesInput = {
@@ -15219,6 +16747,7 @@ export namespace Prisma {
     categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
     habits?: HabitUncheckedUpdateManyWithoutUserNestedInput
+    dailyStats?: DailyStatUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type HabitUpsertWithoutEntriesInput = {
@@ -15260,6 +16789,102 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserCreateWithoutDailyStatsInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    experience?: number
+    level?: number
+    dailyExperience?: number | null
+    lastDailyReset?: Date | string | null
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    categories?: CategoryCreateNestedManyWithoutUserInput
+    tasks?: TaskCreateNestedManyWithoutUserInput
+    habits?: HabitCreateNestedManyWithoutUserInput
+    habitEntries?: HabitEntryCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutDailyStatsInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    experience?: number
+    level?: number
+    dailyExperience?: number | null
+    lastDailyReset?: Date | string | null
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutUserInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutUserInput
+    habits?: HabitUncheckedCreateNestedManyWithoutUserInput
+    habitEntries?: HabitEntryUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutDailyStatsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutDailyStatsInput, UserUncheckedCreateWithoutDailyStatsInput>
+  }
+
+  export type UserUpsertWithoutDailyStatsInput = {
+    update: XOR<UserUpdateWithoutDailyStatsInput, UserUncheckedUpdateWithoutDailyStatsInput>
+    create: XOR<UserCreateWithoutDailyStatsInput, UserUncheckedCreateWithoutDailyStatsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutDailyStatsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutDailyStatsInput, UserUncheckedUpdateWithoutDailyStatsInput>
+  }
+
+  export type UserUpdateWithoutDailyStatsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    experience?: IntFieldUpdateOperationsInput | number
+    level?: IntFieldUpdateOperationsInput | number
+    dailyExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    lastDailyReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    categories?: CategoryUpdateManyWithoutUserNestedInput
+    tasks?: TaskUpdateManyWithoutUserNestedInput
+    habits?: HabitUpdateManyWithoutUserNestedInput
+    habitEntries?: HabitEntryUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutDailyStatsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    experience?: IntFieldUpdateOperationsInput | number
+    level?: IntFieldUpdateOperationsInput | number
+    dailyExperience?: NullableIntFieldUpdateOperationsInput | number | null
+    lastDailyReset?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutUserNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutUserNestedInput
+    habits?: HabitUncheckedUpdateManyWithoutUserNestedInput
+    habitEntries?: HabitEntryUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type TaskCreateManyCategoryInput = {
@@ -15385,6 +17010,13 @@ export namespace Prisma {
     completedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type DailyStatCreateManyUserInput = {
+    id?: string
+    experience: number
+    date: Date | string
+    createdAt?: Date | string
   }
 
   export type SessionUpdateWithoutUserInput = {
@@ -15608,6 +17240,27 @@ export namespace Prisma {
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DailyStatUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    experience?: IntFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DailyStatUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    experience?: IntFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DailyStatUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    experience?: IntFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type HabitEntryCreateManyHabitInput = {

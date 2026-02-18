@@ -26,6 +26,31 @@ export const getDailyLeaders = async ({
   const dayStart = new Date(today);
   dayStart.setHours(RESET_HOUR, RESET_MINUTE, RESET_SECOND, RESET_MILLISECOND);
 
+  const usersToResert = await prisma.user.findMany({
+    where: {
+      lastDailyReset: {
+        lt: dayStart,
+      },
+    },
+    select: {
+      id: true,
+      lastDailyReset: true,
+      dailyExperience: true,
+    },
+  });
+
+  if (usersToResert.length > 0) {
+    const yesteday = new Date(dayStart);
+    yesteday.setDate(yesteday.getDate() - 1);
+
+    const save = usersToResert.map(user => ({
+      userId: user.id,
+      experience: user.dailyExperience ?? 0,
+      date: yesteday,
+    }))
+    await saveDailyStatsBatch(save)
+  }
+
   await prisma.user.updateMany({
     where: {
       lastDailyReset: {
@@ -99,7 +124,6 @@ export const getLeaderboard = async ({
         name: true,
         level: true,
         experience: true,
-        image: true,
       },
       orderBy: [{ level: 'desc' }, { experience: 'desc' }],
       skip,
@@ -115,4 +139,52 @@ export const getLeaderboard = async ({
     limit,
     totalPages: Math.ceil(total / limit),
   };
+};
+type DailyStatData = {
+  userId: string;
+  experience: number;
+  date: Date;
+};
+
+export const saveDailyStat = async ({
+  userId,
+  experience,
+  date,
+}: DailyStatData) => {
+  const dayDate = new Date(date);
+  dayDate.setHours(0, 0, 0, 0);
+
+  try {
+    const stat = await prisma.dailyStat.upsert({
+      where: {
+        userId_date: {
+          userId,
+          date: dayDate,
+        },
+      },
+      update: {
+        experience,
+      },
+      create: {
+        userId,
+        experience,
+        date: dayDate,
+      },
+    });
+
+    return { success: true, stat };
+  } catch (error) {
+    return { success: false, error };
+  }
+};
+
+export const saveDailyStatsBatch = async (stats: DailyStatData[]) => {
+  const results = [];
+
+  for (const stat of stats) {
+    const result = await saveDailyStat(stat);
+    results.push(result);
+  }
+
+  return results;
 };
