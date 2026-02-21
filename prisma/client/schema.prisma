@@ -1,0 +1,178 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./client" // Добавь эту строку!
+  // output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum TaskStatus {
+  CREATED
+  IN_PROGRESS
+  PAUSED
+  COMPLETED
+}
+
+model Task {
+  id          String     @id @default(cuid())
+  name        String
+  description String?
+  status      TaskStatus @default(CREATED)
+
+  timeSpent Int?      @default(0) // in minutes
+  date      DateTime?
+  startedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId String?
+
+  @@map("task")
+}
+
+model Category {
+  id          String  @id @default(cuid())
+  name        String
+  description String?
+  ratio       Int
+  level       Int
+  experience  Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  tasks  Task[]
+
+  @@map("category")
+}
+
+model User {
+  id            String   @id @default(cuid())
+  name          String
+  email         String
+  emailVerified Boolean
+  image         String?
+  createdAt     DateTime
+  updatedAt     DateTime
+
+  experience Int @default(0)
+  level      Int @default(1)
+
+  dailyExperience Int?      @default(0)
+  lastDailyReset  DateTime? @default(now())
+
+  sessions     Session[]
+  accounts     Account[]
+  categories   Category[]
+  tasks        Task[]
+  habits       Habit[]
+  habitEntries HabitEntry[]
+  dailyStats   DailyStat[]
+
+  @@unique([email])
+  @@map("user")
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  expiresAt DateTime
+  token     String
+  createdAt DateTime
+  updatedAt DateTime
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id @default(cuid())
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime
+  updatedAt             DateTime
+
+  @@map("account")
+}
+
+model Verification {
+  id         String    @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+
+  @@map("verification")
+}
+
+model Habit {
+  id               String  @id @default(cuid())
+  title            String
+  description      String?
+  totalXp          Float   @default(0)
+  currentStreak    Int     @default(0)
+  bestStreak       Int     @default(0)
+  multiplier       Float   @default(1)
+  baseXp           Int     @default(10)
+  lastCompletedDay Int     @default(0)
+
+  user    User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  String
+  entries HabitEntry[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("habit")
+}
+
+model HabitEntry {
+  id        String @id @default(cuid())
+  dayNumber Int
+  xpEarned  Float  @default(0)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  habit   Habit  @relation(fields: [habitId], references: [id], onDelete: Cascade)
+  habitId String
+
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([habitId, dayNumber])
+  @@map("habitEntry")
+}
+
+model DailyStat {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  experience Int
+  date       DateTime
+  createdAt  DateTime @default(now())
+
+  @@unique([userId, date])
+  @@map("daily_stat")
+}
