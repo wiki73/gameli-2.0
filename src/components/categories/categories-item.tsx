@@ -5,16 +5,23 @@ import {
   CardHeader,
   CardTitle,
 } from '@ui/card';
-import { PROGRESS_BAR_ANIMATION_DURATIONS } from '@/src/consts';
+import {
+  getColorBySubjectLevel,
+  PROGRESS_BAR_ANIMATION_DURATIONS,
+} from '@/src/consts';
 import { ProgressBar } from '../progress-bar';
 import type { Category } from '../../../generated/prisma';
 
 type Props = {
   category: Category;
 };
-
 export const CategoryItem = ({ category }: Props) => (
-  <Card className='flex flex-col justify-between'>
+  <Card
+    className='flex flex-col justify-between'
+    style={{
+      boxShadow: `0px 0px 20px var(${getColorBySubjectLevel(category.level)})`,
+    }}
+  >
     <CardHeader>
       <CardTitle className='line-clamp-2'>{category.name}</CardTitle>
       <CardDescription className='line-clamp-3'>

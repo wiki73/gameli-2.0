@@ -59,7 +59,7 @@ export const ProgressBar = ({
       </div>
 
       <div className='flex items-center gap-3'>
-        <span className='min-w-24px text-3xl font-bold text-gray-900'>
+        <span className='min-w-24px text-3xl font-bold'>
           {safeCategoryLevel}
         </span>
 
@@ -85,7 +85,7 @@ export const ProgressBar = ({
           />
         </div>
 
-        <span className='min-w-24px text-3xl font-bold text-gray-900'>
+        <span className='min-w-24px text-3xl font-bold'>
           {safeCategoryLevel + 1}
         </span>
       </div>
