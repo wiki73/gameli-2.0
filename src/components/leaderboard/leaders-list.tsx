@@ -14,7 +14,7 @@ type User = {
   name: string;
   level: number;
   experience: number;
-  image: string | null;
+  // image: string | null;
 };
 
 type Props = {
@@ -36,13 +36,13 @@ export const LeaderList = ({ leaders }: Props) => (
         <TableRow key={user.id}>
           <TableCell className='font-medium'>{index + 1}</TableCell>
           <TableCell className='flex items-center gap-2'>
-            {user.image && (
+            {/* {user.image && (
               <img
                 alt={user.name || ''}
                 className='h-6 w-6 rounded-full'
                 src={user.image}
               />
-            )}
+            )} */}
             {user.name}
           </TableCell>
           <TableCell>{user.level}</TableCell>

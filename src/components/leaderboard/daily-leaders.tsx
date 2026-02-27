@@ -25,6 +25,7 @@ type User = {
   level: number;
   experience: number;
   dailyExperience: number | null;
+  // image: string
 };
 
 type Props = {

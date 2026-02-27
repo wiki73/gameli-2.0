@@ -20,7 +20,7 @@ type User = {
   name: string;
   level: number;
   experience: number;
-  image: string | null;
+  // image: string | null;
 };
 
 type LeaderboardData = {
