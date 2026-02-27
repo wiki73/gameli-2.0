@@ -72,9 +72,7 @@ export const CategoriesBlock = ({ categories }: Props) => {
               <ChevronLeft className='h-4 w-4' />
             </Button>
 
-            <span className='text-muted-foreground text-2xl '>
-              {page}
-            </span>
+            <span className='text-muted-foreground text-2xl'>{page}</span>
 
             <Button
               disabled={page === totalPages}

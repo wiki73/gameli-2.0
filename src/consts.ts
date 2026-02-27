@@ -34,6 +34,7 @@ export const WEEK_DAYS = [
   { label: 'Четверг', value: 4 },
   { label: 'Пятница', value: 5 },
   { label: 'Суббота', value: 6 },
+  { label: 'Воскресенье', value: 7 },
 ];
 
 export const NAME_MIN_LENGTH = 3;

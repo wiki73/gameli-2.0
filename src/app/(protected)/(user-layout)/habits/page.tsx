@@ -28,45 +28,52 @@ export default async function HabitsPage() {
     habits.length > 0 ? Math.max(...habits.map(h => h.currentStreak)) : 0; // это уже крутая готовая штука
 
   return (
-    <div className='w-full max-w-3xl'>
+    <div className='w-full px-2 py-2'>
       <Card className='w-full'>
-        <CardHeader className='flex flex-row items-center justify-between'>
-          <CardTitle className='text-4xl'>Привычки</CardTitle>
+        <CardHeader className='flex flex-col gap-2 px-3 py-2 sm:flex-row sm:items-center sm:justify-between sm:px-6 sm:py-4'>
+          <CardTitle className='text-2xl sm:text-4xl'>Привычки</CardTitle>
           <HabitCreateEditDialog
             modeForm='CREATE'
             userId={userId}
           />
         </CardHeader>
-        <CardContent>
-          <div className='bg-muted/50 mb-6 flex flex-wrap gap-4 rounded-lg p-4'>
-            <div className='bg-primary/10 min-w-30 rounded-lg p-3 text-center'>
-              <div className='text-primary text-2xl font-bold'>
+
+        <CardContent className='px-2 sm:px-6'>
+          <div className='bg-muted/50 mb-4 grid grid-cols-3 gap-1 rounded-lg p-2 sm:mb-6 sm:gap-3 sm:p-4'>
+            <div className='bg-primary/10 rounded-lg p-2 text-center sm:p-4'>
+              <div className='text-primary text-lg font-bold sm:text-2xl'>
                 {totalHabits}
               </div>
-              <div className='text-muted-foreground text-sm'>Привычек</div>
+              <div className='text-muted-foreground text-[10px] leading-tight sm:text-sm'>
+                Привычек
+              </div>
             </div>
 
-            <div className='min-w-30 rounded-lg bg-amber-50 p-3 text-center'>
-              <div className='text-2xl font-bold text-amber-700'>
+            <div className='rounded-lg bg-amber-50 p-2 text-center sm:p-4'>
+              <div className='text-lg font-bold text-amber-700 sm:text-2xl'>
                 {totalStreak}
               </div>
-              <div className='text-muted-foreground text-sm'>Лучший стрик</div>
+              <div className='text-muted-foreground text-[10px] leading-tight sm:text-sm'>
+                Лучший стрик
+              </div>
             </div>
 
-            <div className='min-w-30 rounded-lg bg-blue-50 p-3 text-center'>
-              <div className='text-2xl font-bold text-blue-700'>
+            <div className='rounded-lg bg-blue-50 p-2 text-center sm:p-4'>
+              <div className='text-lg font-bold text-blue-700 sm:text-2xl'>
                 {totalUserXp}
               </div>
-              <div className='text-muted-foreground text-sm'>Общий XP</div>
+              <div className='text-muted-foreground text-[10px] leading-tight sm:text-sm'>
+                Общий XP
+              </div>
             </div>
           </div>
 
           {habits.length === 0 ? (
-            <div className='text-muted-foreground p-8 text-center'>
+            <div className='text-muted-foreground p-4 text-center text-sm sm:p-8'>
               У вас пока нет привычек. Создайте первую!
             </div>
           ) : (
-            <div className='space-y-6'>
+            <div className='space-y-3 sm:space-y-6'>
               {habits.map(habit => (
                 <HabitCard
                   habit={habit}

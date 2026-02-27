@@ -7,7 +7,7 @@ type Props = {
 };
 
 export const TasksList = ({ tasks }: Props) => (
-  <ScrollArea className='h-full'>
+  <ScrollArea className='h-full sm: h-60'>
     <ul className='flex h-full max-h-36 w-full flex-col gap-4'>
       {tasks.map(task => (
         <ul key={task.id}>

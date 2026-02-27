@@ -39,7 +39,7 @@ export const Weekday = ({ title, tasks, date, isToday = false }: Props) => {
     >
       <CardHeader className='flex justify-between'>
         <div>
-        <CardTitle>
+        <CardTitle >
           {title} {getFormattedDay(date)}
         </CardTitle>
         <CardDescription>Количество задач: {tasksQuantity}</CardDescription>
@@ -49,7 +49,7 @@ export const Weekday = ({ title, tasks, date, isToday = false }: Props) => {
             mode='CREATE'
           />
       </CardHeader>
-      <CardContent className='h-70'>
+      <CardContent className='h-full'>
         {tasksQuantity ? (
           <TasksList tasks={tasks} />
         ) : (

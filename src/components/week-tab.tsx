@@ -11,7 +11,7 @@ type Props = {
 const FIRST_COLUMN_START = 0;
 const FIRST_COLUMN_END = 3;
 const SECOND_COLUMN_START = 3;
-const SECOND_COLUMN_END = 6;
+const SECOND_COLUMN_END = 7;
 
 export const WeekTab = ({ tasks }: Props) => {
   const tasksByDay = groupTasksByWeekday(tasks);
@@ -36,7 +36,6 @@ export const WeekTab = ({ tasks }: Props) => {
       <div className='flex h-full flex-col gap-4 md:gap-4'>
         {firstColumn.map(renderDay)}
       </div>
-
       <div className='flex h-full flex-col gap-4 md:gap-4'>
         {secondColumn.map(renderDay)}
       </div>

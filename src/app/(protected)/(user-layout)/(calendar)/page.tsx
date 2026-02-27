@@ -58,15 +58,16 @@ export default async function CalendarPage({
   });
 
   return (
-    <div className='flex h-full w-7xl flex-[1_1_auto] flex-col'>
+    <div className='flex h-full w-full flex-1 flex-col p-2 sm:p-10'>
       <Tabs
-        className='h-full flex-[1_1_auto]'
+        className='flex h-full flex-1 flex-col'
         value={tab}
       >
-        <TabsList>
+        <TabsList className='mb-2 sm:mb-1'>
           {Object.values(tabs).map(({ label, value }) => (
             <TabsTrigger
               asChild
+              className='text-xs sm:text-sm'
               key={value}
               value={value}
             >
@@ -74,8 +75,9 @@ export default async function CalendarPage({
             </TabsTrigger>
           ))}
         </TabsList>
+
         <TabsContent
-          className='flex h-full flex-1'
+          className='flex h-full flex-1 flex-col'
           value={tabs.week.value}
         >
           <WeekTab tasks={tasks} />

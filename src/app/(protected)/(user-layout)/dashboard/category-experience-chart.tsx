@@ -3,8 +3,8 @@
 import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts';
 import {
   ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
+  // ChartLegend,
+  // ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
 } from '@/src/components/ui/chart';
@@ -17,7 +17,7 @@ export const CategoryExperienceChart = ({
   categories: Pick<Category, 'name' | 'level' | 'experience'>[];
 }) => (
   <ChartContainer
-    className='min-h-50 w-full'
+    className='h-[200px] w-full sm:h-[250px]'
     config={chartConfig}
   >
     <BarChart
@@ -26,13 +26,17 @@ export const CategoryExperienceChart = ({
     >
       <CartesianGrid vertical={false} />
       <XAxis
+        angle={-45}
         axisLine={false}
         dataKey='name'
+        height={60}
+        interval={0}
+        textAnchor='end'
+        tick={{ fontSize: 10 }}
         tickLine={false}
-        tickMargin={10}
+        tickMargin={8}
       />
       <ChartTooltip content={<ChartTooltipContent />} />
-      <ChartLegend content={<ChartLegendContent payload={undefined} />} />
       <Bar
         dataKey='experience'
         fill='var(--color-experience)'

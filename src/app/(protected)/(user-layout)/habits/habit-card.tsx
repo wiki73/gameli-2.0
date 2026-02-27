@@ -105,82 +105,82 @@ export const HabitCard = ({
   // const todayXp = Math.round(habit.base_xp * habit.multiplier);
 
   return (
-    <Card className='mb-8 rounded-md border shadow-sm transition-shadow hover:shadow-md'>
-      <CardHeader className='flex flex-row items-center justify-between pb-3'>
-        <div className='flex-1'>
-          <div className='mb-2 text-2xl font-bold'>{habit.title}</div>
+    <Card className='mb-4 rounded-md border shadow-sm transition-shadow hover:shadow-md sm:mb-8'>
+      <CardHeader className='flex flex-col items-start gap-2 px-3 py-2 sm:flex-row sm:items-center sm:justify-between sm:px-6 sm:py-3'>
+        <div className='w-full sm:w-auto'>
+          <div className='mb-1 text-xl font-bold sm:mb-2 sm:text-2xl'>
+            {habit.title}
+          </div>
           {habit.description && (
-            <CardDescription className='mb-3'>
+            <CardDescription className='mb-2 text-xs sm:mb-3 sm:text-sm'>
               {habit.description}
             </CardDescription>
           )}
-
-          {/* ... остальной код UI без изменений ... */}
         </div>
 
-        <div className='ml-4 flex gap-2'>
+        <div className='flex w-full gap-1 sm:w-auto sm:gap-2'>
           <HabitCreateEditDialog
             habit={habit}
             modeForm='EDIT'
             userId={userId}
           >
             <Button
+              className='h-8 px-2 text-xs sm:h-9 sm:px-3 sm:text-sm'
               size='sm'
               variant='outline'
             >
-              ✏️ Изменить
+              ✏️
             </Button>
           </HabitCreateEditDialog>
 
           <Button
+            className='h-8 px-2 text-xs sm:h-9 sm:px-3 sm:text-sm'
             disabled={isDeleting}
             onClick={handleDelete}
             size='sm'
             variant='destructive'
           >
-            {isDeleting ? 'Удаление...' : '🗑️ Удалить'}
+            {isDeleting ? '...' : '🗑️'}
           </Button>
         </div>
       </CardHeader>
 
-      <CardContent className='pt-0'>
+      <CardContent className='px-2 pt-0 sm:px-6'>
         {error && (
-          <div className='mb-4 rounded-md border border-red-200 bg-red-50 p-3 text-red-700'>
-            <div className='font-medium'>Ошибка:</div>
+          <div className='mb-3 rounded-md border border-red-200 bg-red-50 p-2 text-xs text-red-700 sm:mb-4 sm:p-3 sm:text-sm'>
             {error}
           </div>
         )}
 
-        <div className='mb-6'>
+        <div className='mb-4'>
           <HabitXpStats habit={habit} />
         </div>
 
-        <div className='mb-4 overflow-hidden rounded-lg border'>
+        <div className='mb-3 overflow-hidden rounded-lg border sm:mb-4'>
           <Table>
             <TableBody>
-              {habitRows.map(row => (
+              {habitRows.map((row) => (
                 <TableRow key={`row-${String(row[0])}`}>
                   {row.map(dayNumber => {
                     const entry = habit.entries.find(
                       e => e.dayNumber === dayNumber,
                     );
                     const isLoading = loadingDays[dayNumber];
-                    const xpEarned = entry?.dayNumber || 0;
 
                     return (
                       <TableCell
-                        className='border p-4 text-center'
+                        className='border p-1 text-center sm:p-4'
                         key={dayNumber}
                       >
-                        <div className='flex flex-col items-center gap-2'>
-                          <div className='text-lg font-bold'>
+                        <div className='flex flex-col items-center gap-1 sm:gap-2'>
+                          <div className='text-xs font-bold sm:text-lg'>
                             День {dayNumber}
                           </div>
 
                           <div className='relative'>
                             <Checkbox
                               checked={!!entry?.completedAt}
-                              className={`h-9 w-9 border-2 ${
+                              className={`h-6 w-6 border-2 sm:h-9 sm:w-9 ${
                                 !!entry?.completedAt
                                   ? 'border-primary bg-primary'
                                   : 'border-gray-300'
@@ -190,16 +190,10 @@ export const HabitCard = ({
                                 handleCheckboxChange(dayNumber, checked);
                               }}
                             />
-
-                            {!!entry?.completedAt && xpEarned > 0 && (
-                              <div className='absolute -top-2 -right-2 h-5 w-5 rounded-full bg-blue-500 text-xs text-white'>
-                                {xpEarned}
-                              </div>
-                            )}
                           </div>
 
                           {!!entry?.completedAt && (
-                            <div className='text-xs text-gray-500'>
+                            <div className='text-[8px] text-gray-500 sm:text-xs'>
                               {new Date(entry.completedAt).toLocaleDateString(
                                 'ru-RU',
                               )}

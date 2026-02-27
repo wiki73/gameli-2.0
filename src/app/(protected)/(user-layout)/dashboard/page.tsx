@@ -73,51 +73,62 @@ export default async function DashboardPage() {
   }, []);
 
   return (
-    <div className='m-auto mb-6 w-7xl'>
-      <div className='m-auto mb-6 w-full'>
+    <div className='w-full px-2 py-2 sm:px-4 sm:py-4'>
+      <div className='mb-4 w-full sm:mb-6'>
         <CategoriesBlock categories={categories} />
       </div>
 
-      <div className='flex w-full flex-wrap gap-4'>
-        <Card className='min-w-xl flex-1'>
-          <CardHeader>
-            <CardTitle>Опыта в день</CardTitle>
-            <CardDescription>Количество опыта по дням</CardDescription>
+      <div className='grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-2'>
+        <Card className='w-full'>
+          <CardHeader className='px-3 py-2 sm:px-6 sm:py-4'>
+            <CardTitle className='text-base sm:text-lg'>Опыта в день</CardTitle>
+            <CardDescription className='text-xs sm:text-sm'>
+              Количество опыта по дням
+            </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className='px-2 sm:px-6'>
             <DayExperienceChart taskChartData={taskChartData} />
           </CardContent>
         </Card>
-        <Card className='min-w-xl flex-1'>
-          <CardHeader>
-            <CardTitle>Выполнение задач</CardTitle>
-            <CardDescription>
+
+        <Card className='w-full'>
+          <CardHeader className='px-3 py-2 sm:px-6 sm:py-4'>
+            <CardTitle className='text-base sm:text-lg'>
+              Выполнение задач
+            </CardTitle>
+            <CardDescription className='text-xs sm:text-sm'>
               Количество выполнених задач по дням
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className='px-2 sm:px-6'>
             <TasksChart taskChartData={taskChartData} />
           </CardContent>
         </Card>
-        <Card className='flex-1'>
-          <CardHeader>
-            <CardTitle>Уровень по категориям</CardTitle>
-            <CardDescription>
+
+        <Card className='w-full'>
+          <CardHeader className='px-3 py-2 sm:px-6 sm:py-4'>
+            <CardTitle className='text-base sm:text-lg'>
+              Уровень по категориям
+            </CardTitle>
+            <CardDescription className='text-xs sm:text-sm'>
               Уровень распределенный по категориям
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className='px-2 sm:px-6'>
             <CategoryLevelChart categories={categories} />
           </CardContent>
         </Card>
-        <Card className='flex-1'>
-          <CardHeader>
-            <CardTitle>Опыт по категориям</CardTitle>
-            <CardDescription>
+
+        <Card className='w-full'>
+          <CardHeader className='px-3 py-2 sm:px-6 sm:py-4'>
+            <CardTitle className='text-base sm:text-lg'>
+              Опыт по категориям
+            </CardTitle>
+            <CardDescription className='text-xs sm:text-sm'>
               Количество опыта распределеного по категориям
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className='px-2 sm:px-6'>
             <CategoryExperienceChart categories={categories} />
           </CardContent>
         </Card>
