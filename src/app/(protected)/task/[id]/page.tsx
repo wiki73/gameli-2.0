@@ -35,7 +35,7 @@ export default async function TaskPage({ params }: PageProps<'/task/[id]'>) {
   }
 
   return (
-    <div className='fixed inset-0 flex items-center justify-center'>
+    <div className='fixed  inset-0 flex items-center justify-center sm: p-3'>
       <TaskTimer task={task} />
     </div>
   );

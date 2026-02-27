@@ -65,6 +65,7 @@ export default async function CalendarPage({
       >
         <TabsList className='mb-2 sm:mb-1'>
           {Object.values(tabs).map(({ label, value }) => (
+
             <TabsTrigger
               asChild
               className='text-xs sm:text-sm'

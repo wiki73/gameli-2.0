@@ -14,7 +14,7 @@
     "format": "npm run lint:fix && npm run format:write && npm run typecheck",
     "format:check": "prettier --check \"./src/**/*.{ts,tsx,js,jsx,mdx}\" --cache",
     "format:write": "prettier --write \"./src/**/*.{ts,tsx,js,jsx,mdx}\" --cache",
-    "postinstall": "npm run db:migrate && npm run db:push && prisma generate",
+    "postinstall": "prisma generate",
     "lint": "eslint . --ext .js,.mjs,.jsx,.ts,.tsx --cache --cache-strategy content --cache-location .eslintcache --max-warnings=0",
     "lint:fix": "eslint . --ext .js,.mjs,.jsx,.ts,.tsx --fix --cache --cache-strategy content --cache-location .eslintcache",
     "preview": "next build && next start",

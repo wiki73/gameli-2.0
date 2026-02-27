@@ -277,7 +277,7 @@ export const TaskTimer = ({ task }: Props) => {
             К планированию
           </Link>
         )}
-
+  
         {currentTask.status !== 'CREATED' &&
           currentTask.status !== 'COMPLETED' && (
             <Button
