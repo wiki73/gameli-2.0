@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Checkbox } from '@/src/components/ui/checkbox';
 import {
   Card,
@@ -47,13 +48,14 @@ export const HabitCard = ({
     try {
       setError(null);
       setLoadingDays(prev => ({ ...prev, [dayNumber]: true }));
-
       await updateHabitEntry({
         habitId: habit.id,
         dayNumber,
         completed: checked,
         userId,
       });
+    
+      // router.refresh();
 
       onSuccessMessage?.(
         `День ${String(dayNumber)} ${checked ? 'отмечен' : 'снят'}`,
@@ -177,9 +179,9 @@ export const HabitCard = ({
 
                           <div className='relative'>
                             <Checkbox
-                              checked={!!entry?.completedAt}
+                              checked={!!entry?.completed}
                               className={`h-6 w-6 border-2 sm:h-9 sm:w-9 ${
-                                !!entry?.completedAt
+                                !!entry?.completed
                                   ? 'border-primary bg-primary'
                                   : 'border-gray-300'
                               }`}

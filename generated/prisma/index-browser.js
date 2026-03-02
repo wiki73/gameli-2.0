@@ -219,7 +219,8 @@ exports.Prisma.HabitEntryScalarFieldEnum = {
   habitId: 'habitId',
   completedAt: 'completedAt',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  completed: 'completed'
 };
 
 exports.Prisma.DailyStatScalarFieldEnum = {

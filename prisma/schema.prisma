@@ -156,9 +156,11 @@ model HabitEntry {
     habit   Habit  @relation(fields: [habitId], references: [id], onDelete: Cascade)
     habitId String
 
-    completedAt DateTime?
+    completedAt DateTime? @updatedAt
     createdAt   DateTime  @default(now())
     updatedAt   DateTime  @updatedAt
+
+    completed Boolean @default(false)
 
     @@unique([habitId, dayNumber])
     @@map("habitEntry")

@@ -84,7 +84,6 @@ export const updateHabitEntry = async ({
   if (!entry) {
     throw new Error('Entry not found');
   }
-
   const updatedEntry = await prisma.habitEntry.update({
     where: { id: entry.id },
     data: {
@@ -94,17 +93,19 @@ export const updateHabitEntry = async ({
 
   let xpEarned = 0;
 
-  if (completed) {
+  if (entry) {
     const habit = await prisma.habit.findUnique({
       where: { id: habitId },
     });
 
     if (habit) {
       xpEarned = Math.round(habit.baseXp * habit.multiplier);
-
+      if (!completed) {
+        xpEarned = -1 * xpEarned
+      }
       await prisma.habitEntry.update({
         where: { id: entry.id },
-        data: { xpEarned },
+        data: {xpEarned, completed: completed },
       });
 
       await prisma.habit.update({
