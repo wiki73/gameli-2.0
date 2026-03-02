@@ -33,7 +33,7 @@ export const Weekday = ({ title, tasks, date, isToday = false }: Props) => {
   return (
     <Card
       className={cn(
-        'border-card ring-card w-full flex-1 gap-2 ring-1',
+        'min-h-60 max-h-60 md:max-h-90 md:min-h-90 border-card ring-card w-full flex-1 rounded-4xl gap-2 ring-1',
         isToday && 'border-primary ring-primary ring-1',
       )}
     >
@@ -53,8 +53,8 @@ export const Weekday = ({ title, tasks, date, isToday = false }: Props) => {
         {tasksQuantity ? (
           <TasksList tasks={tasks} />
         ) : (
-          <Empty className='max-h-36'>
-            <EmptyMedia>
+          <Empty className=' gap-0 p-2'>
+            <EmptyMedia >
               <MagnifyingGlassIcon className='size-6' />
             </EmptyMedia>
             <EmptyHeader>

@@ -43,7 +43,6 @@ export const HabitCard = ({
   const [error, setError] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  // Функция для обновления таблички
   const handleCheckboxChange = async (dayNumber: number, checked: boolean) => {
     try {
       setError(null);
@@ -56,7 +55,6 @@ export const HabitCard = ({
         userId,
       });
 
-      // Показываем сообщение об успехе
       onSuccessMessage?.(
         `День ${String(dayNumber)} ${checked ? 'отмечен' : 'снят'}`,
       );
@@ -105,27 +103,27 @@ export const HabitCard = ({
   // const todayXp = Math.round(habit.base_xp * habit.multiplier);
 
   return (
-    <Card className='mb-4 rounded-md border shadow-sm transition-shadow hover:shadow-md sm:mb-8'>
-      <CardHeader className='flex flex-col items-start gap-2 px-3 py-2 sm:flex-row sm:items-center sm:justify-between sm:px-6 sm:py-3'>
-        <div className='w-full sm:w-auto'>
-          <div className='mb-1 text-xl font-bold sm:mb-2 sm:text-2xl'>
+    <Card className='rounded-md border shadow-sm transition-shadow hover:shadow-md'>
+      <CardHeader className='flex flex-row justify-between items-start gap-2 px-2 '>
+        <div className='w-full'>
+          <div className='text-xl font-bold'>
             {habit.title}
           </div>
           {habit.description && (
-            <CardDescription className='mb-2 text-xs sm:mb-3 sm:text-sm'>
+            <CardDescription className='mb-2 text-xs'>
               {habit.description}
             </CardDescription>
           )}
         </div>
 
-        <div className='flex w-full gap-1 sm:w-auto sm:gap-2'>
+        <div className='flex pr-1 gap-1'>
           <HabitCreateEditDialog
             habit={habit}
             modeForm='EDIT'
             userId={userId}
           >
             <Button
-              className='h-8 px-2 text-xs sm:h-9 sm:px-3 sm:text-sm'
+              className='h-8 px-2 text-xs '
               size='sm'
               variant='outline'
             >
@@ -134,7 +132,7 @@ export const HabitCard = ({
           </HabitCreateEditDialog>
 
           <Button
-            className='h-8 px-2 text-xs sm:h-9 sm:px-3 sm:text-sm'
+            className='h-8 px-2 text-xs '
             disabled={isDeleting}
             onClick={handleDelete}
             size='sm'
@@ -152,11 +150,11 @@ export const HabitCard = ({
           </div>
         )}
 
-        <div className='mb-4'>
+        <div className='mb-2'>
           <HabitXpStats habit={habit} />
         </div>
 
-        <div className='mb-3 overflow-hidden rounded-lg border sm:mb-4'>
+        <div className='overflow-hidden rounded-lg border'>
           <Table>
             <TableBody>
               {habitRows.map((row) => (
@@ -169,11 +167,11 @@ export const HabitCard = ({
 
                     return (
                       <TableCell
-                        className='border p-1 text-center sm:p-4'
+                        className='border p-0.5 text-center md:p-4'
                         key={dayNumber}
                       >
                         <div className='flex flex-col items-center gap-1 sm:gap-2'>
-                          <div className='text-xs font-bold sm:text-lg'>
+                          <div className='text-[10px] md:text-xl   font-bold '>
                             День {dayNumber}
                           </div>
 

@@ -28,9 +28,9 @@ export default async function HabitsPage() {
     habits.length > 0 ? Math.max(...habits.map(h => h.currentStreak)) : 0; // это уже крутая готовая штука
 
   return (
-    <div className='w-full px-2 py-2'>
+    <div className='w-full px-2 py-2 md:w-6xl'>
       <Card className='w-full'>
-        <CardHeader className='flex flex-col gap-2 px-3 py-2 sm:flex-row sm:items-center sm:justify-between sm:px-6 sm:py-4'>
+        <CardHeader className='flex flex-row justify-between gap-2 px-3 py-2 sm:flex-row sm:items-center sm:justify-between sm:px-6 sm:py-4'>
           <CardTitle className='text-2xl sm:text-4xl'>Привычки</CardTitle>
           <HabitCreateEditDialog
             modeForm='CREATE'
@@ -38,9 +38,9 @@ export default async function HabitsPage() {
           />
         </CardHeader>
 
-        <CardContent className='px-2 sm:px-6'>
-          <div className='bg-muted/50 mb-4 grid grid-cols-3 gap-1 rounded-lg p-2 sm:mb-6 sm:gap-3 sm:p-4'>
-            <div className='bg-primary/10 rounded-lg p-2 text-center sm:p-4'>
+        <CardContent className='px-2'>
+          <div className='bg-muted/50 grid grid-cols-3 gap-1 rounded-lg p-2'>
+            <div className='bg-primary/10 rounded-lg p-2 text-center'>
               <div className='text-primary text-lg font-bold sm:text-2xl'>
                 {totalHabits}
               </div>
@@ -73,7 +73,7 @@ export default async function HabitsPage() {
               У вас пока нет привычек. Создайте первую!
             </div>
           ) : (
-            <div className='space-y-3 sm:space-y-6'>
+            <div className='space-y-1'>
               {habits.map(habit => (
                 <HabitCard
                   habit={habit}

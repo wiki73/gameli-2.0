@@ -58,7 +58,7 @@ export default async function CalendarPage({
   });
 
   return (
-    <div className='flex h-full w-full flex-1 flex-col p-2 sm:p-10'>
+    <div className='flex h-full w-full flex-1 flex-col p-2 md:w-6xl'>
       <Tabs
         className='flex h-full flex-1 flex-col'
         value={tab}

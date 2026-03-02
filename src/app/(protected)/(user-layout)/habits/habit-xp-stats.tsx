@@ -29,23 +29,23 @@ export const HabitXpStats = ({ habit }: Props) => {
   // const daysUntilMultiplierIncrease = 1;
 
   return (
-    <Card className='mb-2 sm:mb-4'>
-      <CardHeader className='px-3 pt-2 pb-1 sm:px-6 sm:pb-2'>
-        <CardTitle className='flex items-center justify-between text-base sm:text-lg'>
-          <span>Статистика</span>
+    <Card>
+      <CardHeader className='px-3'>
+        <CardTitle className='flex items-center justify-between text-base'>
+          <span className=' text-2xl'>Статистика</span>
           <span className='text-primary text-lg font-bold sm:text-2xl'>
             {habit.totalXp} XP
           </span>
         </CardTitle>
       </CardHeader>
-      <CardContent className='px-3 pb-3 sm:px-6 sm:pb-4'>
-        <div className='space-y-3 sm:space-y-4'>
-          <div className='grid grid-cols-4 gap-1 sm:gap-3'>
-            <div className='bg-primary/10 rounded-lg p-1 text-center sm:p-3'>
-              <div className='text-primary text-xs font-bold sm:text-2xl'>
+      <CardContent className='px-3'>
+        <div className='space-y-2'>
+          <div className='grid grid-cols-4 gap-1  '>
+            <div className='bg-primary/10 rounded-lg p-1 flex flex-col justify-between py-3 text-center'>
+              <div className='text-primary text-xs font-bold md:text-xl'>
                 ×{habit.multiplier.toFixed(MULTIPLIER_DECIMAL_PLACES)}
               </div>
-              <div className='text-muted-foreground text-[8px] leading-tight sm:text-sm'>
+              <div className='text-muted-foreground text-[10px] leading-tight md:text-xl'>
                 Множитель
               </div>
             </div>
@@ -54,7 +54,7 @@ export const HabitXpStats = ({ habit }: Props) => {
               <div className='text-xs font-bold text-amber-700 sm:text-2xl'>
                 {habit.currentStreak}
               </div>
-              <div className='text-muted-foreground text-[8px] leading-tight sm:text-sm'>
+              <div className='text-muted-foreground text-[10px] leading-tight md:text-xl'>
                 Стрик
               </div>
             </div>
@@ -63,7 +63,7 @@ export const HabitXpStats = ({ habit }: Props) => {
               <div className='text-xs font-bold text-red-700 sm:text-2xl'>
                 {habit.bestStreak}
               </div>
-              <div className='text-muted-foreground text-[8px] leading-tight sm:text-sm'>
+              <div className='text-muted-foreground text-[10px] leading-tight md:text-xl'>
                 Лучший
               </div>
             </div>
@@ -72,14 +72,14 @@ export const HabitXpStats = ({ habit }: Props) => {
               <div className='text-xs font-bold text-blue-700 sm:text-2xl'>
                 {habit.baseXp}
               </div>
-              <div className='text-muted-foreground text-[8px] leading-tight sm:text-sm'>
+              <div className='text-muted-foreground text-[10px] leading-tight md:text-xl'>
                 База
               </div>
             </div>
           </div>
 
           <div className='space-y-1'>
-            <div className='flex justify-between text-[10px] sm:text-sm'>
+            <div className='flex justify-between text-[10px] md:text-xl'>
               <span>Прогресс</span>
               <span>
                 {habit.totalXp} / {maxPossibleXp}
@@ -91,7 +91,7 @@ export const HabitXpStats = ({ habit }: Props) => {
             />
           </div>
 
-          <div className='text-muted-foreground border-t pt-2 text-[8px] sm:pt-3 sm:text-xs'>
+          <div className='text-muted-foreground border-t pt-2 text-[10px] md:text-xl'>
             <p className='mb-1 font-medium sm:mb-2'>Как работает:</p>
             <ul className='space-y-0.5 sm:space-y-1'>
               <li className='flex items-center'>
@@ -103,7 +103,7 @@ export const HabitXpStats = ({ habit }: Props) => {
                 <span>Пропуск: -15%</span>
               </li>
               <li className='flex items-center'>
-                <span className='mr-1 inline-block h-1.5 w-1.5 rounded-full bg-blue-500 sm:h-2 sm:w-2' />
+                <span className='mr-1 inline-block h-1.5 w-1.5 rounded-full bg-blue-500' />
                 <span>XP = {habit.baseXp} × множитель</span>
               </li>
             </ul>

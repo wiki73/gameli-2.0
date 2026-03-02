@@ -53,13 +53,13 @@ export const ProgressBar = ({
   const safeAddedPercent = isNaN(addedPercent) ? 0 : addedPercent;
 
   return (
-    <div className='w-full space-y-2'>
-      <div className='mb-6 w-full text-center text-3xl font-medium text-gray-700'>
+    <div className='w-full space-y-1'>
+      <div className='md:mb-6 mb-1 w-full text-center md:text-3xl text-xl font-medium text-gray-700'>
         {safeCategoryName}
       </div>
 
       <div className='flex items-center gap-3'>
-        <span className='min-w-24px text-3xl font-bold'>
+        <span className='min-w-24px md:text-3xl text-sm font-bold'>
           {safeCategoryLevel}
         </span>
 
@@ -85,7 +85,7 @@ export const ProgressBar = ({
           />
         </div>
 
-        <span className='min-w-24px text-3xl font-bold'>
+        <span className='min-w-24px md:text-3xl text-sm font-bold'>
           {safeCategoryLevel + 1}
         </span>
       </div>

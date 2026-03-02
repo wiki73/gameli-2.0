@@ -31,7 +31,7 @@ export default function RootLayout({
           disableTransitionOnChange
           enableSystem
         >
-          <div className='flex h-full min-h-dvh w-full flex-col items-center gap-4 p-4 pb-24 md:pb-4'>
+          <div className='flex h-full min-h-dvh w-full flex-col items-center gap-4 pb-24 sm:p-0 md:pb-4'>
             {children}
           </div>
           <Toaster />

@@ -137,8 +137,8 @@ export const HabitCreateEditDialog = ({
           >
             {modeForm === 'CREATE' ? (
               <>
-                <PlusIcon className='size-8' />
-                Новая привычка
+                <PlusIcon className='size-3 md:size-8' />
+                <p className=' text-sm md:text-xl'>Новая привычка</p>
               </>
             ) : (
               <Pencil1Icon />

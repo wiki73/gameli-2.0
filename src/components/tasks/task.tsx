@@ -28,7 +28,7 @@ type Props = {
 export const TaskItem = ({ task }: Props) => (
   <Item
     className={cn(
-      'border-border bg-secondary flex flex-row flex-nowrap border',
+      'border-border bg-secondary flex flex-row flex-nowrap border p-2',
       task.status === 'COMPLETED' && 'bg-muted opacity-50',
     )}
   >
