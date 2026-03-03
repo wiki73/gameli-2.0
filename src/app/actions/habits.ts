@@ -6,6 +6,7 @@ import { auth } from '@server/auth';
 import prisma from '@server/db';
 import { getLevelByExperience, ROUTES } from '@/src/consts';
 import type { HabitFormType } from '@/src/lib/habit';
+import type { Habit } from '@/generated/prisma';
 
 const STREAK_MULTIPLIER_STEP = 0.1;
 const MAX_MULTIPLIER = 3.0;
@@ -155,7 +156,7 @@ export const updateHabitEntry = async ({
 // Вспомогательная функция для чистоты кода
 async function habitUpdateWithStreak(
   habitId: string,
-  habit: any,
+  habit: Habit,
   isStreakContinued: boolean,
   today: number,
   xpChange: number,
