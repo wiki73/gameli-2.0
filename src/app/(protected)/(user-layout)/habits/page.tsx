@@ -39,7 +39,7 @@ export default async function HabitsPage() {
         </CardHeader>
 
         <CardContent className='px-2'>
-          <div className='bg-muted/50 grid grid-cols-3 gap-1 rounded-lg p-2'>
+          <div className='bg-muted/50 grid grid-cols-3 gap-1 rounded-lg p-2 mb-4 md:mb-10'>
             <div className='bg-primary/10 rounded-lg p-2 text-center'>
               <div className='text-primary text-lg font-bold sm:text-2xl'>
                 {totalHabits}

@@ -32,8 +32,8 @@ export const WeekTab = ({ tasks }: Props) => {
   );
 
   return (
-    <div className='grid h-full min-h-[calc(100dvh-160px)] w-full auto-rows-fr grid-cols-1 gap-4 md:grid-cols-2 md:gap-6'>
-      <div className='flex h-full flex-col gap-4 md:gap-4'>
+    <div className='grid  w-full auto-rows-fr grid-cols-1 gap-4 md:grid-cols-2 md:gap-6'>
+      <div className='flex flex-col gap-4 md:gap-4'>
         {firstColumn.map(renderDay)}
       </div>
       <div className='flex h-full flex-col gap-4 md:gap-4'>

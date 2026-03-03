@@ -237,3 +237,103 @@ export const completeTimerTask = async ({
     categoryName: categoryName,
   };
 };
+
+export const completeTimerTaskForEnter = async ({
+  task,
+  timeSpent,
+}: {
+  task: Task;
+  timeSpent: number;
+}) => {
+  const ratio = DEFAUL_CATEGORY_RATIO;
+
+  const experience = getExperience(timeSpent, ratio);
+
+  let currentExperience = undefined;
+  let categoryLevel = undefined;
+  let categoryName = undefined;
+
+  if (task.categoryId) {
+    const category = await prisma.category.findUnique({
+      where: { id: task.categoryId },
+      select: { experience: true, level: true, name: true },
+    });
+
+    currentExperience = category?.experience;
+    categoryLevel = category?.level;
+    categoryName = category?.name;
+
+    if (category && currentExperience !== undefined) {
+      const newExperience = currentExperience + experience;
+      const newLevel = getLevelByExperience(newExperience);
+
+      await prisma.category.update({
+        where: { id: task.categoryId },
+        data: {
+          experience: newExperience,
+          level: newLevel,
+        },
+      });
+    }
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { id: task.userId },
+    select: {
+      id: true,
+      experience: true,
+      level: true,
+      dailyExperience: true,
+      lastDailyReset: true,
+    },
+  });
+
+  if (user) {
+    const newExperience = user.experience + experience;
+    const newLevel = getLevelByExperience(newExperience);
+
+    const today = new Date();
+    const lastReset = user.lastDailyReset || new Date(0);
+    const isNewDay = today.toDateString() !== lastReset.toDateString();
+
+    if (isNewDay && user.dailyExperience) {
+      const yesterday = new Date(lastReset);
+      yesterday.setHours(0, 0, 0, 0);
+
+      await saveDailyStat({
+        userId: user.id,
+        experience: user.dailyExperience,
+        date: yesterday,
+      });
+    }
+
+    const newDailyExperience = isNewDay
+      ? experience
+      : (user.dailyExperience || 0) + experience;
+
+    await prisma.user.update({
+      where: { id: task.userId },
+      data: {
+        experience: newExperience,
+        level: newLevel,
+        dailyExperience: newDailyExperience,
+        lastDailyReset: isNewDay ? today : user.lastDailyReset,
+      },
+    });
+  }
+
+  await prisma.task.update({
+    where: { id: task.id },
+    data: {
+      status: 'COMPLETED',
+      timeSpent,
+    },
+  });
+
+  return {
+    currentExp: currentExperience,
+    addExperience: experience,
+    level: categoryLevel,
+    categoryName: categoryName,
+  };
+};

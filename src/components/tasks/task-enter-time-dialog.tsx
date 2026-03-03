@@ -1,8 +1,8 @@
 'use client';
 
-import { type SubmitHandler, useForm, useWatch } from 'react-hook-form';
+import { useState, useTransition } from 'react';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMemo, useState, useTransition } from 'react';
 import { toast } from 'sonner';
 import {
   Dialog,
@@ -18,71 +18,52 @@ import { Button } from '@ui/button';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from '@ui/form';
 import { Input } from '@ui/input';
-import { completeTimerTask } from '@/src/app/actions/task';
-import { type BarData, TIME } from '@/src/consts';
+import {completeTimerTaskForEnter } from '@/src/app/actions/task';
+import { TIME } from '@/src/consts';
 import type { Task } from '@/generated/prisma';
 import { ProgressBar } from '../progress-bar';
 
-type Props = {
-  task: Task;
-};
+type Props = { task: Task };
 
 const SEC_IN_HOUR = 3600;
 const SEC_IN_MIN = 60;
+const INTERVAL =200
 
 export const TaskEnterTimeDialog = ({ task }: Props) => {
   const [open, setOpen] = useState(false);
-  const [showProgress, setShowProgress] = useState(false);
-  const [dataForBar, setDataForBar] = useState<BarData>({
-    currentExp: undefined,
-    addExperience: undefined,
-    level: undefined,
-    categoryName: undefined,
-  });
-
+  const [mode, setMode] = useState<'form' | 'success'>('form');
+  const [result, setResult] = useState<{
+    currentExp?: number;
+    addExperience?: number;
+    level?: number;
+    categoryName?: string;
+  }>({});
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<TaskEnterTimeType>({
     resolver: zodResolver(taskEnterTimeSchema),
-    defaultValues: {
-      hours: 0,
-      minutes: 0,
-    },
+    defaultValues: { hours: 0, minutes: 0 },
     mode: 'onChange',
   });
 
-  const { handleSubmit, control, reset } = form;
+  const hours = form.watch('hours');
 
-  const hours = useWatch({
-    control,
-    name: 'hours',
-  });
-
-  const onSubmit: SubmitHandler<TaskEnterTimeType> = data => {
+  const onSubmit = (data: TaskEnterTimeType) => {
     startTransition(async () => {
       try {
         const timeSpent = data.hours * SEC_IN_HOUR + data.minutes * SEC_IN_MIN;
-        const { currentExp, addExperience, level, categoryName } =
-          await completeTimerTask({ task, timeSpent });
-
-        setDataForBar({
-          currentExp: currentExp,
-          addExperience: addExperience,
-          level: level,
-          categoryName: categoryName,
-        });
-
-        setShowProgress(true);
+        const res = await completeTimerTaskForEnter({ task, timeSpent });
+        setResult(res);
+        setMode('success');
         toast.success('Задача завершена');
-      } catch (e: unknown) {
-        toast.error('Ошибка сохранения задачи', {
+      } catch (e) {
+        toast.error('Ошибка', {
           description: e instanceof Error ? e.message : '',
         });
       }
@@ -90,15 +71,13 @@ export const TaskEnterTimeDialog = ({ task }: Props) => {
   };
 
   const handleClose = () => {
-    reset();
-    setShowProgress(false);
     setOpen(false);
+    setTimeout(() => {
+      setMode('form');
+      form.reset();
+      setResult({});
+    }, INTERVAL);
   };
-
-  const isButtonDisabled = useMemo(
-    () => !form.formState.isValid || isPending,
-    [form.formState.isValid, isPending],
-  );
 
   return (
     <Dialog
@@ -107,9 +86,9 @@ export const TaskEnterTimeDialog = ({ task }: Props) => {
     >
       <DialogTrigger asChild>
         <Button
-          onClick={() => {
+          onClick={e => {
+            e.stopPropagation(); // предотвращаем закрытие dropdown
             setOpen(true);
-            setShowProgress(false);
           }}
           size='xs'
           variant='ghost'
@@ -117,23 +96,21 @@ export const TaskEnterTimeDialog = ({ task }: Props) => {
           Внести время
         </Button>
       </DialogTrigger>
-
       <DialogContent>
-        {!showProgress ? (
+        {mode === 'form' ? (
           <>
             <DialogHeader>
               <DialogTitle>Завершение задачи</DialogTitle>
               <DialogDescription>
-                Сколько времени заняло выполненение задачи?
+                Сколько времени заняло выполнение задачи?
               </DialogDescription>
             </DialogHeader>
-
             <Form {...form}>
               <form
-                className='flex flex-col gap-4'
-                onSubmit={handleSubmit(onSubmit)}
+                className='space-y-4'
+                onSubmit={form.handleSubmit(onSubmit)}
               >
-                <div className='flex items-start gap-4'>
+                <div className='flex gap-4'>
                   <FormField
                     control={form.control}
                     name='hours'
@@ -142,30 +119,27 @@ export const TaskEnterTimeDialog = ({ task }: Props) => {
                         <FormLabel>Часы</FormLabel>
                         <FormControl>
                           <Input
-                            autoComplete='hour'
                             disabled={isPending}
-                            id='hours'
                             max={TIME.HOURS_IN_DAY}
                             min={0}
+                            placeholder='0'
+                            type='number'
+                            {...field}
                             onChange={e => {
-                              if (e.target.value === '') {
-                                field.onChange(0);
-                              } else if (
-                                Number(e.target.value) >= TIME.HOURS_IN_DAY
-                              ) {
+                              const val =
+                                e.target.value === ''
+                                  ? 0
+                                  : Number(e.target.value);
+                              if (val >= TIME.HOURS_IN_DAY) {
                                 field.onChange(TIME.HOURS_IN_DAY - 1);
                                 form.setValue('minutes', 0);
                               } else {
-                                field.onChange(Number(e.target.value));
+                                field.onChange(val);
                               }
                             }}
-                            placeholder='0h'
-                            type='number'
-                            value={field.value}
                           />
                         </FormControl>
-                        <FormDescription />
-                        <FormMessage className='h-5' />
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
@@ -177,54 +151,44 @@ export const TaskEnterTimeDialog = ({ task }: Props) => {
                         <FormLabel>Минуты</FormLabel>
                         <FormControl>
                           <Input
-                            autoComplete='minute'
                             disabled={isPending || hours === TIME.HOURS_IN_DAY}
-                            id='minutes'
-                            placeholder='0m'
-                            type='number'
-                            {...field}
                             max={TIME.MINUTE_IN_HOUR - 1}
                             min={0}
+                            placeholder='0'
+                            type='number'
+                            {...field}
                             onChange={e => {
-                              if (
-                                e.target.value === '' ||
-                                hours === TIME.HOURS_IN_DAY
-                              ) {
+                              if (hours === TIME.HOURS_IN_DAY) {
                                 field.onChange(0);
-                              } else if (
-                                Number(e.target.value) >= TIME.MINUTE_IN_HOUR
-                              ) {
+                                return;
+                              }
+                              const val =
+                                e.target.value === ''
+                                  ? 0
+                                  : Number(e.target.value);
+                              if (val >= TIME.MINUTE_IN_HOUR) {
                                 field.onChange(TIME.MINUTE_IN_HOUR - 1);
                               } else {
-                                field.onChange(Number(e.target.value));
+                                field.onChange(val);
                               }
                             }}
                           />
                         </FormControl>
-                        <FormDescription />
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                 </div>
-
-                <p
-                  className='text-destructive text-sm'
-                  data-slot='form-message'
-                >
-                  {form.formState.errors.root?.message}
-                </p>
-
                 <DialogFooter>
                   <Button
                     onClick={handleClose}
                     type='button'
                     variant='secondary'
                   >
-                    Отменить
+                    Отмена
                   </Button>
                   <Button
-                    disabled={isButtonDisabled}
+                    disabled={!form.formState.isValid || isPending}
                     type='submit'
                   >
                     Внести время
@@ -240,25 +204,21 @@ export const TaskEnterTimeDialog = ({ task }: Props) => {
                 Задача выполнена!
               </DialogTitle>
             </DialogHeader>
-
             <div className='mt-4 space-y-4'>
-              {!!dataForBar.level && (
+              {result.level != null && (
                 <ProgressBar
-                  addedExperience={dataForBar.addExperience}
-                  categoryLevel={dataForBar.level}
-                  categoryName={dataForBar.categoryName}
-                  currentExperience={dataForBar.currentExp}
+                  addedExperience={result.addExperience}
+                  categoryLevel={result.level}
+                  categoryName={result.categoryName}
+                  currentExperience={result.currentExp}
                 />
               )}
-
               <p className='text-center text-sm text-green-600'>
-                ✅ Получено +{dataForBar.addExperience} XP
+                ✅ Получено +{result.addExperience} XP
               </p>
-
               <Button
                 className='w-full'
                 onClick={handleClose}
-                type='button'
               >
                 Закрыть
               </Button>

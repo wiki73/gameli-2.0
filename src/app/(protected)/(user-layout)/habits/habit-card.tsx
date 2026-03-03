@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Checkbox } from '@/src/components/ui/checkbox';
 import {
   Card,
@@ -108,7 +107,7 @@ export const HabitCard = ({
     <Card className='rounded-md border shadow-sm transition-shadow hover:shadow-md'>
       <CardHeader className='flex flex-row justify-between items-start gap-2 px-2 '>
         <div className='w-full'>
-          <div className='text-xl font-bold'>
+          <div className='pl-5 text-4xl font-bold'>
             {habit.title}
           </div>
           {habit.description && (
@@ -118,14 +117,14 @@ export const HabitCard = ({
           )}
         </div>
 
-        <div className='flex pr-1 gap-1'>
+        <div className='flex pr-4 gap-1'>
           <HabitCreateEditDialog
             habit={habit}
             modeForm='EDIT'
             userId={userId}
           >
             <Button
-              className='h-8 px-2 text-xs '
+              className='h-8 px-2 text-xs md:text-2xl md:p-7 '
               size='sm'
               variant='outline'
             >
@@ -134,7 +133,7 @@ export const HabitCard = ({
           </HabitCreateEditDialog>
 
           <Button
-            className='h-8 px-2 text-xs '
+            className='h-8 px-2 text-xs md:text-2xl md:p-7'
             disabled={isDeleting}
             onClick={handleDelete}
             size='sm'
@@ -169,10 +168,10 @@ export const HabitCard = ({
 
                     return (
                       <TableCell
-                        className='border p-0.5 text-center md:p-4'
+                        className='border p-0.5 text-center md:p-2'
                         key={dayNumber}
                       >
-                        <div className='flex flex-col items-center gap-1 sm:gap-2'>
+                        <div className='flex flex-col items-center gap-1 sm:gap-0.5'>
                           <div className='text-[10px] md:text-xl   font-bold '>
                             День {dayNumber}
                           </div>
