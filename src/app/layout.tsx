@@ -18,7 +18,7 @@ const geist = Geist({
 });
 
 export default function RootLayout({
-  children,
+  children,ц
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html

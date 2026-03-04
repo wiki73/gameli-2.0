@@ -44,10 +44,11 @@ export const Weekday = ({ title, tasks, date, isToday = false }: Props) => {
         </CardTitle>
         <CardDescription>Количество задач: {tasksQuantity}</CardDescription>
         </div>
-        <TaskCreateEditDialog
+        {!!tasksQuantity &&<TaskCreateEditDialog
             date={date}
             mode='CREATE'
           />
+        }
       </CardHeader>
       <CardContent className='h-full'>
         {tasksQuantity ? (
