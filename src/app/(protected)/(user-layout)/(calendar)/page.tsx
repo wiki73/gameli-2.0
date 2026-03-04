@@ -36,7 +36,8 @@ export default async function CalendarPage({
 }: {
   searchParams: Promise<{ tab: 'day' | 'week' | 'month' }>;
 }) {
-  const { tab } = await searchParams;
+  // eslint-disable-next-line @typescript-eslint/no-useless-default-assignment
+  const { tab = 'week' } = await searchParams;
 
   const session = await auth.api.getSession({ headers: await headers() });
 
