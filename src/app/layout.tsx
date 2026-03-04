@@ -2,6 +2,8 @@ import { type Metadata } from 'next';
 import { Geist } from 'next/font/google';
 import { ThemeProvider } from '@components/theme-provider';
 import { Toaster } from '@ui/sonner';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Analytics } from "@vercel/analytics/next"
 import '@styles/globals.css';
 
 export const metadata: Metadata = {
@@ -35,6 +37,7 @@ export default function RootLayout({
             {children}
           </div>
           <Toaster />
+          <SpeedInsights />
         </ThemeProvider>
       </body>
     </html>
