@@ -37,10 +37,26 @@ const MAX_HOURS = 24;
 const MAX_TIME_SECONDS =
   MAX_HOURS * TIME.MINUTE_IN_HOUR * TIME.SECONDS_IN_MINUTE;
 
+const validateTime = (timeValue: number): number => {
+  if (timeValue < 0) return 0;
+  if (timeValue > MAX_TIME_SECONDS) return MAX_TIME_SECONDS;
+  return timeValue;
+};
+
+const calculateCurrentTime = (task: Task): number => {
+  if (task.status === 'IN_PROGRESS' && task.startedAt) {
+    const elapsed = Math.floor(
+      (Date.now() - new Date(task.startedAt).getTime()) / TIME.SECOND,
+    );
+    return validateTime((task.timeSpent ?? 0) + elapsed);
+  }
+  return validateTime(task.timeSpent ?? 0);
+};
+
 export const TaskTimer = ({ task }: Props) => {
   const [isPending, startTransition] = useTransition();
   const [currentTask, setCurrentTask] = useState(task);
-
+  const [time, setTime] = useState(() => calculateCurrentTime(task));
   const [dataForBar, setDataForBar] = useState<BarData>({
     currentExp: undefined,
     addExperience: undefined,
@@ -50,31 +66,6 @@ export const TaskTimer = ({ task }: Props) => {
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const [time, setTime] = useState(() => {
-    const validateTimeLocal = (timeValue: number): number => {
-      if (timeValue < 0) return 0;
-      if (timeValue > MAX_TIME_SECONDS) return MAX_TIME_SECONDS;
-      return timeValue;
-    };
-
-    if (task.status === 'IN_PROGRESS' && task.startedAt) {
-      const initialTime = Math.floor(
-        (new Date().getTime() - new Date(task.startedAt).getTime()) /
-          TIME.SECOND,
-      );
-      return validateTimeLocal(initialTime);
-    } else if (task.timeSpent) {
-      return validateTimeLocal(task.timeSpent);
-    }
-    return 0;
-  });
-
-  const validateTime = (timeValue: number): number => {
-    if (timeValue < 0) return 0;
-    if (timeValue > MAX_TIME_SECONDS) return MAX_TIME_SECONDS;
-    return timeValue;
-  };
-
   const stopTimer = useCallback(() => {
     if (timerRef.current) {
       clearInterval(timerRef.current);
@@ -82,22 +73,21 @@ export const TaskTimer = ({ task }: Props) => {
     }
   }, []);
 
-  const startTimer = useCallback(() => {
-    stopTimer();
-    timerRef.current = setInterval(() => {
-      setTime(prev => validateTime(prev + 1));
-    }, TIME.SECOND);
-  }, [stopTimer]);
+  const updateTime = useCallback(() => {
+    setTime(calculateCurrentTime(currentTask));
+  }, [currentTask]);
+
+  useEffect(() => {
+    updateTime();
+  }, [currentTask, updateTime]);
 
   useEffect(() => {
     stopTimer();
     if (currentTask.status === 'IN_PROGRESS') {
-      startTimer();
+      timerRef.current = setInterval(updateTime, TIME.SECOND);
     }
-    return () => {
-      stopTimer();
-    };
-  }, [currentTask.status, startTimer, stopTimer]);
+    return stopTimer;
+  }, [currentTask.status, updateTime, stopTimer]);
 
   const handlePrimaryButton = () => {
     startTransition(async () => {
@@ -106,10 +96,10 @@ export const TaskTimer = ({ task }: Props) => {
           await startTimerTask({ id: task.id });
           setCurrentTask(prev => ({
             ...prev,
-            status: 'IN_PROGRESS' as const,
+            status: 'IN_PROGRESS',
             startedAt: new Date(),
+            timeSpent: 0,
           }));
-          setTime(0);
           toast.success('Задача начата');
         } else if (
           currentTask.status === 'IN_PROGRESS' ||
@@ -129,7 +119,7 @@ export const TaskTimer = ({ task }: Props) => {
           });
           setCurrentTask(prev => ({
             ...prev,
-            status: 'COMPLETED' as const,
+            status: 'COMPLETED',
           }));
           toast.success('Задача завершена');
         }
@@ -147,26 +137,18 @@ export const TaskTimer = ({ task }: Props) => {
         const newStatus =
           currentTask.status === 'PAUSED' ? 'IN_PROGRESS' : 'PAUSED';
 
-        if (newStatus === 'PAUSED') {
-          stopTimer();
-        } else {
-          startTimer();
-        }
-
-        setCurrentTask(prev => ({
-          ...prev,
-          status: newStatus as
-            | 'IN_PROGRESS'
-            | 'PAUSED'
-            | 'COMPLETED'
-            | 'CREATED',
-        }));
-
         await pauseTimerTask({
           id: task.id,
           timeSpent: time,
           status: newStatus,
         });
+
+        setCurrentTask(prev => ({
+          ...prev,
+          status: newStatus,
+          ...(newStatus === 'IN_PROGRESS' && { startedAt: new Date() }),
+          timeSpent: time,
+        }));
 
         toast.success(
           newStatus === 'IN_PROGRESS' ? 'Задача продолжена' : 'Задача на паузе',
@@ -277,7 +259,7 @@ export const TaskTimer = ({ task }: Props) => {
             К планированию
           </Link>
         )}
-  
+
         {currentTask.status !== 'CREATED' &&
           currentTask.status !== 'COMPLETED' && (
             <Button
