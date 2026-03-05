@@ -1,7 +1,9 @@
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
+import { Calendar1Icon } from 'lucide-react';
 import type { Task } from '@/generated/prisma';
 import { cn } from '../lib/utils';
 import { getFormattedDay } from '../lib/date';
+import { getWeekdayColor } from '../consts';
 import {
   Card,
   CardContent,
@@ -29,40 +31,66 @@ type Props = {
 
 export const Weekday = ({ title, tasks, date, isToday = false }: Props) => {
   const tasksQuantity = tasks.length;
-
+  const color = getWeekdayColor(date);
   return (
     <Card
       className={cn(
-        'min-h-60 max-h-60 md:max-h-90 md:min-h-90 border-card ring-card w-full flex-1 rounded-4xl gap-2 ring-1',
-        isToday && 'border-primary ring-primary ring-1',
+        'border-card ring-card max-h-60 min-h-60 w-full flex-1 gap-2 rounded-4xl ring-1 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl md:max-h-90 md:min-h-90',
+        color?.ring,
+        isToday && ['ring-4', color?.shadow],
       )}
+      // style={
+      //   isToday
+      //     ? {
+      //         boxShadow: `0 0 20px var(--primary)`,
+      //       }
+      //     : {}
+      // }
     >
       <CardHeader className='flex justify-between'>
         <div>
-        <CardTitle >
-          {title} {getFormattedDay(date)}
-        </CardTitle>
-        <CardDescription>Количество задач: {tasksQuantity}</CardDescription>
+          <CardTitle className='flex flex-row items-center gap-3 p-2'>
+            <div className={cn('rounded-full p-3', color?.light)}>
+              <Calendar1Icon
+                className={color?.text}
+                size={20}
+              />
+            </div>
+
+            <div>
+              <div className='font-semibold'>{title}</div>
+              <div className='text-muted-foreground text-sm font-normal'>
+                {getFormattedDay(date)}
+              </div>
+            </div>
+          </CardTitle>
+          <CardDescription>Количество задач: {tasksQuantity}</CardDescription>
         </div>
-        {!!tasksQuantity &&<TaskCreateEditDialog
+
+        {!!tasksQuantity && (
+          <TaskCreateEditDialog
             date={date}
             mode='CREATE'
           />
-        }
+        )}
       </CardHeader>
+
       <CardContent className='h-full'>
         {tasksQuantity ? (
           <TasksList tasks={tasks} />
         ) : (
-          <Empty className=' gap-0 p-2'>
-            <EmptyMedia >
-              <MagnifyingGlassIcon className='size-6' />
+          <Empty className='gap-1 p-2'>
+            <EmptyMedia>
+              <MagnifyingGlassIcon className='text-muted-foreground size-6' />
             </EmptyMedia>
+
             <EmptyHeader>
               <EmptyTitle>Задач нет</EmptyTitle>
+
               <EmptyDescription>
                 Нажмите кнопку ниже, чтобы создать новую задачу
               </EmptyDescription>
+
               <EmptyContent>
                 <TaskCreateEditDialog
                   date={date}
@@ -73,7 +101,6 @@ export const Weekday = ({ title, tasks, date, isToday = false }: Props) => {
           </Empty>
         )}
       </CardContent>
-    
     </Card>
   );
 };

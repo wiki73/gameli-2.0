@@ -33,7 +33,12 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
+
   --color-border: var(--border);
+  --color-border-done: var(--border-done);
+  --color-border-no-done: var(--border-no-done);
+  --color-fon-title: var(--bg-fon-title);
+
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-chart-1: var(--chart-1);
@@ -49,6 +54,7 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
 
   --animate-fade-in-scale: fade-in-scale 0.3s ease-out;
   @keyframes fade-in-scale {
@@ -80,7 +86,12 @@
   --accent: oklch(90.975% 0.0001 271.152);
   --accent-foreground: oklch(20.5% 0 0deg);
   --destructive: oklch(57.7% 0.245 27.325deg);
+
   --border: oklch(92.2% 0 0deg);
+  --border-done: oklch(80.958% 0.25462 144.74);
+  --border-no-done: oklch(75.542% 0.15894 61.608);
+  --bg-fon-title: oklch(81.949% 0.24198 147.014 / 0.838);
+
   --input: oklch(92.2% 0 0deg);
   --ring: var(--primary);
   --chart-1: oklch(64.6% 0.222 41.116deg);
@@ -96,7 +107,6 @@
   --sidebar-accent-foreground: oklch(20.5% 0 0deg);
   --sidebar-border: oklch(92.2% 0 0deg);
   --sidebar-ring: oklch(70.8% 0 0deg);
-
   --level-3: #8b0000; /* тёмно-красный — слабый */
   --level-7: #ff8c00; /* ярко-оранжевый — активный */
   --level-10: #ffd700; /* золотой — средний уровень */
@@ -114,6 +124,34 @@
   --chart-light-1: oklch(64.6% 0.222 41.116deg);
   --chart-light-2: oklch(60% 0.118 184.704deg);
   --chart-light-3: oklch(39.8% 0.07 227.392deg);
+
+  /* Monday */
+  --monday: #3b82f6;
+  --monday-light: #dbeafe;
+
+  /* Tuesday */
+  --tuesday: #f9253a;
+  --tuesday-light: #d2484821;
+
+  /* Wednesday */
+  --wednesday: #22c55e;
+  --wednesday-light: #dcfce7;
+
+  /* Thursday */
+  --thursday: #06b6d4;
+  --thursday-light: #cffafe;
+
+  /* Friday */
+  --friday: #f97316;
+  --friday-light: #ffedd5;
+
+  /* Saturday */
+  --saturday: #ec4899;
+  --saturday-light: #fce7f3;
+
+  /* Sunday */
+  --sunday: #8b5cf6;
+  --sunday-light: #ede9fe;
 }
 
 .dark {
@@ -181,3 +219,5 @@
     opacity: 0.2;
   }
 }
+
+

@@ -64,7 +64,7 @@ export const getUserCategories = async () => {
       level: true,
       experience: true,
     },
-    orderBy: { name: 'asc' },
+    orderBy: { updatedAt: 'desc' },
   });
 
   return categories;

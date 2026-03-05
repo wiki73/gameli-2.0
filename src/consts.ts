@@ -371,8 +371,66 @@ export const chartConfig = {
 } satisfies ChartConfig;
 
 export type BarData = {
-    currentExp: number | undefined;
-    addExperience: number | undefined;
-    level: number | undefined;
-    categoryName: string | undefined;
-  };
+  currentExp: number | undefined;
+  addExperience: number | undefined;
+  level: number | undefined;
+  categoryName: string | undefined;
+};
+
+export const getWeekdayColor = (date: Date) => {
+  const day = date.getDay();
+
+  const map = [
+    {
+      accent: 'bg-[var(--sunday)]',
+      light: 'bg-[var(--sunday-light)]',
+      text: 'text-[var(--sunday)]',
+      ring: 'ring-3 ring-[var(--sunday)]',
+      shadow: 'shadow-[0_0_20px_var(--sunday)]',
+    },
+    {
+      accent: 'bg-[var(--monday)]',
+      light: 'bg-[var(--monday-light)]',
+      text: 'text-[var(--monday)]',
+      ring: 'ring-3 ring-[var(--monday)]',
+      shadow: 'shadow-[0_0_20px_var(--monday)]',
+    },
+    {
+      accent: 'bg-[var(--tuesday)]',
+      light: 'bg-[var(--tuesday-light)]',
+      text: 'text-[var(--tuesday)]',
+      ring: 'ring-3 ring-[var(--tuesday)]',
+      shadow: 'shadow-[0_0_20px_var(--tuesday)]',
+    },
+    {
+      accent: 'bg-[var(--wednesday)]',
+      light: 'bg-[var(--wednesday-light)]',
+      text: 'text-[var(--wednesday)]',
+      ring: 'ring-3 ring-[var(--wednesday)]',
+      shadow: 'shadow-[0_0_20px_var(--wednesday)]',
+    },
+    {
+      accent: 'bg-[var(--thursday)]',
+      light: 'bg-[var(--thursday-light)]',
+      text: 'text-[var(--thursday)]',
+      ring: 'ring-3 ring-[var(--thursday)]',
+      shadow: 'shadow-[0_0_20px_var(--thursday)]',
+    },
+    {
+      accent: 'bg-[var(--friday)]',
+      light: 'bg-[var(--friday-light)]',
+      text: 'text-[var(--friday)]',
+      ring: 'ring-3 ring-[var(--friday)]',
+      shadow: 'shadow-[0_0_20px_var(--friday)]',
+    },
+    {
+      accent: 'bg-[var(--saturday)]',
+      light: 'bg-[var(--saturday-light)]',
+      text: 'text-[var(--saturday)]',
+      ring: 'ring-3 ring-[var(--saturday)]',
+      shadow: 'shadow-[0_0_20px_var(--saturday)]',
+    },
+  ];
+
+  return map[day];
+};
