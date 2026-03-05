@@ -35,17 +35,10 @@ export const Weekday = ({ title, tasks, date, isToday = false }: Props) => {
   return (
     <Card
       className={cn(
-        'border-card ring-card max-h-60 min-h-60 w-full flex-1 gap-2 rounded-4xl ring-1 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl md:max-h-90 md:min-h-90',
+        'border-card ring-card  max-h-80 min-h-80 w-full flex-1 gap-2 rounded-4xl ring-1 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl md:max-h-90 md:min-h-90',
         color?.ring,
         isToday && ['ring-4', color?.shadow],
       )}
-      // style={
-      //   isToday
-      //     ? {
-      //         boxShadow: `0 0 20px var(--primary)`,
-      //       }
-      //     : {}
-      // }
     >
       <CardHeader className='flex justify-between'>
         <div>
