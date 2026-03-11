@@ -42,11 +42,7 @@ export default async function DashboardPage() {
     where: {
       userId: session?.user.id,
     },
-    // select: {
-    //   name: true,
-    //   level: true,
-    //   experience: true,
-    // },
+    orderBy: { updatedAt: 'desc' },    
   });
 
   const taskChartData = tasks?.reduce((acc: TaskChartDataItem[], task) => {

@@ -52,13 +52,17 @@ export const CategoriesBlock = ({ categories }: Props) => {
 
   return (
     <Card className='w-full'>
-      <CardHeader>
-        <CardTitle>{getTitle({ hasCategories })}</CardTitle>
-        <CardDescription>{getDescription({ hasCategories })}</CardDescription>
+      <CardHeader className='flex justify-between'>
+        <div>
+          <CardTitle>{getTitle({ hasCategories })}</CardTitle>
+          <CardDescription>{getDescription({ hasCategories })}</CardDescription>
+        </div>
+        <div className='w-22 md:w-32'>
+          <CategoryCreateEditDialog />
+        </div>
       </CardHeader>
       <CardContent className='flex flex-col gap-4'>
         <CategoriesList categories={currentCategories} />
-
         {totalPages > 1 && (
           <div className='mt-4 flex items-center justify-between'>
             <Button
@@ -86,8 +90,6 @@ export const CategoriesBlock = ({ categories }: Props) => {
             </Button>
           </div>
         )}
-
-        <CategoryCreateEditDialog />
       </CardContent>
     </Card>
   );

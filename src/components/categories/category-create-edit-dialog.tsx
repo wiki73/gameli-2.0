@@ -109,7 +109,10 @@ export const CategoryCreateEditDialog = ({
       onOpenChange={setOpen}
       open={open}
     >
-      <DialogTrigger asChild>
+      <DialogTrigger
+        asChild
+        className='w-full'
+      >
         <Button
           onClick={() => {
             setOpen(true);
