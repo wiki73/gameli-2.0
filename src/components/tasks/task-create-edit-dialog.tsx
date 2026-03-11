@@ -48,7 +48,7 @@ type EditProps = {
 };
 
 type Props = (CreateProps | EditProps) & {
-  categoryId?: string;
+  categoryId?: string|null;
   date?: Date;
 };
 
