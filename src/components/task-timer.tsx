@@ -11,6 +11,8 @@ import {
 import { toast } from 'sonner';
 import { LapTimerIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
+import Confetti from 'react-confetti';
+import { useWindowSize } from 'react-use';
 import type { Task } from '@/generated/prisma';
 import { type BarData, ROUTES, TIME } from '../consts';
 import {
@@ -56,6 +58,7 @@ const calculateCurrentTime = (task: Task): number => {
 export const TaskTimer = ({ task }: Props) => {
   const [isPending, startTransition] = useTransition();
   const [currentTask, setCurrentTask] = useState(task);
+  const { width, height } = useWindowSize();
   const [time, setTime] = useState(() => calculateCurrentTime(task));
   const [dataForBar, setDataForBar] = useState<BarData>({
     currentExp: undefined,
@@ -207,70 +210,104 @@ export const TaskTimer = ({ task }: Props) => {
   };
 
   return (
-    <Card className={`w-full max-w-3xl ${getStatusColor()}`}>
-      <CardHeader>
-        <div className='flex items-center justify-between'>
-          <CardTitle className='text-4xl'>{currentTask.name}</CardTitle>
-          <div className='flex items-center gap-2'>
-            <div
-              className={`h-3 w-3 rounded-full ${
-                currentTask.status === 'IN_PROGRESS'
-                  ? 'animate-pulse bg-green-500'
-                  : currentTask.status === 'PAUSED'
-                    ? 'bg-yellow-500'
-                    : currentTask.status === 'COMPLETED'
-                      ? 'bg-blue-500'
-                      : 'bg-gray-300'
-              }`}
-            />
-            <span className='text-sm text-gray-600'>{getStatusText()}</span>
+    <>
+      <Card className={`w-full max-w-3xl z-10 ${getStatusColor()}`}>
+        <CardHeader>
+          <div className='flex items-center justify-between'>
+            <CardTitle className='text-4xl'>{currentTask.name}</CardTitle>
+            <div className='flex items-center gap-2'>
+              <div
+                className={`h-3 w-3 rounded-full ${
+                  currentTask.status === 'IN_PROGRESS'
+                    ? 'animate-pulse bg-green-500'
+                    : currentTask.status === 'PAUSED'
+                      ? 'bg-yellow-500'
+                      : currentTask.status === 'COMPLETED'
+                        ? 'bg-blue-500'
+                        : 'bg-gray-300'
+                }`}
+              />
+              <span className='text-sm text-gray-600'>{getStatusText()}</span>
+            </div>
           </div>
-        </div>
-      </CardHeader>
+        </CardHeader>
 
-      <CardContent className='flex flex-col items-center justify-center gap-8'>
-        <LapTimerIcon className='size-16' />
-        <span className='mb-10 font-mono text-5xl tabular-nums'>
-          {hours}:{minutes}:{seconds}
-        </span>
-        {currentTask.status === 'COMPLETED' && !!dataForBar.level && (
-          <ProgressBar
-            addedExperience={dataForBar.addExperience}
-            categoryLevel={dataForBar.level}
-            categoryName={dataForBar.categoryName}
-            currentExperience={dataForBar.currentExp}
-          />
-        )}
-      </CardContent>
+        <CardContent className='flex flex-col items-center justify-center gap-8'>
+          <LapTimerIcon className='size-16' />
+          <span className='mb-10 font-mono text-5xl tabular-nums'>
+            {hours}:{minutes}:{seconds}
+          </span>
+          {currentTask.status === 'COMPLETED' && !!dataForBar.level && (
+            <ProgressBar
+              addedExperience={dataForBar.addExperience}
+              categoryLevel={dataForBar.level}
+              categoryName={dataForBar.categoryName}
+              currentExperience={dataForBar.currentExp}
+            />
+          )}
+        </CardContent>
 
-      <CardFooter className='flex items-center justify-center gap-4'>
-        {currentTask.status !== 'COMPLETED' ? (
-          <Button
-            disabled={isPending}
-            onClick={handlePrimaryButton}
-          >
-            {currentTask.status === 'CREATED' ? 'Начать' : 'Завершить'}
-          </Button>
-        ) : (
-          <Link
-            className='rounded-xl bg-gray-200 p-3'
-            href={`${ROUTES.MAIN}?tab=week`}
-          >
-            К планированию
-          </Link>
-        )}
-
-        {currentTask.status !== 'CREATED' &&
-          currentTask.status !== 'COMPLETED' && (
+        <CardFooter className='flex items-center justify-center gap-4'>
+          {currentTask.status !== 'COMPLETED' ? (
             <Button
               disabled={isPending}
-              onClick={handleSecondaryButton}
-              variant='secondary'
+              onClick={handlePrimaryButton}
             >
-              {currentTask.status === 'PAUSED' ? 'Продолжить' : 'Пауза'}
+              {currentTask.status === 'CREATED' ? 'Начать' : 'Завершить'}
             </Button>
+          ) : (
+            <Link
+              className='rounded-xl bg-gray-200 p-3'
+              href={`${ROUTES.MAIN}?tab=week`}
+            >
+              К планированию
+            </Link>
           )}
-      </CardFooter>
-    </Card>
+
+          {currentTask.status !== 'CREATED' &&
+            currentTask.status !== 'COMPLETED' && (
+              <Button
+                disabled={isPending}
+                onClick={handleSecondaryButton}
+                variant='secondary'
+              >
+                {currentTask.status === 'PAUSED' ? 'Продолжить' : 'Пауза'}
+              </Button>
+            )}
+        </CardFooter>
+      </Card>
+      {currentTask.status === 'COMPLETED' && (
+        <Confetti
+          colors={[
+            '#ff0a54',
+            '#ff477e',
+            '#ff7096',
+            '#ff85a1',
+            '#fbb1bd',
+            '#f9bec7',
+            '#00f5d4',
+            '#9b5de5',
+            '#f15bb5',
+            '#fee440',
+          ]}
+          confettiSource={{
+            x: 0,
+            y: 0,
+            w: width,
+            h: 0,
+          }}
+          friction={0.99}
+          gravity={0.15}
+          height={height}
+          initialVelocityX={{ min: -5, max: 5 }}
+          initialVelocityY={{ min: 5, max: 10 }}
+          numberOfPieces={800}
+          recycle={true}
+          run={true}
+          width={width}
+          wind={0.01}
+        />
+      )}
+    </>
   );
 };
