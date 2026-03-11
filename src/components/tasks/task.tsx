@@ -56,7 +56,7 @@ export const TaskItem = ({ task }: Props) => (
         <div className='flex items-center'>
           <div className='mr-2'>
             <TaskCreateEditDialog
-              categgoryId={task?.categoryId}
+              categoryId={task?.categoryId}
               mode='EDIT'
               task={task}
             />
