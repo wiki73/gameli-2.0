@@ -1,6 +1,6 @@
 import { CheckIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
-import { PenBox, PenBoxIcon, PenIcon } from 'lucide-react';
+import { PenBox} from 'lucide-react';
 import type { Task } from '@/generated/prisma';
 import { cn } from '@/src/lib/utils';
 import { ROUTES } from '@/src/consts';
@@ -55,7 +55,11 @@ export const TaskItem = ({ task }: Props) => (
       {task.status !== 'COMPLETED' && (
         <div className='flex items-center'>
           <div className='mr-2'>
-          <TaskCreateEditDialog mode='EDIT' task={task}/>
+            <TaskCreateEditDialog
+              categoryId={task?.categoryId}
+              mode='EDIT'
+              task={task}
+            />
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
