@@ -54,8 +54,8 @@ export default async function CalendarPage({
       },
     },
     orderBy: {
-      date: 'asc',
-    },
+      updatedAt: 'desc',
+  },
   });
 
   return (
