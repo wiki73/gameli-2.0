@@ -93,46 +93,55 @@ export const TaskTimer = ({ task }: Props) => {
   }, [currentTask.status, updateTime, stopTimer]);
 
   const handlePrimaryButton = () => {
-    startTransition(async () => {
-      try {
-        if (currentTask.status === 'CREATED') {
-          await startTimerTask({ id: task.id });
-          setCurrentTask(prev => ({
-            ...prev,
-            status: 'IN_PROGRESS',
-            startedAt: new Date(),
-            timeSpent: 0,
-          }));
-          toast.success('Задача начата');
-        } else if (
-          currentTask.status === 'IN_PROGRESS' ||
-          currentTask.status === 'PAUSED'
-        ) {
-          stopTimer();
-          const { currentExp, addExperience, level, categoryName } =
-            await completeTimerTask({
-              task: task,
-              timeSpent: time,
-            });
-          setDataForBar({
-            currentExp: currentExp,
-            addExperience: addExperience,
-            level: level,
-            categoryName: categoryName,
+  startTransition(async () => {
+    try {
+      if (currentTask.status === 'CREATED') {
+        await startTimerTask({ id: task.id });
+        setCurrentTask(prev => ({
+          ...prev,
+          status: 'IN_PROGRESS',
+          startedAt: new Date(),
+          timeSpent: 0,
+        }));
+        toast.success('Задача начата');
+      } else if (
+        currentTask.status === 'IN_PROGRESS' ||
+        currentTask.status === 'PAUSED'
+      ) {
+        stopTimer();
+        
+        const finalTime = time; 
+        
+        const { currentExp, addExperience, level, categoryName } =
+          await completeTimerTask({
+            task: task,
+            timeSpent: finalTime,
           });
-          setCurrentTask(prev => ({
-            ...prev,
-            status: 'COMPLETED',
-          }));
-          toast.success('Задача завершена');
-        }
-      } catch (e: unknown) {
-        toast.error('Ошибка сохранения задачи', {
-          description: e instanceof Error ? e.message : '',
+          
+        setDataForBar({
+          currentExp: currentExp,
+          addExperience: addExperience,
+          level: level,
+          categoryName: categoryName,
         });
+        
+        setCurrentTask(prev => ({
+          ...prev,
+          status: 'COMPLETED',
+          timeSpent: finalTime,
+        }));
+        
+        setTime(finalTime);
+        
+        toast.success('Задача завершена');
       }
-    });
-  };
+    } catch (e: unknown) {
+      toast.error('Ошибка сохранения задачи', {
+        description: e instanceof Error ? e.message : '',
+      });
+    }
+  });
+};
 
   const handleSecondaryButton = () => {
     startTransition(async () => {
